@@ -1,0 +1,13 @@
+name: "Code Quality"
+on: [push, pull_request]
+
+jobs:
+  BashCodeQuality:
+    name: Bash Code Quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: install shellcheck v0.9.0
+        run: ./lib/tegonal-scripts/src/ci/install-shellcheck.sh
+      - name: before-pr.sh
+        run: ./scripts/before-pr.sh

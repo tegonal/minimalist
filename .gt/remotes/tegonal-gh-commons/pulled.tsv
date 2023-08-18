@@ -4,3 +4,6 @@ v1.0.0	src/.github/PULL_REQUEST_TEMPLATE.md	../.github/PULL_REQUEST_TEMPLATE.md	
 v1.0.0	src/gt/pull-hook-functions.sh	remotes/tegonal-gh-commons/lib/src/gt/pull-hook-functions.sh	e837edf3d980add930f81062298ce052f053458789a7b09f16c7874bab20ce8a14ac6ee24c4f8dcc923a80e0662a46c42de83fcc755807f3f1a7fa65ff386fc5
 v1.0.0	src/.github/Contributor Agreement.txt	../.github/Contributor Agreement.txt	8ae9a779436b7e3c1bb1ebc3317b5d53fca85acfd53ecdb9c22c7bc3ed063f01f8dad2e8cfc5dfea0bde47d61c09e6323f4b1510c96a2bc8ffacf0b572b0e6ab
 v1.0.0	src/dotfiles/.editorconfig	../.editorconfig	0395c3361c283ca83081823b5e7eaa3b6309e40b0fa66a9905e69a7aa7ca6cb94a313ec95f9292bad144b225af8de4578e6b59a372f0637314fa41cb9e76f7b5
+v1.0.0	src/.github/workflows/cleanup.yml	../.github/workflows/cleanup.yml	2280253fa8846af3d1af8d4553c90bcae5d5dd6bb68704efa5e7a6bb6c48e42a3d25e55f0320177f97cd8be7b65ba16f1539e8c20218751a11ec48ebb9567f22
+v1.0.0	src/.github/dependabot.yml	../.github/dependabot.yml	056cb647b4978b6dc50dcb7f9378f26c48d35a48e511cd9237bbf64930ab1e70dcc3db9bb4827964c55ee1a65d8d89a8bbd91d3255b4754adffc79b0bd895576
+v1.0.0	src/dotfiles/.shellcheckrc	../.shellcheckrc	7f0ffaa1380a62c015fd01bdc94926ca61bfd824b21828bb597b944fbdc866f684d1e2e167aeb5d49df7f157109ac3fdd36d772e5339695fde1e694fcef011b1
