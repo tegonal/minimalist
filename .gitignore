@@ -1,5 +1,10 @@
 .history
 .vscode
-.idea
 .gt/**/repo
 .gt/**/gpg
+build
+.gradle
+
+.idea/*
+!/.idea/icon.png
+*.iml
