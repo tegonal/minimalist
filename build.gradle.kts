@@ -54,7 +54,6 @@ fun createStringBuilder(packageName: String) = StringBuilder(dontModifyNotice)
 	.append("package ").append(packageName).append("\n\n")
 
 val numOfArgs = 10
-val indent = "\t"
 
 val generate: TaskProvider<Task> = tasks.register("generate") {
 	doFirst {
@@ -69,13 +68,13 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 		(1..numOfArgs).forEach { upperNumber ->
 			val numbers = (1..upperNumber).toList()
 			val typeArgs = numbers.joinToString(", ") { "A$it" }
-			val constructorProperties = numbers.joinToString(",\n$indent") { "override val a$it: A$it" }
-			val parameters = numbers.joinToString(",\n$indent") { "a$it: A$it" }
-			val args = numbers.joinToString(",\n$indent") { "a$it" }
+			val constructorProperties = numbers.joinToString(",\n\t") { "override val a$it: A$it" }
+			val parameters = numbers.joinToString(",\n\t") { "a$it: A$it" }
+			val args = numbers.joinToString(",\n\t") { "a$it" }
 			val representationConstructorProperties =
-				numbers.joinToString(",\n$indent") { "override val representation$it: String? = null" }
-			val representationParameters = numbers.joinToString(",\n$indent") { "representation$it: String? = null" }
-			val representationArgs = numbers.joinToString(",\n$indent") { "representation$it" }
+				numbers.joinToString(",\n\t") { "override val representation$it: String? = null" }
+			val representationParameters = numbers.joinToString(",\n\t") { "representation$it: String? = null" }
+			val representationArgs = numbers.joinToString(",\n\t") { "representation$it" }
 
 			val argsInterfaces = createStringBuilder(packageName)
 			argsInterfaces.append(
@@ -136,7 +135,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 				|
 				|	override fun get(): Array<out Any?> = arrayOf(
 				|		${
-					numbers.joinToString(",\n$indent$indent") {
+					numbers.joinToString(",\n\t\t") {
 						"representation$it?.let { Named.of(representation$it, a$it) } ?: a$it"
 					}
 				}
@@ -209,10 +208,10 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					|	override fun <$typeArgs2> append(
 					|		arg${upperNumber2}: Args${upperNumber2}<$typeArgs2>
 					|	): Args$upperNumber3<$typeArgs3> = Args.of(
-					|		${numbers.joinToString(",\n$indent$indent") { "a$it = this.a$it" }},
-					|		${numbers2.joinToString(",\n$indent$indent") { "a${it + upperNumber} = arg${upperNumber2}.a$it" }},
-					|		${numbers.joinToString(",\n$indent$indent") { "representation$it = this.representation$it" }},
-					|		${numbers2.joinToString(",\n$indent$indent") { "representation${it + upperNumber} = arg${upperNumber2}.representation$it" }},
+					|		${numbers.joinToString(",\n\t\t") { "a$it = this.a$it" }},
+					|		${numbers2.joinToString(",\n\t\t") { "a${it + upperNumber} = arg${upperNumber2}.a$it" }},
+					|		${numbers.joinToString(",\n\t\t") { "representation$it = this.representation$it" }},
+					|		${numbers2.joinToString(",\n\t\t") { "representation${it + upperNumber} = arg${upperNumber2}.representation$it" }},
 					|	)
 					|
 					""".trimMargin()
@@ -250,8 +249,8 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					defaultArgs.append(
 						"""
 						|	override fun dropArg$index() = Args.of(
-						|		${numbers4WithIndex.joinToString(",\n${indent}${indent}") { (i, it) -> "a$i = this.a$it" }},
-						|		${numbers4WithIndex.joinToString(",\n${indent}${indent}") { (i, it) -> "representation$i = this.representation$it" }}
+						|		${numbers4WithIndex.joinToString(",\n\t\t") { (i, it) -> "a$i = this.a$it" }},
+						|		${numbers4WithIndex.joinToString(",\n\t\t") { (i, it) -> "representation$i = this.representation$it" }}
 						|	)
 						|
 						""".trimMargin()
@@ -320,6 +319,8 @@ fun StringBuilder.appendTest(testName: String) = this.append(
 	|import ch.tutteli.atrium.api.fluent.en_GB.*
 	|import org.junit.jupiter.api.Test
 	|import org.junit.jupiter.api.Named
+	|import org.junit.jupiter.params.ParameterizedTest
+	|import org.junit.jupiter.params.provider.MethodSource
 	|import com.tegonal.minimalist.*
 	|import com.tegonal.minimalist.atrium.*
 	|import java.math.BigInteger
@@ -333,37 +334,38 @@ fun StringBuilder.appendTest(testName: String) = this.append(
 val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 	doFirst {
 		val packageDir = File(generationTestFolder.asPath + "/" + packageNameAsPath)
-		val args = sequenceOf(
+		val argValues = sequenceOf(
+			"\"string\"",
 			"1",
 			"2L",
 			"3F",
 			"4.0",
 			"'c'",
-			"\"string\"",
 			"LocalDate.now()",
 			"1.toShort()",
 			"2.toByte()",
 			"3.toBigInteger()"
 		)
-		val args2 = listOf(
+		val argValues2 = listOf(
+			"\"another string\"",
 			"2",
 			"3L",
 			"4F",
 			"5.0",
 			"'d'",
-			"\"another string\"",
 			"LocalDate.now().plusDays(2)",
 			"2.toShort()",
 			"3.toByte()",
 			"4.toBigInteger()"
 		)
 		val argsTypeParameters = sequenceOf(
-			"Int", "Long", "Float", "Double", "Char", "String", "LocalDate", "Short", "Byte", "BigInteger"
+			"String", "Int", "Long", "Float", "Double", "Char", "LocalDate", "Short", "Byte", "BigInteger"
 		)
 
 		(1..numOfArgs).forEach { upperNumber ->
 			val numbers = (1..upperNumber)
 			val typeArgs = numbers.joinToString(", ") { "A$it" }
+
 			val argsExpectations = createStringBuilder("$packageName.atrium")
 				.append(
 					"""
@@ -411,7 +413,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 					|	@Test
 					|	fun dropArg$number() {
 					|		val args = Args.of(
-					|			${args.take(upperNumber).joinToString(",\n\t\t\t")},
+					|			${argValues.take(upperNumber).joinToString(",\n\t\t\t")},
 					|			${numbers.joinToString(",\n\t\t\t") { "representation$it = \"rep $it\"" }}
 					|		)
 					|		val argsResult: Args${upperNumber - 1}<${typeParameters.joinToString(", ")}> = args.dropArg$number()
@@ -448,16 +450,16 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 					|	@Test
 					|	fun withArg$number() {
 					|		val args = Args.of(
-					|			${args.take(upperNumber).joinToString(",\n\t\t\t")},
+					|			${argValues.take(upperNumber).joinToString(",\n\t\t\t")},
 					|			${numbers.joinToString(",\n\t\t\t") { "representation$it = \"rep $it\"" }}
 					|		)
-					|		val argsResult = args.withArg$number(${args2[number - 1]}, "new rep")
+					|		val argsResult = args.withArg$number(${argValues2[number - 1]}, "new rep")
 					|
 					|		// no changes to args
 					|		expect(args) {
 					|			${
 						numbers.joinToString("\n\t\t\t") {
-							"a$it.toEqual(${args.elementAt(it - 1)})"
+							"a$it.toEqual(${argValues.elementAt(it - 1)})"
 						}
 					}
 					|			${
@@ -470,7 +472,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 					|		expect(argsResult) {
 					|			${
 						numbers.joinToString("\n\t\t\t") {
-							"a$it.toEqual(${if (it == number) args2[number - 1] else "args.a$it"})"
+							"a$it.toEqual(${if (it == number) argValues2[number - 1] else "args.a$it"})"
 						}
 					}
 					|			${
@@ -497,7 +499,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 				|	@Test
 				|	fun `get returns correct array and value wrapped in Name`() {
 				|		val args = Args.of(
-				|			${args.take(upperNumber).joinToString(",\n\t\t\t")},
+				|			${argValues.take(upperNumber).joinToString(",\n\t\t\t")},
 				|			${numbers.joinToString(",\n\t\t\t") { "representation$it = \"rep $it\"" }}
 				|		)
 				|		expect(args.get().toList()).toContainExactly(
@@ -513,6 +515,25 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 				|		)
 				|	}
 				|
+				|	@ParameterizedTest
+				|	@MethodSource("args")
+				|	fun `can use Args$upperNumber in MethodSource`(
+				|		${numbers.joinToString(",\n\t\t") { "a$it: ${argsTypeParameters.elementAt(it - 1)}" }}
+				|	) {
+				|		${
+					numbers.joinToString("\n\t\t") {
+						"expect(a$it).toEqual(${argValues.elementAt(it - 1)})"
+					}
+				}
+				|	}
+				|
+				|	companion object {
+				|		@JvmStatic
+				|		fun args() : List<Args${upperNumber}<${
+					argsTypeParameters.take(upperNumber).joinToString(", ")
+				}>> =
+				|			listOf(Args.of(${argValues.take(upperNumber).joinToString(", ")}))
+				|	}
 				""".trimMargin()
 			).appendLine()
 			argumentsTest.append("}")
@@ -532,11 +553,11 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 					|	@Test
 					|	fun `append Arg${upperNumber2}`() {
 					|		val firstArgs = Args.of(
-					|			${args.take(upperNumber).joinToString(",\n\t\t\t")},
+					|			${argValues.take(upperNumber).joinToString(",\n\t\t\t")},
 					|			${(1..upperNumber).joinToString(",\n\t\t\t") { "representation$it = \"rep $it\"" }}
 					|		)
 					|		val secondArgs = Args.of(
-					|			${args.drop(upperNumber).take(upperNumber2).joinToString(",\n\t\t\t")},
+					|			${argValues.drop(upperNumber).take(upperNumber2).joinToString(",\n\t\t\t")},
 					|			${numbers2.joinToString(",\n\t\t\t") { "representation$it = \"rep ${it + upperNumber}\"" }}
 					|		)
 					|		val argsResult = firstArgs.append(secondArgs)

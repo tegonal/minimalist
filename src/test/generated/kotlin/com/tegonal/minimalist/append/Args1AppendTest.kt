@@ -7,6 +7,8 @@ import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.atrium.api.fluent.en_GB.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Named
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 import com.tegonal.minimalist.*
 import com.tegonal.minimalist.atrium.*
 import java.math.BigInteger
@@ -17,11 +19,11 @@ class Args1AppendTest {
 	@Test
 	fun `append Arg1`() {
 		val firstArgs = Args.of(
-			1,
+			"string",
 			representation1 = "rep 1"
 		)
 		val secondArgs = Args.of(
-			2L,
+			1,
 			representation1 = "rep 2"
 		)
 		val argsResult = firstArgs.append(secondArgs)
@@ -36,12 +38,12 @@ class Args1AppendTest {
 	@Test
 	fun `append Arg2`() {
 		val firstArgs = Args.of(
-			1,
+			"string",
 			representation1 = "rep 1"
 		)
 		val secondArgs = Args.of(
+			1,
 			2L,
-			3F,
 			representation1 = "rep 2",
 			representation2 = "rep 3"
 		)
@@ -59,13 +61,13 @@ class Args1AppendTest {
 	@Test
 	fun `append Arg3`() {
 		val firstArgs = Args.of(
-			1,
+			"string",
 			representation1 = "rep 1"
 		)
 		val secondArgs = Args.of(
+			1,
 			2L,
 			3F,
-			4.0,
 			representation1 = "rep 2",
 			representation2 = "rep 3",
 			representation3 = "rep 4"
@@ -86,14 +88,14 @@ class Args1AppendTest {
 	@Test
 	fun `append Arg4`() {
 		val firstArgs = Args.of(
-			1,
+			"string",
 			representation1 = "rep 1"
 		)
 		val secondArgs = Args.of(
+			1,
 			2L,
 			3F,
 			4.0,
-			'c',
 			representation1 = "rep 2",
 			representation2 = "rep 3",
 			representation3 = "rep 4",
@@ -117,15 +119,15 @@ class Args1AppendTest {
 	@Test
 	fun `append Arg5`() {
 		val firstArgs = Args.of(
-			1,
+			"string",
 			representation1 = "rep 1"
 		)
 		val secondArgs = Args.of(
+			1,
 			2L,
 			3F,
 			4.0,
 			'c',
-			"string",
 			representation1 = "rep 2",
 			representation2 = "rep 3",
 			representation3 = "rep 4",
@@ -152,15 +154,15 @@ class Args1AppendTest {
 	@Test
 	fun `append Arg6`() {
 		val firstArgs = Args.of(
-			1,
+			"string",
 			representation1 = "rep 1"
 		)
 		val secondArgs = Args.of(
+			1,
 			2L,
 			3F,
 			4.0,
 			'c',
-			"string",
 			LocalDate.now(),
 			representation1 = "rep 2",
 			representation2 = "rep 3",
@@ -191,15 +193,15 @@ class Args1AppendTest {
 	@Test
 	fun `append Arg7`() {
 		val firstArgs = Args.of(
-			1,
+			"string",
 			representation1 = "rep 1"
 		)
 		val secondArgs = Args.of(
+			1,
 			2L,
 			3F,
 			4.0,
 			'c',
-			"string",
 			LocalDate.now(),
 			1.toShort(),
 			representation1 = "rep 2",
@@ -234,15 +236,15 @@ class Args1AppendTest {
 	@Test
 	fun `append Arg8`() {
 		val firstArgs = Args.of(
-			1,
+			"string",
 			representation1 = "rep 1"
 		)
 		val secondArgs = Args.of(
+			1,
 			2L,
 			3F,
 			4.0,
 			'c',
-			"string",
 			LocalDate.now(),
 			1.toShort(),
 			2.toByte(),
@@ -281,15 +283,15 @@ class Args1AppendTest {
 	@Test
 	fun `append Arg9`() {
 		val firstArgs = Args.of(
-			1,
+			"string",
 			representation1 = "rep 1"
 		)
 		val secondArgs = Args.of(
+			1,
 			2L,
 			3F,
 			4.0,
 			'c',
-			"string",
 			LocalDate.now(),
 			1.toShort(),
 			2.toByte(),
