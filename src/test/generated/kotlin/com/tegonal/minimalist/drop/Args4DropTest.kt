@@ -7,6 +7,8 @@ import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.atrium.api.fluent.en_GB.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Named
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 import com.tegonal.minimalist.*
 import com.tegonal.minimalist.atrium.*
 import java.math.BigInteger
@@ -17,16 +19,16 @@ class Args4DropTest {
 	@Test
 	fun dropArg1() {
 		val args = Args.of(
+			"string",
 			1,
 			2L,
 			3F,
-			4.0,
 			representation1 = "rep 1",
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4"
 		)
-		val argsResult: Args3<Long, Float, Double> = args.dropArg1()
+		val argsResult: Args3<Int, Long, Float> = args.dropArg1()
 		expect(argsResult) {
 			a1.toEqual(args.a2)
 			a2.toEqual(args.a3)
@@ -40,16 +42,16 @@ class Args4DropTest {
 	@Test
 	fun dropArg2() {
 		val args = Args.of(
+			"string",
 			1,
 			2L,
 			3F,
-			4.0,
 			representation1 = "rep 1",
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4"
 		)
-		val argsResult: Args3<Int, Float, Double> = args.dropArg2()
+		val argsResult: Args3<String, Long, Float> = args.dropArg2()
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a3)
@@ -63,16 +65,16 @@ class Args4DropTest {
 	@Test
 	fun dropArg3() {
 		val args = Args.of(
+			"string",
 			1,
 			2L,
 			3F,
-			4.0,
 			representation1 = "rep 1",
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4"
 		)
-		val argsResult: Args3<Int, Long, Double> = args.dropArg3()
+		val argsResult: Args3<String, Int, Float> = args.dropArg3()
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a2)
@@ -86,16 +88,16 @@ class Args4DropTest {
 	@Test
 	fun dropArg4() {
 		val args = Args.of(
+			"string",
 			1,
 			2L,
 			3F,
-			4.0,
 			representation1 = "rep 1",
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4"
 		)
-		val argsResult: Args3<Int, Long, Float> = args.dropArg4()
+		val argsResult: Args3<String, Int, Long> = args.dropArg4()
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a2)

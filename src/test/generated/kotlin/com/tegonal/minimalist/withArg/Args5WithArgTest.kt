@@ -7,6 +7,8 @@ import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.atrium.api.fluent.en_GB.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Named
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 import com.tegonal.minimalist.*
 import com.tegonal.minimalist.atrium.*
 import java.math.BigInteger
@@ -17,26 +19,26 @@ class Args5WithArgTest {
 	@Test
 	fun withArg1() {
 		val args = Args.of(
+			"string",
 			1,
 			2L,
 			3F,
 			4.0,
-			'c',
 			representation1 = "rep 1",
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
 			representation5 = "rep 5"
 		)
-		val argsResult = args.withArg1(2, "new rep")
+		val argsResult = args.withArg1("another string", "new rep")
 
 		// no changes to args
 		expect(args) {
-			a1.toEqual(1)
-			a2.toEqual(2L)
-			a3.toEqual(3F)
-			a4.toEqual(4.0)
-			a5.toEqual('c')
+			a1.toEqual("string")
+			a2.toEqual(1)
+			a3.toEqual(2L)
+			a4.toEqual(3F)
+			a5.toEqual(4.0)
 			representation1.toEqual("rep 1")
 			representation2.toEqual("rep 2")
 			representation3.toEqual("rep 3")
@@ -45,7 +47,7 @@ class Args5WithArgTest {
 		}
 
 		expect(argsResult) {
-			a1.toEqual(2)
+			a1.toEqual("another string")
 			a2.toEqual(args.a2)
 			a3.toEqual(args.a3)
 			a4.toEqual(args.a4)
@@ -61,26 +63,26 @@ class Args5WithArgTest {
 	@Test
 	fun withArg2() {
 		val args = Args.of(
+			"string",
 			1,
 			2L,
 			3F,
 			4.0,
-			'c',
 			representation1 = "rep 1",
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
 			representation5 = "rep 5"
 		)
-		val argsResult = args.withArg2(3L, "new rep")
+		val argsResult = args.withArg2(2, "new rep")
 
 		// no changes to args
 		expect(args) {
-			a1.toEqual(1)
-			a2.toEqual(2L)
-			a3.toEqual(3F)
-			a4.toEqual(4.0)
-			a5.toEqual('c')
+			a1.toEqual("string")
+			a2.toEqual(1)
+			a3.toEqual(2L)
+			a4.toEqual(3F)
+			a5.toEqual(4.0)
 			representation1.toEqual("rep 1")
 			representation2.toEqual("rep 2")
 			representation3.toEqual("rep 3")
@@ -90,7 +92,7 @@ class Args5WithArgTest {
 
 		expect(argsResult) {
 			a1.toEqual(args.a1)
-			a2.toEqual(3L)
+			a2.toEqual(2)
 			a3.toEqual(args.a3)
 			a4.toEqual(args.a4)
 			a5.toEqual(args.a5)
@@ -105,26 +107,26 @@ class Args5WithArgTest {
 	@Test
 	fun withArg3() {
 		val args = Args.of(
+			"string",
 			1,
 			2L,
 			3F,
 			4.0,
-			'c',
 			representation1 = "rep 1",
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
 			representation5 = "rep 5"
 		)
-		val argsResult = args.withArg3(4F, "new rep")
+		val argsResult = args.withArg3(3L, "new rep")
 
 		// no changes to args
 		expect(args) {
-			a1.toEqual(1)
-			a2.toEqual(2L)
-			a3.toEqual(3F)
-			a4.toEqual(4.0)
-			a5.toEqual('c')
+			a1.toEqual("string")
+			a2.toEqual(1)
+			a3.toEqual(2L)
+			a4.toEqual(3F)
+			a5.toEqual(4.0)
 			representation1.toEqual("rep 1")
 			representation2.toEqual("rep 2")
 			representation3.toEqual("rep 3")
@@ -135,7 +137,7 @@ class Args5WithArgTest {
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a2)
-			a3.toEqual(4F)
+			a3.toEqual(3L)
 			a4.toEqual(args.a4)
 			a5.toEqual(args.a5)
 			representation1.toEqual(args.representation1)
@@ -149,26 +151,26 @@ class Args5WithArgTest {
 	@Test
 	fun withArg4() {
 		val args = Args.of(
+			"string",
 			1,
 			2L,
 			3F,
 			4.0,
-			'c',
 			representation1 = "rep 1",
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
 			representation5 = "rep 5"
 		)
-		val argsResult = args.withArg4(5.0, "new rep")
+		val argsResult = args.withArg4(4F, "new rep")
 
 		// no changes to args
 		expect(args) {
-			a1.toEqual(1)
-			a2.toEqual(2L)
-			a3.toEqual(3F)
-			a4.toEqual(4.0)
-			a5.toEqual('c')
+			a1.toEqual("string")
+			a2.toEqual(1)
+			a3.toEqual(2L)
+			a4.toEqual(3F)
+			a5.toEqual(4.0)
 			representation1.toEqual("rep 1")
 			representation2.toEqual("rep 2")
 			representation3.toEqual("rep 3")
@@ -180,7 +182,7 @@ class Args5WithArgTest {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a2)
 			a3.toEqual(args.a3)
-			a4.toEqual(5.0)
+			a4.toEqual(4F)
 			a5.toEqual(args.a5)
 			representation1.toEqual(args.representation1)
 			representation2.toEqual(args.representation2)
@@ -193,26 +195,26 @@ class Args5WithArgTest {
 	@Test
 	fun withArg5() {
 		val args = Args.of(
+			"string",
 			1,
 			2L,
 			3F,
 			4.0,
-			'c',
 			representation1 = "rep 1",
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
 			representation5 = "rep 5"
 		)
-		val argsResult = args.withArg5('d', "new rep")
+		val argsResult = args.withArg5(5.0, "new rep")
 
 		// no changes to args
 		expect(args) {
-			a1.toEqual(1)
-			a2.toEqual(2L)
-			a3.toEqual(3F)
-			a4.toEqual(4.0)
-			a5.toEqual('c')
+			a1.toEqual("string")
+			a2.toEqual(1)
+			a3.toEqual(2L)
+			a4.toEqual(3F)
+			a5.toEqual(4.0)
 			representation1.toEqual("rep 1")
 			representation2.toEqual("rep 2")
 			representation3.toEqual("rep 3")
@@ -225,7 +227,7 @@ class Args5WithArgTest {
 			a2.toEqual(args.a2)
 			a3.toEqual(args.a3)
 			a4.toEqual(args.a4)
-			a5.toEqual('d')
+			a5.toEqual(5.0)
 			representation1.toEqual(args.representation1)
 			representation2.toEqual(args.representation2)
 			representation3.toEqual(args.representation3)

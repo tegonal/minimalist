@@ -7,6 +7,8 @@ import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.atrium.api.fluent.en_GB.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Named
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 import com.tegonal.minimalist.*
 import com.tegonal.minimalist.atrium.*
 import java.math.BigInteger
@@ -17,12 +19,12 @@ class Args7DropTest {
 	@Test
 	fun dropArg1() {
 		val args = Args.of(
+			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
-			"string",
 			LocalDate.now(),
 			representation1 = "rep 1",
 			representation2 = "rep 2",
@@ -32,7 +34,7 @@ class Args7DropTest {
 			representation6 = "rep 6",
 			representation7 = "rep 7"
 		)
-		val argsResult: Args6<Long, Float, Double, Char, String, LocalDate> = args.dropArg1()
+		val argsResult: Args6<Int, Long, Float, Double, Char, LocalDate> = args.dropArg1()
 		expect(argsResult) {
 			a1.toEqual(args.a2)
 			a2.toEqual(args.a3)
@@ -52,12 +54,12 @@ class Args7DropTest {
 	@Test
 	fun dropArg2() {
 		val args = Args.of(
+			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
-			"string",
 			LocalDate.now(),
 			representation1 = "rep 1",
 			representation2 = "rep 2",
@@ -67,7 +69,7 @@ class Args7DropTest {
 			representation6 = "rep 6",
 			representation7 = "rep 7"
 		)
-		val argsResult: Args6<Int, Float, Double, Char, String, LocalDate> = args.dropArg2()
+		val argsResult: Args6<String, Long, Float, Double, Char, LocalDate> = args.dropArg2()
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a3)
@@ -87,12 +89,12 @@ class Args7DropTest {
 	@Test
 	fun dropArg3() {
 		val args = Args.of(
+			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
-			"string",
 			LocalDate.now(),
 			representation1 = "rep 1",
 			representation2 = "rep 2",
@@ -102,7 +104,7 @@ class Args7DropTest {
 			representation6 = "rep 6",
 			representation7 = "rep 7"
 		)
-		val argsResult: Args6<Int, Long, Double, Char, String, LocalDate> = args.dropArg3()
+		val argsResult: Args6<String, Int, Float, Double, Char, LocalDate> = args.dropArg3()
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a2)
@@ -122,12 +124,12 @@ class Args7DropTest {
 	@Test
 	fun dropArg4() {
 		val args = Args.of(
+			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
-			"string",
 			LocalDate.now(),
 			representation1 = "rep 1",
 			representation2 = "rep 2",
@@ -137,7 +139,7 @@ class Args7DropTest {
 			representation6 = "rep 6",
 			representation7 = "rep 7"
 		)
-		val argsResult: Args6<Int, Long, Float, Char, String, LocalDate> = args.dropArg4()
+		val argsResult: Args6<String, Int, Long, Double, Char, LocalDate> = args.dropArg4()
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a2)
@@ -157,12 +159,12 @@ class Args7DropTest {
 	@Test
 	fun dropArg5() {
 		val args = Args.of(
+			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
-			"string",
 			LocalDate.now(),
 			representation1 = "rep 1",
 			representation2 = "rep 2",
@@ -172,7 +174,7 @@ class Args7DropTest {
 			representation6 = "rep 6",
 			representation7 = "rep 7"
 		)
-		val argsResult: Args6<Int, Long, Float, Double, String, LocalDate> = args.dropArg5()
+		val argsResult: Args6<String, Int, Long, Float, Char, LocalDate> = args.dropArg5()
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a2)
@@ -192,12 +194,12 @@ class Args7DropTest {
 	@Test
 	fun dropArg6() {
 		val args = Args.of(
+			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
-			"string",
 			LocalDate.now(),
 			representation1 = "rep 1",
 			representation2 = "rep 2",
@@ -207,7 +209,7 @@ class Args7DropTest {
 			representation6 = "rep 6",
 			representation7 = "rep 7"
 		)
-		val argsResult: Args6<Int, Long, Float, Double, Char, LocalDate> = args.dropArg6()
+		val argsResult: Args6<String, Int, Long, Float, Double, LocalDate> = args.dropArg6()
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a2)
@@ -227,12 +229,12 @@ class Args7DropTest {
 	@Test
 	fun dropArg7() {
 		val args = Args.of(
+			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
-			"string",
 			LocalDate.now(),
 			representation1 = "rep 1",
 			representation2 = "rep 2",
@@ -242,7 +244,7 @@ class Args7DropTest {
 			representation6 = "rep 6",
 			representation7 = "rep 7"
 		)
-		val argsResult: Args6<Int, Long, Float, Double, Char, String> = args.dropArg7()
+		val argsResult: Args6<String, Int, Long, Float, Double, Char> = args.dropArg7()
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a2)

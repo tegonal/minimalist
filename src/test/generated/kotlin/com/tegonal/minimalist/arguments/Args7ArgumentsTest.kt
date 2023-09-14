@@ -7,6 +7,8 @@ import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.atrium.api.fluent.en_GB.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Named
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 import com.tegonal.minimalist.*
 import com.tegonal.minimalist.atrium.*
 import java.math.BigInteger
@@ -17,12 +19,12 @@ class Args7ArgumentsTest {
 	@Test
 	fun `get returns correct array and value wrapped in Name`() {
 		val args = Args.of(
+			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
-			"string",
 			LocalDate.now(),
 			representation1 = "rep 1",
 			representation2 = "rep 2",
@@ -34,22 +36,22 @@ class Args7ArgumentsTest {
 		)
 		expect(args.get().toList()).toContainExactly(
 			{
-				toBeANamedOf<Int>(args.representation1!!, args.a1)
+				toBeANamedOf<String>(args.representation1!!, args.a1)
 			},
 			{
-				toBeANamedOf<Long>(args.representation2!!, args.a2)
+				toBeANamedOf<Int>(args.representation2!!, args.a2)
 			},
 			{
-				toBeANamedOf<Float>(args.representation3!!, args.a3)
+				toBeANamedOf<Long>(args.representation3!!, args.a3)
 			},
 			{
-				toBeANamedOf<Double>(args.representation4!!, args.a4)
+				toBeANamedOf<Float>(args.representation4!!, args.a4)
 			},
 			{
-				toBeANamedOf<Char>(args.representation5!!, args.a5)
+				toBeANamedOf<Double>(args.representation5!!, args.a5)
 			},
 			{
-				toBeANamedOf<String>(args.representation6!!, args.a6)
+				toBeANamedOf<Char>(args.representation6!!, args.a6)
 			},
 			{
 				toBeANamedOf<LocalDate>(args.representation7!!, args.a7)
@@ -58,4 +60,29 @@ class Args7ArgumentsTest {
 		)
 	}
 
+	@ParameterizedTest
+	@MethodSource("args")
+	fun `can use Args7 in MethodSource`(
+		a1: String,
+		a2: Int,
+		a3: Long,
+		a4: Float,
+		a5: Double,
+		a6: Char,
+		a7: LocalDate
+	) {
+		expect(a1).toEqual("string")
+		expect(a2).toEqual(1)
+		expect(a3).toEqual(2L)
+		expect(a4).toEqual(3F)
+		expect(a5).toEqual(4.0)
+		expect(a6).toEqual('c')
+		expect(a7).toEqual(LocalDate.now())
+	}
+
+	companion object {
+		@JvmStatic
+		fun args() : List<Args7<String, Int, Long, Float, Double, Char, LocalDate>> =
+			listOf(Args.of("string", 1, 2L, 3F, 4.0, 'c', LocalDate.now()))
+	}
 }

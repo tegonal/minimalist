@@ -7,6 +7,8 @@ import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.atrium.api.fluent.en_GB.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Named
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
 import com.tegonal.minimalist.*
 import com.tegonal.minimalist.atrium.*
 import java.math.BigInteger
@@ -17,12 +19,12 @@ class Args8AppendTest {
 	@Test
 	fun `append Arg1`() {
 		val firstArgs = Args.of(
+			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
-			"string",
 			LocalDate.now(),
 			1.toShort(),
 			representation1 = "rep 1",
@@ -64,12 +66,12 @@ class Args8AppendTest {
 	@Test
 	fun `append Arg2`() {
 		val firstArgs = Args.of(
+			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
-			"string",
 			LocalDate.now(),
 			1.toShort(),
 			representation1 = "rep 1",
