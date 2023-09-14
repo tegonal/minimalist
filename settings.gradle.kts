@@ -1,17 +1,17 @@
 pluginManagement {
-    repositories {
+	repositories {
 //        mavenLocal()
-        gradlePluginPortal()
-    }
-    includeBuild("gradle/build-logic")
-    includeBuild("gradle/build-logic-conventions")
+		gradlePluginPortal()
+	}
+	includeBuild("gradle/build-logic")
+	includeBuild("gradle/build-logic-conventions")
 }
 
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-    repositories {
-        mavenCentral()
-    }
+	repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+	repositories {
+		mavenCentral()
+	}
 }
 
 rootProject.name = "minimalist"

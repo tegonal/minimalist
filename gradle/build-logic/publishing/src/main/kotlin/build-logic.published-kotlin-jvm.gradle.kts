@@ -1,7 +1,8 @@
 plugins {
     id("build-logic.kotlin-jvm")
+	id("build-logic.dokka")
+	id("ch.tutteli.gradle.plugins.kotlin.module.info")
     id("ch.tutteli.gradle.plugins.publish")
-    id("build-logic.dokka")
 }
 
 tutteliPublish {
