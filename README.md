@@ -13,9 +13,12 @@
 -->
 <!-- for release end -->
 
+
+
 # Minimalist
 
-A library which helps you in setting up parameterized tests and prioritise them in case you don't have enough time 
+![Minimalist](https://raw.githubusercontent.com/tegonal/minimalist/main/.idea/icon.png) M like Minimalist, 
+a library which helps you in setting up parameterized tests and prioritise them in case you don't have enough time 
 to execute all of them.
 
 
