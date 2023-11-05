@@ -1,22 +1,29 @@
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("build-logic.junit-jacoco-conventions")
-    // this plugin sets inter alia toolchain and source/targetCompatibility
-    // but also applies common plugins such as gradle-convention, build-params
-    id("build-logic.java")
+	id("build-logic.junit-jacoco-conventions")
+	// this plugin sets inter alia toolchain and source/targetCompatibility
+	// but also applies common plugins such as gradle-convention, build-params
+	id("build-logic.java")
 }
 
 tasks.configureEach<KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = buildParameters.defaultJdkVersion.toString()
-    }
+	kotlinOptions {
+		jvmTarget = buildParameters.defaultJdkVersion.toString()
+		languageVersion
+	}
 }
 
 tasks.configureEach<KotlinCompilationTask<*>> {
-    compilerOptions {
-        // suppress warnings about kotlin 1.4 beeing deprecated
-        freeCompilerArgs.add("-Xsuppress-version-warnings")
-    }
+	compilerOptions {
+		freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
+		// suppress warnings about used kotlin version being deprecated, we use an older api/language version on purpose
+		freeCompilerArgs.add("-Xsuppress-version-warnings")
+
+		val kotlinVersion = KotlinVersion.fromVersion(buildParameters.kotlin.version)
+		languageVersion.set(kotlinVersion)
+		apiVersion.set(kotlinVersion)
+	}
 }

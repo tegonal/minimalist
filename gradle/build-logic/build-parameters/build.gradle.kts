@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+
 plugins {
     id("build-logic.kotlin-dsl-gradle-plugin")
     id("org.gradlex.build-parameters") version "1.4.3"
@@ -13,14 +15,14 @@ buildParameters {
     integer("defaultJdkVersion") {
         defaultValue.set(defaultJdkVersion)
         mandatory.set(true)
-        description.set("Default Java version for source and target compatibility")
+        description.set("Default jdk version for source and target compatibility")
     }
 
-    group("kotlin") {
-        integer("version") {
+	group("kotlin") {
+        string("version") {
             fromEnvironment()
-            defaultValue.set(defaultJdkVersion)
-            description.set("kotlin version")
+            defaultValue.set(KotlinVersion.KOTLIN_1_9.version)
+            description.set("kotlin version used for apiVersion and languageVersion")
         }
         bool("werror") {
             defaultValue.set(true)

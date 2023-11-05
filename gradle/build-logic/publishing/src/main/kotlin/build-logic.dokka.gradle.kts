@@ -1,5 +1,5 @@
+import ch.tutteli.gradle.plugins.dokka.GhPages
 import org.jetbrains.dokka.gradle.AbstractDokkaLeafTask
-import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
     id("build-logic.gradle-conventions")
@@ -8,21 +8,15 @@ plugins {
 
 val kdocDir = rootProject.projectDir.resolve("misc/kdoc")
 
-tasks.configureEach<DokkaTask> {
-    dokkaSourceSets.configureEach {
-        reportUndocumented.set(true)
-    }
-}
-
 tutteliDokka {
     githubUser.set("tegonal")
-	modeSimple.set(false)
+	writeTo.set(GhPages)
 }
 
 tasks.configureEach<AbstractDokkaLeafTask> {
     dokkaSourceSets.configureEach {
+		reportUndocumented.set(true)
         jdkVersion.set(buildParameters.defaultJdkVersion)
-        //TODO also set kotlin version
         includes.from(kdocDir.resolve("packages.md"))
     }
     configurePlugins()
