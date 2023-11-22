@@ -1,6 +1,6 @@
 [versions]
 atrium = "1.1.0"
-junitJupiter = "5.10.0"
+junitJupiter = "5.10.1"
 
 [libraries]
 atrium-fluent = { module = "ch.tutteli.atrium:atrium-fluent", version.ref = "atrium" }
