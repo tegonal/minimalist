@@ -1,9 +1,10 @@
 plugins {
-    id("build-logic.kotlin-dsl-gradle-plugin")
+	id("build-logic.kotlin-dsl-gradle-plugin")
 }
 
 dependencies {
-    api(projects.buildParameters)
-    api("com.github.vlsi.gradle-extensions:com.github.vlsi.gradle-extensions.gradle.plugin:1.90")
-    api("com.dorongold.plugins:task-tree:2.1.1")
+	api(projects.buildParameters)
+	api(buildLibs.vlsi.crlf)
+	api(buildLibs.vlsi.gradle)
+	api(buildLibs.taskTree)
 }
