@@ -16,10 +16,10 @@ description = "Library which helps to setup and prioritise parameterized tests"
 
 
 dependencies {
-	api("org.junit.jupiter:junit-jupiter-params:5.10.0")
+	api(libs.junit.jupiter.params)
 
 	testImplementation(kotlin("test"))
-	testImplementation("ch.tutteli.atrium:atrium-fluent:1.0.0")
+	testImplementation(libs.atrium.fluent)
 }
 
 val generationFolder: ConfigurableFileCollection = project.files("src/main/generated/kotlin")

@@ -5,10 +5,8 @@ plugins {
 dependencies {
     api(projects.basics)
 
-    api("org.jetbrains.dokka:org.jetbrains.dokka.gradle.plugin:1.8.20")
-    api("org.jetbrains.dokka:dokka-base:1.8.20")
-    api("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10")
-
-    api("ch.tutteli.gradle.plugins.junitjacoco:ch.tutteli.gradle.plugins.junitjacoco.gradle.plugin:5.0.0")
-    api("ch.tutteli.gradle.plugins.kotlin.module.info:ch.tutteli.gradle.plugins.kotlin.module.info.gradle.plugin:5.0.0")
+	api(buildLibs.kotlin)
+	api(buildLibs.bundles.dokka)
+	api(buildLibs.tutteli.junitjacoco)
+	api(buildLibs.tutteli.moduleinfo)
 }

@@ -11,7 +11,7 @@ tutteliPublish {
 
 	resetLicenses("EUPL-1.2")
 	addDeveloper {
-		id = "robstoll_tegonal"
+		id = "robstoll"
 		name = "Robert Stoll"
 		email = "robert.stoll@tegonal.com"
 		url = "https://tutteli.ch"
