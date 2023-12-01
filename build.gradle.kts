@@ -11,7 +11,7 @@ plugins {
 	alias(libs.plugins.nexus.publish)
 }
 
-version = "1.0.0-SNAPSHOT"
+version = "1.0.0"
 group = "com.tegonal.minimalist"
 description = "Library which helps to setup and prioritise parameterized tests"
 
