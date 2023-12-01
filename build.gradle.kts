@@ -8,6 +8,7 @@ buildscript {
 
 plugins {
 	id("build-logic.published-kotlin-jvm")
+	alias(libs.plugins.nexus.publish)
 }
 
 version = "1.0.0-SNAPSHOT"
@@ -34,6 +35,12 @@ kotlin {
 			kotlin.srcDir(generationTestFolder)
 		}
 	}
+}
+
+nexusPublishing {
+    repositories {
+        sonatype()
+    }
 }
 
 val packageName = "com.tegonal.minimalist"
