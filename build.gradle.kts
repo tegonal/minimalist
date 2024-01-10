@@ -69,8 +69,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 		val argsOf = createStringBuilder(packageName)
 			.append("import com.tegonal.minimalist.impl.*\n\n")
 
-		StringBuilder(dontModifyNotice)
-			.append("package ").append(packageName).append("\n\n")
+		val argsComponents = createStringBuilder(packageName)
 
 		(1..numOfArgs).forEach { upperNumber ->
 			val numbers = (1..upperNumber).toList()
@@ -180,6 +179,24 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					|		this.copy(a$index = value, representation$index = representation)
 					|
 					""".trimMargin()
+				).appendLine()
+			}
+
+			numbers.forEach { index ->
+				argsComponents.append(
+					"""
+				|/**
+				| * Extracts [a$index][Args$upperNumber.a$index] (the $index argument) of this Args$upperNumber.
+				| *
+				| * Be aware of that you loose the [representation$index][Args$upperNumber.representation$index] this way. Should you extract
+				| * the argument in order to create another Args afterwards, then ${if(upperNumber < numOfArgs)"[Args$upperNumber.append] or " else ""}
+				| * one of the ${if(upperNumber > 1) "[Args$upperNumber.dropArg1] or " else ""}[Args$upperNumber.withArg1] methods might be more suited.
+				| *
+				| * @since 1.1.0
+				| */
+				|operator fun <$typeArgs> Args$upperNumber<$typeArgs>.component$index(): A$index = a$index
+				|
+				""".trimMargin()
 				).appendLine()
 			}
 
@@ -314,6 +331,9 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 
 		val argsOfFile = packageDir.resolve("argsOf.kt")
 		argsOfFile.writeText(argsOf.toString())
+
+		val argsComponentFile = packageDir.resolve("argsComponents.kt")
+		argsComponentFile.writeText(argsComponents.toString())
 	}
 }
 generationFolder.builtBy(generate)
@@ -582,6 +602,30 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 			appendTest.append("}")
 			val appendTestFile = packageDir.resolve("append/Args${upperNumber}AppendTest.kt")
 			appendTestFile.writeText(appendTest.toString())
+
+			val argsComponentTest = createStringBuilder("$packageName.arguments.components")
+				.appendTest("Args${upperNumber}ComponentsTest")
+
+			numbers.forEach { number ->
+				argsComponentTest.append(
+					"""
+					|	@Test
+					|	fun component$number() {
+					|		val args = Args.of(
+					|			${argValues.take(upperNumber).joinToString(",\n\t\t\t")},
+					|			${numbers.joinToString(",\n\t\t\t") { "representation$it = \"rep $it\"" }}
+					|		)
+					|		val (${"_, ".repeat(number -1)}a$number) = args
+					|		expect(a$number).toEqual(args.a$number)
+					|	}
+					|
+					""".trimMargin()
+				).appendLine()
+			}
+
+			argsComponentTest.append("}")
+			val argsComponentTestFile = packageDir.resolve("arguments/components/Args${upperNumber}ComponentsTest.kt")
+			argsComponentTestFile.writeText(argsComponentTest.toString())
 		}
 	}
 }
