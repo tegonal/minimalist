@@ -11,7 +11,7 @@ plugins {
 	alias(libs.plugins.nexus.publish)
 }
 
-version = "1.1.0-SNAPSHOT"
+version = "1.1.0"
 group = "com.tegonal.minimalist"
 description = "Library which helps to setup and prioritise parameterized tests"
 
@@ -62,6 +62,7 @@ fun createStringBuilder(packageName: String) = StringBuilder(dontModifyNotice)
 
 val numOfArgs = 10
 
+//TODO move this to own file otherwise we always replace the @since during a release via scripts and need to revert again
 val generate: TaskProvider<Task> = tasks.register("generate") {
 	doFirst {
 		val packageDir = File(generationFolder.asPath + "/" + packageNameAsPath)
@@ -638,15 +639,15 @@ Release & deploy a commit
 1. update main:
 
 
-export MNLMST_PREVIOUS_VERSION=0.9.0
-export MNLMST_VERSION=1.0.0
+export MNLMST_PREVIOUS_VERSION=1.1.0
+export MNLMST_VERSION=1.1.0
 find ./ -name "*.md" | xargs perl -0777 -i \
    -pe "s@$MNLMST_PREVIOUS_VERSION@$MNLMST_VERSION@g;" \
    -pe "s@tree/main@tree/v$MNLMST_VERSION@g;" \
-   -pe "s@latest#/doc@$MNLMST_VERSION/doc@g;"
+   -pe "s@latest#/kdoc@$MNLMST_VERSION/kdoc@g;"
 perl -0777 -i \
   -pe "s@$MNLMST_PREVIOUS_VERSION@$MNLMST_VERSION@g;" \
-  -pe "s/rootProject.version = \"${MNLMST_VERSION}-SNAPSHOT\"/rootProject.version = \"$MNLMST_VERSION\"/;" \
+  -pe "s/version = \"${MNLMST_VERSION}-SNAPSHOT\"/version = \"$MNLMST_VERSION\"/;" \
   ./build.gradle.kts
 perl -0777 -i \
   -pe 's/(<!-- for main -->\n)\n([\S\s]*?)(\n<!-- for a specific release -->\n)<!--\n([\S\s]*?)-->\n(\n# <img)/$1<!--\n$2-->$3\n$4\n$5/;' \
@@ -654,7 +655,7 @@ perl -0777 -i \
   ./README.md
 git commit -a -m "v$MNLMST_VERSION"
 
-check changes (CONTRIBUTING.md, difference.md, build.gradle.kts, README.md)
+check changes (CONTRIBUTING.md, build.gradle.kts, README.md)
 git push
 
 
@@ -671,12 +672,12 @@ Assumes you have a minimalist-gh-pages folder on the same level as minimalist wh
 Either use the following commands or the manual steps below (assuming MNLMST_PREVIOUS_VERSION and MNLMST_VERSION
 is already set from commands above)
 
-Increment MNLMST_GH_PAGES_VERSIONS_JS_VERSION_NEXT
+Increment MNLMST_GH_PAGES_VERSIONS_JS_VERSION and MNLMST_GH_PAGES_VERSIONS_JS_VERSION__NEXT
 
 export MNLMST_GH_PAGES_LOGO_CSS_VERSION="1.3"
 export MNLMST_GH_PAGES_ALERT_CSS_VERSION="1.1"
-export MNLMST_GH_PAGES_VERSIONS_JS_VERSION="1.2.0"
-export MNLMST_GH_PAGES_VERSIONS_JS_VERSION_NEXT="1.3.0"
+export MNLMST_GH_PAGES_VERSIONS_JS_VERSION="1.3.0"
+export MNLMST_GH_PAGES_VERSIONS_JS_VERSION_NEXT="1.4.0"
 
 gr dokkaHtml
 
