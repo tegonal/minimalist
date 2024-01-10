@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Named
  * !! No backward compatibility guarantees !!
  * Re-use on own risk
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 internal data class DefaultArgs2<A1, A2>(
 	override val a1: A1,

@@ -6,128 +6,128 @@ package com.tegonal.minimalist
 /**
  * Represents an [Args] with 10 arguments.
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	/**
 	 * The value of argument 1.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val a1: A1
 	/**
 	 * The value of argument 2.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val a2: A2
 	/**
 	 * The value of argument 3.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val a3: A3
 	/**
 	 * The value of argument 4.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val a4: A4
 	/**
 	 * The value of argument 5.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val a5: A5
 	/**
 	 * The value of argument 6.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val a6: A6
 	/**
 	 * The value of argument 7.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val a7: A7
 	/**
 	 * The value of argument 8.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val a8: A8
 	/**
 	 * The value of argument 9.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val a9: A9
 	/**
 	 * The value of argument 10.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val a10: A10
 
 	/**
 	 * The representation of argument 1.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val representation1: String?
 	/**
 	 * The representation of argument 2.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val representation2: String?
 	/**
 	 * The representation of argument 3.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val representation3: String?
 	/**
 	 * The representation of argument 4.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val representation4: String?
 	/**
 	 * The representation of argument 5.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val representation5: String?
 	/**
 	 * The representation of argument 6.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val representation6: String?
 	/**
 	 * The representation of argument 7.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val representation7: String?
 	/**
 	 * The representation of argument 8.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val representation8: String?
 	/**
 	 * The representation of argument 9.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val representation9: String?
 	/**
 	 * The representation of argument 10.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val representation10: String?
 
@@ -141,7 +141,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	 *
 	 * @return The newly created [Args10].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun withArg1(value: A1, representation: String? = null): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
@@ -155,7 +155,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	 *
 	 * @return The newly created [Args10].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun withArg2(value: A2, representation: String? = null): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
@@ -169,7 +169,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	 *
 	 * @return The newly created [Args10].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun withArg3(value: A3, representation: String? = null): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
@@ -183,7 +183,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	 *
 	 * @return The newly created [Args10].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun withArg4(value: A4, representation: String? = null): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
@@ -197,7 +197,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	 *
 	 * @return The newly created [Args10].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun withArg5(value: A5, representation: String? = null): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
@@ -211,7 +211,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	 *
 	 * @return The newly created [Args10].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun withArg6(value: A6, representation: String? = null): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
@@ -225,7 +225,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	 *
 	 * @return The newly created [Args10].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun withArg7(value: A7, representation: String? = null): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
@@ -239,7 +239,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	 *
 	 * @return The newly created [Args10].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun withArg8(value: A8, representation: String? = null): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
@@ -253,7 +253,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	 *
 	 * @return The newly created [Args10].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun withArg9(value: A9, representation: String? = null): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
@@ -267,7 +267,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	 *
 	 * @return The newly created [Args10].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun withArg10(value: A10, representation: String? = null): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
@@ -277,7 +277,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	 *
 	 * @return The newly created [Args9].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun dropArg1(): Args9<A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
@@ -286,7 +286,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	 *
 	 * @return The newly created [Args9].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun dropArg2(): Args9<A1, A3, A4, A5, A6, A7, A8, A9, A10>
 
@@ -295,7 +295,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	 *
 	 * @return The newly created [Args9].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun dropArg3(): Args9<A1, A2, A4, A5, A6, A7, A8, A9, A10>
 
@@ -304,7 +304,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	 *
 	 * @return The newly created [Args9].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun dropArg4(): Args9<A1, A2, A3, A5, A6, A7, A8, A9, A10>
 
@@ -313,7 +313,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	 *
 	 * @return The newly created [Args9].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun dropArg5(): Args9<A1, A2, A3, A4, A6, A7, A8, A9, A10>
 
@@ -322,7 +322,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	 *
 	 * @return The newly created [Args9].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun dropArg6(): Args9<A1, A2, A3, A4, A5, A7, A8, A9, A10>
 
@@ -331,7 +331,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	 *
 	 * @return The newly created [Args9].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun dropArg7(): Args9<A1, A2, A3, A4, A5, A6, A8, A9, A10>
 
@@ -340,7 +340,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	 *
 	 * @return The newly created [Args9].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun dropArg8(): Args9<A1, A2, A3, A4, A5, A6, A7, A9, A10>
 
@@ -349,7 +349,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	 *
 	 * @return The newly created [Args9].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun dropArg9(): Args9<A1, A2, A3, A4, A5, A6, A7, A8, A10>
 
@@ -358,7 +358,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	 *
 	 * @return The newly created [Args9].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun dropArg10(): Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>
 

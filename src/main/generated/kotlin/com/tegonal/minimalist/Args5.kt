@@ -6,68 +6,68 @@ package com.tegonal.minimalist
 /**
  * Represents an [Args] with 5 arguments.
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 interface Args5<A1, A2, A3, A4, A5>: Args {
 	/**
 	 * The value of argument 1.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val a1: A1
 	/**
 	 * The value of argument 2.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val a2: A2
 	/**
 	 * The value of argument 3.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val a3: A3
 	/**
 	 * The value of argument 4.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val a4: A4
 	/**
 	 * The value of argument 5.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val a5: A5
 
 	/**
 	 * The representation of argument 1.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val representation1: String?
 	/**
 	 * The representation of argument 2.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val representation2: String?
 	/**
 	 * The representation of argument 3.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val representation3: String?
 	/**
 	 * The representation of argument 4.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val representation4: String?
 	/**
 	 * The representation of argument 5.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val representation5: String?
 
@@ -81,7 +81,7 @@ interface Args5<A1, A2, A3, A4, A5>: Args {
 	 *
 	 * @return The newly created [Args5].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun withArg1(value: A1, representation: String? = null): Args5<A1, A2, A3, A4, A5>
 
@@ -95,7 +95,7 @@ interface Args5<A1, A2, A3, A4, A5>: Args {
 	 *
 	 * @return The newly created [Args5].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun withArg2(value: A2, representation: String? = null): Args5<A1, A2, A3, A4, A5>
 
@@ -109,7 +109,7 @@ interface Args5<A1, A2, A3, A4, A5>: Args {
 	 *
 	 * @return The newly created [Args5].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun withArg3(value: A3, representation: String? = null): Args5<A1, A2, A3, A4, A5>
 
@@ -123,7 +123,7 @@ interface Args5<A1, A2, A3, A4, A5>: Args {
 	 *
 	 * @return The newly created [Args5].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun withArg4(value: A4, representation: String? = null): Args5<A1, A2, A3, A4, A5>
 
@@ -137,7 +137,7 @@ interface Args5<A1, A2, A3, A4, A5>: Args {
 	 *
 	 * @return The newly created [Args5].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun withArg5(value: A5, representation: String? = null): Args5<A1, A2, A3, A4, A5>
 
@@ -147,7 +147,7 @@ interface Args5<A1, A2, A3, A4, A5>: Args {
 	 *
 	 * @return The newly created [Args6].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun <A6> append(
 		arg1: Args1<A6>
@@ -159,7 +159,7 @@ interface Args5<A1, A2, A3, A4, A5>: Args {
 	 *
 	 * @return The newly created [Args7].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun <A6, A7> append(
 		arg2: Args2<A6, A7>
@@ -171,7 +171,7 @@ interface Args5<A1, A2, A3, A4, A5>: Args {
 	 *
 	 * @return The newly created [Args8].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun <A6, A7, A8> append(
 		arg3: Args3<A6, A7, A8>
@@ -183,7 +183,7 @@ interface Args5<A1, A2, A3, A4, A5>: Args {
 	 *
 	 * @return The newly created [Args9].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun <A6, A7, A8, A9> append(
 		arg4: Args4<A6, A7, A8, A9>
@@ -195,7 +195,7 @@ interface Args5<A1, A2, A3, A4, A5>: Args {
 	 *
 	 * @return The newly created [Args10].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun <A6, A7, A8, A9, A10> append(
 		arg5: Args5<A6, A7, A8, A9, A10>
@@ -207,7 +207,7 @@ interface Args5<A1, A2, A3, A4, A5>: Args {
 	 *
 	 * @return The newly created [Args4].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun dropArg1(): Args4<A2, A3, A4, A5>
 
@@ -216,7 +216,7 @@ interface Args5<A1, A2, A3, A4, A5>: Args {
 	 *
 	 * @return The newly created [Args4].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun dropArg2(): Args4<A1, A3, A4, A5>
 
@@ -225,7 +225,7 @@ interface Args5<A1, A2, A3, A4, A5>: Args {
 	 *
 	 * @return The newly created [Args4].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun dropArg3(): Args4<A1, A2, A4, A5>
 
@@ -234,7 +234,7 @@ interface Args5<A1, A2, A3, A4, A5>: Args {
 	 *
 	 * @return The newly created [Args4].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun dropArg4(): Args4<A1, A2, A3, A5>
 
@@ -243,7 +243,7 @@ interface Args5<A1, A2, A3, A4, A5>: Args {
 	 *
 	 * @return The newly created [Args4].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun dropArg5(): Args4<A1, A2, A3, A4>
 

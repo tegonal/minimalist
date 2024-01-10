@@ -12,7 +12,7 @@ import com.tegonal.minimalist.impl.*
  * @param representation1 the
 
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 fun <A1> Args.Companion.of(
 	a1: A1,
@@ -32,7 +32,7 @@ fun <A1> Args.Companion.of(
  * @param representation2 the
 
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 fun <A1, A2> Args.Companion.of(
 	a1: A1,
@@ -59,7 +59,7 @@ fun <A1, A2> Args.Companion.of(
  * @param representation3 the
 
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 fun <A1, A2, A3> Args.Companion.of(
 	a1: A1,
@@ -93,7 +93,7 @@ fun <A1, A2, A3> Args.Companion.of(
  * @param representation4 the
 
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 fun <A1, A2, A3, A4> Args.Companion.of(
 	a1: A1,
@@ -134,7 +134,7 @@ fun <A1, A2, A3, A4> Args.Companion.of(
  * @param representation5 the
 
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 fun <A1, A2, A3, A4, A5> Args.Companion.of(
 	a1: A1,
@@ -182,7 +182,7 @@ fun <A1, A2, A3, A4, A5> Args.Companion.of(
  * @param representation6 the
 
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 fun <A1, A2, A3, A4, A5, A6> Args.Companion.of(
 	a1: A1,
@@ -237,7 +237,7 @@ fun <A1, A2, A3, A4, A5, A6> Args.Companion.of(
  * @param representation7 the
 
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 fun <A1, A2, A3, A4, A5, A6, A7> Args.Companion.of(
 	a1: A1,
@@ -299,7 +299,7 @@ fun <A1, A2, A3, A4, A5, A6, A7> Args.Companion.of(
  * @param representation8 the
 
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 fun <A1, A2, A3, A4, A5, A6, A7, A8> Args.Companion.of(
 	a1: A1,
@@ -368,7 +368,7 @@ fun <A1, A2, A3, A4, A5, A6, A7, A8> Args.Companion.of(
  * @param representation9 the
 
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 fun <A1, A2, A3, A4, A5, A6, A7, A8, A9> Args.Companion.of(
 	a1: A1,
@@ -444,7 +444,7 @@ fun <A1, A2, A3, A4, A5, A6, A7, A8, A9> Args.Companion.of(
  * @param representation10 the
 
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 fun <A1, A2, A3, A4, A5, A6, A7, A8, A9, A10> Args.Companion.of(
 	a1: A1,

@@ -38,9 +38,9 @@ kotlin {
 }
 
 nexusPublishing {
-    repositories {
-        sonatype()
-    }
+	repositories {
+		sonatype()
+	}
 }
 
 val packageName = "com.tegonal.minimalist"
@@ -89,7 +89,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 				|/**
 				| * Represents an [Args] with $upperNumber argument${if (upperNumber > 1) "s" else ""}.
 				| *
-				| * @since 0.1.0
+				| * @since 1.0.0
 				| */
 				|interface Args$upperNumber<$typeArgs>: Args {
 				|
@@ -101,7 +101,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					|	/**
 					|	 * The value of argument $it.
 					|	 *
-					|	 * @since 0.1.0
+					|	 * @since 1.0.0
 					|	 */
 					|	val a$it: A$it
 					""".trimMargin()
@@ -114,7 +114,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					|	/**
 					|	 * The representation of argument $it.
 					|	 *
-					|	 * @since 0.1.0
+					|	 * @since 1.0.0
 					|	 */
 					|	val representation$it: String?
 					""".trimMargin()
@@ -133,7 +133,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 				| * !! No backward compatibility guarantees !!
                 | * Re-use on own risk
 				| *
-				| * @since 0.1.0
+				| * @since 1.0.0
 				| */
 				|internal data class DefaultArgs$upperNumber<$typeArgs>(
 			    |	$constructorProperties,
@@ -167,7 +167,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					|	 *
 					|	 * @return The newly created [Args$upperNumber].
 					|	 *
-					|	 * @since 0.1.0
+					|	 * @since 1.0.0
 					|	 */
 					|	fun withArg$index(value: A$index, representation: String? = null): Args$upperNumber<$typeArgs>
 					|
@@ -201,7 +201,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					|	 *
 					|	 * @return The newly created [Args$upperNumber3].
 					|	 *
-					|	 * @since 0.1.0
+					|	 * @since 1.0.0
 					|	 */
 					|	fun <$typeArgs2> append(
 					|		arg${upperNumber2}: Args${upperNumber2}<$typeArgs2>
@@ -246,7 +246,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 						|	 *
 						|	 * @return The newly created [Args$upperNumber4].
 						|	 *
-						|	 * @since 0.1.0
+						|	 * @since 1.0.0
 						|	 */
 						|	fun dropArg$index(): Args${upperNumber4}<$typeArgs4>
 						|
@@ -297,7 +297,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					}
 				}
 				| *
-				| * @since 0.1.0
+				| * @since 1.0.0
 				| */
 				|fun <$typeArgs> Args.Companion.of(
 				|	$parameters,
@@ -310,8 +310,6 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 				|
 				""".trimMargin()
 			)
-
-
 		}
 
 		val argsOfFile = packageDir.resolve("argsOf.kt")

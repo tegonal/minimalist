@@ -6,20 +6,20 @@ package com.tegonal.minimalist
 /**
  * Represents an [Args] with 1 argument.
  *
- * @since 0.1.0
+ * @since 1.0.0
  */
 interface Args1<A1>: Args {
 	/**
 	 * The value of argument 1.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val a1: A1
 
 	/**
 	 * The representation of argument 1.
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	val representation1: String?
 
@@ -33,7 +33,7 @@ interface Args1<A1>: Args {
 	 *
 	 * @return The newly created [Args1].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun withArg1(value: A1, representation: String? = null): Args1<A1>
 
@@ -43,7 +43,7 @@ interface Args1<A1>: Args {
 	 *
 	 * @return The newly created [Args2].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun <A2> append(
 		arg1: Args1<A2>
@@ -55,7 +55,7 @@ interface Args1<A1>: Args {
 	 *
 	 * @return The newly created [Args3].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun <A2, A3> append(
 		arg2: Args2<A2, A3>
@@ -67,7 +67,7 @@ interface Args1<A1>: Args {
 	 *
 	 * @return The newly created [Args4].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun <A2, A3, A4> append(
 		arg3: Args3<A2, A3, A4>
@@ -79,7 +79,7 @@ interface Args1<A1>: Args {
 	 *
 	 * @return The newly created [Args5].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun <A2, A3, A4, A5> append(
 		arg4: Args4<A2, A3, A4, A5>
@@ -91,7 +91,7 @@ interface Args1<A1>: Args {
 	 *
 	 * @return The newly created [Args6].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun <A2, A3, A4, A5, A6> append(
 		arg5: Args5<A2, A3, A4, A5, A6>
@@ -103,7 +103,7 @@ interface Args1<A1>: Args {
 	 *
 	 * @return The newly created [Args7].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun <A2, A3, A4, A5, A6, A7> append(
 		arg6: Args6<A2, A3, A4, A5, A6, A7>
@@ -115,7 +115,7 @@ interface Args1<A1>: Args {
 	 *
 	 * @return The newly created [Args8].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun <A2, A3, A4, A5, A6, A7, A8> append(
 		arg7: Args7<A2, A3, A4, A5, A6, A7, A8>
@@ -127,7 +127,7 @@ interface Args1<A1>: Args {
 	 *
 	 * @return The newly created [Args9].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun <A2, A3, A4, A5, A6, A7, A8, A9> append(
 		arg8: Args8<A2, A3, A4, A5, A6, A7, A8, A9>
@@ -139,7 +139,7 @@ interface Args1<A1>: Args {
 	 *
 	 * @return The newly created [Args10].
 	 *
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	fun <A2, A3, A4, A5, A6, A7, A8, A9, A10> append(
 		arg9: Args9<A2, A3, A4, A5, A6, A7, A8, A9, A10>
