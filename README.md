@@ -23,11 +23,11 @@ a library which helps you in setting up parameterized tests and prioritise them 
 to execute all of them.
 
 
-<!---
+---
 ❗ You are taking a *sneak peek* at the next version. It could be that some features you find on this page are not released yet.  
-Please have a look at the README of the corresponding release/git tag. Latest version: [README of v1.1.0](https://github.com/tegonal/minimalist/tree/v1.1.0/README.md).
+Please have a look at the README of the corresponding release/git tag. Latest version: [README of v1.1.0](https://github.com/tegonal/minimalist/tree/main/README.md).
 
---->
+---
 
 **Table of Content**
 - [Installation](#installation)
@@ -50,7 +50,7 @@ dependencies {
 
 # Documentation
 
-Code documentation can be found on github-pages: <https://tegonal.github.io/minimalist/1.1.0/kdoc>.
+Code documentation can be found on github-pages: <https://tegonal.github.io/minimalist/latest#/kdoc>.
 
 # License
 

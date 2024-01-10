@@ -640,7 +640,7 @@ Release & deploy a commit
 
 
 export MNLMST_PREVIOUS_VERSION=1.1.0
-export MNLMST_VERSION=1.1.0
+export MNLMST_VERSION=1.2.0
 find ./ -name "*.md" | xargs perl -0777 -i \
    -pe "s@$MNLMST_PREVIOUS_VERSION@$MNLMST_VERSION@g;" \
    -pe "s@tree/main@tree/v$MNLMST_VERSION@g;" \
@@ -650,7 +650,7 @@ perl -0777 -i \
   -pe "s/version = \"${MNLMST_VERSION}-SNAPSHOT\"/version = \"$MNLMST_VERSION\"/;" \
   ./build.gradle.kts
 perl -0777 -i \
-  -pe 's/(<!-- for main -->\n)\n([\S\s]*?)(\n<!-- for a specific release -->\n)<!--\n([\S\s]*?)-->\n(\n# <img)/$1<!--\n$2-->$3\n$4\n$5/;' \
+  -pe 's/(<!-- for main -->\n)\n([\S\s]*?)(\n<!-- for release -->\n)<!--\n([\S\s]*?)-->\n(\n# <img)/$1<!--\n$2-->$3\n$4\n$5/;' \
   -pe 's/(---\n❗ You are taking[^-]*?---)/<!$1>/;' \
   ./README.md
 git commit -a -m "v$MNLMST_VERSION"
@@ -723,11 +723,13 @@ cd ../minimalist
 
 3. deploy to maven central:
 (assumes you have an alias named gr pointing to ./gradlew)
-    a) java -version 2>&1 | grep "version \"11" && CI=true gr clean publishToSonatype
-    b) Log into https://oss.sonatype.org/#stagingRepositories
-    c) check if staging repo is ok
-    d) close repo
-    e) release repo
+    a) echo "enter the sonatype user token"
+	   read SONATYPE_PW
+    b) java -version 2>&1 | grep "version \"11" && ORG_GRADLE_PROJECT_sonatypePassword="$SONATYPE_PW" CI=true gr clean publishToSonatype
+    c) Log into https://oss.sonatype.org/#stagingRepositories
+    d) check if staging repo is ok
+    e) close repo
+    f) release repo
 
 4. publish release on github
     1) Log in to github and publish draft
@@ -741,14 +743,14 @@ export MNLMST_VERSION=1.1.0
 export MNLMST_NEXT_VERSION=1.2.0
 find ./ -name "*.md" | xargs perl -0777 -i \
    -pe "s@tree/v$MNLMST_VERSION@tree/main@g;" \
-   -pe "s@$MNLMST_VERSION/doc@latest#/doc@g;" \
+   -pe "s@$MNLMST_VERSION/kdoc@latest#/kdoc@g;" \
    -pe "s/add \\\`\@since $MNLMST_VERSION\\\` \(adapt to current/add \\\`\@since $MNLMST_NEXT_VERSION\\\` \(adapt to current/g;"
 perl -0777 -i \
   -pe "s/rootProject.version = \"$MNLMST_VERSION\"/rootProject.version = \"${MNLMST_NEXT_VERSION}-SNAPSHOT\"/;" \
   -pe "s/MNLMST_VERSION=$MNLMST_VERSION/MNLMST_VERSION=$MNLMST_NEXT_VERSION/;" \
   ./build.gradle.kts
 perl -0777 -i \
-  -pe 's/(<!-- for main -->\n)<!--\n([\S\s]*?)-->(\n<!-- for a specific release -->)\n([\S\s]*?)\n(\n# <img)/$1\n$2$3\n<!--$4-->\n$5/;' \
+  -pe 's/(<!-- for main -->\n)<!--\n([\S\s]*?)-->(\n<!-- for release -->)\n([\S\s]*?)\n(\n# <img)/$1\n$2$3\n<!--$4-->\n$5/;' \
   -pe 's/<!(---\n❗ You are taking[^-]*?---)>/$1/;' \
   -pe "s@(latest version: \[README of v$MNLMST_VERSION\].*tree/)main/@\$1v$MNLMST_VERSION/@;" \
   ./README.md
