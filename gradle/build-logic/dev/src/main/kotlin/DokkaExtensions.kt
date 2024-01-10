@@ -4,6 +4,6 @@ import org.jetbrains.dokka.gradle.AbstractDokkaTask
 
 fun AbstractDokkaTask.configurePlugins() {
     pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
-        footerMessage = "Minimalist &copy; Copyright Tegonal Genossenschaft, Switzerland &lt;info@tegonal.com&gt;"
+        footerMessage = "Minimalist &copy; Copyright <a href=\"https://tegonal.com\">Tegonal Genossenschaft</a>"
     }
 }

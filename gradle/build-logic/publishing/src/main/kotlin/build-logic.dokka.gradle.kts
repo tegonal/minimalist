@@ -14,6 +14,7 @@ tutteliDokka {
 }
 
 tasks.configureEach<AbstractDokkaLeafTask> {
+	moduleName.set("Minimalist")
     dokkaSourceSets.configureEach {
 		reportUndocumented.set(true)
         jdkVersion.set(buildParameters.defaultJdkVersion)
