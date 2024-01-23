@@ -424,7 +424,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 			argsExpectationsFile.writeText(argsExpectations.toString())
 
 			if (upperNumber > 1) {
-				val dropTest = createStringBuilder("$packageName.drop")
+				val dropTest = createStringBuilder("$packageName.arguments.drop")
 					.appendTest("Args${upperNumber}DropTest")
 
 				numbers.forEach { number ->
@@ -462,11 +462,11 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 				}
 
 				dropTest.append("}")
-				val dropTestFile = packageDir.resolve("drop/Args${upperNumber}DropTest.kt")
+				val dropTestFile = packageDir.resolve("arguments/drop/Args${upperNumber}DropTest.kt")
 				dropTestFile.writeText(dropTest.toString())
 			}
 
-			val withArgTest = createStringBuilder("$packageName.drop")
+			val withArgTest = createStringBuilder("$packageName.arguments.withArg")
 				.appendTest("Args${upperNumber}WithArgTest")
 
 			numbers.forEach { number ->
@@ -514,10 +514,10 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 			}
 
 			withArgTest.append("}")
-			val withArgTestFile = packageDir.resolve("withArg/Args${upperNumber}WithArgTest.kt")
+			val withArgTestFile = packageDir.resolve("arguments/withArg/Args${upperNumber}WithArgTest.kt")
 			withArgTestFile.writeText(withArgTest.toString())
 
-			val argumentsTest = createStringBuilder("$packageName.arguments")
+			val argumentsTest = createStringBuilder("$packageName.arguments.annotation")
 				.appendTest("Args${upperNumber}ArgumentsTest")
 
 			argumentsTest.append(
@@ -555,18 +555,15 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 				|
 				|	companion object {
 				|		@JvmStatic
-				|		fun args() : List<Args${upperNumber}<${
-					argsTypeParameters.take(upperNumber).joinToString(", ")
-				}>> =
-				|			listOf(Args.of(${argValues.take(upperNumber).joinToString(", ")}))
+				|		fun args() = listOf(Args.of(${argValues.take(upperNumber).joinToString(", ")}))
 				|	}
 				""".trimMargin()
 			).appendLine()
 			argumentsTest.append("}")
-			val argumentsTestFile = packageDir.resolve("arguments/Args${upperNumber}ArgumentsTest.kt")
+			val argumentsTestFile = packageDir.resolve("arguments/annotation/Args${upperNumber}ArgumentsTest.kt")
 			argumentsTestFile.writeText(argumentsTest.toString())
 
-			val appendTest = createStringBuilder("${packageName}.append")
+			val appendTest = createStringBuilder("${packageName}.arguments.append")
 				.appendTest("Args${upperNumber}AppendTest")
 
 
@@ -601,7 +598,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 
 
 			appendTest.append("}")
-			val appendTestFile = packageDir.resolve("append/Args${upperNumber}AppendTest.kt")
+			val appendTestFile = packageDir.resolve("arguments/append/Args${upperNumber}AppendTest.kt")
 			appendTestFile.writeText(appendTest.toString())
 
 			val argsComponentTest = createStringBuilder("$packageName.arguments.components")
