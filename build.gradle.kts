@@ -310,7 +310,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					numbers.joinToString("\n") { index ->
 						"""
 						| * @param a$index the value for argument $index.
-						| * @param representation$index the
+						| * @param representation$index the representation of argument $index.
 						|""".trimMargin()
 					}
 				}

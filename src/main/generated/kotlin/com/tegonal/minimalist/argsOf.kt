@@ -9,7 +9,7 @@ import com.tegonal.minimalist.impl.*
  * Creates an Args1 based on the given arguments a1 and optionally representation1.
  *
   * @param a1 the value for argument 1.
- * @param representation1 the
+ * @param representation1 the representation of argument 1.
 
  *
  * @since 1.0.0
@@ -26,10 +26,10 @@ fun <A1> Args.Companion.of(
  * Creates an Args2 based on the given arguments a1 and a2 and optionally representation1 and representation2.
  *
   * @param a1 the value for argument 1.
- * @param representation1 the
+ * @param representation1 the representation of argument 1.
 
  * @param a2 the value for argument 2.
- * @param representation2 the
+ * @param representation2 the representation of argument 2.
 
  *
  * @since 1.0.0
@@ -50,13 +50,13 @@ fun <A1, A2> Args.Companion.of(
  * Creates an Args3 based on the given arguments a1, a2 and a3 and optionally representation1, representation2 and representation3.
  *
   * @param a1 the value for argument 1.
- * @param representation1 the
+ * @param representation1 the representation of argument 1.
 
  * @param a2 the value for argument 2.
- * @param representation2 the
+ * @param representation2 the representation of argument 2.
 
  * @param a3 the value for argument 3.
- * @param representation3 the
+ * @param representation3 the representation of argument 3.
 
  *
  * @since 1.0.0
@@ -81,16 +81,16 @@ fun <A1, A2, A3> Args.Companion.of(
  * Creates an Args4 based on the given arguments a1, a2, a3 and a4 and optionally representation1, representation2, representation3 and representation4.
  *
   * @param a1 the value for argument 1.
- * @param representation1 the
+ * @param representation1 the representation of argument 1.
 
  * @param a2 the value for argument 2.
- * @param representation2 the
+ * @param representation2 the representation of argument 2.
 
  * @param a3 the value for argument 3.
- * @param representation3 the
+ * @param representation3 the representation of argument 3.
 
  * @param a4 the value for argument 4.
- * @param representation4 the
+ * @param representation4 the representation of argument 4.
 
  *
  * @since 1.0.0
@@ -119,19 +119,19 @@ fun <A1, A2, A3, A4> Args.Companion.of(
  * Creates an Args5 based on the given arguments a1, a2, a3, a4 and a5 and optionally representation1, representation2, representation3, representation4 and representation5.
  *
   * @param a1 the value for argument 1.
- * @param representation1 the
+ * @param representation1 the representation of argument 1.
 
  * @param a2 the value for argument 2.
- * @param representation2 the
+ * @param representation2 the representation of argument 2.
 
  * @param a3 the value for argument 3.
- * @param representation3 the
+ * @param representation3 the representation of argument 3.
 
  * @param a4 the value for argument 4.
- * @param representation4 the
+ * @param representation4 the representation of argument 4.
 
  * @param a5 the value for argument 5.
- * @param representation5 the
+ * @param representation5 the representation of argument 5.
 
  *
  * @since 1.0.0
@@ -164,22 +164,22 @@ fun <A1, A2, A3, A4, A5> Args.Companion.of(
  * Creates an Args6 based on the given arguments a1, a2, a3, a4, a5 and a6 and optionally representation1, representation2, representation3, representation4, representation5 and representation6.
  *
   * @param a1 the value for argument 1.
- * @param representation1 the
+ * @param representation1 the representation of argument 1.
 
  * @param a2 the value for argument 2.
- * @param representation2 the
+ * @param representation2 the representation of argument 2.
 
  * @param a3 the value for argument 3.
- * @param representation3 the
+ * @param representation3 the representation of argument 3.
 
  * @param a4 the value for argument 4.
- * @param representation4 the
+ * @param representation4 the representation of argument 4.
 
  * @param a5 the value for argument 5.
- * @param representation5 the
+ * @param representation5 the representation of argument 5.
 
  * @param a6 the value for argument 6.
- * @param representation6 the
+ * @param representation6 the representation of argument 6.
 
  *
  * @since 1.0.0
@@ -216,25 +216,25 @@ fun <A1, A2, A3, A4, A5, A6> Args.Companion.of(
  * Creates an Args7 based on the given arguments a1, a2, a3, a4, a5, a6 and a7 and optionally representation1, representation2, representation3, representation4, representation5, representation6 and representation7.
  *
   * @param a1 the value for argument 1.
- * @param representation1 the
+ * @param representation1 the representation of argument 1.
 
  * @param a2 the value for argument 2.
- * @param representation2 the
+ * @param representation2 the representation of argument 2.
 
  * @param a3 the value for argument 3.
- * @param representation3 the
+ * @param representation3 the representation of argument 3.
 
  * @param a4 the value for argument 4.
- * @param representation4 the
+ * @param representation4 the representation of argument 4.
 
  * @param a5 the value for argument 5.
- * @param representation5 the
+ * @param representation5 the representation of argument 5.
 
  * @param a6 the value for argument 6.
- * @param representation6 the
+ * @param representation6 the representation of argument 6.
 
  * @param a7 the value for argument 7.
- * @param representation7 the
+ * @param representation7 the representation of argument 7.
 
  *
  * @since 1.0.0
@@ -275,28 +275,28 @@ fun <A1, A2, A3, A4, A5, A6, A7> Args.Companion.of(
  * Creates an Args8 based on the given arguments a1, a2, a3, a4, a5, a6, a7 and a8 and optionally representation1, representation2, representation3, representation4, representation5, representation6, representation7 and representation8.
  *
   * @param a1 the value for argument 1.
- * @param representation1 the
+ * @param representation1 the representation of argument 1.
 
  * @param a2 the value for argument 2.
- * @param representation2 the
+ * @param representation2 the representation of argument 2.
 
  * @param a3 the value for argument 3.
- * @param representation3 the
+ * @param representation3 the representation of argument 3.
 
  * @param a4 the value for argument 4.
- * @param representation4 the
+ * @param representation4 the representation of argument 4.
 
  * @param a5 the value for argument 5.
- * @param representation5 the
+ * @param representation5 the representation of argument 5.
 
  * @param a6 the value for argument 6.
- * @param representation6 the
+ * @param representation6 the representation of argument 6.
 
  * @param a7 the value for argument 7.
- * @param representation7 the
+ * @param representation7 the representation of argument 7.
 
  * @param a8 the value for argument 8.
- * @param representation8 the
+ * @param representation8 the representation of argument 8.
 
  *
  * @since 1.0.0
@@ -341,31 +341,31 @@ fun <A1, A2, A3, A4, A5, A6, A7, A8> Args.Companion.of(
  * Creates an Args9 based on the given arguments a1, a2, a3, a4, a5, a6, a7, a8 and a9 and optionally representation1, representation2, representation3, representation4, representation5, representation6, representation7, representation8 and representation9.
  *
   * @param a1 the value for argument 1.
- * @param representation1 the
+ * @param representation1 the representation of argument 1.
 
  * @param a2 the value for argument 2.
- * @param representation2 the
+ * @param representation2 the representation of argument 2.
 
  * @param a3 the value for argument 3.
- * @param representation3 the
+ * @param representation3 the representation of argument 3.
 
  * @param a4 the value for argument 4.
- * @param representation4 the
+ * @param representation4 the representation of argument 4.
 
  * @param a5 the value for argument 5.
- * @param representation5 the
+ * @param representation5 the representation of argument 5.
 
  * @param a6 the value for argument 6.
- * @param representation6 the
+ * @param representation6 the representation of argument 6.
 
  * @param a7 the value for argument 7.
- * @param representation7 the
+ * @param representation7 the representation of argument 7.
 
  * @param a8 the value for argument 8.
- * @param representation8 the
+ * @param representation8 the representation of argument 8.
 
  * @param a9 the value for argument 9.
- * @param representation9 the
+ * @param representation9 the representation of argument 9.
 
  *
  * @since 1.0.0
@@ -414,34 +414,34 @@ fun <A1, A2, A3, A4, A5, A6, A7, A8, A9> Args.Companion.of(
  * Creates an Args10 based on the given arguments a1, a2, a3, a4, a5, a6, a7, a8, a9 and a10 and optionally representation1, representation2, representation3, representation4, representation5, representation6, representation7, representation8, representation9 and representation10.
  *
   * @param a1 the value for argument 1.
- * @param representation1 the
+ * @param representation1 the representation of argument 1.
 
  * @param a2 the value for argument 2.
- * @param representation2 the
+ * @param representation2 the representation of argument 2.
 
  * @param a3 the value for argument 3.
- * @param representation3 the
+ * @param representation3 the representation of argument 3.
 
  * @param a4 the value for argument 4.
- * @param representation4 the
+ * @param representation4 the representation of argument 4.
 
  * @param a5 the value for argument 5.
- * @param representation5 the
+ * @param representation5 the representation of argument 5.
 
  * @param a6 the value for argument 6.
- * @param representation6 the
+ * @param representation6 the representation of argument 6.
 
  * @param a7 the value for argument 7.
- * @param representation7 the
+ * @param representation7 the representation of argument 7.
 
  * @param a8 the value for argument 8.
- * @param representation8 the
+ * @param representation8 the representation of argument 8.
 
  * @param a9 the value for argument 9.
- * @param representation9 the
+ * @param representation9 the representation of argument 9.
 
  * @param a10 the value for argument 10.
- * @param representation10 the
+ * @param representation10 the representation of argument 10.
 
  *
  * @since 1.0.0
