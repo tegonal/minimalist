@@ -67,8 +67,23 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 	doFirst {
 		val packageDir = File(generationFolder.asPath + "/" + packageNameAsPath)
 
-		val argsOf = createStringBuilder(packageName)
-			.append("import com.tegonal.minimalist.impl.*\n\n")
+		val argsInterface = createStringBuilder(packageName)
+			.append("""
+				 |import org.junit.jupiter.params.provider.Arguments
+				 |import com.tegonal.minimalist.impl.*
+ 				 |
+				 |/**
+				 | * Represents the top-interface of arguments-representations such as [Args1], [Args2] and so on.
+				 | *
+				 | * @since 1.0.0
+				 | */
+				 |interface Args : Arguments {
+				 |	/**
+				 |	 * Extension point for Args (next to [Args.of] functions).
+				 |	 */
+				 |	companion object {
+			""".trimMargin())
+			.appendLine()
 
 		val argsComponents = createStringBuilder(packageName)
 
@@ -76,12 +91,9 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 			val numbers = (1..upperNumber).toList()
 			val typeArgs = numbers.joinToString(", ") { "A$it" }
 			val constructorProperties = numbers.joinToString(",\n\t") { "override val a$it: A$it" }
-			val parameters = numbers.joinToString(",\n\t") { "a$it: A$it" }
-			val args = numbers.joinToString(",\n\t") { "a$it" }
+
 			val representationConstructorProperties =
 				numbers.joinToString(",\n\t") { "override val representation$it: String? = null" }
-			val representationParameters = numbers.joinToString(",\n\t") { "representation$it: String? = null" }
-			val representationArgs = numbers.joinToString(",\n\t") { "representation$it" }
 
 			val argsInterfaces = createStringBuilder(packageName)
 			argsInterfaces.append(
@@ -291,10 +303,15 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 			val defaultArgsFile = packageDir.resolve("impl/DefaultArgs$upperNumber.kt")
 			defaultArgsFile.writeText(defaultArgs.toString())
 
-			argsOf.append(
+			val parameters = numbers.joinToString(",\n\t\t") { "a$it: A$it" }
+			val representationParameters = numbers.joinToString(",\n\t\t") { "representation$it: String? = null" }
+			val args = numbers.joinToString(",\n\t\t") { "a$it" }
+			val representationArgs = numbers.joinToString(",\n\t\t") { "representation$it" }
+
+			argsInterface.append(
 				"""
-				|/**
-				| * Creates an Args$upperNumber based on the given arguments ${
+				|	/**
+				|	 * Creates an Args$upperNumber based on the given arguments ${
 					numbers.joinToStringAndLast(
 						", ",
 						lastSeparator = " and "
@@ -305,33 +322,37 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 						lastSeparator = " and "
 					) { it, sb -> sb.append("representation").append(it) }
 				}.
-				| *
-				| ${
+				|	 *
+				|${
 					numbers.joinToString("\n") { index ->
 						"""
-						| * @param a$index the value for argument $index.
-						| * @param representation$index the representation of argument $index.
-						|""".trimMargin()
+						|     * @param a$index the value for argument $index.
+						|     * @param representation$index the representation of argument $index.""".trimMargin()
 					}
 				}
-				| *
-				| * @since 1.0.0
-				| */
-				|fun <$typeArgs> Args.Companion.of(
-				|	$parameters,
-				|	$representationParameters
-				|): Args$upperNumber<$typeArgs> = DefaultArgs$upperNumber(
-				|	$args,
-				|	$representationArgs,
-				|)
-				|
+				|	 *
+				|	 * @since 1.0.0
+				|	 */
+				|	fun <$typeArgs> of(
+				|		$parameters,
+				|		$representationParameters
+				|	): Args$upperNumber<$typeArgs> = DefaultArgs$upperNumber(
+				|		$args,
+				|		$representationArgs,
+				|	)
 				|
 				""".trimMargin()
 			)
+
 		}
 
-		val argsOfFile = packageDir.resolve("argsOf.kt")
-		argsOfFile.writeText(argsOf.toString())
+		argsInterface.append("""
+			|  }
+			|}
+		""".trimMargin())
+
+		val argsInterfaceFile = packageDir.resolve("Args.kt")
+		argsInterfaceFile.writeText(argsInterface.toString())
 
 		val argsComponentFile = packageDir.resolve("argsComponents.kt")
 		argsComponentFile.writeText(argsComponents.toString())
