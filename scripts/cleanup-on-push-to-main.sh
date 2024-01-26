@@ -30,7 +30,9 @@ fi
 sourceOnce "$dir_of_tegonal_scripts/utility/log.sh"
 
 function cleanupOnPushToMain() {
-	logSuccess "nothing to cleanup so far"
+	"$projectDir/gradlew" generate generateTest
+	logSuccess "code generated"
+
 }
 
 ${__SOURCED__:+return}
