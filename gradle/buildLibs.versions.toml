@@ -1,6 +1,7 @@
 [versions]
 dokka = "1.9.10"
 jacocoTool = "0.8.9"
+kbox = "1.0.0"
 kotlin = "1.9.10"
 task-tree = "2.1.1"
 tutteli = "5.0.1"
@@ -9,6 +10,7 @@ vlsi = "1.90"
 [libraries]
 dokka-plugin = { module = "org.jetbrains.dokka:org.jetbrains.dokka.gradle.plugin", version.ref = "dokka" }
 dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
+kbox = { module = "ch.tutteli.kbox:kbox", version.ref = "kbox" }
 kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 taskTree = { module = "com.dorongold.plugins:task-tree", version.ref = "task-tree" }
 
