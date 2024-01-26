@@ -1,6 +1,7 @@
-// -----------------------------------------------------------------------
-// automatically generated, don't modify here but in build.gradle.kts
-// -----------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
+// automatically generated, don't modify here but in:
+// gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts
+// --------------------------------------------------------------------------------------------------------------------
 package com.tegonal.minimalist.arguments.drop
 
 import ch.tutteli.atrium.api.verbs.expect
