@@ -1,7 +1,7 @@
 <!-- for main -->
 
 [![Download](https://img.shields.io/badge/Download-v1.1.0-%23007ec6)](https://github.com/tegonal/minimalist/releases/tag/v1.1.0)
-[![EUPL](https://img.shields.io/badge/%E2%9A%96-EUPL%201.2-%230b45a6)](https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12 "License")
+[![EUPL 1.2](https://img.shields.io/badge/%E2%9A%96-EUPL%201.2-%230b45a6)](https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12 "License")
 [![Code Quality](https://github.com/tegonal/minimalist/workflows/Code%20Quality/badge.svg?event=push&branch=main)](https://github.com/tegonal/minimalist/actions/workflows/code-quality.yml?query=branch%3Amain)
 [![Newcomers Welcome](https://img.shields.io/badge/%F0%9F%91%8B-Newcomers%20Welcome-blueviolet)](https://github.com/tegonal/minimalist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22 "Ask in discussions for help")
 
@@ -54,7 +54,7 @@ Code documentation can be found on github-pages: <https://tegonal.github.io/mini
 
 # License
 
-Minimalist is licensed under [EUPL 1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12).
+Minimalist is licensed under [European Union Public License 1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12).
 
 Minimalist is using
 - [junit-jupiter-params](https://github.com/junit-team/junit5) licensed under [EPL 2.0](https://www.eclipse.org/legal/epl-v20.html)
