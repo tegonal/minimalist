@@ -32,15 +32,7 @@ function gt_pullHook_tegonal_gh_commons_before() {
 	local -ra params=(_tag source _target)
 	parseFnArgs params "$@"
 
-	if [[ $source =~ .*/\.github/Contributor[[:space:]]Agreement\.txt ]]; then
-		replacePlaceholdersContributorsAgreement_Tegonal "$source" "minimalist"
-	elif [[ $source =~ .*/\.github/CODE_OF_CONDUCT.md ]]; then
-		replacePlaceholdersCodeOfConduct_Tegonal "$source"
-	elif [[ $source =~ .*/\.github/PULL_REQUEST_TEMPLATE.md ]]; then
-		# same as in additional-release-files-preparations.sh
-		local -r githubUrl="https://github.com/tegonal/minimalist"
-		replacePlaceholdersPullRequestTemplate "$source" "$githubUrl" "$MINIMALIST_LATEST_VERSION"
-	fi
+	replaceTegonalGhCommonsPlaceholders_Tegonal "$source" "Minimalist" "$MINIMALIST_LATEST_VERSION" "minimalist"
 }
 
 function gt_pullHook_tegonal_gh_commons_after() {

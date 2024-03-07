@@ -4,7 +4,7 @@ This agreement is based on the ISA contributor agreement
 https://joinup.ec.europa.eu/collection/eupl/solution/isa-contributor-agreement/release/v11
 which was based in turn on the Harmony contributor agreements harmonyagreements.org.
 Thank you for your interest in contributing to
-  minimalist
+  Minimalist
 currently developed on the platform
   https://github.com/tegonal/minimalist
 and owned by
