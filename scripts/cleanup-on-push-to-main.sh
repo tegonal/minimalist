@@ -32,7 +32,6 @@ sourceOnce "$dir_of_tegonal_scripts/utility/log.sh"
 function cleanupOnPushToMain() {
 	"$projectDir/gradlew" generate generateTest
 	logSuccess "code generated"
-
 }
 
 ${__SOURCED__:+return}
