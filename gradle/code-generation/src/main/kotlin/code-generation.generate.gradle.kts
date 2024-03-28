@@ -504,7 +504,16 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 			argumentsTest.append(
 				"""
 				|	@Test
-				|	fun `get returns correct array and value wrapped in Name`() {
+				|	fun `get returns correct array and value not wrapped in Named if representation not specified`() {
+				|		val args = Args.of(
+				|			${argValues.take(upperNumber).joinToString(",\n\t\t\t")}
+				|		)
+				|		expect(args.get().toList()).toContainExactly(
+				|${numbers.joinToString(",\n") {"\t\t\targs.a$it" }}
+				|		)
+				|	}
+				|	@Test
+				|	fun `get returns correct array and value wrapped in Named if representation specified`() {
 				|		val args = Args.of(
 				|			${argValues.take(upperNumber).joinToString(",\n\t\t\t")},
 				|			${numbers.joinToString(",\n\t\t\t") { "representation$it = \"rep $it\"" }}
@@ -518,7 +527,6 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 						|			}""".trimMargin()
 					}
 				}
-
 				|		)
 				|	}
 				|
