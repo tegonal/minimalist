@@ -18,7 +18,34 @@ import java.time.LocalDate
 class Args10ArgumentsTest {
 
 	@Test
-	fun `get returns correct array and value wrapped in Name`() {
+	fun `get returns correct array and value not wrapped in Named if representation not specified`() {
+		val args = Args.of(
+			"string",
+			1,
+			2L,
+			3F,
+			4.0,
+			'c',
+			LocalDate.now(),
+			1.toShort(),
+			2.toByte(),
+			3.toBigInteger()
+		)
+		expect(args.get().toList()).toContainExactly(
+			args.a1,
+			args.a2,
+			args.a3,
+			args.a4,
+			args.a5,
+			args.a6,
+			args.a7,
+			args.a8,
+			args.a9,
+			args.a10
+		)
+	}
+	@Test
+	fun `get returns correct array and value wrapped in Named if representation specified`() {
 		val args = Args.of(
 			"string",
 			1,
@@ -72,7 +99,6 @@ class Args10ArgumentsTest {
 			{
 				toBeANamedOf<BigInteger>(args.representation10!!, args.a10)
 			}
-
 		)
 	}
 
