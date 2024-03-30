@@ -1,5 +1,5 @@
 [versions]
-dokka = "1.9.10"
+dokka = "1.9.20"
 jacocoTool = "0.8.9"
 kbox = "1.0.0"
 kotlin = "1.9.23"
