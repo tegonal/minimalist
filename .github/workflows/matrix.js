@@ -28,7 +28,8 @@ matrix.addAxis({
    	'corretto',
     'liberica',
 	'microsoft',
-    'semeru',
+	// seems to have problems with kotlin https://youtrack.jetbrains.com/issue/KT-61836
+    //'semeru',
     'temurin',
 	'zulu',
   ]
