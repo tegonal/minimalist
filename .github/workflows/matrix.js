@@ -40,8 +40,7 @@ matrix.addAxis({
   values: [
     '11',
     '17',
-    // TODO update gradle to latest and activate again
-    //'21',
+    '21',
   ]
 });
 
