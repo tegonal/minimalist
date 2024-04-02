@@ -1,19 +1,19 @@
-name: "Code Quality"
+name: Quality Assurance
 on: [push, pull_request]
 
 jobs:
   before_pr:
-    name: Bash Code Quality
+    name: before-pr.sh
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: install shellcheck v0.9.0
+      - name: install shellcheck
         run: ./lib/tegonal-scripts/src/ci/install-shellcheck.sh
       - name: before-pr.sh
         run: ./scripts/before-pr.sh
 
   matrix_prep:
-    name: Matrix Preparation Gradle
+    name: Matrix Preparation gradle
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
