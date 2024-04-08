@@ -5,7 +5,7 @@
 //  \__/\__/\_, /\___/_//_/\_,_/_/         It is licensed under Apache License 2.0
 //         /___/                           Please report bugs and contribute back your improvements
 //
-//                                         Version: v2.4.0
+//                                         Version: v2.5.0
 //##################################
 // adapted version of https://github.com/vlsi/github-actions-random-matrix/blob/main/examples/matrix.js
 // licensed under Apache License 2.0
@@ -45,6 +45,44 @@ const osAxis = {
 	]
 }
 
+function generateJavaMinMaxRows(matrix) {
+	// generate one with oldest java and one with newest java version
+	matrix.generateRow({java_version: matrix.axisByName.java_version.values[0]});
+	matrix.generateRow({java_version: matrix.axisByName.java_version.values.slice(-1)[0]});
+}
+
+function generateUbuntuWindowsRows(matrix) {
+	matrix.generateRow({os: 'ubuntu-latest'});
+	matrix.generateRow({os: 'windows-latest'});
+}
+
+function configureJavaDefaults(matrix, distributionAxis = javaDistributionAxis, versionAxis = javaVersionAxis, operatingSystemAxis = osAxis ) {
+	matrix.addAxis(distributionAxis);
+	matrix.addAxis(versionAxis);
+	matrix.addAxis(operatingSystemAxis);
+
+	// This specifies the order of axes in CI job name (individual titles would be joined with a comma)
+	matrix.setNamePattern(['java_version', 'java_distribution', 'os']);
+
+	generateJavaMinMaxRows(matrix);
+	generateUbuntuWindowsRows(matrix);
+}
+
+function configureKotlinDefaults(matrix) {
+	const kotlinJavaDistributionAxis = {
+		...javaDistributionAxis,
+		values: javaDistributionAxis.values.filter ( x =>
+			// seems to have problems with kotlin https://youtrack.jetbrains.com/issue/KT-61836
+			x != 'semeru'
+		)
+	};
+	configureJavaDefaults(matrix, kotlinJavaDistributionAxis);
+}
+
+function configureScalaDefaults(matrix) {
+	configureJavaDefaults(matrix);
+}
+
 // see https://github.com/actions/toolkit/issues/1218
 function setOutput(key, value) {
 	// Temporary hack until core actions library catches up with github new recommendations
@@ -70,27 +108,14 @@ function setMatrix(matrix, numberOfJobs) {
 	setOutput('matrix', JSON.stringify({include}));
 }
 
-function configureKotlinDefaults(matrix) {
-	const kotlinJavaDistributionAxis = {
-		...javaDistributionAxis,
-		values: javaDistributionAxis.values.filter ( x =>
-			// seems to have problems with kotlin https://youtrack.jetbrains.com/issue/KT-61836
-			x != 'semeru'
-		)
-	};
-
-	matrix.addAxis(kotlinJavaDistributionAxis);
-	matrix.addAxis(javaVersionAxis);
-	matrix.addAxis(osAxis);
-
-	// This specifies the order of axes in CI job name (individual titles would be joined with a comma)
-	matrix.setNamePattern(['java_version', 'java_distribution', 'os']);
-
-	// generate one with oldest java and one with newest java version
-	matrix.generateRow({java_version: matrix.axisByName.java_version.values[0]});
-	matrix.generateRow({java_version: matrix.axisByName.java_version.values.slice(-1)[0]});
-	matrix.generateRow({os: 'ubuntu-latest'});
-	matrix.generateRow({os: 'windows-latest'});
-}
-
-module.exports = { javaDistributionAxis, javaVersionAxis, osAxis, setMatrix, configureKotlinDefaults };
+module.exports = {
+	javaDistributionAxis,
+	javaVersionAxis,
+	osAxis,
+	setMatrix,
+	generateJavaMinMaxRows,
+	generateUbuntuWindowsRows,
+	configureJavaDefaults,
+	configureKotlinDefaults,
+	configureScalaDefaults,
+};
