@@ -1,6 +1,6 @@
 [versions]
 atrium = "1.2.0"
-junitJupiter = "5.10.2"
+junitJupiter = "5.10.3"
 nexusPublish="2.0.0"
 
 [libraries]
