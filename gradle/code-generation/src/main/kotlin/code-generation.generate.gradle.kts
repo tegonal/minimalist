@@ -263,43 +263,50 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 			val defaultArgsFile = packageDir.resolve("impl/DefaultArgs$upperNumber.kt")
 			defaultArgsFile.writeText(defaultArgs.toString())
 
-			val parameters = numbers.joinToString(",\n\t\t") { "a$it: A$it" }
-			val representationParameters = numbers.joinToString(",\n\t\t") { "representation$it: String? = null" }
-			val args = numbers.joinToString(",\n\t\t") { "a$it" }
-			val representationArgs = numbers.joinToString(",\n\t\t") { "representation$it" }
+			val parameters = numbers.joinToString(",\n\t\t\t") { "a$it: A$it" }
+			val representationParameters = numbers.joinToString(",\n\t\t\t") { "representation$it: String? = null" }
+			val args = numbers.joinToString(",\n\t\t\t") { "a$it" }
+			val representationArgs = numbers.joinToString(",\n\t\t\t") { "representation$it" }
 
 			argsInterface.append(
 				"""
-				|	/**
-				|	 * Creates an Args$upperNumber based on the given arguments ${
+				|		/**
+				|		 * Creates an [Args$upperNumber] based on the given arguments ${
 					numbers.joinToStringAndLast(
 						", ",
 						lastSeparator = " and "
-					) { it, sb -> sb.append("a").append(it) }
+					) { it, sb -> sb.append("[a").append(it).append("]") }
 				} and optionally ${
 					numbers.joinToStringAndLast(
 						", ",
 						lastSeparator = " and "
-					) { it, sb -> sb.append("representation").append(it) }
+					) { it, sb -> sb.append("[representation").append(it).append("]") }
 				}.
-				|	 *
+				|		 *
 				|${
 					numbers.joinToString("\n") { index ->
 						"""
-						|     * @param a$index the value for argument $index.
-						|     * @param representation$index the representation of argument $index.""".trimMargin()
+						|		 * @param a$index the value for argument $index.
+						""".trimMargin()
 					}
 				}
-				|	 *
-				|	 * @since 1.0.0
-				|	 */
-				|	fun <$typeArgs> of(
-				|		$parameters,
-				|		$representationParameters
-				|	): Args$upperNumber<$typeArgs> = DefaultArgs$upperNumber(
-				|		$args,
-				|		$representationArgs,
-				|	)
+				|${
+					numbers.joinToString("\n") { index ->
+						"""
+						|		 * @param representation$index the representation of argument $index where `null` means no custom representation.
+						""".trimMargin()
+					}
+				}
+				|		 *
+				|		 * @since 2.0.0 (was an extension method beforehand @since 1.0.0)
+				|		 */
+				|		fun <$typeArgs> of(
+				|			$parameters,
+				|			$representationParameters
+				|		): Args$upperNumber<$typeArgs> = DefaultArgs$upperNumber(
+				|			$args,
+				|			$representationArgs,
+				|		)
 				|
 				""".trimMargin()
 			)
