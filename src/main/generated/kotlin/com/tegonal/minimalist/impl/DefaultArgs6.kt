@@ -60,173 +60,115 @@ internal data class DefaultArgs6<A1, A2, A3, A4, A5, A6>(
 
 
 	override fun <A7> append(
-		arg1: Args1<A7>
+		args: Args1<A7>
 	): Args7<A1, A2, A3, A4, A5, A6, A7> = Args.of(
-		a1 = this.a1,
-		a2 = this.a2,
-		a3 = this.a3,
-		a4 = this.a4,
-		a5 = this.a5,
-		a6 = this.a6,
-		a7 = arg1.a1,
-		representation1 = this.representation1,
-		representation2 = this.representation2,
-		representation3 = this.representation3,
-		representation4 = this.representation4,
-		representation5 = this.representation5,
-		representation6 = this.representation6,
-		representation7 = arg1.representation1,
+		a1 = this.a1, representation1 = this.representation1?.let { r -> Representation(r) },
+		a2 = this.a2, representation2 = this.representation2,
+		a3 = this.a3, representation3 = this.representation3,
+		a4 = this.a4, representation4 = this.representation4,
+		a5 = this.a5, representation5 = this.representation5,
+		a6 = this.a6, representation6 = this.representation6,
+		a7 = args.a1, representation7 = args.representation1,
 	)
 
 
 	override fun <A7, A8> append(
-		arg2: Args2<A7, A8>
+		args: Args2<A7, A8>
 	): Args8<A1, A2, A3, A4, A5, A6, A7, A8> = Args.of(
-		a1 = this.a1,
-		a2 = this.a2,
-		a3 = this.a3,
-		a4 = this.a4,
-		a5 = this.a5,
-		a6 = this.a6,
-		a7 = arg2.a1,
-		a8 = arg2.a2,
-		representation1 = this.representation1,
-		representation2 = this.representation2,
-		representation3 = this.representation3,
-		representation4 = this.representation4,
-		representation5 = this.representation5,
-		representation6 = this.representation6,
-		representation7 = arg2.representation1,
-		representation8 = arg2.representation2,
+		a1 = this.a1, representation1 = this.representation1?.let { r -> Representation(r) },
+		a2 = this.a2, representation2 = this.representation2,
+		a3 = this.a3, representation3 = this.representation3,
+		a4 = this.a4, representation4 = this.representation4,
+		a5 = this.a5, representation5 = this.representation5,
+		a6 = this.a6, representation6 = this.representation6,
+		a7 = args.a1, representation7 = args.representation1,
+		a8 = args.a2, representation8 = args.representation2,
 	)
 
 
 	override fun <A7, A8, A9> append(
-		arg3: Args3<A7, A8, A9>
+		args: Args3<A7, A8, A9>
 	): Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9> = Args.of(
-		a1 = this.a1,
-		a2 = this.a2,
-		a3 = this.a3,
-		a4 = this.a4,
-		a5 = this.a5,
-		a6 = this.a6,
-		a7 = arg3.a1,
-		a8 = arg3.a2,
-		a9 = arg3.a3,
-		representation1 = this.representation1,
-		representation2 = this.representation2,
-		representation3 = this.representation3,
-		representation4 = this.representation4,
-		representation5 = this.representation5,
-		representation6 = this.representation6,
-		representation7 = arg3.representation1,
-		representation8 = arg3.representation2,
-		representation9 = arg3.representation3,
+		a1 = this.a1, representation1 = this.representation1?.let { r -> Representation(r) },
+		a2 = this.a2, representation2 = this.representation2,
+		a3 = this.a3, representation3 = this.representation3,
+		a4 = this.a4, representation4 = this.representation4,
+		a5 = this.a5, representation5 = this.representation5,
+		a6 = this.a6, representation6 = this.representation6,
+		a7 = args.a1, representation7 = args.representation1,
+		a8 = args.a2, representation8 = args.representation2,
+		a9 = args.a3, representation9 = args.representation3,
 	)
 
 
 	override fun <A7, A8, A9, A10> append(
-		arg4: Args4<A7, A8, A9, A10>
+		args: Args4<A7, A8, A9, A10>
 	): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10> = Args.of(
-		a1 = this.a1,
-		a2 = this.a2,
-		a3 = this.a3,
-		a4 = this.a4,
-		a5 = this.a5,
-		a6 = this.a6,
-		a7 = arg4.a1,
-		a8 = arg4.a2,
-		a9 = arg4.a3,
-		a10 = arg4.a4,
-		representation1 = this.representation1,
-		representation2 = this.representation2,
-		representation3 = this.representation3,
-		representation4 = this.representation4,
-		representation5 = this.representation5,
-		representation6 = this.representation6,
-		representation7 = arg4.representation1,
-		representation8 = arg4.representation2,
-		representation9 = arg4.representation3,
-		representation10 = arg4.representation4,
+		a1 = this.a1, representation1 = this.representation1?.let { r -> Representation(r) },
+		a2 = this.a2, representation2 = this.representation2,
+		a3 = this.a3, representation3 = this.representation3,
+		a4 = this.a4, representation4 = this.representation4,
+		a5 = this.a5, representation5 = this.representation5,
+		a6 = this.a6, representation6 = this.representation6,
+		a7 = args.a1, representation7 = args.representation1,
+		a8 = args.a2, representation8 = args.representation2,
+		a9 = args.a3, representation9 = args.representation3,
+		a10 = args.a4, representation10 = args.representation4,
 	)
 
 
-	override fun dropArg1() = Args.of(
-		a1 = this.a2,
-		a2 = this.a3,
-		a3 = this.a4,
-		a4 = this.a5,
-		a5 = this.a6,
-		representation1 = this.representation2,
-		representation2 = this.representation3,
-		representation3 = this.representation4,
-		representation4 = this.representation5,
-		representation5 = this.representation6
-	)
+	override fun dropArg1(): Args5<A2, A3, A4, A5, A6> =
+		Args.of(
+			a1 = this.a2, representation1 = this.representation2?.let { r -> Representation(r) },
+			a2 = this.a3, representation2 = this.representation3,
+			a3 = this.a4, representation3 = this.representation4,
+			a4 = this.a5, representation4 = this.representation5,
+			a5 = this.a6, representation5 = this.representation6,
+		)
 
-	override fun dropArg2() = Args.of(
-		a1 = this.a1,
-		a2 = this.a3,
-		a3 = this.a4,
-		a4 = this.a5,
-		a5 = this.a6,
-		representation1 = this.representation1,
-		representation2 = this.representation3,
-		representation3 = this.representation4,
-		representation4 = this.representation5,
-		representation5 = this.representation6
-	)
+	override fun dropArg2(): Args5<A1, A3, A4, A5, A6> =
+		Args.of(
+			a1 = this.a1, representation1 = this.representation1?.let { r -> Representation(r) },
+			a2 = this.a3, representation2 = this.representation3,
+			a3 = this.a4, representation3 = this.representation4,
+			a4 = this.a5, representation4 = this.representation5,
+			a5 = this.a6, representation5 = this.representation6,
+		)
 
-	override fun dropArg3() = Args.of(
-		a1 = this.a1,
-		a2 = this.a2,
-		a3 = this.a4,
-		a4 = this.a5,
-		a5 = this.a6,
-		representation1 = this.representation1,
-		representation2 = this.representation2,
-		representation3 = this.representation4,
-		representation4 = this.representation5,
-		representation5 = this.representation6
-	)
+	override fun dropArg3(): Args5<A1, A2, A4, A5, A6> =
+		Args.of(
+			a1 = this.a1, representation1 = this.representation1?.let { r -> Representation(r) },
+			a2 = this.a2, representation2 = this.representation2,
+			a3 = this.a4, representation3 = this.representation4,
+			a4 = this.a5, representation4 = this.representation5,
+			a5 = this.a6, representation5 = this.representation6,
+		)
 
-	override fun dropArg4() = Args.of(
-		a1 = this.a1,
-		a2 = this.a2,
-		a3 = this.a3,
-		a4 = this.a5,
-		a5 = this.a6,
-		representation1 = this.representation1,
-		representation2 = this.representation2,
-		representation3 = this.representation3,
-		representation4 = this.representation5,
-		representation5 = this.representation6
-	)
+	override fun dropArg4(): Args5<A1, A2, A3, A5, A6> =
+		Args.of(
+			a1 = this.a1, representation1 = this.representation1?.let { r -> Representation(r) },
+			a2 = this.a2, representation2 = this.representation2,
+			a3 = this.a3, representation3 = this.representation3,
+			a4 = this.a5, representation4 = this.representation5,
+			a5 = this.a6, representation5 = this.representation6,
+		)
 
-	override fun dropArg5() = Args.of(
-		a1 = this.a1,
-		a2 = this.a2,
-		a3 = this.a3,
-		a4 = this.a4,
-		a5 = this.a6,
-		representation1 = this.representation1,
-		representation2 = this.representation2,
-		representation3 = this.representation3,
-		representation4 = this.representation4,
-		representation5 = this.representation6
-	)
+	override fun dropArg5(): Args5<A1, A2, A3, A4, A6> =
+		Args.of(
+			a1 = this.a1, representation1 = this.representation1?.let { r -> Representation(r) },
+			a2 = this.a2, representation2 = this.representation2,
+			a3 = this.a3, representation3 = this.representation3,
+			a4 = this.a4, representation4 = this.representation4,
+			a5 = this.a6, representation5 = this.representation6,
+		)
 
-	override fun dropArg6() = Args.of(
-		a1 = this.a1,
-		a2 = this.a2,
-		a3 = this.a3,
-		a4 = this.a4,
-		a5 = this.a5,
-		representation1 = this.representation1,
-		representation2 = this.representation2,
-		representation3 = this.representation3,
-		representation4 = this.representation4,
-		representation5 = this.representation5
-	)
+	override fun dropArg6(): Args5<A1, A2, A3, A4, A5> =
+		Args.of(
+			a1 = this.a1, representation1 = this.representation1?.let { r -> Representation(r) },
+			a2 = this.a2, representation2 = this.representation2,
+			a3 = this.a3, representation3 = this.representation3,
+			a4 = this.a4, representation4 = this.representation4,
+			a5 = this.a5, representation5 = this.representation5,
+		)
 
 }

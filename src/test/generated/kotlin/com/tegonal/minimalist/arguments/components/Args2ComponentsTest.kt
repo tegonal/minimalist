@@ -20,9 +20,9 @@ class Args2ComponentsTest {
 	@Test
 	fun component1() {
 		val args = Args.of(
-			"string",
 			1,
-			representation1 = "rep 1",
+			2L,
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2"
 		)
 		val (a1) = args
@@ -32,9 +32,9 @@ class Args2ComponentsTest {
 	@Test
 	fun component2() {
 		val args = Args.of(
-			"string",
 			1,
-			representation1 = "rep 1",
+			2L,
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2"
 		)
 		val (_, a2) = args

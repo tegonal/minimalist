@@ -18,18 +18,18 @@ import java.time.LocalDate
 class Args9AppendTest {
 
 	@Test
-	fun `append Arg1`() {
+	fun `append Args1`() {
 		val firstArgs = Args.of(
-			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
+			"string",
 			LocalDate.now(),
 			1.toShort(),
 			2.toByte(),
-			representation1 = "rep 1",
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
@@ -41,7 +41,7 @@ class Args9AppendTest {
 		)
 		val secondArgs = Args.of(
 			3.toBigInteger(),
-			representation1 = "rep 10"
+			representation1 = Representation("rep 10")
 		)
 		val argsResult = firstArgs.append(secondArgs)
 		expect(argsResult) {

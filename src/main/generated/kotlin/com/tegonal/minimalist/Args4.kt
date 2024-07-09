@@ -64,9 +64,9 @@ interface Args4<A1, A2, A3, A4>: Args {
 	 * Creates a new [Args4] by coping `this` [Args4] but replaces
 	 * the argument 1 ([Args4.a1]) with the given [value] (and its representation with the given [representation]).
 	 *
-	 * @param value the new value to use for argument 1.
-	 * @param representation the new representation to use for the argument 1 where `null`
-	 *         means let the algorithm determine a representation.
+	 * @param value The new value to use for argument 1.
+	 * @param representation The new representation to use for the argument 1 where `null`
+	 *   means let the algorithm determine a representation.
 	 *
 	 * @return The newly created [Args4].
 	 *
@@ -78,9 +78,9 @@ interface Args4<A1, A2, A3, A4>: Args {
 	 * Creates a new [Args4] by coping `this` [Args4] but replaces
 	 * the argument 2 ([Args4.a2]) with the given [value] (and its representation with the given [representation]).
 	 *
-	 * @param value the new value to use for argument 2.
-	 * @param representation the new representation to use for the argument 2 where `null`
-	 *         means let the algorithm determine a representation.
+	 * @param value The new value to use for argument 2.
+	 * @param representation The new representation to use for the argument 2 where `null`
+	 *   means let the algorithm determine a representation.
 	 *
 	 * @return The newly created [Args4].
 	 *
@@ -92,9 +92,9 @@ interface Args4<A1, A2, A3, A4>: Args {
 	 * Creates a new [Args4] by coping `this` [Args4] but replaces
 	 * the argument 3 ([Args4.a3]) with the given [value] (and its representation with the given [representation]).
 	 *
-	 * @param value the new value to use for argument 3.
-	 * @param representation the new representation to use for the argument 3 where `null`
-	 *         means let the algorithm determine a representation.
+	 * @param value The new value to use for argument 3.
+	 * @param representation The new representation to use for the argument 3 where `null`
+	 *   means let the algorithm determine a representation.
 	 *
 	 * @return The newly created [Args4].
 	 *
@@ -106,9 +106,9 @@ interface Args4<A1, A2, A3, A4>: Args {
 	 * Creates a new [Args4] by coping `this` [Args4] but replaces
 	 * the argument 4 ([Args4.a4]) with the given [value] (and its representation with the given [representation]).
 	 *
-	 * @param value the new value to use for argument 4.
-	 * @param representation the new representation to use for the argument 4 where `null`
-	 *         means let the algorithm determine a representation.
+	 * @param value The new value to use for argument 4.
+	 * @param representation The new representation to use for the argument 4 where `null`
+	 *   means let the algorithm determine a representation.
 	 *
 	 * @return The newly created [Args4].
 	 *
@@ -118,74 +118,74 @@ interface Args4<A1, A2, A3, A4>: Args {
 
 
 	/**
-	 * Creates a new [Args5] by copying `this` [Args4] and appending the given [arg1].
+	 * Creates a new [Args5] by copying `this` [Args4] and appending the given [Args1].
 	 *
 	 * @return The newly created [Args5].
 	 *
 	 * @since 1.0.0
 	 */
 	fun <A5> append(
-		arg1: Args1<A5>
+		args: Args1<A5>
 	): Args5<A1, A2, A3, A4, A5>
 
 
 	/**
-	 * Creates a new [Args6] by copying `this` [Args4] and appending the given [arg2].
+	 * Creates a new [Args6] by copying `this` [Args4] and appending the given [Args2].
 	 *
 	 * @return The newly created [Args6].
 	 *
 	 * @since 1.0.0
 	 */
 	fun <A5, A6> append(
-		arg2: Args2<A5, A6>
+		args: Args2<A5, A6>
 	): Args6<A1, A2, A3, A4, A5, A6>
 
 
 	/**
-	 * Creates a new [Args7] by copying `this` [Args4] and appending the given [arg3].
+	 * Creates a new [Args7] by copying `this` [Args4] and appending the given [Args3].
 	 *
 	 * @return The newly created [Args7].
 	 *
 	 * @since 1.0.0
 	 */
 	fun <A5, A6, A7> append(
-		arg3: Args3<A5, A6, A7>
+		args: Args3<A5, A6, A7>
 	): Args7<A1, A2, A3, A4, A5, A6, A7>
 
 
 	/**
-	 * Creates a new [Args8] by copying `this` [Args4] and appending the given [arg4].
+	 * Creates a new [Args8] by copying `this` [Args4] and appending the given [Args4].
 	 *
 	 * @return The newly created [Args8].
 	 *
 	 * @since 1.0.0
 	 */
 	fun <A5, A6, A7, A8> append(
-		arg4: Args4<A5, A6, A7, A8>
+		args: Args4<A5, A6, A7, A8>
 	): Args8<A1, A2, A3, A4, A5, A6, A7, A8>
 
 
 	/**
-	 * Creates a new [Args9] by copying `this` [Args4] and appending the given [arg5].
+	 * Creates a new [Args9] by copying `this` [Args4] and appending the given [Args5].
 	 *
 	 * @return The newly created [Args9].
 	 *
 	 * @since 1.0.0
 	 */
 	fun <A5, A6, A7, A8, A9> append(
-		arg5: Args5<A5, A6, A7, A8, A9>
+		args: Args5<A5, A6, A7, A8, A9>
 	): Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>
 
 
 	/**
-	 * Creates a new [Args10] by copying `this` [Args4] and appending the given [arg6].
+	 * Creates a new [Args10] by copying `this` [Args4] and appending the given [Args6].
 	 *
 	 * @return The newly created [Args10].
 	 *
 	 * @since 1.0.0
 	 */
 	fun <A5, A6, A7, A8, A9, A10> append(
-		arg6: Args6<A5, A6, A7, A8, A9, A10>
+		args: Args6<A5, A6, A7, A8, A9, A10>
 	): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
 

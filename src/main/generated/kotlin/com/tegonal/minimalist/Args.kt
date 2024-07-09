@@ -18,43 +18,46 @@ interface Args : Arguments {
 	 */
 	companion object {
 		/**
-		 * Creates an [Args1] based on the given arguments [a1] and optionally [representation1].
+		 * Creates an [Args1] based on the given arguments [a1]
+		 * and optionally [representation1].
 		 *
 		 * @param a1 the value for argument 1.
 		 * @param representation1 the representation of argument 1 where `null` means no custom representation.
 		 *
-		 * @since 2.0.0 (was an extension method beforehand @since 1.0.0)
+		 * @since 2.0.0
 		 */
 		fun <A1> of(
 			a1: A1,
-			representation1: String? = null
+			representation1: Representation? = null
 		): Args1<A1> = DefaultArgs1(
 			a1,
-			representation1,
+			representation1?.text,
 		)
 		/**
-		 * Creates an [Args2] based on the given arguments [a1] and [a2] and optionally [representation1] and [representation2].
+		 * Creates an [Args2] based on the given arguments [a1] and [a2]
+		 * and optionally [representation1] and [representation2].
 		 *
 		 * @param a1 the value for argument 1.
 		 * @param a2 the value for argument 2.
 		 * @param representation1 the representation of argument 1 where `null` means no custom representation.
 		 * @param representation2 the representation of argument 2 where `null` means no custom representation.
 		 *
-		 * @since 2.0.0 (was an extension method beforehand @since 1.0.0)
+		 * @since 2.0.0
 		 */
 		fun <A1, A2> of(
 			a1: A1,
 			a2: A2,
-			representation1: String? = null,
+			representation1: Representation? = null,
 			representation2: String? = null
 		): Args2<A1, A2> = DefaultArgs2(
 			a1,
 			a2,
-			representation1,
+			representation1?.text,
 			representation2,
 		)
 		/**
-		 * Creates an [Args3] based on the given arguments [a1], [a2] and [a3] and optionally [representation1], [representation2] and [representation3].
+		 * Creates an [Args3] based on the given arguments [a1], [a2] and [a3]
+		 * and optionally [representation1], [representation2] and [representation3].
 		 *
 		 * @param a1 the value for argument 1.
 		 * @param a2 the value for argument 2.
@@ -63,25 +66,26 @@ interface Args : Arguments {
 		 * @param representation2 the representation of argument 2 where `null` means no custom representation.
 		 * @param representation3 the representation of argument 3 where `null` means no custom representation.
 		 *
-		 * @since 2.0.0 (was an extension method beforehand @since 1.0.0)
+		 * @since 2.0.0
 		 */
 		fun <A1, A2, A3> of(
 			a1: A1,
 			a2: A2,
 			a3: A3,
-			representation1: String? = null,
+			representation1: Representation? = null,
 			representation2: String? = null,
 			representation3: String? = null
 		): Args3<A1, A2, A3> = DefaultArgs3(
 			a1,
 			a2,
 			a3,
-			representation1,
+			representation1?.text,
 			representation2,
 			representation3,
 		)
 		/**
-		 * Creates an [Args4] based on the given arguments [a1], [a2], [a3] and [a4] and optionally [representation1], [representation2], [representation3] and [representation4].
+		 * Creates an [Args4] based on the given arguments [a1], [a2], [a3] and [a4]
+		 * and optionally [representation1], [representation2], [representation3] and [representation4].
 		 *
 		 * @param a1 the value for argument 1.
 		 * @param a2 the value for argument 2.
@@ -92,14 +96,14 @@ interface Args : Arguments {
 		 * @param representation3 the representation of argument 3 where `null` means no custom representation.
 		 * @param representation4 the representation of argument 4 where `null` means no custom representation.
 		 *
-		 * @since 2.0.0 (was an extension method beforehand @since 1.0.0)
+		 * @since 2.0.0
 		 */
 		fun <A1, A2, A3, A4> of(
 			a1: A1,
 			a2: A2,
 			a3: A3,
 			a4: A4,
-			representation1: String? = null,
+			representation1: Representation? = null,
 			representation2: String? = null,
 			representation3: String? = null,
 			representation4: String? = null
@@ -108,13 +112,14 @@ interface Args : Arguments {
 			a2,
 			a3,
 			a4,
-			representation1,
+			representation1?.text,
 			representation2,
 			representation3,
 			representation4,
 		)
 		/**
-		 * Creates an [Args5] based on the given arguments [a1], [a2], [a3], [a4] and [a5] and optionally [representation1], [representation2], [representation3], [representation4] and [representation5].
+		 * Creates an [Args5] based on the given arguments [a1], [a2], [a3], [a4] and [a5]
+		 * and optionally [representation1], [representation2], [representation3], [representation4] and [representation5].
 		 *
 		 * @param a1 the value for argument 1.
 		 * @param a2 the value for argument 2.
@@ -127,7 +132,7 @@ interface Args : Arguments {
 		 * @param representation4 the representation of argument 4 where `null` means no custom representation.
 		 * @param representation5 the representation of argument 5 where `null` means no custom representation.
 		 *
-		 * @since 2.0.0 (was an extension method beforehand @since 1.0.0)
+		 * @since 2.0.0
 		 */
 		fun <A1, A2, A3, A4, A5> of(
 			a1: A1,
@@ -135,7 +140,7 @@ interface Args : Arguments {
 			a3: A3,
 			a4: A4,
 			a5: A5,
-			representation1: String? = null,
+			representation1: Representation? = null,
 			representation2: String? = null,
 			representation3: String? = null,
 			representation4: String? = null,
@@ -146,14 +151,15 @@ interface Args : Arguments {
 			a3,
 			a4,
 			a5,
-			representation1,
+			representation1?.text,
 			representation2,
 			representation3,
 			representation4,
 			representation5,
 		)
 		/**
-		 * Creates an [Args6] based on the given arguments [a1], [a2], [a3], [a4], [a5] and [a6] and optionally [representation1], [representation2], [representation3], [representation4], [representation5] and [representation6].
+		 * Creates an [Args6] based on the given arguments [a1], [a2], [a3], [a4], [a5] and [a6]
+		 * and optionally [representation1], [representation2], [representation3], [representation4], [representation5] and [representation6].
 		 *
 		 * @param a1 the value for argument 1.
 		 * @param a2 the value for argument 2.
@@ -168,7 +174,7 @@ interface Args : Arguments {
 		 * @param representation5 the representation of argument 5 where `null` means no custom representation.
 		 * @param representation6 the representation of argument 6 where `null` means no custom representation.
 		 *
-		 * @since 2.0.0 (was an extension method beforehand @since 1.0.0)
+		 * @since 2.0.0
 		 */
 		fun <A1, A2, A3, A4, A5, A6> of(
 			a1: A1,
@@ -177,7 +183,7 @@ interface Args : Arguments {
 			a4: A4,
 			a5: A5,
 			a6: A6,
-			representation1: String? = null,
+			representation1: Representation? = null,
 			representation2: String? = null,
 			representation3: String? = null,
 			representation4: String? = null,
@@ -190,7 +196,7 @@ interface Args : Arguments {
 			a4,
 			a5,
 			a6,
-			representation1,
+			representation1?.text,
 			representation2,
 			representation3,
 			representation4,
@@ -198,7 +204,8 @@ interface Args : Arguments {
 			representation6,
 		)
 		/**
-		 * Creates an [Args7] based on the given arguments [a1], [a2], [a3], [a4], [a5], [a6] and [a7] and optionally [representation1], [representation2], [representation3], [representation4], [representation5], [representation6] and [representation7].
+		 * Creates an [Args7] based on the given arguments [a1], [a2], [a3], [a4], [a5], [a6] and [a7]
+		 * and optionally [representation1], [representation2], [representation3], [representation4], [representation5], [representation6] and [representation7].
 		 *
 		 * @param a1 the value for argument 1.
 		 * @param a2 the value for argument 2.
@@ -215,7 +222,7 @@ interface Args : Arguments {
 		 * @param representation6 the representation of argument 6 where `null` means no custom representation.
 		 * @param representation7 the representation of argument 7 where `null` means no custom representation.
 		 *
-		 * @since 2.0.0 (was an extension method beforehand @since 1.0.0)
+		 * @since 2.0.0
 		 */
 		fun <A1, A2, A3, A4, A5, A6, A7> of(
 			a1: A1,
@@ -225,7 +232,7 @@ interface Args : Arguments {
 			a5: A5,
 			a6: A6,
 			a7: A7,
-			representation1: String? = null,
+			representation1: Representation? = null,
 			representation2: String? = null,
 			representation3: String? = null,
 			representation4: String? = null,
@@ -240,7 +247,7 @@ interface Args : Arguments {
 			a5,
 			a6,
 			a7,
-			representation1,
+			representation1?.text,
 			representation2,
 			representation3,
 			representation4,
@@ -249,7 +256,8 @@ interface Args : Arguments {
 			representation7,
 		)
 		/**
-		 * Creates an [Args8] based on the given arguments [a1], [a2], [a3], [a4], [a5], [a6], [a7] and [a8] and optionally [representation1], [representation2], [representation3], [representation4], [representation5], [representation6], [representation7] and [representation8].
+		 * Creates an [Args8] based on the given arguments [a1], [a2], [a3], [a4], [a5], [a6], [a7] and [a8]
+		 * and optionally [representation1], [representation2], [representation3], [representation4], [representation5], [representation6], [representation7] and [representation8].
 		 *
 		 * @param a1 the value for argument 1.
 		 * @param a2 the value for argument 2.
@@ -268,7 +276,7 @@ interface Args : Arguments {
 		 * @param representation7 the representation of argument 7 where `null` means no custom representation.
 		 * @param representation8 the representation of argument 8 where `null` means no custom representation.
 		 *
-		 * @since 2.0.0 (was an extension method beforehand @since 1.0.0)
+		 * @since 2.0.0
 		 */
 		fun <A1, A2, A3, A4, A5, A6, A7, A8> of(
 			a1: A1,
@@ -279,7 +287,7 @@ interface Args : Arguments {
 			a6: A6,
 			a7: A7,
 			a8: A8,
-			representation1: String? = null,
+			representation1: Representation? = null,
 			representation2: String? = null,
 			representation3: String? = null,
 			representation4: String? = null,
@@ -296,7 +304,7 @@ interface Args : Arguments {
 			a6,
 			a7,
 			a8,
-			representation1,
+			representation1?.text,
 			representation2,
 			representation3,
 			representation4,
@@ -306,7 +314,8 @@ interface Args : Arguments {
 			representation8,
 		)
 		/**
-		 * Creates an [Args9] based on the given arguments [a1], [a2], [a3], [a4], [a5], [a6], [a7], [a8] and [a9] and optionally [representation1], [representation2], [representation3], [representation4], [representation5], [representation6], [representation7], [representation8] and [representation9].
+		 * Creates an [Args9] based on the given arguments [a1], [a2], [a3], [a4], [a5], [a6], [a7], [a8] and [a9]
+		 * and optionally [representation1], [representation2], [representation3], [representation4], [representation5], [representation6], [representation7], [representation8] and [representation9].
 		 *
 		 * @param a1 the value for argument 1.
 		 * @param a2 the value for argument 2.
@@ -327,7 +336,7 @@ interface Args : Arguments {
 		 * @param representation8 the representation of argument 8 where `null` means no custom representation.
 		 * @param representation9 the representation of argument 9 where `null` means no custom representation.
 		 *
-		 * @since 2.0.0 (was an extension method beforehand @since 1.0.0)
+		 * @since 2.0.0
 		 */
 		fun <A1, A2, A3, A4, A5, A6, A7, A8, A9> of(
 			a1: A1,
@@ -339,7 +348,7 @@ interface Args : Arguments {
 			a7: A7,
 			a8: A8,
 			a9: A9,
-			representation1: String? = null,
+			representation1: Representation? = null,
 			representation2: String? = null,
 			representation3: String? = null,
 			representation4: String? = null,
@@ -358,7 +367,7 @@ interface Args : Arguments {
 			a7,
 			a8,
 			a9,
-			representation1,
+			representation1?.text,
 			representation2,
 			representation3,
 			representation4,
@@ -369,7 +378,8 @@ interface Args : Arguments {
 			representation9,
 		)
 		/**
-		 * Creates an [Args10] based on the given arguments [a1], [a2], [a3], [a4], [a5], [a6], [a7], [a8], [a9] and [a10] and optionally [representation1], [representation2], [representation3], [representation4], [representation5], [representation6], [representation7], [representation8], [representation9] and [representation10].
+		 * Creates an [Args10] based on the given arguments [a1], [a2], [a3], [a4], [a5], [a6], [a7], [a8], [a9] and [a10]
+		 * and optionally [representation1], [representation2], [representation3], [representation4], [representation5], [representation6], [representation7], [representation8], [representation9] and [representation10].
 		 *
 		 * @param a1 the value for argument 1.
 		 * @param a2 the value for argument 2.
@@ -392,7 +402,7 @@ interface Args : Arguments {
 		 * @param representation9 the representation of argument 9 where `null` means no custom representation.
 		 * @param representation10 the representation of argument 10 where `null` means no custom representation.
 		 *
-		 * @since 2.0.0 (was an extension method beforehand @since 1.0.0)
+		 * @since 2.0.0
 		 */
 		fun <A1, A2, A3, A4, A5, A6, A7, A8, A9, A10> of(
 			a1: A1,
@@ -405,7 +415,7 @@ interface Args : Arguments {
 			a8: A8,
 			a9: A9,
 			a10: A10,
-			representation1: String? = null,
+			representation1: Representation? = null,
 			representation2: String? = null,
 			representation3: String? = null,
 			representation4: String? = null,
@@ -426,7 +436,7 @@ interface Args : Arguments {
 			a8,
 			a9,
 			a10,
-			representation1,
+			representation1?.text,
 			representation2,
 			representation3,
 			representation4,

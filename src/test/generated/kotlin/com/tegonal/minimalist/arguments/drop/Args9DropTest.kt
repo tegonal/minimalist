@@ -20,16 +20,16 @@ class Args9DropTest {
 	@Test
 	fun dropArg1() {
 		val args = Args.of(
-			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
+			"string",
 			LocalDate.now(),
 			1.toShort(),
 			2.toByte(),
-			representation1 = "rep 1",
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
@@ -39,7 +39,7 @@ class Args9DropTest {
 			representation8 = "rep 8",
 			representation9 = "rep 9"
 		)
-		val argsResult: Args8<Int, Long, Float, Double, Char, LocalDate, Short, Byte> = args.dropArg1()
+		val argsResult: Args8<Long, Float, Double, Char, String, LocalDate, Short, Byte> = args.dropArg1()
 		expect(argsResult) {
 			a1.toEqual(args.a2)
 			a2.toEqual(args.a3)
@@ -63,16 +63,16 @@ class Args9DropTest {
 	@Test
 	fun dropArg2() {
 		val args = Args.of(
-			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
+			"string",
 			LocalDate.now(),
 			1.toShort(),
 			2.toByte(),
-			representation1 = "rep 1",
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
@@ -82,7 +82,7 @@ class Args9DropTest {
 			representation8 = "rep 8",
 			representation9 = "rep 9"
 		)
-		val argsResult: Args8<String, Long, Float, Double, Char, LocalDate, Short, Byte> = args.dropArg2()
+		val argsResult: Args8<Int, Float, Double, Char, String, LocalDate, Short, Byte> = args.dropArg2()
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a3)
@@ -106,16 +106,16 @@ class Args9DropTest {
 	@Test
 	fun dropArg3() {
 		val args = Args.of(
-			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
+			"string",
 			LocalDate.now(),
 			1.toShort(),
 			2.toByte(),
-			representation1 = "rep 1",
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
@@ -125,7 +125,7 @@ class Args9DropTest {
 			representation8 = "rep 8",
 			representation9 = "rep 9"
 		)
-		val argsResult: Args8<String, Int, Float, Double, Char, LocalDate, Short, Byte> = args.dropArg3()
+		val argsResult: Args8<Int, Long, Double, Char, String, LocalDate, Short, Byte> = args.dropArg3()
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a2)
@@ -149,16 +149,16 @@ class Args9DropTest {
 	@Test
 	fun dropArg4() {
 		val args = Args.of(
-			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
+			"string",
 			LocalDate.now(),
 			1.toShort(),
 			2.toByte(),
-			representation1 = "rep 1",
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
@@ -168,7 +168,7 @@ class Args9DropTest {
 			representation8 = "rep 8",
 			representation9 = "rep 9"
 		)
-		val argsResult: Args8<String, Int, Long, Double, Char, LocalDate, Short, Byte> = args.dropArg4()
+		val argsResult: Args8<Int, Long, Float, Char, String, LocalDate, Short, Byte> = args.dropArg4()
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a2)
@@ -192,16 +192,16 @@ class Args9DropTest {
 	@Test
 	fun dropArg5() {
 		val args = Args.of(
-			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
+			"string",
 			LocalDate.now(),
 			1.toShort(),
 			2.toByte(),
-			representation1 = "rep 1",
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
@@ -211,7 +211,7 @@ class Args9DropTest {
 			representation8 = "rep 8",
 			representation9 = "rep 9"
 		)
-		val argsResult: Args8<String, Int, Long, Float, Char, LocalDate, Short, Byte> = args.dropArg5()
+		val argsResult: Args8<Int, Long, Float, Double, String, LocalDate, Short, Byte> = args.dropArg5()
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a2)
@@ -235,16 +235,16 @@ class Args9DropTest {
 	@Test
 	fun dropArg6() {
 		val args = Args.of(
-			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
+			"string",
 			LocalDate.now(),
 			1.toShort(),
 			2.toByte(),
-			representation1 = "rep 1",
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
@@ -254,7 +254,7 @@ class Args9DropTest {
 			representation8 = "rep 8",
 			representation9 = "rep 9"
 		)
-		val argsResult: Args8<String, Int, Long, Float, Double, LocalDate, Short, Byte> = args.dropArg6()
+		val argsResult: Args8<Int, Long, Float, Double, Char, LocalDate, Short, Byte> = args.dropArg6()
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a2)
@@ -278,16 +278,16 @@ class Args9DropTest {
 	@Test
 	fun dropArg7() {
 		val args = Args.of(
-			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
+			"string",
 			LocalDate.now(),
 			1.toShort(),
 			2.toByte(),
-			representation1 = "rep 1",
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
@@ -297,7 +297,7 @@ class Args9DropTest {
 			representation8 = "rep 8",
 			representation9 = "rep 9"
 		)
-		val argsResult: Args8<String, Int, Long, Float, Double, Char, Short, Byte> = args.dropArg7()
+		val argsResult: Args8<Int, Long, Float, Double, Char, String, Short, Byte> = args.dropArg7()
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a2)
@@ -321,16 +321,16 @@ class Args9DropTest {
 	@Test
 	fun dropArg8() {
 		val args = Args.of(
-			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
+			"string",
 			LocalDate.now(),
 			1.toShort(),
 			2.toByte(),
-			representation1 = "rep 1",
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
@@ -340,7 +340,7 @@ class Args9DropTest {
 			representation8 = "rep 8",
 			representation9 = "rep 9"
 		)
-		val argsResult: Args8<String, Int, Long, Float, Double, Char, LocalDate, Byte> = args.dropArg8()
+		val argsResult: Args8<Int, Long, Float, Double, Char, String, LocalDate, Byte> = args.dropArg8()
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a2)
@@ -364,16 +364,16 @@ class Args9DropTest {
 	@Test
 	fun dropArg9() {
 		val args = Args.of(
-			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
+			"string",
 			LocalDate.now(),
 			1.toShort(),
 			2.toByte(),
-			representation1 = "rep 1",
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
@@ -383,7 +383,7 @@ class Args9DropTest {
 			representation8 = "rep 8",
 			representation9 = "rep 9"
 		)
-		val argsResult: Args8<String, Int, Long, Float, Double, Char, LocalDate, Short> = args.dropArg9()
+		val argsResult: Args8<Int, Long, Float, Double, Char, String, LocalDate, Short> = args.dropArg9()
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a2)

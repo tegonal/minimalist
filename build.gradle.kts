@@ -11,6 +11,7 @@ description = "Library which helps to setup and prioritise parameterized tests"
 
 dependencies {
 	api(libs.junit.jupiter.params)
+	implementation(libs.kbox)
 
 	testImplementation(kotlin("test"))
 	testImplementation(libs.atrium.fluent)

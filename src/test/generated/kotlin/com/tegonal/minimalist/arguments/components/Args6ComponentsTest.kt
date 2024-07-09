@@ -20,13 +20,13 @@ class Args6ComponentsTest {
 	@Test
 	fun component1() {
 		val args = Args.of(
-			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
-			representation1 = "rep 1",
+			"string",
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
@@ -40,13 +40,13 @@ class Args6ComponentsTest {
 	@Test
 	fun component2() {
 		val args = Args.of(
-			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
-			representation1 = "rep 1",
+			"string",
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
@@ -60,13 +60,13 @@ class Args6ComponentsTest {
 	@Test
 	fun component3() {
 		val args = Args.of(
-			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
-			representation1 = "rep 1",
+			"string",
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
@@ -80,13 +80,13 @@ class Args6ComponentsTest {
 	@Test
 	fun component4() {
 		val args = Args.of(
-			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
-			representation1 = "rep 1",
+			"string",
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
@@ -100,13 +100,13 @@ class Args6ComponentsTest {
 	@Test
 	fun component5() {
 		val args = Args.of(
-			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
-			representation1 = "rep 1",
+			"string",
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
@@ -120,13 +120,13 @@ class Args6ComponentsTest {
 	@Test
 	fun component6() {
 		val args = Args.of(
-			"string",
 			1,
 			2L,
 			3F,
 			4.0,
 			'c',
-			representation1 = "rep 1",
+			"string",
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
