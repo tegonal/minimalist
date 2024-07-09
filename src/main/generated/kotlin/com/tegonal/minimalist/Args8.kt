@@ -112,9 +112,9 @@ interface Args8<A1, A2, A3, A4, A5, A6, A7, A8>: Args {
 	 * Creates a new [Args8] by coping `this` [Args8] but replaces
 	 * the argument 1 ([Args8.a1]) with the given [value] (and its representation with the given [representation]).
 	 *
-	 * @param value the new value to use for argument 1.
-	 * @param representation the new representation to use for the argument 1 where `null`
-	 *         means let the algorithm determine a representation.
+	 * @param value The new value to use for argument 1.
+	 * @param representation The new representation to use for the argument 1 where `null`
+	 *   means let the algorithm determine a representation.
 	 *
 	 * @return The newly created [Args8].
 	 *
@@ -126,9 +126,9 @@ interface Args8<A1, A2, A3, A4, A5, A6, A7, A8>: Args {
 	 * Creates a new [Args8] by coping `this` [Args8] but replaces
 	 * the argument 2 ([Args8.a2]) with the given [value] (and its representation with the given [representation]).
 	 *
-	 * @param value the new value to use for argument 2.
-	 * @param representation the new representation to use for the argument 2 where `null`
-	 *         means let the algorithm determine a representation.
+	 * @param value The new value to use for argument 2.
+	 * @param representation The new representation to use for the argument 2 where `null`
+	 *   means let the algorithm determine a representation.
 	 *
 	 * @return The newly created [Args8].
 	 *
@@ -140,9 +140,9 @@ interface Args8<A1, A2, A3, A4, A5, A6, A7, A8>: Args {
 	 * Creates a new [Args8] by coping `this` [Args8] but replaces
 	 * the argument 3 ([Args8.a3]) with the given [value] (and its representation with the given [representation]).
 	 *
-	 * @param value the new value to use for argument 3.
-	 * @param representation the new representation to use for the argument 3 where `null`
-	 *         means let the algorithm determine a representation.
+	 * @param value The new value to use for argument 3.
+	 * @param representation The new representation to use for the argument 3 where `null`
+	 *   means let the algorithm determine a representation.
 	 *
 	 * @return The newly created [Args8].
 	 *
@@ -154,9 +154,9 @@ interface Args8<A1, A2, A3, A4, A5, A6, A7, A8>: Args {
 	 * Creates a new [Args8] by coping `this` [Args8] but replaces
 	 * the argument 4 ([Args8.a4]) with the given [value] (and its representation with the given [representation]).
 	 *
-	 * @param value the new value to use for argument 4.
-	 * @param representation the new representation to use for the argument 4 where `null`
-	 *         means let the algorithm determine a representation.
+	 * @param value The new value to use for argument 4.
+	 * @param representation The new representation to use for the argument 4 where `null`
+	 *   means let the algorithm determine a representation.
 	 *
 	 * @return The newly created [Args8].
 	 *
@@ -168,9 +168,9 @@ interface Args8<A1, A2, A3, A4, A5, A6, A7, A8>: Args {
 	 * Creates a new [Args8] by coping `this` [Args8] but replaces
 	 * the argument 5 ([Args8.a5]) with the given [value] (and its representation with the given [representation]).
 	 *
-	 * @param value the new value to use for argument 5.
-	 * @param representation the new representation to use for the argument 5 where `null`
-	 *         means let the algorithm determine a representation.
+	 * @param value The new value to use for argument 5.
+	 * @param representation The new representation to use for the argument 5 where `null`
+	 *   means let the algorithm determine a representation.
 	 *
 	 * @return The newly created [Args8].
 	 *
@@ -182,9 +182,9 @@ interface Args8<A1, A2, A3, A4, A5, A6, A7, A8>: Args {
 	 * Creates a new [Args8] by coping `this` [Args8] but replaces
 	 * the argument 6 ([Args8.a6]) with the given [value] (and its representation with the given [representation]).
 	 *
-	 * @param value the new value to use for argument 6.
-	 * @param representation the new representation to use for the argument 6 where `null`
-	 *         means let the algorithm determine a representation.
+	 * @param value The new value to use for argument 6.
+	 * @param representation The new representation to use for the argument 6 where `null`
+	 *   means let the algorithm determine a representation.
 	 *
 	 * @return The newly created [Args8].
 	 *
@@ -196,9 +196,9 @@ interface Args8<A1, A2, A3, A4, A5, A6, A7, A8>: Args {
 	 * Creates a new [Args8] by coping `this` [Args8] but replaces
 	 * the argument 7 ([Args8.a7]) with the given [value] (and its representation with the given [representation]).
 	 *
-	 * @param value the new value to use for argument 7.
-	 * @param representation the new representation to use for the argument 7 where `null`
-	 *         means let the algorithm determine a representation.
+	 * @param value The new value to use for argument 7.
+	 * @param representation The new representation to use for the argument 7 where `null`
+	 *   means let the algorithm determine a representation.
 	 *
 	 * @return The newly created [Args8].
 	 *
@@ -210,9 +210,9 @@ interface Args8<A1, A2, A3, A4, A5, A6, A7, A8>: Args {
 	 * Creates a new [Args8] by coping `this` [Args8] but replaces
 	 * the argument 8 ([Args8.a8]) with the given [value] (and its representation with the given [representation]).
 	 *
-	 * @param value the new value to use for argument 8.
-	 * @param representation the new representation to use for the argument 8 where `null`
-	 *         means let the algorithm determine a representation.
+	 * @param value The new value to use for argument 8.
+	 * @param representation The new representation to use for the argument 8 where `null`
+	 *   means let the algorithm determine a representation.
 	 *
 	 * @return The newly created [Args8].
 	 *
@@ -222,26 +222,26 @@ interface Args8<A1, A2, A3, A4, A5, A6, A7, A8>: Args {
 
 
 	/**
-	 * Creates a new [Args9] by copying `this` [Args8] and appending the given [arg1].
+	 * Creates a new [Args9] by copying `this` [Args8] and appending the given [Args1].
 	 *
 	 * @return The newly created [Args9].
 	 *
 	 * @since 1.0.0
 	 */
 	fun <A9> append(
-		arg1: Args1<A9>
+		args: Args1<A9>
 	): Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>
 
 
 	/**
-	 * Creates a new [Args10] by copying `this` [Args8] and appending the given [arg2].
+	 * Creates a new [Args10] by copying `this` [Args8] and appending the given [Args2].
 	 *
 	 * @return The newly created [Args10].
 	 *
 	 * @since 1.0.0
 	 */
 	fun <A9, A10> append(
-		arg2: Args2<A9, A10>
+		args: Args2<A9, A10>
 	): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
 

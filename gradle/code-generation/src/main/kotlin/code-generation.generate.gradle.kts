@@ -23,12 +23,14 @@ fun createStringBuilder(packageName: String) = StringBuilder(dontModifyNotice)
 
 val numOfArgs = 10
 
+
 val generate: TaskProvider<Task> = tasks.register("generate") {
 	doFirst {
 		val packageDir = File(generationFolder.asPath + "/" + packageNameAsPath)
 
 		val argsInterface = createStringBuilder(packageName)
-			.append("""
+			.append(
+				"""
 				 |import org.junit.jupiter.params.provider.Arguments
 				 |import com.tegonal.minimalist.impl.*
  				 |
@@ -42,16 +44,19 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 				 |	 * Extension point for Args (next to [Args.of] functions).
 				 |	 */
 				 |	companion object {
-			""".trimMargin())
+			""".trimMargin()
+			)
 			.appendLine()
 
 		val argsComponents = createStringBuilder(packageName)
+
+		fun wrapIntoRepresentationIfFirst(num: Int) = if (num == 1) "?.let { r -> Representation(r) }" else ""
+
 
 		(1..numOfArgs).forEach { upperNumber ->
 			val numbers = (1..upperNumber).toList()
 			val typeArgs = numbers.joinToString(", ") { "A$it" }
 			val constructorProperties = numbers.joinToString(",\n\t") { "override val a$it: A$it" }
-
 			val representationConstructorProperties =
 				numbers.joinToString(",\n\t") { "override val representation$it: String? = null" }
 
@@ -127,15 +132,17 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 			defaultArgs.appendLine()
 
 			numbers.forEach { index ->
+				val typArgsNew = numbers.joinToString(", ") { if (it == index) "A${it}New" else "A$it" }
+
 				argsInterfaces.append(
 					"""
 					|	/**
 					|	 * Creates a new [Args$upperNumber] by coping `this` [Args$upperNumber] but replaces
 					|	 * the argument $index ([Args$upperNumber.a$index]) with the given [value] (and its representation with the given [representation]).
 					|	 *
-					|	 * @param value the new value to use for argument $index.
-					|	 * @param representation the new representation to use for the argument $index where `null`
-					|	 *         means let the algorithm determine a representation.
+					|	 * @param value The new value to use for argument $index.
+					|	 * @param representation The new representation to use for the argument $index where `null`
+					|	 *   means let the algorithm determine a representation.
 					|	 *
 					|	 * @return The newly created [Args$upperNumber].
 					|	 *
@@ -158,18 +165,18 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 			numbers.forEach { index ->
 				argsComponents.append(
 					"""
-				|/**
-				| * Extracts [a$index][Args$upperNumber.a$index] (the $index argument) of this Args$upperNumber.
-				| *
-				| * Be aware of that you loose the [representation$index][Args$upperNumber.representation$index] this way. Should you extract
-				| * the argument in order to create another Args afterwards, then ${if(upperNumber < numOfArgs)"[Args$upperNumber.append] or " else ""}
-				| * one of the ${if(upperNumber > 1) "[Args$upperNumber.dropArg1] or " else ""}[Args$upperNumber.withArg1] methods might be more suited.
-				| *
-				| * @since 1.1.0
-				| */
-				|operator fun <$typeArgs> Args$upperNumber<$typeArgs>.component$index(): A$index = a$index
-				|
-				""".trimMargin()
+					|/**
+					| * Extracts [a$index][Args$upperNumber.a$index] (the $index argument) of this Args$upperNumber.
+					| *
+					| * Be aware of that you loose the [representation$index][Args$upperNumber.representation$index] this way. Should you extract
+					| * the argument in order to create another Args afterwards, then ${if (upperNumber < numOfArgs) "[Args$upperNumber.append] or " else ""}
+					| * one of the ${if (upperNumber > 1) "[Args$upperNumber.dropArg1] or " else ""}[Args$upperNumber.withArg1] methods might be more suited.
+					| *
+					| * @since 1.1.0
+					| */
+					|operator fun <$typeArgs> Args$upperNumber<$typeArgs>.component$index(): A$index = a$index
+					|
+					""".trimMargin()
 				).appendLine()
 			}
 
@@ -187,14 +194,14 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 				argsInterfaces.append(
 					"""
 					|	/**
-					|	 * Creates a new [Args$upperNumber3] by copying `this` [Args$upperNumber] and appending the given [arg${upperNumber2}].
+					|	 * Creates a new [Args$upperNumber3] by copying `this` [Args$upperNumber] and appending the given [Args$upperNumber2].
 					|	 *
 					|	 * @return The newly created [Args$upperNumber3].
 					|	 *
 					|	 * @since 1.0.0
 					|	 */
 					|	fun <$typeArgs2> append(
-					|		arg${upperNumber2}: Args${upperNumber2}<$typeArgs2>
+					|		args: Args${upperNumber2}<$typeArgs2>
 					|	): Args$upperNumber3<$typeArgs3>
 					|
 					""".trimMargin()
@@ -203,12 +210,16 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 				defaultArgs.append(
 					"""
 					|	override fun <$typeArgs2> append(
-					|		arg${upperNumber2}: Args${upperNumber2}<$typeArgs2>
+					|		args: Args${upperNumber2}<$typeArgs2>
 					|	): Args$upperNumber3<$typeArgs3> = Args.of(
-					|		${numbers.joinToString(",\n\t\t") { "a$it = this.a$it" }},
-					|		${numbers2.joinToString(",\n\t\t") { "a${it + upperNumber} = arg${upperNumber2}.a$it" }},
-					|		${numbers.joinToString(",\n\t\t") { "representation$it = this.representation$it" }},
-					|		${numbers2.joinToString(",\n\t\t") { "representation${it + upperNumber} = arg${upperNumber2}.representation$it" }},
+					|		${
+						numbers.joinToString(",\n\t\t") {
+							"a$it = this.a$it, representation$it = this.representation$it${
+								wrapIntoRepresentationIfFirst(it)
+							}"
+						}
+					},
+					|		${numbers2.joinToString(",\n\t\t") { "a${it + upperNumber} = args.a$it, representation${it + upperNumber} = args.representation$it" }},
 					|	)
 					|
 					""".trimMargin()
@@ -216,8 +227,6 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 			}
 
 			if (upperNumber > 1) {
-
-
 				argsInterfaces.appendLine()
 				defaultArgs.appendLine()
 
@@ -245,10 +254,16 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 
 					defaultArgs.append(
 						"""
-						|	override fun dropArg$index() = Args.of(
-						|		${numbers4WithIndex.joinToString(",\n\t\t") { (i, it) -> "a$i = this.a$it" }},
-						|		${numbers4WithIndex.joinToString(",\n\t\t") { (i, it) -> "representation$i = this.representation$it" }}
-						|	)
+						|	override fun dropArg$index(): Args${upperNumber4}<$typeArgs4> =
+						|		Args.of(
+						|			${
+							numbers4WithIndex.joinToString(",\n\t\t\t") { (i, it) ->
+								"a$i = this.a$it, representation$i = this.representation$it${
+									wrapIntoRepresentationIfFirst(i)
+								}"
+							}
+						},
+						|		)
 						|
 						""".trimMargin()
 					).appendLine()
@@ -264,9 +279,13 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 			defaultArgsFile.writeText(defaultArgs.toString())
 
 			val parameters = numbers.joinToString(",\n\t\t\t") { "a$it: A$it" }
-			val representationParameters = numbers.joinToString(",\n\t\t\t") { "representation$it: String? = null" }
+			val representationParameters = numbers.joinToString(",\n\t\t\t") {
+				"representation$it: ${if (it == 1) "Representation?" else "String?"} = null"
+			}
 			val args = numbers.joinToString(",\n\t\t\t") { "a$it" }
-			val representationArgs = numbers.joinToString(",\n\t\t\t") { "representation$it" }
+			val representationArgs = numbers.joinToString(",\n\t\t\t") {
+				"representation$it${if (it == 1) "?.text" else ""}"
+			}
 
 			argsInterface.append(
 				"""
@@ -276,7 +295,8 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 						", ",
 						lastSeparator = " and "
 					) { it, sb -> sb.append("[a").append(it).append("]") }
-				} and optionally ${
+				}
+				|		 * and optionally ${
 					numbers.joinToStringAndLast(
 						", ",
 						lastSeparator = " and "
@@ -298,7 +318,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					}
 				}
 				|		 *
-				|		 * @since 2.0.0 (was an extension method beforehand @since 1.0.0)
+				|		 * @since 2.0.0
 				|		 */
 				|		fun <$typeArgs> of(
 				|			$parameters,
@@ -310,13 +330,14 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 				|
 				""".trimMargin()
 			)
-
 		}
 
-		argsInterface.append("""
+		argsInterface.append(
+			"""
 			|  }
 			|}
-		""".trimMargin())
+			""".trimMargin()
+		)
 
 		val argsInterfaceFile = packageDir.resolve("Args.kt")
 		argsInterfaceFile.writeText(argsInterface.toString())
@@ -349,32 +370,35 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 	doFirst {
 		val packageDir = File(generationTestFolder.asPath + "/" + packageNameAsPath)
 		val argValues = sequenceOf(
-			"\"string\"",
 			"1",
 			"2L",
 			"3F",
 			"4.0",
 			"'c'",
+			"\"string\"",
 			"LocalDate.now()",
 			"1.toShort()",
 			"2.toByte()",
 			"3.toBigInteger()"
 		)
 		val argValues2 = listOf(
-			"\"another string\"",
 			"2",
 			"3L",
 			"4F",
 			"5.0",
 			"'d'",
+			"\"another string\"",
 			"LocalDate.now().plusDays(2)",
 			"2.toShort()",
 			"3.toByte()",
 			"4.toBigInteger()"
 		)
 		val argsTypeParameters = sequenceOf(
-			"String", "Int", "Long", "Float", "Double", "Char", "LocalDate", "Short", "Byte", "BigInteger"
+			"Int", "Long", "Float", "Double", "Char", "String", "LocalDate", "Short", "Byte", "BigInteger"
 		)
+
+		fun wrapIntoRepresentationIfFirst(arg: String, num: Int) = if (num == 1) "Representation($arg)" else arg
+
 
 		(1..numOfArgs).forEach { upperNumber ->
 			val numbers = (1..upperNumber)
@@ -428,7 +452,16 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 					|	fun dropArg$number() {
 					|		val args = Args.of(
 					|			${argValues.take(upperNumber).joinToString(",\n\t\t\t")},
-					|			${numbers.joinToString(",\n\t\t\t") { "representation$it = \"rep $it\"" }}
+					|			${
+							numbers.joinToString(",\n\t\t\t") {
+								"representation$it = ${
+									wrapIntoRepresentationIfFirst(
+										"\"rep $it\"",
+										it
+									)
+								}"
+							}
+						}
 					|		)
 					|		val argsResult: Args${upperNumber - 1}<${typeParameters.joinToString(", ")}> = args.dropArg$number()
 					|		expect(argsResult) {
@@ -465,7 +498,16 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 					|	fun withArg$number() {
 					|		val args = Args.of(
 					|			${argValues.take(upperNumber).joinToString(",\n\t\t\t")},
-					|			${numbers.joinToString(",\n\t\t\t") { "representation$it = \"rep $it\"" }}
+					|			${
+						numbers.joinToString(",\n\t\t\t") {
+							"representation$it = ${
+								wrapIntoRepresentationIfFirst(
+									"\"rep $it\"",
+									it
+								)
+							}"
+						}
+					}
 					|		)
 					|		val argsResult = args.withArg$number(${argValues2[number - 1]}, "new rep")
 					|
@@ -516,14 +558,23 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 				|			${argValues.take(upperNumber).joinToString(",\n\t\t\t")}
 				|		)
 				|		expect(args.get().toList()).toContainExactly(
-				|${numbers.joinToString(",\n") {"\t\t\targs.a$it" }}
+				|${numbers.joinToString(",\n") { "\t\t\targs.a$it" }}
 				|		)
 				|	}
 				|	@Test
 				|	fun `get returns correct array and value wrapped in Named if representation specified`() {
 				|		val args = Args.of(
 				|			${argValues.take(upperNumber).joinToString(",\n\t\t\t")},
-				|			${numbers.joinToString(",\n\t\t\t") { "representation$it = \"rep $it\"" }}
+				|			${
+					numbers.joinToString(",\n\t\t\t") {
+						"representation$it = ${
+							wrapIntoRepresentationIfFirst(
+								"\"rep $it\"",
+								it
+							)
+						}"
+					}
+				}
 				|		)
 				|		expect(args.get().toList()).toContainExactly(
 				|${
@@ -534,6 +585,17 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 						|			}""".trimMargin()
 					}
 				}
+				|		)
+				|	}
+				|
+				|	@Test
+				|	fun `using null as representation does not wrap it into Named`() {
+				|		val args = Args.of(
+				|			${argValues.take(upperNumber).joinToString(",\n\t\t\t")},
+				|			${numbers.joinToString(",\n\t\t\t") { "representation$it = null " }}
+				|		)
+				|		expect(args.get().toList()).toContainExactly(
+				|${numbers.joinToString(",\n") { "\t\t\targs.a$it" }}
 				|		)
 				|	}
 				|
@@ -559,25 +621,44 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 			val argumentsTestFile = packageDir.resolve("arguments/annotation/Args${upperNumber}ArgumentsTest.kt")
 			argumentsTestFile.writeText(argumentsTest.toString())
 
-			val appendTest = createStringBuilder("${packageName}.arguments.append")
-				.appendTest("Args${upperNumber}AppendTest")
+			if (upperNumber < numOfArgs) {
+				val appendTest = createStringBuilder("${packageName}.arguments.append")
+					.appendTest("Args${upperNumber}AppendTest")
 
 
-			(1..numOfArgs - upperNumber).forEach { upperNumber2 ->
+				(1..numOfArgs - upperNumber).forEach { upperNumber2 ->
 
 
-				val numbers2 = 1..upperNumber2
-				appendTest.append(
-					"""
+					val numbers2 = 1..upperNumber2
+					appendTest.append(
+						"""
 					|	@Test
-					|	fun `append Arg${upperNumber2}`() {
+					|	fun `append Args${upperNumber2}`() {
 					|		val firstArgs = Args.of(
 					|			${argValues.take(upperNumber).joinToString(",\n\t\t\t")},
-					|			${(1..upperNumber).joinToString(",\n\t\t\t") { "representation$it = \"rep $it\"" }}
+					|			${
+							(1..upperNumber).joinToString(",\n\t\t\t") {
+								"representation$it = ${
+									wrapIntoRepresentationIfFirst(
+										"\"rep $it\"",
+										it
+									)
+								}"
+							}
+						}
 					|		)
 					|		val secondArgs = Args.of(
 					|			${argValues.drop(upperNumber).take(upperNumber2).joinToString(",\n\t\t\t")},
-					|			${numbers2.joinToString(",\n\t\t\t") { "representation$it = \"rep ${it + upperNumber}\"" }}
+					|			${
+							numbers2.joinToString(",\n\t\t\t") {
+								"representation$it = ${
+									wrapIntoRepresentationIfFirst(
+										"\"rep ${it + upperNumber}\"",
+										it
+									)
+								}"
+							}
+						}
 					|		)
 					|		val argsResult = firstArgs.append(secondArgs)
 					|		expect(argsResult) {
@@ -589,13 +670,14 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 					|	}
 					|
 					""".trimMargin()
-				).appendLine()
+					).appendLine()
+				}
+
+
+				appendTest.append("}")
+				val appendTestFile = packageDir.resolve("arguments/append/Args${upperNumber}AppendTest.kt")
+				appendTestFile.writeText(appendTest.toString())
 			}
-
-
-			appendTest.append("}")
-			val appendTestFile = packageDir.resolve("arguments/append/Args${upperNumber}AppendTest.kt")
-			appendTestFile.writeText(appendTest.toString())
 
 			val argsComponentTest = createStringBuilder("$packageName.arguments.components")
 				.appendTest("Args${upperNumber}ComponentsTest")
@@ -607,9 +689,18 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 					|	fun component$number() {
 					|		val args = Args.of(
 					|			${argValues.take(upperNumber).joinToString(",\n\t\t\t")},
-					|			${numbers.joinToString(",\n\t\t\t") { "representation$it = \"rep $it\"" }}
+					|			${
+						numbers.joinToString(",\n\t\t\t") {
+							"representation$it = ${
+								wrapIntoRepresentationIfFirst(
+									"\"rep $it\"",
+									it
+								)
+							}"
+						}
+					}
 					|		)
-					|		val (${"_, ".repeat(number -1)}a$number) = args
+					|		val (${"_, ".repeat(number - 1)}a$number) = args
 					|		expect(a$number).toEqual(args.a$number)
 					|	}
 					|
@@ -618,7 +709,8 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 			}
 
 			argsComponentTest.append("}")
-			val argsComponentTestFile = packageDir.resolve("arguments/components/Args${upperNumber}ComponentsTest.kt")
+			val argsComponentTestFile =
+				packageDir.resolve("arguments/components/Args${upperNumber}ComponentsTest.kt")
 			argsComponentTestFile.writeText(argsComponentTest.toString())
 		}
 	}

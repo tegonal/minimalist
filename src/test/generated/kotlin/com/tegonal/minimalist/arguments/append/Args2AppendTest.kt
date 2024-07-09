@@ -18,16 +18,16 @@ import java.time.LocalDate
 class Args2AppendTest {
 
 	@Test
-	fun `append Arg1`() {
+	fun `append Args1`() {
 		val firstArgs = Args.of(
-			"string",
 			1,
-			representation1 = "rep 1",
+			2L,
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2"
 		)
 		val secondArgs = Args.of(
-			2L,
-			representation1 = "rep 3"
+			3F,
+			representation1 = Representation("rep 3")
 		)
 		val argsResult = firstArgs.append(secondArgs)
 		expect(argsResult) {
@@ -41,17 +41,17 @@ class Args2AppendTest {
 	}
 
 	@Test
-	fun `append Arg2`() {
+	fun `append Args2`() {
 		val firstArgs = Args.of(
-			"string",
 			1,
-			representation1 = "rep 1",
+			2L,
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2"
 		)
 		val secondArgs = Args.of(
-			2L,
 			3F,
-			representation1 = "rep 3",
+			4.0,
+			representation1 = Representation("rep 3"),
 			representation2 = "rep 4"
 		)
 		val argsResult = firstArgs.append(secondArgs)
@@ -68,18 +68,18 @@ class Args2AppendTest {
 	}
 
 	@Test
-	fun `append Arg3`() {
+	fun `append Args3`() {
 		val firstArgs = Args.of(
-			"string",
 			1,
-			representation1 = "rep 1",
+			2L,
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2"
 		)
 		val secondArgs = Args.of(
-			2L,
 			3F,
 			4.0,
-			representation1 = "rep 3",
+			'c',
+			representation1 = Representation("rep 3"),
 			representation2 = "rep 4",
 			representation3 = "rep 5"
 		)
@@ -99,19 +99,19 @@ class Args2AppendTest {
 	}
 
 	@Test
-	fun `append Arg4`() {
+	fun `append Args4`() {
 		val firstArgs = Args.of(
-			"string",
 			1,
-			representation1 = "rep 1",
+			2L,
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2"
 		)
 		val secondArgs = Args.of(
-			2L,
 			3F,
 			4.0,
 			'c',
-			representation1 = "rep 3",
+			"string",
+			representation1 = Representation("rep 3"),
 			representation2 = "rep 4",
 			representation3 = "rep 5",
 			representation4 = "rep 6"
@@ -134,20 +134,20 @@ class Args2AppendTest {
 	}
 
 	@Test
-	fun `append Arg5`() {
+	fun `append Args5`() {
 		val firstArgs = Args.of(
-			"string",
 			1,
-			representation1 = "rep 1",
+			2L,
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2"
 		)
 		val secondArgs = Args.of(
-			2L,
 			3F,
 			4.0,
 			'c',
+			"string",
 			LocalDate.now(),
-			representation1 = "rep 3",
+			representation1 = Representation("rep 3"),
 			representation2 = "rep 4",
 			representation3 = "rep 5",
 			representation4 = "rep 6",
@@ -173,21 +173,21 @@ class Args2AppendTest {
 	}
 
 	@Test
-	fun `append Arg6`() {
+	fun `append Args6`() {
 		val firstArgs = Args.of(
-			"string",
 			1,
-			representation1 = "rep 1",
+			2L,
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2"
 		)
 		val secondArgs = Args.of(
-			2L,
 			3F,
 			4.0,
 			'c',
+			"string",
 			LocalDate.now(),
 			1.toShort(),
-			representation1 = "rep 3",
+			representation1 = Representation("rep 3"),
 			representation2 = "rep 4",
 			representation3 = "rep 5",
 			representation4 = "rep 6",
@@ -216,22 +216,22 @@ class Args2AppendTest {
 	}
 
 	@Test
-	fun `append Arg7`() {
+	fun `append Args7`() {
 		val firstArgs = Args.of(
-			"string",
 			1,
-			representation1 = "rep 1",
+			2L,
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2"
 		)
 		val secondArgs = Args.of(
-			2L,
 			3F,
 			4.0,
 			'c',
+			"string",
 			LocalDate.now(),
 			1.toShort(),
 			2.toByte(),
-			representation1 = "rep 3",
+			representation1 = Representation("rep 3"),
 			representation2 = "rep 4",
 			representation3 = "rep 5",
 			representation4 = "rep 6",
@@ -263,23 +263,23 @@ class Args2AppendTest {
 	}
 
 	@Test
-	fun `append Arg8`() {
+	fun `append Args8`() {
 		val firstArgs = Args.of(
-			"string",
 			1,
-			representation1 = "rep 1",
+			2L,
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2"
 		)
 		val secondArgs = Args.of(
-			2L,
 			3F,
 			4.0,
 			'c',
+			"string",
 			LocalDate.now(),
 			1.toShort(),
 			2.toByte(),
 			3.toBigInteger(),
-			representation1 = "rep 3",
+			representation1 = Representation("rep 3"),
 			representation2 = "rep 4",
 			representation3 = "rep 5",
 			representation4 = "rep 6",

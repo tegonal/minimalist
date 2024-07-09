@@ -20,7 +20,7 @@ class Args1ArgumentsTest {
 	@Test
 	fun `get returns correct array and value not wrapped in Named if representation not specified`() {
 		val args = Args.of(
-			"string"
+			1
 		)
 		expect(args.get().toList()).toContainExactly(
 			args.a1
@@ -29,26 +29,37 @@ class Args1ArgumentsTest {
 	@Test
 	fun `get returns correct array and value wrapped in Named if representation specified`() {
 		val args = Args.of(
-			"string",
-			representation1 = "rep 1"
+			1,
+			representation1 = Representation("rep 1")
 		)
 		expect(args.get().toList()).toContainExactly(
 			{
-				toBeANamedOf<String>(args.representation1!!, args.a1)
+				toBeANamedOf<Int>(args.representation1!!, args.a1)
 			}
+		)
+	}
+
+	@Test
+	fun `using null as representation does not wrap it into Named`() {
+		val args = Args.of(
+			1,
+			representation1 = null 
+		)
+		expect(args.get().toList()).toContainExactly(
+			args.a1
 		)
 	}
 
 	@ParameterizedTest
 	@MethodSource("args")
 	fun `can use Args1 in MethodSource`(
-		a1: String
+		a1: Int
 	) {
-		expect(a1).toEqual("string")
+		expect(a1).toEqual(1)
 	}
 
 	companion object {
 		@JvmStatic
-		fun args() = listOf(Args.of("string"))
+		fun args() = listOf(Args.of(1))
 	}
 }

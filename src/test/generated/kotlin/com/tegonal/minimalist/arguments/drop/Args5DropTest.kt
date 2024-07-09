@@ -20,18 +20,18 @@ class Args5DropTest {
 	@Test
 	fun dropArg1() {
 		val args = Args.of(
-			"string",
 			1,
 			2L,
 			3F,
 			4.0,
-			representation1 = "rep 1",
+			'c',
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
 			representation5 = "rep 5"
 		)
-		val argsResult: Args4<Int, Long, Float, Double> = args.dropArg1()
+		val argsResult: Args4<Long, Float, Double, Char> = args.dropArg1()
 		expect(argsResult) {
 			a1.toEqual(args.a2)
 			a2.toEqual(args.a3)
@@ -47,18 +47,18 @@ class Args5DropTest {
 	@Test
 	fun dropArg2() {
 		val args = Args.of(
-			"string",
 			1,
 			2L,
 			3F,
 			4.0,
-			representation1 = "rep 1",
+			'c',
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
 			representation5 = "rep 5"
 		)
-		val argsResult: Args4<String, Long, Float, Double> = args.dropArg2()
+		val argsResult: Args4<Int, Float, Double, Char> = args.dropArg2()
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a3)
@@ -74,18 +74,18 @@ class Args5DropTest {
 	@Test
 	fun dropArg3() {
 		val args = Args.of(
-			"string",
 			1,
 			2L,
 			3F,
 			4.0,
-			representation1 = "rep 1",
+			'c',
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
 			representation5 = "rep 5"
 		)
-		val argsResult: Args4<String, Int, Float, Double> = args.dropArg3()
+		val argsResult: Args4<Int, Long, Double, Char> = args.dropArg3()
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a2)
@@ -101,18 +101,18 @@ class Args5DropTest {
 	@Test
 	fun dropArg4() {
 		val args = Args.of(
-			"string",
 			1,
 			2L,
 			3F,
 			4.0,
-			representation1 = "rep 1",
+			'c',
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
 			representation5 = "rep 5"
 		)
-		val argsResult: Args4<String, Int, Long, Double> = args.dropArg4()
+		val argsResult: Args4<Int, Long, Float, Char> = args.dropArg4()
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a2)
@@ -128,18 +128,18 @@ class Args5DropTest {
 	@Test
 	fun dropArg5() {
 		val args = Args.of(
-			"string",
 			1,
 			2L,
 			3F,
 			4.0,
-			representation1 = "rep 1",
+			'c',
+			representation1 = Representation("rep 1"),
 			representation2 = "rep 2",
 			representation3 = "rep 3",
 			representation4 = "rep 4",
 			representation5 = "rep 5"
 		)
-		val argsResult: Args4<String, Int, Long, Float> = args.dropArg5()
+		val argsResult: Args4<Int, Long, Float, Double> = args.dropArg5()
 		expect(argsResult) {
 			a1.toEqual(args.a1)
 			a2.toEqual(args.a2)

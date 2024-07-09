@@ -20,8 +20,8 @@ class Args1ComponentsTest {
 	@Test
 	fun component1() {
 		val args = Args.of(
-			"string",
-			representation1 = "rep 1"
+			1,
+			representation1 = Representation("rep 1")
 		)
 		val (a1) = args
 		expect(a1).toEqual(args.a1)

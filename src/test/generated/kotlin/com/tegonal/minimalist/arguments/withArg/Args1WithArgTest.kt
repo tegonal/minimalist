@@ -20,19 +20,19 @@ class Args1WithArgTest {
 	@Test
 	fun withArg1() {
 		val args = Args.of(
-			"string",
-			representation1 = "rep 1"
+			1,
+			representation1 = Representation("rep 1")
 		)
-		val argsResult = args.withArg1("another string", "new rep")
+		val argsResult = args.withArg1(2, "new rep")
 
 		// no changes to args
 		expect(args) {
-			a1.toEqual("string")
+			a1.toEqual(1)
 			representation1.toEqual("rep 1")
 		}
 
 		expect(argsResult) {
-			a1.toEqual("another string")
+			a1.toEqual(2)
 			representation1.toEqual("new rep")
 		}
 	}
