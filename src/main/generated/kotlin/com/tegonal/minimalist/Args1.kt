@@ -38,6 +38,28 @@ interface Args1<A1>: Args {
 	 */
 	fun withArg1(value: A1, representation: String? = null): Args1<A1>
 
+	/**
+	 * Maps [a1] of this [Args1] with the given [transform] function resulting in a new [Args1].
+	 *
+	 * @param transform The function which maps [a1] to a new value.
+	 *
+	 * @return The newly created [Args1].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A1New> mapArg1(transform: (A1) -> A1New): Args1<A1New>
+
+	/**
+	 * Maps [a1] and its [representation1] of this [Args1] with the given [transform] function resulting in a new [Args1].
+	 *
+	 * @param transform The function which maps [a1] and [representation1].
+	 *
+	 * @return The newly created [Args1].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A1New> mapArg1WithRepresentation(transform: (A1, String?) -> Pair<A1New, String?>): Args1<A1New>
+
 
 	/**
 	 * Creates a new [Args2] by copying `this` [Args1] and appending the given [Args1].
