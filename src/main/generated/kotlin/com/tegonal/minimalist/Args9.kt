@@ -135,6 +135,28 @@ interface Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>: Args {
 	fun withArg1(value: A1, representation: String? = null): Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>
 
 	/**
+	 * Maps [a1] of this [Args9] with the given [transform] function resulting in a new [Args9].
+	 *
+	 * @param transform The function which maps [a1] to a new value.
+	 *
+	 * @return The newly created [Args9].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A1New> mapArg1(transform: (A1) -> A1New): Args9<A1New, A2, A3, A4, A5, A6, A7, A8, A9>
+
+	/**
+	 * Maps [a1] and its [representation1] of this [Args9] with the given [transform] function resulting in a new [Args9].
+	 *
+	 * @param transform The function which maps [a1] and [representation1].
+	 *
+	 * @return The newly created [Args9].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A1New> mapArg1WithRepresentation(transform: (A1, String?) -> Pair<A1New, String?>): Args9<A1New, A2, A3, A4, A5, A6, A7, A8, A9>
+
+	/**
 	 * Creates a new [Args9] by coping `this` [Args9] but replaces
 	 * the argument 2 ([Args9.a2]) with the given [value] (and its representation with the given [representation]).
 	 *
@@ -147,6 +169,28 @@ interface Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>: Args {
 	 * @since 1.0.0
 	 */
 	fun withArg2(value: A2, representation: String? = null): Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>
+
+	/**
+	 * Maps [a2] of this [Args9] with the given [transform] function resulting in a new [Args9].
+	 *
+	 * @param transform The function which maps [a2] to a new value.
+	 *
+	 * @return The newly created [Args9].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A2New> mapArg2(transform: (A2) -> A2New): Args9<A1, A2New, A3, A4, A5, A6, A7, A8, A9>
+
+	/**
+	 * Maps [a2] and its [representation2] of this [Args9] with the given [transform] function resulting in a new [Args9].
+	 *
+	 * @param transform The function which maps [a2] and [representation2].
+	 *
+	 * @return The newly created [Args9].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A2New> mapArg2WithRepresentation(transform: (A2, String?) -> Pair<A2New, String?>): Args9<A1, A2New, A3, A4, A5, A6, A7, A8, A9>
 
 	/**
 	 * Creates a new [Args9] by coping `this` [Args9] but replaces
@@ -163,6 +207,28 @@ interface Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>: Args {
 	fun withArg3(value: A3, representation: String? = null): Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>
 
 	/**
+	 * Maps [a3] of this [Args9] with the given [transform] function resulting in a new [Args9].
+	 *
+	 * @param transform The function which maps [a3] to a new value.
+	 *
+	 * @return The newly created [Args9].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A3New> mapArg3(transform: (A3) -> A3New): Args9<A1, A2, A3New, A4, A5, A6, A7, A8, A9>
+
+	/**
+	 * Maps [a3] and its [representation3] of this [Args9] with the given [transform] function resulting in a new [Args9].
+	 *
+	 * @param transform The function which maps [a3] and [representation3].
+	 *
+	 * @return The newly created [Args9].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A3New> mapArg3WithRepresentation(transform: (A3, String?) -> Pair<A3New, String?>): Args9<A1, A2, A3New, A4, A5, A6, A7, A8, A9>
+
+	/**
 	 * Creates a new [Args9] by coping `this` [Args9] but replaces
 	 * the argument 4 ([Args9.a4]) with the given [value] (and its representation with the given [representation]).
 	 *
@@ -175,6 +241,28 @@ interface Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>: Args {
 	 * @since 1.0.0
 	 */
 	fun withArg4(value: A4, representation: String? = null): Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>
+
+	/**
+	 * Maps [a4] of this [Args9] with the given [transform] function resulting in a new [Args9].
+	 *
+	 * @param transform The function which maps [a4] to a new value.
+	 *
+	 * @return The newly created [Args9].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A4New> mapArg4(transform: (A4) -> A4New): Args9<A1, A2, A3, A4New, A5, A6, A7, A8, A9>
+
+	/**
+	 * Maps [a4] and its [representation4] of this [Args9] with the given [transform] function resulting in a new [Args9].
+	 *
+	 * @param transform The function which maps [a4] and [representation4].
+	 *
+	 * @return The newly created [Args9].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A4New> mapArg4WithRepresentation(transform: (A4, String?) -> Pair<A4New, String?>): Args9<A1, A2, A3, A4New, A5, A6, A7, A8, A9>
 
 	/**
 	 * Creates a new [Args9] by coping `this` [Args9] but replaces
@@ -191,6 +279,28 @@ interface Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>: Args {
 	fun withArg5(value: A5, representation: String? = null): Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>
 
 	/**
+	 * Maps [a5] of this [Args9] with the given [transform] function resulting in a new [Args9].
+	 *
+	 * @param transform The function which maps [a5] to a new value.
+	 *
+	 * @return The newly created [Args9].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A5New> mapArg5(transform: (A5) -> A5New): Args9<A1, A2, A3, A4, A5New, A6, A7, A8, A9>
+
+	/**
+	 * Maps [a5] and its [representation5] of this [Args9] with the given [transform] function resulting in a new [Args9].
+	 *
+	 * @param transform The function which maps [a5] and [representation5].
+	 *
+	 * @return The newly created [Args9].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A5New> mapArg5WithRepresentation(transform: (A5, String?) -> Pair<A5New, String?>): Args9<A1, A2, A3, A4, A5New, A6, A7, A8, A9>
+
+	/**
 	 * Creates a new [Args9] by coping `this` [Args9] but replaces
 	 * the argument 6 ([Args9.a6]) with the given [value] (and its representation with the given [representation]).
 	 *
@@ -203,6 +313,28 @@ interface Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>: Args {
 	 * @since 1.0.0
 	 */
 	fun withArg6(value: A6, representation: String? = null): Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>
+
+	/**
+	 * Maps [a6] of this [Args9] with the given [transform] function resulting in a new [Args9].
+	 *
+	 * @param transform The function which maps [a6] to a new value.
+	 *
+	 * @return The newly created [Args9].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A6New> mapArg6(transform: (A6) -> A6New): Args9<A1, A2, A3, A4, A5, A6New, A7, A8, A9>
+
+	/**
+	 * Maps [a6] and its [representation6] of this [Args9] with the given [transform] function resulting in a new [Args9].
+	 *
+	 * @param transform The function which maps [a6] and [representation6].
+	 *
+	 * @return The newly created [Args9].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A6New> mapArg6WithRepresentation(transform: (A6, String?) -> Pair<A6New, String?>): Args9<A1, A2, A3, A4, A5, A6New, A7, A8, A9>
 
 	/**
 	 * Creates a new [Args9] by coping `this` [Args9] but replaces
@@ -219,6 +351,28 @@ interface Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>: Args {
 	fun withArg7(value: A7, representation: String? = null): Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>
 
 	/**
+	 * Maps [a7] of this [Args9] with the given [transform] function resulting in a new [Args9].
+	 *
+	 * @param transform The function which maps [a7] to a new value.
+	 *
+	 * @return The newly created [Args9].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A7New> mapArg7(transform: (A7) -> A7New): Args9<A1, A2, A3, A4, A5, A6, A7New, A8, A9>
+
+	/**
+	 * Maps [a7] and its [representation7] of this [Args9] with the given [transform] function resulting in a new [Args9].
+	 *
+	 * @param transform The function which maps [a7] and [representation7].
+	 *
+	 * @return The newly created [Args9].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A7New> mapArg7WithRepresentation(transform: (A7, String?) -> Pair<A7New, String?>): Args9<A1, A2, A3, A4, A5, A6, A7New, A8, A9>
+
+	/**
 	 * Creates a new [Args9] by coping `this` [Args9] but replaces
 	 * the argument 8 ([Args9.a8]) with the given [value] (and its representation with the given [representation]).
 	 *
@@ -233,6 +387,28 @@ interface Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>: Args {
 	fun withArg8(value: A8, representation: String? = null): Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>
 
 	/**
+	 * Maps [a8] of this [Args9] with the given [transform] function resulting in a new [Args9].
+	 *
+	 * @param transform The function which maps [a8] to a new value.
+	 *
+	 * @return The newly created [Args9].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A8New> mapArg8(transform: (A8) -> A8New): Args9<A1, A2, A3, A4, A5, A6, A7, A8New, A9>
+
+	/**
+	 * Maps [a8] and its [representation8] of this [Args9] with the given [transform] function resulting in a new [Args9].
+	 *
+	 * @param transform The function which maps [a8] and [representation8].
+	 *
+	 * @return The newly created [Args9].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A8New> mapArg8WithRepresentation(transform: (A8, String?) -> Pair<A8New, String?>): Args9<A1, A2, A3, A4, A5, A6, A7, A8New, A9>
+
+	/**
 	 * Creates a new [Args9] by coping `this` [Args9] but replaces
 	 * the argument 9 ([Args9.a9]) with the given [value] (and its representation with the given [representation]).
 	 *
@@ -245,6 +421,28 @@ interface Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>: Args {
 	 * @since 1.0.0
 	 */
 	fun withArg9(value: A9, representation: String? = null): Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>
+
+	/**
+	 * Maps [a9] of this [Args9] with the given [transform] function resulting in a new [Args9].
+	 *
+	 * @param transform The function which maps [a9] to a new value.
+	 *
+	 * @return The newly created [Args9].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A9New> mapArg9(transform: (A9) -> A9New): Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9New>
+
+	/**
+	 * Maps [a9] and its [representation9] of this [Args9] with the given [transform] function resulting in a new [Args9].
+	 *
+	 * @param transform The function which maps [a9] and [representation9].
+	 *
+	 * @return The newly created [Args9].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A9New> mapArg9WithRepresentation(transform: (A9, String?) -> Pair<A9New, String?>): Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9New>
 
 
 	/**

@@ -31,9 +31,43 @@ internal data class DefaultArgs2<A1, A2>(
 	override fun withArg1(value: A1, representation: String?): Args2<A1, A2> =
 		this.copy(a1 = value, representation1 = representation)
 
+	override fun <A1New> mapArg1(
+		transform: (A1) -> A1New
+	): Args2<A1New, A2> =
+		Args.of(
+			a1 = transform(a1),
+			a2 = a2, representation2 = representation2
+		)
+
+	override fun <A1New> mapArg1WithRepresentation(
+		transform: (A1, String?) -> Pair<A1New, String?>
+	): Args2<A1New, A2> =
+       transform(a1, representation1).let{ (newA1, newRepresentation1) ->
+			Args.of(
+				a1 = newA1, representation1 = newRepresentation1?.let { r -> Representation(r) },
+				a2 = a2, representation2 = representation2
+			)
+		}
 	override fun withArg2(value: A2, representation: String?): Args2<A1, A2> =
 		this.copy(a2 = value, representation2 = representation)
 
+	override fun <A2New> mapArg2(
+		transform: (A2) -> A2New
+	): Args2<A1, A2New> =
+		Args.of(
+			a1 = a1, representation1 = representation1?.let { r -> Representation(r) },
+			a2 = transform(a2)
+		)
+
+	override fun <A2New> mapArg2WithRepresentation(
+		transform: (A2, String?) -> Pair<A2New, String?>
+	): Args2<A1, A2New> =
+       transform(a2, representation2).let{ (newA2, newRepresentation2) ->
+			Args.of(
+				a1 = a1, representation1 = representation1?.let { r -> Representation(r) },
+				a2 = newA2, representation2 = newRepresentation2
+			)
+		}
 
 	override fun <A3> append(
 		args: Args1<A3>

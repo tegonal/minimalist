@@ -51,6 +51,28 @@ interface Args2<A1, A2>: Args {
 	fun withArg1(value: A1, representation: String? = null): Args2<A1, A2>
 
 	/**
+	 * Maps [a1] of this [Args2] with the given [transform] function resulting in a new [Args2].
+	 *
+	 * @param transform The function which maps [a1] to a new value.
+	 *
+	 * @return The newly created [Args2].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A1New> mapArg1(transform: (A1) -> A1New): Args2<A1New, A2>
+
+	/**
+	 * Maps [a1] and its [representation1] of this [Args2] with the given [transform] function resulting in a new [Args2].
+	 *
+	 * @param transform The function which maps [a1] and [representation1].
+	 *
+	 * @return The newly created [Args2].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A1New> mapArg1WithRepresentation(transform: (A1, String?) -> Pair<A1New, String?>): Args2<A1New, A2>
+
+	/**
 	 * Creates a new [Args2] by coping `this` [Args2] but replaces
 	 * the argument 2 ([Args2.a2]) with the given [value] (and its representation with the given [representation]).
 	 *
@@ -63,6 +85,28 @@ interface Args2<A1, A2>: Args {
 	 * @since 1.0.0
 	 */
 	fun withArg2(value: A2, representation: String? = null): Args2<A1, A2>
+
+	/**
+	 * Maps [a2] of this [Args2] with the given [transform] function resulting in a new [Args2].
+	 *
+	 * @param transform The function which maps [a2] to a new value.
+	 *
+	 * @return The newly created [Args2].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A2New> mapArg2(transform: (A2) -> A2New): Args2<A1, A2New>
+
+	/**
+	 * Maps [a2] and its [representation2] of this [Args2] with the given [transform] function resulting in a new [Args2].
+	 *
+	 * @param transform The function which maps [a2] and [representation2].
+	 *
+	 * @return The newly created [Args2].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A2New> mapArg2WithRepresentation(transform: (A2, String?) -> Pair<A2New, String?>): Args2<A1, A2New>
 
 
 	/**

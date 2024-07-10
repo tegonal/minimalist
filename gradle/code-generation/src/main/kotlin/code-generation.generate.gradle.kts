@@ -160,6 +160,79 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					|
 					""".trimMargin()
 				).appendLine()
+
+				argsInterfaces.append(
+					"""
+					|	/**
+					|	 * Maps [a$index] of this [Args$upperNumber] with the given [transform] function resulting in a new [Args$upperNumber].
+					|	 *
+					|	 * @param transform The function which maps [a$index] to a new value.
+					|	 *
+					|	 * @return The newly created [Args$upperNumber].
+					|	 *
+					|	 * @since 2.0.0
+					|	 */
+					|	fun <A${index}New> mapArg$index(transform: (A$index) -> A${index}New): Args$upperNumber<$typArgsNew>
+					|
+					""".trimMargin()
+				).appendLine()
+
+				argsInterfaces.append(
+					"""
+					|	/**
+					|	 * Maps [a$index] and its [representation$index] of this [Args$upperNumber] with the given [transform] function resulting in a new [Args$upperNumber].
+					|	 *
+					|	 * @param transform The function which maps [a$index] and [representation$index].
+					|	 *
+					|	 * @return The newly created [Args$upperNumber].
+					|	 *
+					|	 * @since 2.0.0
+					|	 */
+					|	fun <A${index}New> mapArg${index}WithRepresentation(transform: (A$index, String?) -> Pair<A${index}New, String?>): Args$upperNumber<$typArgsNew>
+					|
+					""".trimMargin()
+				).appendLine()
+
+				defaultArgs.append(
+					"""
+					|	override fun <A${index}New> mapArg$index(
+					|		transform: (A$index) -> A${index}New
+					|	): Args$upperNumber<$typArgsNew> =
+					|		Args.of(
+					|			${
+						numbers.joinToString(",\n\t\t\t") {
+							if (it != index) "a$it = a$it, representation$it = representation$it${
+								wrapIntoRepresentationIfFirst(it)
+							}"
+							else "a$it = transform(a$it)"
+						}
+					}
+					|		)
+					|
+					""".trimMargin()
+				).appendLine()
+
+				defaultArgs.append(
+					"""
+					|	override fun <A${index}New> mapArg${index}WithRepresentation(
+					|		transform: (A$index, String?) -> Pair<A${index}New, String?>
+					|	): Args$upperNumber<$typArgsNew> =
+					|       transform(a$index, representation$index).let{ (newA$index, newRepresentation$index) ->
+					|			Args.of(
+					|				${
+						numbers.joinToString(",\n\t\t\t\t") {
+							if (it != index) "a$it = a$it, representation$it = representation$it${
+								wrapIntoRepresentationIfFirst(it)
+							}"
+							else "a$it = newA$it, representation$it = newRepresentation$it${
+								wrapIntoRepresentationIfFirst(it)
+							}"
+						}
+					}
+					|			)
+					|		}
+					""".trimMargin()
+				).appendLine()
 			}
 
 			numbers.forEach { index ->
@@ -490,6 +563,9 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 			val withArgTest = createStringBuilder("$packageName.arguments.withArg")
 				.appendTest("Args${upperNumber}WithArgTest")
 
+			val mapArgTest = createStringBuilder("$packageName.arguments.mapArg")
+				.appendTest("Args${upperNumber}MapArgTest")
+
 			numbers.forEach { number ->
 
 				withArgTest.append(
@@ -541,11 +617,115 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 					|
 					""".trimMargin()
 				).appendLine()
+
+				mapArgTest.append(
+					"""
+					|	@Test
+					|	fun mapArg${number}() {
+					|		val args = Args.of(
+					|			${argValues.take(upperNumber).joinToString(",\n\t\t\t") { "listOf($it)" }},
+					|			${
+						numbers.joinToString(",\n\t\t\t") {
+							"representation$it = ${
+								wrapIntoRepresentationIfFirst(
+									"\"rep $it\"",
+									it
+								)
+							}"
+						}
+					}
+					|		)
+					|		val argsResult = args.mapArg$number { it.first() }
+					|
+					|		// no changes to args
+					|		expect(args) {
+					|			${
+						numbers.joinToString("\n\t\t\t") {
+							"a$it.toEqual(listOf(${argValues.elementAt(it - 1)}))"
+						}
+					}
+					|			${
+						numbers.joinToString("\n\t\t\t") {
+							"representation$it.toEqual(\"rep $it\")"
+						}
+					}
+					|		}
+					|
+					|		expect(argsResult) {
+					|			${
+						numbers.joinToString("\n\t\t\t") {
+							"a$it.toEqual(${if (it == number) argValues.toList()[number - 1] else "args.a$it"})"
+						}
+					}
+					|			${
+						numbers.joinToString("\n\t\t\t") {
+							"representation$it.toEqual(${if (it == number) "null" else "args.representation$it"})"
+						}
+					}
+					|		}
+					|	}
+					|
+					""".trimMargin()
+				).appendLine()
+
+				mapArgTest.append(
+					"""
+					|	@Test
+					|	fun mapArg${number}WithRepresentation() {
+					|		val args = Args.of(
+					|			${argValues.take(upperNumber).joinToString(",\n\t\t\t") { "listOf($it)" }},
+					|			${
+						numbers.joinToString(",\n\t\t\t") {
+							"representation$it = ${
+								wrapIntoRepresentationIfFirst(
+									"\"rep $it\"",
+									it
+								)
+							}"
+						}
+					}
+					|		)
+					|		val argsResult = args.mapArg${number}WithRepresentation { arg, repr -> arg.first() to "${'$'}repr modified" }
+					|
+					|		// no changes to args
+					|		expect(args) {
+					|			${
+						numbers.joinToString("\n\t\t\t") {
+							"a$it.toEqual(listOf(${argValues.elementAt(it - 1)}))"
+						}
+					}
+					|			${
+						numbers.joinToString("\n\t\t\t") {
+							"representation$it.toEqual(\"rep $it\")"
+						}
+					}
+					|		}
+					|
+					|		expect(argsResult) {
+					|			${
+						numbers.joinToString("\n\t\t\t") {
+							"a$it.toEqual(${if (it == number) argValues.toList()[number - 1] else "args.a$it"})"
+						}
+					}
+					|			${
+						numbers.joinToString("\n\t\t\t") {
+							"representation$it.toEqual(${if (it == number) "\"rep $it modified\"" else "args.representation$it"})"
+						}
+					}
+					|		}
+					|	}
+					|
+					""".trimMargin()
+				).appendLine()
 			}
 
 			withArgTest.append("}")
 			val withArgTestFile = packageDir.resolve("arguments/withArg/Args${upperNumber}WithArgTest.kt")
 			withArgTestFile.writeText(withArgTest.toString())
+
+			mapArgTest.append("}")
+			val mapArgTestFile = packageDir.resolve("arguments/mapArg/Args${upperNumber}MapArgTest.kt")
+			mapArgTestFile.writeText(mapArgTest.toString())
 
 			val argumentsTest = createStringBuilder("$packageName.arguments.annotation")
 				.appendTest("Args${upperNumber}ArgumentsTest")

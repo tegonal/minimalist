@@ -87,6 +87,28 @@ interface Args5<A1, A2, A3, A4, A5>: Args {
 	fun withArg1(value: A1, representation: String? = null): Args5<A1, A2, A3, A4, A5>
 
 	/**
+	 * Maps [a1] of this [Args5] with the given [transform] function resulting in a new [Args5].
+	 *
+	 * @param transform The function which maps [a1] to a new value.
+	 *
+	 * @return The newly created [Args5].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A1New> mapArg1(transform: (A1) -> A1New): Args5<A1New, A2, A3, A4, A5>
+
+	/**
+	 * Maps [a1] and its [representation1] of this [Args5] with the given [transform] function resulting in a new [Args5].
+	 *
+	 * @param transform The function which maps [a1] and [representation1].
+	 *
+	 * @return The newly created [Args5].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A1New> mapArg1WithRepresentation(transform: (A1, String?) -> Pair<A1New, String?>): Args5<A1New, A2, A3, A4, A5>
+
+	/**
 	 * Creates a new [Args5] by coping `this` [Args5] but replaces
 	 * the argument 2 ([Args5.a2]) with the given [value] (and its representation with the given [representation]).
 	 *
@@ -99,6 +121,28 @@ interface Args5<A1, A2, A3, A4, A5>: Args {
 	 * @since 1.0.0
 	 */
 	fun withArg2(value: A2, representation: String? = null): Args5<A1, A2, A3, A4, A5>
+
+	/**
+	 * Maps [a2] of this [Args5] with the given [transform] function resulting in a new [Args5].
+	 *
+	 * @param transform The function which maps [a2] to a new value.
+	 *
+	 * @return The newly created [Args5].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A2New> mapArg2(transform: (A2) -> A2New): Args5<A1, A2New, A3, A4, A5>
+
+	/**
+	 * Maps [a2] and its [representation2] of this [Args5] with the given [transform] function resulting in a new [Args5].
+	 *
+	 * @param transform The function which maps [a2] and [representation2].
+	 *
+	 * @return The newly created [Args5].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A2New> mapArg2WithRepresentation(transform: (A2, String?) -> Pair<A2New, String?>): Args5<A1, A2New, A3, A4, A5>
 
 	/**
 	 * Creates a new [Args5] by coping `this` [Args5] but replaces
@@ -115,6 +159,28 @@ interface Args5<A1, A2, A3, A4, A5>: Args {
 	fun withArg3(value: A3, representation: String? = null): Args5<A1, A2, A3, A4, A5>
 
 	/**
+	 * Maps [a3] of this [Args5] with the given [transform] function resulting in a new [Args5].
+	 *
+	 * @param transform The function which maps [a3] to a new value.
+	 *
+	 * @return The newly created [Args5].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A3New> mapArg3(transform: (A3) -> A3New): Args5<A1, A2, A3New, A4, A5>
+
+	/**
+	 * Maps [a3] and its [representation3] of this [Args5] with the given [transform] function resulting in a new [Args5].
+	 *
+	 * @param transform The function which maps [a3] and [representation3].
+	 *
+	 * @return The newly created [Args5].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A3New> mapArg3WithRepresentation(transform: (A3, String?) -> Pair<A3New, String?>): Args5<A1, A2, A3New, A4, A5>
+
+	/**
 	 * Creates a new [Args5] by coping `this` [Args5] but replaces
 	 * the argument 4 ([Args5.a4]) with the given [value] (and its representation with the given [representation]).
 	 *
@@ -129,6 +195,28 @@ interface Args5<A1, A2, A3, A4, A5>: Args {
 	fun withArg4(value: A4, representation: String? = null): Args5<A1, A2, A3, A4, A5>
 
 	/**
+	 * Maps [a4] of this [Args5] with the given [transform] function resulting in a new [Args5].
+	 *
+	 * @param transform The function which maps [a4] to a new value.
+	 *
+	 * @return The newly created [Args5].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A4New> mapArg4(transform: (A4) -> A4New): Args5<A1, A2, A3, A4New, A5>
+
+	/**
+	 * Maps [a4] and its [representation4] of this [Args5] with the given [transform] function resulting in a new [Args5].
+	 *
+	 * @param transform The function which maps [a4] and [representation4].
+	 *
+	 * @return The newly created [Args5].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A4New> mapArg4WithRepresentation(transform: (A4, String?) -> Pair<A4New, String?>): Args5<A1, A2, A3, A4New, A5>
+
+	/**
 	 * Creates a new [Args5] by coping `this` [Args5] but replaces
 	 * the argument 5 ([Args5.a5]) with the given [value] (and its representation with the given [representation]).
 	 *
@@ -141,6 +229,28 @@ interface Args5<A1, A2, A3, A4, A5>: Args {
 	 * @since 1.0.0
 	 */
 	fun withArg5(value: A5, representation: String? = null): Args5<A1, A2, A3, A4, A5>
+
+	/**
+	 * Maps [a5] of this [Args5] with the given [transform] function resulting in a new [Args5].
+	 *
+	 * @param transform The function which maps [a5] to a new value.
+	 *
+	 * @return The newly created [Args5].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A5New> mapArg5(transform: (A5) -> A5New): Args5<A1, A2, A3, A4, A5New>
+
+	/**
+	 * Maps [a5] and its [representation5] of this [Args5] with the given [transform] function resulting in a new [Args5].
+	 *
+	 * @param transform The function which maps [a5] and [representation5].
+	 *
+	 * @return The newly created [Args5].
+	 *
+	 * @since 2.0.0
+	 */
+	fun <A5New> mapArg5WithRepresentation(transform: (A5, String?) -> Pair<A5New, String?>): Args5<A1, A2, A3, A4, A5New>
 
 
 	/**
