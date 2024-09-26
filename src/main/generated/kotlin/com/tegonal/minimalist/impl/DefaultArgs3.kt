@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // automatically generated, don't modify here but in:
-// gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts
+// gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts => generate
 // --------------------------------------------------------------------------------------------------------------------
 package com.tegonal.minimalist.impl
 
@@ -46,13 +46,14 @@ internal data class DefaultArgs3<A1, A2, A3>(
 	override fun <A1New> mapArg1WithRepresentation(
 		transform: (A1, String?) -> Pair<A1New, String?>
 	): Args3<A1New, A2, A3> =
-       transform(a1, representation1).let{ (newA1, newRepresentation1) ->
+		transform(a1, representation1).let { (newA1, newRepresentation1) ->
 			Args.of(
 				a1 = newA1, representation1 = newRepresentation1?.let { r -> Representation(r) },
 				a2 = a2, representation2 = representation2,
 				a3 = a3, representation3 = representation3
 			)
 		}
+
 	override fun withArg2(value: A2, representation: String?): Args3<A1, A2, A3> =
 		this.copy(a2 = value, representation2 = representation)
 
@@ -68,13 +69,14 @@ internal data class DefaultArgs3<A1, A2, A3>(
 	override fun <A2New> mapArg2WithRepresentation(
 		transform: (A2, String?) -> Pair<A2New, String?>
 	): Args3<A1, A2New, A3> =
-       transform(a2, representation2).let{ (newA2, newRepresentation2) ->
+		transform(a2, representation2).let { (newA2, newRepresentation2) ->
 			Args.of(
 				a1 = a1, representation1 = representation1?.let { r -> Representation(r) },
 				a2 = newA2, representation2 = newRepresentation2,
 				a3 = a3, representation3 = representation3
 			)
 		}
+
 	override fun withArg3(value: A3, representation: String?): Args3<A1, A2, A3> =
 		this.copy(a3 = value, representation3 = representation)
 
@@ -90,13 +92,14 @@ internal data class DefaultArgs3<A1, A2, A3>(
 	override fun <A3New> mapArg3WithRepresentation(
 		transform: (A3, String?) -> Pair<A3New, String?>
 	): Args3<A1, A2, A3New> =
-       transform(a3, representation3).let{ (newA3, newRepresentation3) ->
+		transform(a3, representation3).let { (newA3, newRepresentation3) ->
 			Args.of(
 				a1 = a1, representation1 = representation1?.let { r -> Representation(r) },
 				a2 = a2, representation2 = representation2,
 				a3 = newA3, representation3 = newRepresentation3
 			)
 		}
+
 
 	override fun <A4> append(
 		args: Args1<A4>

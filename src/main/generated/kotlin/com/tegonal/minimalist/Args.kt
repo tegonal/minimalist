@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // automatically generated, don't modify here but in:
-// gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts
+// gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts => generate
 // --------------------------------------------------------------------------------------------------------------------
 package com.tegonal.minimalist
 
@@ -26,6 +26,8 @@ interface Args : Arguments {
 		 *
 		 * @since 2.0.0
 		 */
+		@JvmStatic
+		@JvmOverloads
 		fun <A1> of(
 			a1: A1,
 			representation1: Representation? = null
@@ -44,6 +46,8 @@ interface Args : Arguments {
 		 *
 		 * @since 2.0.0
 		 */
+		@JvmStatic
+		@JvmOverloads
 		fun <A1, A2> of(
 			a1: A1,
 			a2: A2,
@@ -68,6 +72,8 @@ interface Args : Arguments {
 		 *
 		 * @since 2.0.0
 		 */
+		@JvmStatic
+		@JvmOverloads
 		fun <A1, A2, A3> of(
 			a1: A1,
 			a2: A2,
@@ -98,6 +104,8 @@ interface Args : Arguments {
 		 *
 		 * @since 2.0.0
 		 */
+		@JvmStatic
+		@JvmOverloads
 		fun <A1, A2, A3, A4> of(
 			a1: A1,
 			a2: A2,
@@ -134,6 +142,8 @@ interface Args : Arguments {
 		 *
 		 * @since 2.0.0
 		 */
+		@JvmStatic
+		@JvmOverloads
 		fun <A1, A2, A3, A4, A5> of(
 			a1: A1,
 			a2: A2,
@@ -176,6 +186,8 @@ interface Args : Arguments {
 		 *
 		 * @since 2.0.0
 		 */
+		@JvmStatic
+		@JvmOverloads
 		fun <A1, A2, A3, A4, A5, A6> of(
 			a1: A1,
 			a2: A2,
@@ -224,6 +236,8 @@ interface Args : Arguments {
 		 *
 		 * @since 2.0.0
 		 */
+		@JvmStatic
+		@JvmOverloads
 		fun <A1, A2, A3, A4, A5, A6, A7> of(
 			a1: A1,
 			a2: A2,
@@ -278,6 +292,8 @@ interface Args : Arguments {
 		 *
 		 * @since 2.0.0
 		 */
+		@JvmStatic
+		@JvmOverloads
 		fun <A1, A2, A3, A4, A5, A6, A7, A8> of(
 			a1: A1,
 			a2: A2,
@@ -338,6 +354,8 @@ interface Args : Arguments {
 		 *
 		 * @since 2.0.0
 		 */
+		@JvmStatic
+		@JvmOverloads
 		fun <A1, A2, A3, A4, A5, A6, A7, A8, A9> of(
 			a1: A1,
 			a2: A2,
@@ -404,6 +422,8 @@ interface Args : Arguments {
 		 *
 		 * @since 2.0.0
 		 */
+		@JvmStatic
+		@JvmOverloads
 		fun <A1, A2, A3, A4, A5, A6, A7, A8, A9, A10> of(
 			a1: A1,
 			a2: A2,

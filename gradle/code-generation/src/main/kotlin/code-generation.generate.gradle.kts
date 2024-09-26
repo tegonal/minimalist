@@ -1,7 +1,9 @@
 import ch.tutteli.kbox.joinToString as joinToStringAndLast
 
 val generationFolder: ConfigurableFileCollection = project.files("src/main/generated/kotlin")
+//val generationFolderJava: ConfigurableFileCollection = project.files("src/main/generated/java")
 val generationTestFolder: ConfigurableFileCollection = project.files("src/test/generated/kotlin")
+val generationTestFolderJava: ConfigurableFileCollection = project.files("src/test/generated/java")
 
 val packageName = "com.tegonal.minimalist"
 val packageNameAsPath = packageName.replace('.', '/')
@@ -16,15 +18,16 @@ fun dontModifyNotice(place: String) =
 		|
 	""".trimMargin()
 
-val dontModifyNotice = dontModifyNotice("gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts")
-
-fun createStringBuilder(packageName: String) = StringBuilder(dontModifyNotice)
-	.append("package ").append(packageName).append("\n\n")
-
 val numOfArgs = 10
 
 
 val generate: TaskProvider<Task> = tasks.register("generate") {
+
+	val dontModifyNotice = dontModifyNotice("gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts => generate")
+
+	fun createStringBuilder(packageName: String) = StringBuilder(dontModifyNotice)
+		.append("package ").append(packageName).append("\n\n")
+
 	doFirst {
 		val packageDir = File(generationFolder.asPath + "/" + packageNameAsPath)
 
@@ -217,7 +220,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					|	override fun <A${index}New> mapArg${index}WithRepresentation(
 					|		transform: (A$index, String?) -> Pair<A${index}New, String?>
 					|	): Args$upperNumber<$typArgsNew> =
-					|       transform(a$index, representation$index).let{ (newA$index, newRepresentation$index) ->
+					|		transform(a$index, representation$index).let { (newA$index, newRepresentation$index) ->
 					|			Args.of(
 					|				${
 						numbers.joinToString(",\n\t\t\t\t") {
@@ -231,6 +234,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					}
 					|			)
 					|		}
+					|
 					""".trimMargin()
 				).appendLine()
 			}
@@ -393,6 +397,8 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 				|		 *
 				|		 * @since 2.0.0
 				|		 */
+				|		@JvmStatic
+				|		@JvmOverloads
 				|		fun <$typeArgs> of(
 				|			$parameters,
 				|			$representationParameters
@@ -421,57 +427,88 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 }
 generationFolder.builtBy(generate)
 
-fun StringBuilder.appendTest(testName: String) = this.append(
-	"""
-	|import ch.tutteli.atrium.api.verbs.expect
-	|import ch.tutteli.atrium.api.fluent.en_GB.*
-	|import org.junit.jupiter.api.Test
-	|import org.junit.jupiter.api.Named
-	|import org.junit.jupiter.params.ParameterizedTest
-	|import org.junit.jupiter.params.provider.MethodSource
-	|import com.tegonal.minimalist.*
-	|import com.tegonal.minimalist.atrium.*
-	|import java.math.BigInteger
-	|import java.time.LocalDate
-	|
-	|class $testName {
-	|
-	""".trimMargin()
-).appendLine()
+
+val argValues = sequenceOf(
+	"1",
+	"2L",
+	"3F",
+	"4.0",
+	"'c'",
+	"\"string\"",
+	"LocalDate.now()",
+	"1.toShort()",
+	"2.toByte()",
+	"3.toBigInteger()"
+)
+val argValues2 = listOf(
+	"2",
+	"3L",
+	"4F",
+	"5.0",
+	"'d'",
+	"\"another string\"",
+	"LocalDate.now().plusDays(2)",
+	"2.toShort()",
+	"3.toByte()",
+	"4.toBigInteger()"
+)
+val argsTypeParameters = sequenceOf(
+	"Int", "Long", "Float", "Double", "Char", "String", "LocalDate", "Short", "Byte", "BigInteger"
+)
+val argsTypeParametersJava = argsTypeParameters.map {
+	when (it) {
+		"Int" -> "Integer"
+		"Char" -> "Character"
+		else -> it
+	}
+}.toList()
+
+val argValuesJava = argValues.map {
+	when (it) {
+		"1.toShort()" -> "(short) 1"
+		"2.toByte()" -> "(byte) 2"
+		"3.toBigInteger()" -> "BigInteger.valueOf(3)"
+		else -> it
+	}
+}
+val argValues2Java = argValues2.map {
+	when (it) {
+		"2.toShort()" -> "(short) 2"
+		"3.toByte()" -> "(byte) 3"
+		"4.toBigInteger()" -> "BigInteger.valueOf(4)"
+		else -> it
+	}
+}
 
 val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
+	val dontModifyNotice = dontModifyNotice("gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts => generateTest")
+
+	fun createStringBuilder(packageName: String) = StringBuilder(dontModifyNotice)
+		.append("@file:Suppress(\"UnusedImport\")\n\n")
+		.append("package ").append(packageName).append("\n\n")
+
 	doFirst {
+		fun StringBuilder.appendTest(testName: String) = this.append(
+			"""
+			|import ch.tutteli.atrium.api.verbs.expect
+			|import ch.tutteli.atrium.api.fluent.en_GB.*
+			|import org.junit.jupiter.api.Test
+			|import org.junit.jupiter.api.Named
+			|import org.junit.jupiter.params.ParameterizedTest
+			|import org.junit.jupiter.params.provider.MethodSource
+			|import com.tegonal.minimalist.*
+			|import com.tegonal.minimalist.atrium.*
+			|import java.math.BigInteger
+			|import java.time.LocalDate
+			|
+			|class $testName {
+			|
+	""".trimMargin()
+		).appendLine()
+
 		val packageDir = File(generationTestFolder.asPath + "/" + packageNameAsPath)
-		val argValues = sequenceOf(
-			"1",
-			"2L",
-			"3F",
-			"4.0",
-			"'c'",
-			"\"string\"",
-			"LocalDate.now()",
-			"1.toShort()",
-			"2.toByte()",
-			"3.toBigInteger()"
-		)
-		val argValues2 = listOf(
-			"2",
-			"3L",
-			"4F",
-			"5.0",
-			"'d'",
-			"\"another string\"",
-			"LocalDate.now().plusDays(2)",
-			"2.toShort()",
-			"3.toByte()",
-			"4.toBigInteger()"
-		)
-		val argsTypeParameters = sequenceOf(
-			"Int", "Long", "Float", "Double", "Char", "String", "LocalDate", "Short", "Byte", "BigInteger"
-		)
 
 		fun wrapIntoRepresentationIfFirst(arg: String, num: Int) = if (num == 1) "Representation($arg)" else arg
-
 
 		(1..numOfArgs).forEach { upperNumber ->
 			val numbers = (1..upperNumber)
@@ -491,7 +528,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 			numbers.forEach {
 				argsExpectations.append(
 					"""
-					|val <$typeArgs> Expect< Args$upperNumber<$typeArgs>>.a$it : Expect<A$it>
+					|val <$typeArgs> Expect<Args$upperNumber<$typeArgs>>.a$it : Expect<A$it>
 					|		get() = feature(Args$upperNumber<$typeArgs>::a$it)
 					""".trimMargin()
 				).appendLine()
@@ -500,7 +537,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 			numbers.forEach {
 				argsExpectations.append(
 					"""
-					|val <$typeArgs> Expect< Args$upperNumber<$typeArgs>>.representation$it : Expect<String?>
+					|val <$typeArgs> Expect<Args$upperNumber<$typeArgs>>.representation$it : Expect<String?>
 					|		get() = feature(Args$upperNumber<$typeArgs>::representation$it)
 					""".trimMargin()
 				).appendLine()
@@ -521,11 +558,11 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 
 					dropTest.append(
 						"""
-					|	@Test
-					|	fun dropArg$number() {
-					|		val args = Args.of(
-					|			${argValues.take(upperNumber).joinToString(",\n\t\t\t")},
-					|			${
+						|	@Test
+						|	fun dropArg$number() {
+						|		val args = Args.of(
+						|			${argValues.take(upperNumber).joinToString(",\n\t\t\t")},
+						|			${
 							numbers.joinToString(",\n\t\t\t") {
 								"representation$it = ${
 									wrapIntoRepresentationIfFirst(
@@ -535,23 +572,23 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 								}"
 							}
 						}
-					|		)
-					|		val argsResult: Args${upperNumber - 1}<${typeParameters.joinToString(", ")}> = args.dropArg$number()
-					|		expect(argsResult) {
-					|			${
+						|		)
+						|		val argsResult: Args${upperNumber - 1}<${typeParameters.joinToString(", ")}> = args.dropArg$number()
+						|		expect(argsResult) {
+						|			${
 							newNumbers.withIndex().joinToString("\n\t\t\t") { (index, it) ->
 								"a${index + 1}.toEqual(args.a$it)"
 							}
 						}
-					|			${
+						|			${
 							newNumbers.withIndex().joinToString("\n\t\t\t") { (index, it) ->
 								"representation${index + 1}.toEqual(args.representation$it)"
 							}
 						}
-					|		}
-					|	}
-					|
-					""".trimMargin()
+						|		}
+						|	}
+						|
+						""".trimMargin()
 					).appendLine()
 				}
 
@@ -741,6 +778,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 				|${numbers.joinToString(",\n") { "\t\t\targs.a$it" }}
 				|		)
 				|	}
+				|
 				|	@Test
 				|	fun `get returns correct array and value wrapped in Named if representation specified`() {
 				|		val args = Args.of(
@@ -812,12 +850,12 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 					val numbers2 = 1..upperNumber2
 					appendTest.append(
 						"""
-					|	@Test
-					|	fun `append Args${upperNumber2}`() {
-					|		val firstArgs = Args.of(
-					|			${argValues.take(upperNumber).joinToString(",\n\t\t\t")},
-					|			${
-							(1..upperNumber).joinToString(",\n\t\t\t") {
+						|	@Test
+						|	fun `append Args${upperNumber2}`() {
+						|		val firstArgs = Args.of(
+						|			${argValues.take(upperNumber).joinToString(",\n\t\t\t")},
+						|			${
+							numbers.joinToString(",\n\t\t\t") {
 								"representation$it = ${
 									wrapIntoRepresentationIfFirst(
 										"\"rep $it\"",
@@ -826,10 +864,10 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 								}"
 							}
 						}
-					|		)
-					|		val secondArgs = Args.of(
-					|			${argValues.drop(upperNumber).take(upperNumber2).joinToString(",\n\t\t\t")},
-					|			${
+						|		)
+						|		val secondArgs = Args.of(
+						|			${argValues.drop(upperNumber).take(upperNumber2).joinToString(",\n\t\t\t")},
+						|			${
 							numbers2.joinToString(",\n\t\t\t") {
 								"representation$it = ${
 									wrapIntoRepresentationIfFirst(
@@ -839,17 +877,17 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 								}"
 							}
 						}
-					|		)
-					|		val argsResult = firstArgs.append(secondArgs)
-					|		expect(argsResult) {
-					|			${numbers.joinToString("\n\t\t\t") { "a$it.toEqual(firstArgs.a$it)" }}
-					|			${numbers.joinToString("\n\t\t\t") { "representation$it.toEqual(firstArgs.representation$it)" }}
-					|			${numbers2.joinToString("\n\t\t\t") { "a${it + upperNumber}.toEqual(secondArgs.a$it)" }}
-					|			${numbers2.joinToString("\n\t\t\t") { "representation${it + upperNumber}.toEqual(secondArgs.representation$it)" }}
-					|		}
-					|	}
-					|
-					""".trimMargin()
+						|		)
+						|		val argsResult = firstArgs.append(secondArgs)
+						|		expect(argsResult) {
+						|			${numbers.joinToString("\n\t\t\t") { "a$it.toEqual(firstArgs.a$it)" }}
+						|			${numbers.joinToString("\n\t\t\t") { "representation$it.toEqual(firstArgs.representation$it)" }}
+						|			${numbers2.joinToString("\n\t\t\t") { "a${it + upperNumber}.toEqual(secondArgs.a$it)" }}
+						|			${numbers2.joinToString("\n\t\t\t") { "representation${it + upperNumber}.toEqual(secondArgs.representation$it)" }}
+						|		}
+						|	}
+						|
+						""".trimMargin()
 					).appendLine()
 				}
 
@@ -896,3 +934,459 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 	}
 }
 generationTestFolder.builtBy(generateTest)
+
+val generateTestJava: TaskProvider<Task> = tasks.register("generateTestJava") {
+	val dontModifyNotice = dontModifyNotice("gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts => generateTestJava")
+
+	fun createStringBuilder(packageName: String) = StringBuilder(dontModifyNotice)
+		.append("package ").append(packageName).append("\n\n")
+
+	doFirst {
+		fun StringBuilder.appendTest(testName: String) = this.append(
+			"""
+			|import ch.tutteli.atrium.api.fluent.en_GB.*;
+			|import ch.tutteli.atrium.creating.Expect;
+			|import com.tegonal.minimalist.*;
+			|import com.tegonal.minimalist.atrium.*;
+			|import com.tegonal.minimalist.java.*;
+			|import kotlin.Pair;
+			|import kotlin.Unit;
+			|import kotlin.jvm.functions.Function1;
+			|import org.junit.jupiter.api.Named;
+			|import org.junit.jupiter.api.Test;
+			|import org.junit.jupiter.params.ParameterizedTest;
+			|import org.junit.jupiter.params.provider.MethodSource;
+
+			|import java.math.BigInteger;
+			|import java.time.LocalDate;
+			|import java.util.List;
+
+			|import static ch.tutteli.atrium.api.fluent.en_GB.AnyExpectationsKt.*;
+			|import static ch.tutteli.atrium.api.fluent.en_GB.ArraySubjectChangersKt.*;
+			|import static ch.tutteli.atrium.api.fluent.en_GB.IterableExpectationsKt.*;
+			|import static ch.tutteli.atrium.api.verbs.ExpectKt.expect;
+			|import static com.tegonal.minimalist.atrium.Args1ExpectationsKt.*;
+			|import static com.tegonal.minimalist.atrium.Args2ExpectationsKt.*;
+			|import static com.tegonal.minimalist.atrium.Args3ExpectationsKt.*;
+			|import static com.tegonal.minimalist.atrium.Args4ExpectationsKt.*;
+			|import static com.tegonal.minimalist.atrium.Args5ExpectationsKt.*;
+			|import static com.tegonal.minimalist.atrium.Args6ExpectationsKt.*;
+			|import static com.tegonal.minimalist.atrium.Args7ExpectationsKt.*;
+			|import static com.tegonal.minimalist.atrium.Args8ExpectationsKt.*;
+			|import static com.tegonal.minimalist.atrium.Args9ExpectationsKt.*;
+			|import static com.tegonal.minimalist.atrium.Args10ExpectationsKt.*;
+			|
+			|public class $testName {
+			|
+			""".trimMargin()
+		).appendLine()
+
+		val packageDir = File(generationTestFolderJava.asPath + "/" + packageNameAsPath + "/java")
+
+		fun wrapIntoRepresentationIfFirst(arg: String, num: Int) = if (num == 1) "new Representation($arg)" else arg
+
+		val packageName = "$packageName.java"
+
+		(1..numOfArgs).forEach { upperNumber ->
+			val numbers = (1..upperNumber)
+
+			if (upperNumber > 1) {
+				val dropTest = createStringBuilder("$packageName.arguments.drop;")
+					.appendTest("Args${upperNumber}DropTest")
+
+
+				numbers.forEach { number ->
+
+					val typeParameters = argsTypeParametersJava.take(upperNumber).let {
+						it.take(number - 1) + it.drop(number)
+					}
+					val newNumbers = numbers.take(number - 1) + numbers.drop(number)
+
+					dropTest.append(
+						"""
+						|	@Test
+						|	public void dropArg$number() {
+						|		var args = Args.of(
+						|			${argValuesJava.take(upperNumber).joinToString(",\n\t\t\t")},
+						|			${
+							numbers.joinToString(",\n\t\t\t") {
+								wrapIntoRepresentationIfFirst(
+									"\"rep $it\"",
+									it
+								)
+							}
+						}
+						|		);
+						|		Args${upperNumber - 1}<${typeParameters.joinToString(", ")}> argsResult = args.dropArg$number();
+						|		expect(argsResult, e -> {
+						|			${
+							newNumbers.withIndex().joinToString("\n\t\t\t") { (index, it) ->
+								"toEqual(getA${index + 1}(e), args.getA$it());"
+							}
+						}
+						|			${
+							newNumbers.withIndex().joinToString("\n\t\t\t") { (index, it) ->
+								"toEqual(getRepresentation${index + 1}(e), args.getRepresentation$it());"
+							}
+						}
+						|			return Unit.INSTANCE;
+						|		});
+						|	}
+						|
+						""".trimMargin()
+					).appendLine()
+				}
+
+				dropTest.append("}")
+				val dropTestFile = packageDir.resolve("arguments/drop/Args${upperNumber}DropTest.java")
+				dropTestFile.writeText(dropTest.toString())
+			}
+
+			val withArgTest = createStringBuilder("$packageName.arguments.withArg;")
+				.appendTest("Args${upperNumber}WithArgTest")
+
+			val mapArgTest = createStringBuilder("$packageName.arguments.mapArg;")
+				.appendTest("Args${upperNumber}MapArgTest")
+
+			numbers.forEach { number ->
+
+				withArgTest.append(
+					"""
+					|	@Test
+					|	public void withArg$number() {
+					|		var args = Args.of(
+					|			${argValuesJava.take(upperNumber).joinToString(",\n\t\t\t")},
+					|			${
+						numbers.joinToString(",\n\t\t\t") {
+							wrapIntoRepresentationIfFirst(
+								"\"rep $it\"",
+								it
+							)
+						}
+					}
+					|		);
+					|		var argsResult = args.withArg$number(${argValues2Java[number - 1]}, "new rep");
+					|
+					|		// no changes to args
+					|		expect(args, e -> {
+					|			${
+						numbers.joinToString("\n\t\t\t") {
+							"toEqual(getA$it(e), ${argValuesJava.elementAt(it - 1)});"
+						}
+					}
+					|			${
+						numbers.joinToString("\n\t\t\t") {
+							"toEqual(getRepresentation$it(e), \"rep $it\");"
+						}
+					}
+					|			return Unit.INSTANCE;
+					|		});
+					|
+					|		expect(argsResult, e -> {
+					|			${
+						numbers.joinToString("\n\t\t\t") {
+							"toEqual(getA$it(e), ${if (it == number) argValues2Java[number - 1] else "args.getA$it()"});"
+						}
+					}
+					|			${
+						numbers.joinToString("\n\t\t\t") {
+							"toEqual(getRepresentation$it(e), ${if (it == number) "\"new rep\"" else "args.getRepresentation$it()"});"
+						}
+					}
+					|			return Unit.INSTANCE;
+					|		});
+					|	}
+					|
+					""".trimMargin()
+				).appendLine()
+
+				mapArgTest.append(
+					"""
+					|	@Test
+					|	public void mapArg${number}() {
+					|		var args = Args.of(
+					|			${argValuesJava.take(upperNumber).joinToString(",\n\t\t\t") { "List.of($it)" }},
+					|			${
+						numbers.joinToString(",\n\t\t\t") {
+							wrapIntoRepresentationIfFirst(
+								"\"rep $it\"",
+								it
+							)
+						}
+					}
+					|		);
+					|		var argsResult = args.mapArg$number(it -> it.get(0));
+					|
+					|		// no changes to args
+					|		expect(args, e -> {
+					|			${
+						numbers.joinToString("\n\t\t\t") {
+							"toEqual(getA$it(e), List.of(${argValuesJava.elementAt(it - 1)}));"
+						}
+					}
+					|			${
+						numbers.joinToString("\n\t\t\t") {
+							"toEqual(getRepresentation$it(e), \"rep $it\");"
+						}
+					}
+					|				return Unit.INSTANCE;
+					|		});
+					|
+					|		expect(argsResult, e -> {
+					|			${
+						numbers.joinToString("\n\t\t\t") {
+							"toEqual(getA$it(e), ${if (it == number) argValuesJava.toList()[number - 1] else "args.getA$it()"});"
+						}
+					}
+					|			${
+						numbers.joinToString("\n\t\t\t") {
+							"toEqual(getRepresentation$it(e), ${if (it == number) "null" else "args.getRepresentation$it()"});"
+						}
+					}
+					|				return Unit.INSTANCE;
+					|		});
+					|	}
+					|
+					""".trimMargin()
+				).appendLine()
+
+				mapArgTest.append(
+					"""
+					|	@Test
+					|	public void mapArg${number}WithRepresentation() {
+					|		var args = Args.of(
+					|			${argValuesJava.take(upperNumber).joinToString(",\n\t\t\t") { "List.of($it)" }},
+					|			${
+						numbers.joinToString(",\n\t\t\t") {
+							wrapIntoRepresentationIfFirst(
+								"\"rep $it\"",
+								it
+							)
+						}
+					}
+					|		);
+					|		var argsResult = args.mapArg${number}WithRepresentation((arg, repr) -> new Pair<>(arg.get(0), repr + " modified"));
+					|
+					|		// no changes to args
+					|		expect(args, e -> {
+					|			${
+						numbers.joinToString("\n\t\t\t") {
+							"toEqual(getA$it(e), List.of(${argValuesJava.elementAt(it - 1)}));"
+						}
+					}
+					|			${
+						numbers.joinToString("\n\t\t\t") {
+							"toEqual(getRepresentation$it(e), \"rep $it\");"
+						}
+					}
+					|				return Unit.INSTANCE;
+					|		});
+					|
+					|		expect(argsResult, e -> {
+					|			${
+						numbers.joinToString("\n\t\t\t") {
+							"toEqual(getA$it(e), ${if (it == number) argValuesJava.toList()[number - 1] else "args.getA$it()"});"
+						}
+					}
+					|			${
+						numbers.joinToString("\n\t\t\t") {
+							"toEqual(getRepresentation$it(e), ${if (it == number) "\"rep $it modified\"" else "args.getRepresentation$it()"});"
+						}
+					}
+					|				return Unit.INSTANCE;
+					|		});
+					|	}
+					|
+					""".trimMargin()
+				).appendLine()
+			}
+
+			withArgTest.append("}")
+			val withArgTestFile = packageDir.resolve("arguments/withArg/Args${upperNumber}WithArgTest.java")
+			withArgTestFile.writeText(withArgTest.toString())
+
+			mapArgTest.append("}")
+			val mapArgTestFile = packageDir.resolve("arguments/mapArg/Args${upperNumber}MapArgTest.java")
+			mapArgTestFile.writeText(mapArgTest.toString())
+
+			val argumentsTest = createStringBuilder("$packageName.arguments.annotation;")
+				.appendTest("Args${upperNumber}ArgumentsTest")
+
+			argumentsTest.append(
+				"""
+				|	@Test
+				|	public void get_returns_correct_array_and_value_not_wrapped_in_Named_if_representation_not_specified() {
+				|		var args = Args.of(
+				|			${argValuesJava.take(upperNumber).joinToString(",\n\t\t\t")}
+				|		);
+				|		new Pipe<>(expect(args.get()))
+				|			.pipe((it) -> asList(it))
+				|			.pipe(it -> IterableExpectationsKt.toContainExactly(
+				|				it,
+				|				${
+					numbers.joinToString(",\n\t\t\t") {
+						(if (it == 2) "\tnew Object[] {\n\t\t\t\t\t" else if (it > 1) "\t\t" else "") +
+							"args.getA$it()" +
+							(if (it == upperNumber) {
+								if (it > 1) "\n\t\t\t\t}" else ",\n\t\t\t\tnew Object[0]"
+							} else "")
+					}
+				},
+				|				o -> Unit.INSTANCE
+				|			));
+				|	}
+				|
+				|	@Test
+				|	public void get_returns_correct_array_and_value_wrapped_in_Named_if_representation_specified() {
+				|		var args = Args.of(
+				|			${argValuesJava.take(upperNumber).joinToString(",\n\t\t\t")},
+				|			${
+					numbers.joinToString(",\n\t\t\t") {
+						wrapIntoRepresentationIfFirst(
+							"\"rep $it\"",
+							it
+						)
+					}
+				}
+				|		);
+				|		new Pipe<>(expect(args.get()))
+				|			.pipe((it) -> asList(it))
+				|			.pipe(it -> IterableExpectationsKt.toContainExactly(it,
+				|${
+					numbers.joinToString(",\n") {
+						(if (it == 2) "\t\t\t\tnew Function1[] {\n" else "") +
+							"""
+				|				${if (it == 1) "e" else "untypedE"} -> {
+				|					${if (it > 1) "Expect<Object> e = (Expect) untypedE;\n\t\t\t\t\t" else ""}Class<Named<${argsTypeParametersJava[it - 1]}>> clazz = (Class) Named.class;
+				|					AnyExpectationsKt.toBeAnInstanceOf(e, kotlin.jvm.JvmClassMappingKt.getKotlinClass(clazz)).transformAndAppend(eNamed -> {
+				|						NamedExpectationsKt.name(eNamed, eString -> {
+				|							AnyExpectationsKt.toEqual(eString, args.getRepresentation$it());
+				|							return Unit.INSTANCE;
+				|						});
+				|						NamedExpectationsKt.payload(eNamed, eVal -> {
+				|							AnyExpectationsKt.toEqual(eVal, args.getA$it());
+				|							return Unit.INSTANCE;
+				|						});
+				|						return Unit.INSTANCE;
+				|					});
+				|					return Unit.INSTANCE;
+				|				}""".trimMargin() +
+							(if (it == upperNumber) {
+								if (it > 1) "\n\t\t\t\t}" else ",\n\t\t\t\tnew Function1[0]"
+							} else "")
+					}
+				},
+				| 				o -> Unit.INSTANCE
+				|			));
+				|	}
+				|
+				|	@Test
+				|	public void using_null_as_representation_does_not_wrap_it_into_Named() {
+				|		var args = Args.of(
+				|			${argValuesJava.take(upperNumber).joinToString(",\n\t\t\t")},
+				|			${numbers.joinToString(",\n\t\t\t") { (if (it == 1) "(Representation) " else "(String) ") + "null" }}
+				|		);
+				|		new Pipe<>(expect(args.get()))
+				|			.pipe(it -> asList(it))
+				|			.pipe(it -> IterableExpectationsKt.toContainExactly(
+				|				it,
+				|				${
+					numbers.joinToString(",\n\t\t\t") {
+						(if (it == 2) "\tnew Object[] {\n\t\t\t\t\t" else if (it > 1) "\t\t" else "") +
+							"args.getA$it()" +
+							(if (it == upperNumber) {
+								if (it > 1) "\n\t\t\t\t}" else ",\n\t\t\t\tnew Object[0]"
+							} else "")
+					}
+				},
+				|				o -> Unit.INSTANCE
+				|			));
+				|	}
+				|
+				|	@ParameterizedTest
+				|	@MethodSource("args")
+				|	public void can_use_Args${upperNumber}_in_MethodSource(
+				|		${numbers.joinToString(",\n\t\t") { "${argsTypeParametersJava.elementAt(it - 1)} a$it" }}
+				|	) {
+				|		${
+					numbers.joinToString("\n\t\t") {
+						"new Pipe<>(expect(a$it))" +
+							".pipe(it -> toEqual(it, ${argValuesJava.elementAt(it - 1)}));"
+					}
+				}
+				|	}
+				|
+				|	static List<Args> args() {
+				|		return List.of(Args.of(${argValuesJava.take(upperNumber).joinToString(", ")}));
+				|	}
+				""".trimMargin()
+			).appendLine()
+			argumentsTest.append("}")
+			val argumentsTestFile = packageDir.resolve("arguments/annotation/Args${upperNumber}ArgumentsTest.java")
+			argumentsTestFile.writeText(argumentsTest.toString())
+
+			if (upperNumber < numOfArgs) {
+				val appendTest = createStringBuilder("${packageName}.arguments.append;")
+					.appendTest("Args${upperNumber}AppendTest")
+
+
+				(1..numOfArgs - upperNumber).forEach { upperNumber2 ->
+
+
+					val numbers2 = 1..upperNumber2
+					appendTest.append(
+						"""
+						|	@Test
+						|	public void append_Args${upperNumber2}() {
+						|		var firstArgs = Args.of(
+						|			${argValuesJava.take(upperNumber).joinToString(",\n\t\t\t")},
+						|			${
+							numbers.joinToString(",\n\t\t\t") {
+								wrapIntoRepresentationIfFirst(
+									"\"rep $it\"",
+									it
+								)
+							}
+						}
+						|		);
+						|		var secondArgs = Args.of(
+						|			${argValuesJava.drop(upperNumber).take(upperNumber2).joinToString(",\n\t\t\t")},
+						|			${
+							numbers2.joinToString(",\n\t\t\t") {
+								wrapIntoRepresentationIfFirst(
+									"\"rep $it\"",
+									it
+								)
+							}
+						}
+						|		);
+						|		var argsResult = firstArgs.append(secondArgs);
+						|		expect(argsResult, e -> {
+						|			${numbers.joinToString("\n\t\t\t") { "toEqual(getA$it(e), firstArgs.getA$it());" }}
+						|			${numbers.joinToString("\n\t\t\t") { "toEqual(getRepresentation$it(e), firstArgs.getRepresentation$it());" }}
+						|			${numbers2.joinToString("\n\t\t\t") { "toEqual(getA${it + upperNumber}(e), secondArgs.getA$it());" }}
+						|			${numbers2.joinToString("\n\t\t\t") { "toEqual(getRepresentation${it + upperNumber}(e), secondArgs.getRepresentation$it());" }}
+						|			return Unit.INSTANCE;
+						|		});
+						|	}
+						|
+						""".trimMargin()
+					).appendLine()
+				}
+
+
+				appendTest.append("}")
+				val appendTestFile = packageDir.resolve("arguments/append/Args${upperNumber}AppendTest.java")
+				appendTestFile.writeText(appendTest.toString())
+			}
+
+		}
+	}
+}
+generationTestFolderJava.builtBy(generateTestJava)
+
+tasks.register("generateAll") {
+	dependsOn(generate)
+	dependsOn(generateTest)
+	dependsOn(generateTestJava)
+}

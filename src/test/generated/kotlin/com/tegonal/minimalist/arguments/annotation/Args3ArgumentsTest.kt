@@ -1,8 +1,11 @@
 // --------------------------------------------------------------------------------------------------------------------
 // automatically generated, don't modify here but in:
-// gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts
+// gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts => generateTest
 // --------------------------------------------------------------------------------------------------------------------
+@file:Suppress("UnusedImport")
+
 package com.tegonal.minimalist.arguments.annotation
+
 
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.atrium.api.fluent.en_GB.*
@@ -30,6 +33,7 @@ class Args3ArgumentsTest {
 			args.a3
 		)
 	}
+
 	@Test
 	fun `get returns correct array and value wrapped in Named if representation specified`() {
 		val args = Args.of(
