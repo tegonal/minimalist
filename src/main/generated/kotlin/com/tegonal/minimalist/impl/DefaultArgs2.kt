@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // automatically generated, don't modify here but in:
-// gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts
+// gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts => generate
 // --------------------------------------------------------------------------------------------------------------------
 package com.tegonal.minimalist.impl
 
@@ -42,12 +42,13 @@ internal data class DefaultArgs2<A1, A2>(
 	override fun <A1New> mapArg1WithRepresentation(
 		transform: (A1, String?) -> Pair<A1New, String?>
 	): Args2<A1New, A2> =
-       transform(a1, representation1).let{ (newA1, newRepresentation1) ->
+		transform(a1, representation1).let { (newA1, newRepresentation1) ->
 			Args.of(
 				a1 = newA1, representation1 = newRepresentation1?.let { r -> Representation(r) },
 				a2 = a2, representation2 = representation2
 			)
 		}
+
 	override fun withArg2(value: A2, representation: String?): Args2<A1, A2> =
 		this.copy(a2 = value, representation2 = representation)
 
@@ -62,12 +63,13 @@ internal data class DefaultArgs2<A1, A2>(
 	override fun <A2New> mapArg2WithRepresentation(
 		transform: (A2, String?) -> Pair<A2New, String?>
 	): Args2<A1, A2New> =
-       transform(a2, representation2).let{ (newA2, newRepresentation2) ->
+		transform(a2, representation2).let { (newA2, newRepresentation2) ->
 			Args.of(
 				a1 = a1, representation1 = representation1?.let { r -> Representation(r) },
 				a2 = newA2, representation2 = newRepresentation2
 			)
 		}
+
 
 	override fun <A3> append(
 		args: Args1<A3>

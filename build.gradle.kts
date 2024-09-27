@@ -18,8 +18,9 @@ dependencies {
 }
 
 val generationFolder: ConfigurableFileCollection = project.files("src/main/generated/kotlin")
+val generationFolderJava: ConfigurableFileCollection = project.files("src/main/generated/java")
 val generationTestFolder: ConfigurableFileCollection = project.files("src/test/generated/kotlin")
-
+val generationTestFolderJava: ConfigurableFileCollection = project.files("src/test/generated/java")
 kotlin {
 	sourceSets {
 		main {
@@ -27,6 +28,19 @@ kotlin {
 		}
 		test {
 			kotlin.srcDir(generationTestFolder)
+		}
+	}
+}
+java {
+	sourceSets {
+		main {
+			java.srcDir(generationFolderJava)
+		}
+		test {
+			java {
+				srcDir(generationTestFolderJava)
+				srcDir(project.files("src/test/java"))
+			}
 		}
 	}
 }

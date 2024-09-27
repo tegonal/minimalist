@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // automatically generated, don't modify here but in:
-// gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts
+// gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts => generate
 // --------------------------------------------------------------------------------------------------------------------
 package com.tegonal.minimalist.impl
 
@@ -54,7 +54,7 @@ internal data class DefaultArgs5<A1, A2, A3, A4, A5>(
 	override fun <A1New> mapArg1WithRepresentation(
 		transform: (A1, String?) -> Pair<A1New, String?>
 	): Args5<A1New, A2, A3, A4, A5> =
-       transform(a1, representation1).let{ (newA1, newRepresentation1) ->
+		transform(a1, representation1).let { (newA1, newRepresentation1) ->
 			Args.of(
 				a1 = newA1, representation1 = newRepresentation1?.let { r -> Representation(r) },
 				a2 = a2, representation2 = representation2,
@@ -63,6 +63,7 @@ internal data class DefaultArgs5<A1, A2, A3, A4, A5>(
 				a5 = a5, representation5 = representation5
 			)
 		}
+
 	override fun withArg2(value: A2, representation: String?): Args5<A1, A2, A3, A4, A5> =
 		this.copy(a2 = value, representation2 = representation)
 
@@ -80,7 +81,7 @@ internal data class DefaultArgs5<A1, A2, A3, A4, A5>(
 	override fun <A2New> mapArg2WithRepresentation(
 		transform: (A2, String?) -> Pair<A2New, String?>
 	): Args5<A1, A2New, A3, A4, A5> =
-       transform(a2, representation2).let{ (newA2, newRepresentation2) ->
+		transform(a2, representation2).let { (newA2, newRepresentation2) ->
 			Args.of(
 				a1 = a1, representation1 = representation1?.let { r -> Representation(r) },
 				a2 = newA2, representation2 = newRepresentation2,
@@ -89,6 +90,7 @@ internal data class DefaultArgs5<A1, A2, A3, A4, A5>(
 				a5 = a5, representation5 = representation5
 			)
 		}
+
 	override fun withArg3(value: A3, representation: String?): Args5<A1, A2, A3, A4, A5> =
 		this.copy(a3 = value, representation3 = representation)
 
@@ -106,7 +108,7 @@ internal data class DefaultArgs5<A1, A2, A3, A4, A5>(
 	override fun <A3New> mapArg3WithRepresentation(
 		transform: (A3, String?) -> Pair<A3New, String?>
 	): Args5<A1, A2, A3New, A4, A5> =
-       transform(a3, representation3).let{ (newA3, newRepresentation3) ->
+		transform(a3, representation3).let { (newA3, newRepresentation3) ->
 			Args.of(
 				a1 = a1, representation1 = representation1?.let { r -> Representation(r) },
 				a2 = a2, representation2 = representation2,
@@ -115,6 +117,7 @@ internal data class DefaultArgs5<A1, A2, A3, A4, A5>(
 				a5 = a5, representation5 = representation5
 			)
 		}
+
 	override fun withArg4(value: A4, representation: String?): Args5<A1, A2, A3, A4, A5> =
 		this.copy(a4 = value, representation4 = representation)
 
@@ -132,7 +135,7 @@ internal data class DefaultArgs5<A1, A2, A3, A4, A5>(
 	override fun <A4New> mapArg4WithRepresentation(
 		transform: (A4, String?) -> Pair<A4New, String?>
 	): Args5<A1, A2, A3, A4New, A5> =
-       transform(a4, representation4).let{ (newA4, newRepresentation4) ->
+		transform(a4, representation4).let { (newA4, newRepresentation4) ->
 			Args.of(
 				a1 = a1, representation1 = representation1?.let { r -> Representation(r) },
 				a2 = a2, representation2 = representation2,
@@ -141,6 +144,7 @@ internal data class DefaultArgs5<A1, A2, A3, A4, A5>(
 				a5 = a5, representation5 = representation5
 			)
 		}
+
 	override fun withArg5(value: A5, representation: String?): Args5<A1, A2, A3, A4, A5> =
 		this.copy(a5 = value, representation5 = representation)
 
@@ -158,7 +162,7 @@ internal data class DefaultArgs5<A1, A2, A3, A4, A5>(
 	override fun <A5New> mapArg5WithRepresentation(
 		transform: (A5, String?) -> Pair<A5New, String?>
 	): Args5<A1, A2, A3, A4, A5New> =
-       transform(a5, representation5).let{ (newA5, newRepresentation5) ->
+		transform(a5, representation5).let { (newA5, newRepresentation5) ->
 			Args.of(
 				a1 = a1, representation1 = representation1?.let { r -> Representation(r) },
 				a2 = a2, representation2 = representation2,
@@ -167,6 +171,7 @@ internal data class DefaultArgs5<A1, A2, A3, A4, A5>(
 				a5 = newA5, representation5 = newRepresentation5
 			)
 		}
+
 
 	override fun <A6> append(
 		args: Args1<A6>
