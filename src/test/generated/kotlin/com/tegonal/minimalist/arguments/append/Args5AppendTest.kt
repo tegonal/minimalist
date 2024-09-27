@@ -6,7 +6,6 @@
 
 package com.tegonal.minimalist.arguments.append
 
-
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.atrium.api.fluent.en_GB.*
 import org.junit.jupiter.api.Test
