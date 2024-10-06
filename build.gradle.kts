@@ -1,3 +1,7 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
+import kotlin.io.path.ExperimentalPathApi
+import kotlin.io.path.copyToRecursively
+
 plugins {
 	id("build-logic.published-kotlin-jvm")
 	id("code-generation.generate")
@@ -44,6 +48,23 @@ java {
 		}
 	}
 }
+
+// current workaround for java so that we can execute `main` methods
+// intellij uses the module path and apparently it is not possible to patch modules if it contains only
+// the module-info.class -- moreover, intellij adds only the java sources to the module path, so as for now it is
+// easier to just copy the kotlin .class files to the output folder of java
+//project.tasks.withType<KotlinJvmCompile>().configureEach {
+//	doLast {
+//		this.outputs.files.filter { it.name == "main" }.forEach {
+//			@OptIn(ExperimentalPathApi::class)
+//			it.toPath().copyToRecursively(
+//				project.layout.buildDirectory.file("classes/java/main/").get().asFile.toPath(),
+//				followLinks = false,
+//				overwrite = true
+//			)
+//		}
+//	}
+//}
 
 nexusPublishing {
 	repositories {
