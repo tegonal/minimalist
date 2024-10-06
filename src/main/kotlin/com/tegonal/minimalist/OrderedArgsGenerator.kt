@@ -13,11 +13,12 @@ interface ArgsGenerator<T : Args> {
 
 interface RandomArgsGenerator<T : Args> : ArgsGenerator<T> {
 
-    fun generate(amount: Int): List<T>
+	fun generateOne(): T = generate().first()
 
-    companion object
+	fun generate(): Sequence<T>
+
+	companion object
 }
-
 
 /**
  * Represents an [ArgsGenerator] which provides [generateOrdered] which generates [T]s always in the same order and
@@ -27,23 +28,23 @@ interface RandomArgsGenerator<T : Args> : ArgsGenerator<T> {
  */
 interface OrderedArgsGenerator<T : Args> : ArgsGenerator<T> {
 
-    /**
-     * Returns the maximum of values this generator is able to generate before it starts over again.
-     *
-     * @since 2.0.0
-     */
-    val size: Int
+	/**
+	 * Returns the maximum of values this generator is able to generate before it starts over again.
+	 *
+	 * @since 2.0.0
+	 */
+	val size: Int
 
-    /**
-     * Pure function which returns the given amount of values starting at [offset] where always the same values
-     * are generated when called multiple times.
-     *
-     * @since 2.0.0
-     */
-    fun generateOrdered(amount: Int, offset: Int): List<T>
+	/**
+	 * Pure function which returns the given amount of values starting at [offset] where always the same values
+	 * are generated when called multiple times.
+	 *
+	 * @since 2.0.0
+	 */
+	fun generateOrdered(amount: Int, offset: Int): List<T>
 
-    /**
-     * Extension point for things like [OrderedArgsGenerator.of][OrderedArgsGenerator.Companion.of].
-     */
-    companion object
+	/**
+	 * Extension point for things like [OrderedArgsGenerator.of][OrderedArgsGenerator.Companion.of].
+	 */
+	companion object
 }

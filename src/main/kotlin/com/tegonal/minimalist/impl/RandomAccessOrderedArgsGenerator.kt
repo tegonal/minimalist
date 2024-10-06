@@ -11,7 +11,7 @@ import com.tegonal.minimalist.OrderedArgsGenerator
  *
  * @since 2.0.0
  */
-abstract class RandomAccessArgsGenerator<T : Args> : OrderedArgsGenerator<T> {
+abstract class RandomAccessOrderedArgsGenerator<T : Args> : OrderedArgsGenerator<T> {
 	final override fun generateOrdered(amount: Int, offset: Int): List<T> {
 		val result = ArrayList<T>(amount)
 		var count = 0

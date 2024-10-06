@@ -11,7 +11,7 @@ import com.tegonal.minimalist.OrderedArgsGenerator
  *
  * @since 2.0.0
  */
-class ArrayArgsGenerator<T : Args>(private val values: Array<out T>) : RandomAccessArgsGenerator<T>() {
+class ArrayOrderedArgsGenerator<T : Args>(private val values: Array<out T>) : RandomAccessOrderedArgsGenerator<T>() {
     override fun elementAt(index: Int): T = values[index]
     override val size: Int = values.size
 }
