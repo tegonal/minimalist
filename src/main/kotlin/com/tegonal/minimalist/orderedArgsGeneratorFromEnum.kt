@@ -1,6 +1,6 @@
 package com.tegonal.minimalist
 
-import com.tegonal.minimalist.impl.ListArgsGenerator
+import com.tegonal.minimalist.impl.ListOrderedArgsGenerator
 
 /**
  * Returns an [OrderedArgsGenerator] for the given Enum of type [E] where each value is transformed into an [Args1].
@@ -11,4 +11,4 @@ import com.tegonal.minimalist.impl.ListArgsGenerator
  * @since 2.0.0
  */
 inline fun <reified E : Enum<E>> OrderedArgsGenerator.Companion.fromEnum(): OrderedArgsGenerator<Args1<E>> =
-	ListArgsGenerator(enumValues<E>().map { Args.of(it, representation1 = Representation(it.name)) })
+	ListOrderedArgsGenerator(enumValues<E>().map { Args.of(it, representation1 = Representation(it.name)) })

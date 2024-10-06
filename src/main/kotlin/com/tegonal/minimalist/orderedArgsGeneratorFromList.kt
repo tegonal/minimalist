@@ -1,6 +1,6 @@
 package com.tegonal.minimalist
 
-import com.tegonal.minimalist.impl.ListArgsGenerator
+import com.tegonal.minimalist.impl.ListOrderedArgsGenerator
 
 /**
  * Returns an [OrderedArgsGenerator] based on the given [args] where each element is transformed into an [Args1].
@@ -18,5 +18,5 @@ fun <T> OrderedArgsGenerator.Companion.fromList(args: List<T>): OrderedArgsGener
  * @return an [OrderedArgsGenerator] based on the given [args].
  * @since 2.0.0
  */
-fun <T : Args> OrderedArgsGenerator.Companion.fromList(args: List<T>): OrderedArgsGenerator<T> = ListArgsGenerator(args)
+fun <T : Args> OrderedArgsGenerator.Companion.fromList(args: List<T>): OrderedArgsGenerator<T> = ListOrderedArgsGenerator(args)
 
