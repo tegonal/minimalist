@@ -24,42 +24,6 @@ interface Args1<A1>: Args {
 	 */
 	val representation1: String?
 
-	/**
-	 * Creates a new [Args1] by coping `this` [Args1] but replaces
-	 * the argument 1 ([Args1.a1]) with the given [value] (and its representation with the given [representation]).
-	 *
-	 * @param value The new value to use for argument 1.
-	 * @param representation The new representation to use for the argument 1 where `null`
-	 *   means let the algorithm determine a representation.
-	 *
-	 * @return The newly created [Args1].
-	 *
-	 * @since 1.0.0
-	 */
-	fun withArg1(value: A1, representation: String? = null): Args1<A1>
-
-	/**
-	 * Maps [a1] of this [Args1] with the given [transform] function resulting in a new [Args1].
-	 *
-	 * @param transform The function which maps [a1] to a new value.
-	 *
-	 * @return The newly created [Args1].
-	 *
-	 * @since 2.0.0
-	 */
-	fun <A1New> mapArg1(transform: (A1) -> A1New): Args1<A1New>
-
-	/**
-	 * Maps [a1] and its [representation1] of this [Args1] with the given [transform] function resulting in a new [Args1].
-	 *
-	 * @param transform The function which maps [a1] and [representation1].
-	 *
-	 * @return The newly created [Args1].
-	 *
-	 * @since 2.0.0
-	 */
-	fun <A1New> mapArg1WithRepresentation(transform: (A1, String?) -> Pair<A1New, String?>): Args1<A1New>
-
 
 	/**
 	 * Creates a new [Args2] by copying `this` [Args1] and appending the given [Args1].
