@@ -25,25 +25,6 @@ internal data class DefaultArgs1<A1>(
 		representation1?.let { Named.of(representation1, a1) } ?: a1
 	)
 
-	override fun withArg1(value: A1, representation: String?): Args1<A1> =
-		this.copy(a1 = value, representation1 = representation)
-
-	override fun <A1New> mapArg1(
-		transform: (A1) -> A1New
-	): Args1<A1New> =
-		Args.of(
-			a1 = transform(a1)
-		)
-
-	override fun <A1New> mapArg1WithRepresentation(
-		transform: (A1, String?) -> Pair<A1New, String?>
-	): Args1<A1New> =
-		transform(a1, representation1).let { (newA1, newRepresentation1) ->
-			Args.of(
-				a1 = newA1, representation1 = newRepresentation1?.let { r -> Representation(r) }
-			)
-		}
-
 
 	override fun <A2> append(
 		args: Args1<A2>
