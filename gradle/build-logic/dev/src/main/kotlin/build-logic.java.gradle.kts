@@ -1,5 +1,5 @@
 plugins {
-    id("java")
+    id("java-base")
     id("build-logic.gradle-conventions")
 }
 
