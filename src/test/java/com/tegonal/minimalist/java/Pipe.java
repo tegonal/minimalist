@@ -13,8 +13,4 @@ public class Pipe<T> {
 	public <R> Pipe<R> pipe(@NotNull Function1<T, R> f) {
 		return new Pipe<>(f.invoke(t));
 	}
-
-	public void foo(){
-
-	}
 }

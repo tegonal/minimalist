@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Named
  * A simple data class based implementation of an [Args2].
  *
  * !! No backward compatibility guarantees !!
- * Re-use on own risk
+ * Reuse at your own risk
  *
  * @since 1.0.0
  */

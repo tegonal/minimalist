@@ -7,7 +7,7 @@ import com.tegonal.minimalist.OrderedArgsGenerator
  * Represents a base class for [OrderedArgsGenerator] which provide fast random access.
  *
  * !! No backward compatibility guarantees !!
- * Re-use on own risk
+ * Reuse at your own risk
  *
  * @since 2.0.0
  */

@@ -1,0 +1,8 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[remote "junit"]
+	url = https://github.com/junit-team/junit5
+	fetch = +refs/heads/*:refs/remotes/junit/*

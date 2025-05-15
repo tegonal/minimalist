@@ -1,7 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
-import kotlin.io.path.ExperimentalPathApi
-import kotlin.io.path.copyToRecursively
-
 plugins {
 	id("build-logic.published-kotlin-jvm")
 	id("code-generation.generate")
@@ -39,11 +35,12 @@ java {
 	sourceSets {
 		main {
 			java.srcDir(generationFolderJava)
+			java.srcDir(project.files("src/main/lib/java"))
 		}
 		test {
 			java {
 				srcDir(generationTestFolderJava)
-				srcDir(project.files("src/test/java"))
+//				srcDir(project.files("src/test/java"))
 			}
 		}
 	}
