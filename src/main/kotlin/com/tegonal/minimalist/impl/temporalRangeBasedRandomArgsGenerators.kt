@@ -12,21 +12,33 @@ import java.time.temporal.TemporalUnit
 import kotlin.random.Random
 
 
-abstract class TemporalRangeRandomArgsGenerator<E>(
-	from: E,
-	toExclusive: E,
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
+abstract class TemporalRangeRandomArgsGenerator<A1>(
+	from: A1,
+	toExclusive: A1,
 	private val temporalUnit: TemporalUnit = ChronoUnit.DAYS,
-	private val plusTyped: E.(Long, TemporalUnit) -> E,
-	representationProvider: ((E) -> String)? = null
-) : RangeBasedRandomArgsGenerator<E, Args1<E>>(
+	private val plusTyped: A1.(Long, TemporalUnit) -> A1,
+	representationProvider: ((A1) -> String)? = null
+) : RangeBasedRandomArgsGenerator<A1, Args1<A1>>(
 	from,
 	toExclusive,
-	{ date -> Args.of(date, representation1 = representationProvider?.let { Representation(it(date)) }) }
-) where E : Temporal, E : Comparable<E> {
+	{ temporal -> Args.of(temporal, representation1 = representationProvider?.let { Representation(it(temporal)) }) }
+) where A1 : Temporal, A1 : Comparable<A1> {
 	private val diffInLong = temporalUnit.between(this.from, this.toExclusive)
-	final override fun nextRandom(): E = from.plusTyped(Random.nextLong(diffInLong), temporalUnit)
+	final override fun nextRandom(): A1 = from.plusTyped(Random.nextLong(diffInLong), temporalUnit)
 }
 
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 class LocalDateRandomArgsGenerator(
 	from: LocalDate,
 	toExclusive: LocalDate,
@@ -37,6 +49,12 @@ class LocalDateRandomArgsGenerator(
 	LocalDate::plus, representationProvider,
 )
 
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 class LocalDateTimeRandomArgsGenerator(
 	from: LocalDateTime,
 	toExclusive: LocalDateTime,

@@ -4,6 +4,12 @@ import com.tegonal.minimalist.Args
 import com.tegonal.minimalist.RandomArgsGenerator
 import kotlin.random.Random
 
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 abstract class RangeBasedRandomArgsGenerator<E : Comparable<E>, T : Args>(
 	protected val from: E,
 	protected val toExclusive: E,

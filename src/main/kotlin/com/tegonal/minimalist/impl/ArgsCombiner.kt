@@ -10,6 +10,7 @@ import java.time.LocalDate
 import java.time.temporal.TemporalAdjusters
 import java.util.stream.Stream
 
+//TODO 2.0.0 remove?
 class OrderedArgsGenerator11Combiner<A1, A2>(
     private val argsGenerator1: ArgsGenerator<Args1<A1>>,
     private val argsGenerator2: ArgsGenerator<Args1<A2>>
@@ -18,10 +19,10 @@ class OrderedArgsGenerator11Combiner<A1, A2>(
         require(argsGenerator1 is OrderedArgsGenerator<*> || argsGenerator2 is OrderedArgsGenerator<*>) {
             "at least one argsGenerator needs to be an OrderedArgsGenerator"
         }
-        Args.of(1, 2)
     }
 }
 
+//TODO 2.0.0 remove?
 class RandomArgsGeneratorCombiner<A1, A2>(
     private val argsGenerator1: RandomArgsGenerator<Args1<A1>>,
     private val argsGenerator2: RandomArgsGenerator<Args1<A2>>

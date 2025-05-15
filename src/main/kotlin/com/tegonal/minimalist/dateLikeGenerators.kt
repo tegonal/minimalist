@@ -9,6 +9,9 @@ import java.time.temporal.Temporal
 import java.time.temporal.TemporalUnit
 import kotlin.random.Random
 
+/**
+ * @since 2.0.0
+ */
 fun RandomArgsGenerator.Companion.localDateFromUntil(
 	from: LocalDate,
 	toExclusive: LocalDate,
@@ -17,6 +20,9 @@ fun RandomArgsGenerator.Companion.localDateFromUntil(
 ): RandomArgsGenerator<Args1<LocalDate>> =
 	LocalDateRandomArgsGenerator(from, toExclusive, temporalUnit, representationProvider)
 
+/**
+ * @since 2.0.0
+ */
 fun RandomArgsGenerator.Companion.localDateTimeFromUntil(
 	from: LocalDateTime,
 	toExclusive: LocalDateTime,
@@ -25,6 +31,9 @@ fun RandomArgsGenerator.Companion.localDateTimeFromUntil(
 ): RandomArgsGenerator<Args1<LocalDateTime>> =
 	LocalDateTimeRandomArgsGenerator(from, toExclusive, temporalUnit, representationProvider)
 
+/**
+ * @since 2.0.0
+ */
 fun RandomArgsGenerator.Companion.zonedDateTimeFromUntil(
 	from: ZonedDateTime,
 	toExclusive: ZonedDateTime,
