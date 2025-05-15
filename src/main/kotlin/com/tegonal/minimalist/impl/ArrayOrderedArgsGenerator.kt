@@ -7,7 +7,7 @@ import com.tegonal.minimalist.OrderedArgsGenerator
  * Represents an [OrderedArgsGenerator] which is based on a given [Array].
  *
  * !! No backward compatibility guarantees !!
- * Re-use on own risk
+ * Reuse at your own risk
  *
  * @since 2.0.0
  */

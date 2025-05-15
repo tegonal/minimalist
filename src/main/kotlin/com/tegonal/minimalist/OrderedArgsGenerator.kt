@@ -21,8 +21,8 @@ interface RandomArgsGenerator<T : Args> : ArgsGenerator<T> {
 }
 
 /**
- * Represents an [ArgsGenerator] which provides [generateOrdered] which generates [T]s always in the same order and
- * a finite number before repeating.
+ * Represents an [ArgsGenerator] which provides the method [generateOrdered] which generates [T]s always in the same
+ * order and a finite number before repeating.
  *
  * @since 2.0.0
  */

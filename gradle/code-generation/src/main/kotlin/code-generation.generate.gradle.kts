@@ -112,7 +112,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 				| * A simple data class based implementation of an [Args$upperNumber].
 				| *
 				| * !! No backward compatibility guarantees !!
-                | * Re-use on own risk
+                | * Reuse at your own risk
 				| *
 				| * @since 1.0.0
 				| */
