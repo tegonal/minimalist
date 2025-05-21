@@ -1,0 +1,30 @@
+package com.tegonal.minimalist.generators
+
+/**
+ * Returns an [OrderedArgsGenerator] generating [Char]s based on the given [progression].
+ *
+ * @return an [OrderedArgsGenerator] based on the given [progression].
+ * @since 2.0.0
+ */
+fun OrderedArgsGenerator.Companion.fromProgression(progression: CharProgression): OrderedArgsGenerator<Char> =
+	OrderedArgsGenerator.fromList(progression.toList())
+
+
+/**
+ * Returns an [OrderedArgsGenerator] generating [Int]s based on the given [progression].
+ *
+ * @return an [OrderedArgsGenerator] based on the given [progression].
+ * @since 2.0.0
+ */
+fun OrderedArgsGenerator.Companion.fromProgression(progression: IntProgression): OrderedArgsGenerator<Int> =
+	OrderedArgsGenerator.fromList(progression.toList())
+
+/**
+ * Returns an [OrderedArgsGenerator] generating [Long]s based on the given [progression].
+ *
+ * @return an [OrderedArgsGenerator] based on the given [progression].
+ * @since 2.0.0
+ */
+fun OrderedArgsGenerator.Companion.fromProgression(progression: LongProgression): OrderedArgsGenerator<Long> =
+	OrderedArgsGenerator.fromList(progression.toList())
+
