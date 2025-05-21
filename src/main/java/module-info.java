@@ -6,4 +6,5 @@ module com.tegonal.minimalist {
 	requires java.logging;
 
 	exports com.tegonal.minimalist;
+	exports com.tegonal.minimalist.providers;
 }

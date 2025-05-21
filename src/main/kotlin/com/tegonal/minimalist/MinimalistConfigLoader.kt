@@ -1,29 +1,29 @@
 package com.tegonal.minimalist
 
-import com.tegonal.minimalist.impl.LevelBasedMaxArgsAndOffsetDeterminer
+import com.tegonal.minimalist.providers.impl.DefaultGenericToArgumentsTransformer
+import com.tegonal.minimalist.providers.LevelBasedMaxArgsAndOffsetDeterminer
 import java.util.Properties
 
 object MinimalistConfigLoader {
 	val config by lazy {
-		MinimalistConfig().let { config ->
-			mergeWithPropertiesInResource(config, "/minimalist.properties")
-		}.let { config ->
-			mergeWithPropertiesInResource(config, "/minimalist.local.properties")
-		}
+		MinimalistConfig()
+			.apply { mergeWithPropertiesInResource("/minimalist.properties") }
+			.apply { mergeWithPropertiesInResource("/minimalist.local.properties") }
 	}
 
-	private fun mergeWithPropertiesInResource(config: MinimalistConfig, propertiesFile: String): MinimalistConfig =
+	private fun MinimalistConfig.mergeWithPropertiesInResource(propertiesFile: String): MinimalistConfig =
 		this::class.java.getResourceAsStream(propertiesFile)?.let {
 			it.use { input ->
 				val props = Properties()
 				props.load(input)
-				val newLevels = HashMap(config.maxArgsLevels)
-				props.entries.fold(config) { config, (keyAny, valueAny) ->
+				val newLevels = HashMap(maxArgsLevels)
+				props.entries.fold(this) { config, (keyAny, valueAny) ->
 					val key = keyAny as String
 					val value = valueAny as String
 					when {
 						key == "activeMaxArgsLevel" -> config.copy(activeMaxArgsLevel = value.toMaxArgsLevel())
 						key == "activeMaxArgsAndOffsetDeterminer" -> config.copy(activeMaxArgsAndOffsetDeterminer = value)
+						key == "activeArgsGeneratorCombiner" -> config.copy(activeArgsGeneratorCombiner = value)
 						key.startsWith("maxArgsLevel") -> {
 							val level = key.substringAfter("maxArgsLevel").toInt()
 							check(level > 0) {
@@ -37,12 +37,12 @@ object MinimalistConfigLoader {
 					}
 					config
 				}
-				config.copy(maxArgsLevels = newLevels)
+				copy(maxArgsLevels = newLevels)
 			}
-		} ?: config
+		} ?: this
 
 	private fun String.toMaxArgsLevel() = (toIntOrNull() ?: error("$this is not a valid maxArgsLevel")).also {
-		check(it <= 0){ "$it is not a valid maxArgsLevel, needs to be greater than 0"}
+		check(it <= 0) { "$it is not a valid maxArgsLevel, needs to be greater than 0" }
 	}
 }
 
@@ -59,8 +59,10 @@ data class MinimalistConfig(
 		3 to 30, // on main
 		4 to 50, // nightly
 		5 to Int.MAX_VALUE //
-	)
-) {
+	),
 
-}
+	val activeArgsGeneratorCombiner: String = DefaultGenericToArgumentsTransformer::class.qualifiedName ?: error(
+		"cannot determine qualified name of DefaultArgsGeneratorCombiner "
+	)
+)
 
