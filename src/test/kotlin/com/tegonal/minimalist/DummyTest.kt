@@ -6,7 +6,7 @@ import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
 import com.tegonal.minimalist.generators.OrderedArgsGenerator
 import com.tegonal.minimalist.generators.RandomArgsGenerator
-import com.tegonal.minimalist.generators.appendDependent
+import com.tegonal.minimalist.generators.combineDependent
 import com.tegonal.minimalist.generators.fromEnum
 import com.tegonal.minimalist.generators.fromRange
 import com.tegonal.minimalist.generators.intFromUntil
@@ -315,7 +315,7 @@ class DummyTest {
 			val now = LocalDate.now()
 			val startDates = RandomArgsGenerator.localDateFromUntil(now, now.with(TemporalAdjusters.lastDayOfYear()))
 
-			val startAndEndDates = startDates.appendDependent { startDate ->
+			val startAndEndDates = startDates.combineDependent { startDate ->
 				RandomArgsGenerator.localDateFromUntil(startDate, startDate.plusYears(1))
 			}
 

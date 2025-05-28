@@ -5,10 +5,11 @@ import com.tegonal.minimalist.Args
 import com.tegonal.minimalist.Args2
 import com.tegonal.minimalist.generators.impl.RandomArgsGeneratorTransformer
 
+//TODO 2.0.0 append sounds more like we append the other generator the generation for a1
 /**
  * @since 2.0.0
  */
-fun <A1, A2> RandomArgsGenerator<A1>.append(
+fun <A1, A2> RandomArgsGenerator<A1>.combine(
 	other: RandomArgsGenerator<A2>
 ): RandomArgsGenerator<Pair<A1, A2>> = this.zip(other) { a1, a2 -> a1 to a2 }
 
@@ -16,7 +17,7 @@ fun <A1, A2> RandomArgsGenerator<A1>.append(
  * @since 2.0.0
  */
 @JvmName("appendToPair")
-fun <A1, A2, A3> RandomArgsGenerator<Pair<A1, A2>>.append(
+fun <A1, A2, A3> RandomArgsGenerator<Pair<A1, A2>>.combine(
 	other: RandomArgsGenerator<A3>
 ): RandomArgsGenerator<Triple<A1, A2, A3>> = this.zip(other) { args2, a3 -> args2.append(a3) }
 
@@ -24,7 +25,7 @@ fun <A1, A2, A3> RandomArgsGenerator<Pair<A1, A2>>.append(
 /**
  * @since 2.0.0
  */
-fun <A1, A2> RandomArgsGenerator<A1>.appendDependent(
+fun <A1, A2> RandomArgsGenerator<A1>.combineDependent(
 	map: (A1) -> RandomArgsGenerator<A2>
 ): RandomArgsGenerator<Args2<A1, A2>> = this.map { Args.of(it, map(it).generate().first()) }
 

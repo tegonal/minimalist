@@ -9,7 +9,8 @@ package com.tegonal.minimalist.generators
 fun OrderedArgsGenerator.Companion.fromProgression(progression: CharProgression): OrderedArgsGenerator<Char> =
 	OrderedArgsGenerator.fromList(progression.toList())
 
-
+// TODO 2.1.0 we could probably come up with a more efficient version which does not require to materialise the
+//  progression (I guess will make a difference for big progressions)
 /**
  * Returns an [OrderedArgsGenerator] generating [Int]s based on the given [progression].
  *

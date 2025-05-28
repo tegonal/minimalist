@@ -2,7 +2,9 @@ package com.tegonal.minimalist.generators
 
 import com.tegonal.minimalist.Args1
 import com.tegonal.minimalist.generators.impl.ArrayOrderedArgsGenerator
+import com.tegonal.minimalist.generators.impl.RandomAccessOrderedArgsGenerator
 
+//TODO 2.0.0 adjust docs Args1 no longer true
 /**
  * Returns an [OrderedArgsGenerator] based on the given [args] where each element is transformed into an [com.tegonal.minimalist.Args1].
  *
@@ -10,7 +12,7 @@ import com.tegonal.minimalist.generators.impl.ArrayOrderedArgsGenerator
  * @since 2.0.0
  */
 fun OrderedArgsGenerator.Companion.fromArray(args: ByteArray): OrderedArgsGenerator<Byte> =
-	ArrayOrderedArgsGenerator(args.toTypedArray())
+	RandomAccessOrderedArgsGenerator(args.size) { args[it] }
 
 /**
  * Returns an [OrderedArgsGenerator] based on the given [args] where each element is transformed into an [Args1].
@@ -19,7 +21,7 @@ fun OrderedArgsGenerator.Companion.fromArray(args: ByteArray): OrderedArgsGenera
  * @since 2.0.0
  */
 fun OrderedArgsGenerator.Companion.fromArray(args: CharArray): OrderedArgsGenerator<Char> =
-	ArrayOrderedArgsGenerator(args.toTypedArray())
+	RandomAccessOrderedArgsGenerator(args.size) { args[it] }
 
 
 /**
@@ -29,7 +31,7 @@ fun OrderedArgsGenerator.Companion.fromArray(args: CharArray): OrderedArgsGenera
  * @since 2.0.0
  */
 fun OrderedArgsGenerator.Companion.fromArray(args: ShortArray): OrderedArgsGenerator<Short> =
-	ArrayOrderedArgsGenerator(args.toTypedArray())
+	RandomAccessOrderedArgsGenerator(args.size) { args[it] }
 
 /**
  * Returns an [OrderedArgsGenerator] based on the given [args] where each element is transformed into an [Args1].
@@ -38,7 +40,7 @@ fun OrderedArgsGenerator.Companion.fromArray(args: ShortArray): OrderedArgsGener
  * @since 2.0.0
  */
 fun OrderedArgsGenerator.Companion.fromArray(args: IntArray): OrderedArgsGenerator<Int> =
-	ArrayOrderedArgsGenerator(args.toTypedArray())
+	RandomAccessOrderedArgsGenerator(args.size) { args[it] }
 
 /**
  * Returns an [OrderedArgsGenerator] based on the given [args] where each element is transformed into an [Args1].
@@ -47,7 +49,7 @@ fun OrderedArgsGenerator.Companion.fromArray(args: IntArray): OrderedArgsGenerat
  * @since 2.0.0
  */
 fun OrderedArgsGenerator.Companion.fromArray(args: LongArray): OrderedArgsGenerator<Long> =
-	ArrayOrderedArgsGenerator(args.toTypedArray())
+	RandomAccessOrderedArgsGenerator(args.size) { args[it] }
 
 /**
  * Returns an [OrderedArgsGenerator] based on the given [args] where each element is transformed into an [Args1].
@@ -56,7 +58,7 @@ fun OrderedArgsGenerator.Companion.fromArray(args: LongArray): OrderedArgsGenera
  * @since 2.0.0
  */
 fun OrderedArgsGenerator.Companion.fromArray(args: FloatArray): OrderedArgsGenerator<Float> =
-	ArrayOrderedArgsGenerator(args.toTypedArray())
+	RandomAccessOrderedArgsGenerator(args.size) { args[it] }
 
 /**
  * Returns an [OrderedArgsGenerator] based on the given [args] where each element is transformed into an [Args1].
@@ -65,7 +67,7 @@ fun OrderedArgsGenerator.Companion.fromArray(args: FloatArray): OrderedArgsGener
  * @since 2.0.0
  */
 fun OrderedArgsGenerator.Companion.fromArray(args: DoubleArray): OrderedArgsGenerator<Double> =
-	ArrayOrderedArgsGenerator(args.toTypedArray())
+	RandomAccessOrderedArgsGenerator(args.size) { args[it] }
 
 /**
  * Returns an [OrderedArgsGenerator] based on the given [args] where each element is transformed into an [Args1].
@@ -74,7 +76,7 @@ fun OrderedArgsGenerator.Companion.fromArray(args: DoubleArray): OrderedArgsGene
  * @since 2.0.0
  */
 fun OrderedArgsGenerator.Companion.fromArray(args: BooleanArray): OrderedArgsGenerator<Boolean> =
-	ArrayOrderedArgsGenerator(args.toTypedArray())
+	RandomAccessOrderedArgsGenerator(args.size) { args[it] }
 
 /**
  * Returns an [OrderedArgsGenerator] based on the given [args] where each element is transformed into an [Args1].

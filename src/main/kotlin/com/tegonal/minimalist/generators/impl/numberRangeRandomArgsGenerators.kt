@@ -34,7 +34,7 @@ class LongRangeRandomArgsGenerator<T>(
  *
  * @since 2.0.0
  */
-class DoubletRangeRandomArgsGenerator<T>(
+class DoubleRangeRandomArgsGenerator<T>(
 	from: Double,
 	toExclusive: Double,
 	argsProvider: (Double) -> T
@@ -69,10 +69,10 @@ class ListRandomArgsGenerator<T>(
  *
  * @since 2.0.0
  */
-abstract class IntRangeBasedRandomArgsGenerator<T>(
+open class IntRangeBasedRandomArgsGenerator<T>(
 	from: Int,
 	toExclusive: Int,
 	argsProvider: (Int) -> T
 ) : RangeBasedRandomArgsGenerator<Int, T>(from, toExclusive, argsProvider) {
-	override fun nextRandom(): Int = Random.nextInt(from, toExclusive)
+	final override fun nextRandom(): Int = Random.nextInt(from, toExclusive)
 }

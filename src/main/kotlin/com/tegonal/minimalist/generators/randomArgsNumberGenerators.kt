@@ -1,9 +1,7 @@
 package com.tegonal.minimalist.generators
 
 import ch.tutteli.kbox.identity
-import com.tegonal.minimalist.Args
-import com.tegonal.minimalist.Args1
-import com.tegonal.minimalist.generators.impl.DoubletRangeRandomArgsGenerator
+import com.tegonal.minimalist.generators.impl.DoubleRangeRandomArgsGenerator
 import com.tegonal.minimalist.generators.impl.IntRangeRandomArgsGenerator
 import com.tegonal.minimalist.generators.impl.LongRangeRandomArgsGenerator
 
@@ -29,4 +27,4 @@ fun RandomArgsGenerator.Companion.longFromUntil(
 fun RandomArgsGenerator.Companion.doubleFromUntil(
 	from: Double,
 	toExclusive: Double,
-): RandomArgsGenerator<Double> = DoubletRangeRandomArgsGenerator(from, toExclusive, ::identity)
+): RandomArgsGenerator<Double> = DoubleRangeRandomArgsGenerator(from, toExclusive, ::identity)

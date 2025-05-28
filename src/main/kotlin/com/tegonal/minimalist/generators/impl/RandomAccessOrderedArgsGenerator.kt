@@ -11,11 +11,17 @@ import com.tegonal.minimalist.utils.repeatForever
  *
  * @since 2.0.0
  */
-abstract class RandomAccessOrderedArgsGenerator<T> : OrderedArgsGenerator<T> {
+open class RandomAccessOrderedArgsGenerator<T>(
+	override val size: Int,
+	private val elementAt: (index: Int) -> T
+) : OrderedArgsGenerator<T> {
+	init {
+		check(size > 0) {
+			"size ($size) needs to be greater than 0"
+		}
+	}
 
 	final override fun generateOrdered(offset: Int): Sequence<T> =
 		repeatForever(offset, size)
 			.map { elementAt(it) }
-
-	protected abstract fun elementAt(index: Int): T
 }
