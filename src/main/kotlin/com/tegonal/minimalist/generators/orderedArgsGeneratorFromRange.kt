@@ -7,7 +7,7 @@ package com.tegonal.minimalist.generators
  * @since 2.0.0
  */
 fun OrderedArgsGenerator.Companion.fromRange(args: CharRange): OrderedArgsGenerator<Char> =
-	OrderedArgsGenerator.fromList(args.toList())
+	OrderedArgsGenerator.fromProgression(args)
 
 /**
  * Returns an [OrderedArgsGenerator] generating [Char]s based on the given [args].
@@ -16,7 +16,7 @@ fun OrderedArgsGenerator.Companion.fromRange(args: CharRange): OrderedArgsGenera
  * @since 2.0.0
  */
 fun OrderedArgsGenerator.Companion.fromRange(args: IntRange): OrderedArgsGenerator<Int> =
-	OrderedArgsGenerator.fromList(args.toList())
+	OrderedArgsGenerator.fromProgression(args)
 
 /**
  * Returns an [OrderedArgsGenerator] generating [Char]s based on the given [args].
@@ -25,5 +25,5 @@ fun OrderedArgsGenerator.Companion.fromRange(args: IntRange): OrderedArgsGenerat
  * @since 2.0.0
  */
 fun OrderedArgsGenerator.Companion.fromRange(args: LongRange): OrderedArgsGenerator<Long> =
-	OrderedArgsGenerator.fromList(args.toList())
+	OrderedArgsGenerator.fromProgression(args)
 

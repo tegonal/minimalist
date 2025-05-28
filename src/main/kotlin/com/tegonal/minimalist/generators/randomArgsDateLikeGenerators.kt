@@ -1,6 +1,5 @@
 package com.tegonal.minimalist.generators
 
-import com.tegonal.minimalist.Args1
 import com.tegonal.minimalist.generators.impl.LocalDateRandomArgsGenerator
 import com.tegonal.minimalist.generators.impl.LocalDateTimeRandomArgsGenerator
 import com.tegonal.minimalist.generators.impl.ZonedDateTimeRandomArgsGenerator

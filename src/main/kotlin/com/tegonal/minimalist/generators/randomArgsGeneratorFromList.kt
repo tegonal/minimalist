@@ -2,6 +2,7 @@ package com.tegonal.minimalist.generators
 
 import com.tegonal.minimalist.generators.impl.ListRandomArgsGenerator
 
+//TODO 2.0.0 adjust docs Args1 no longer true
 /**
  * Returns an [RandomArgsGenerator] based on the given [args] where each element is transformed into an [com.tegonal.minimalist.Args1].
  *

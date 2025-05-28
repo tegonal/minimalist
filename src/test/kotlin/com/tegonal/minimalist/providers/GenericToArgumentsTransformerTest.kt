@@ -4,7 +4,6 @@ import ch.tutteli.atrium.api.fluent.en_GB.*
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.atrium.logic.utils.expectLambda
 import ch.tutteli.kbox.Tuple
-import ch.tutteli.kbox.Tuple3Like
 import ch.tutteli.kbox.append
 import ch.tutteli.kbox.toVararg
 import com.tegonal.minimalist.Args
@@ -40,7 +39,7 @@ class GenericToArgumentsTransformerTest {
 			testInfo.testMethod.get(),
 			ArgsSource(methodName = "shouldn't matter", fixedMaxNumberOfArgs = 1000),
 			(0 until numOfGenerators).map {
-				RandomArgsGenerator.intFromUntil(it * 10, it * 10 + 10)
+				RandomArgsGenerator.fromRange(it * 10 until  it * 10 + 10)
 			}
 		)
 		expect(combinations) {
@@ -74,7 +73,7 @@ class GenericToArgumentsTransformerTest {
 		val lastDayOfYear = now.with(TemporalAdjusters.lastDayOfYear())
 		val startDates = RandomArgsGenerator.localDateFromUntil(now, lastDayOfYear)
 
-		val startAndEndDates = startDates.appendDependent { startDate ->
+		val startAndEndDates = startDates.combineDependent { startDate ->
 			RandomArgsGenerator.localDateFromUntil(startDate, startDate.plusYears(1))
 		}
 		val combinations = DefaultGenericToArgumentsTransformer().toArguments(
@@ -89,7 +88,7 @@ class GenericToArgumentsTransformerTest {
 
 		val a = Tuple(firstNameGenerator, lastNameGenerator, ageGenerator).append(ageGenerator)
 
-		val p = firstNameGenerator.append(lastNameGenerator).append(ageGenerator).map { (args1, firstName, age) ->
+		val p = firstNameGenerator.combine(lastNameGenerator).combine(ageGenerator).map { (args1, firstName, age) ->
 			Person(args1.a1, firstName, age)
 		}
 		OrderedArgsGenerator.fromEnum<A>()

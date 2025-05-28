@@ -2,7 +2,8 @@ package com.tegonal.minimalist.generators
 
 import com.tegonal.minimalist.Args1
 import com.tegonal.minimalist.generators.impl.ArrayRandomArgsGenerator
-
+import com.tegonal.minimalist.generators.impl.IntRangeBasedRandomArgsGenerator
+//TODO 2.0.0 adjust docs Args1 no longer true
 /**
  * Returns an [RandomArgsGenerator] based on the given [args] where each element is transformed into an [com.tegonal.minimalist.Args1].
  *
@@ -10,7 +11,7 @@ import com.tegonal.minimalist.generators.impl.ArrayRandomArgsGenerator
  * @since 2.0.0
  */
 fun RandomArgsGenerator.Companion.fromArray(args: ByteArray): RandomArgsGenerator<Byte> =
-	ArrayRandomArgsGenerator(args.toTypedArray())
+	IntRangeBasedRandomArgsGenerator(0, args.size) { args[it] }
 
 /**
  * Returns an [RandomArgsGenerator] based on the given [args] where each element is transformed into an [Args1].
@@ -19,7 +20,7 @@ fun RandomArgsGenerator.Companion.fromArray(args: ByteArray): RandomArgsGenerato
  * @since 2.0.0
  */
 fun RandomArgsGenerator.Companion.fromArray(args: CharArray): RandomArgsGenerator<Char> =
-	ArrayRandomArgsGenerator(args.toTypedArray())
+	IntRangeBasedRandomArgsGenerator(0, args.size) { args[it] }
 
 
 /**
@@ -29,7 +30,7 @@ fun RandomArgsGenerator.Companion.fromArray(args: CharArray): RandomArgsGenerato
  * @since 2.0.0
  */
 fun RandomArgsGenerator.Companion.fromArray(args: ShortArray): RandomArgsGenerator<Short> =
-	ArrayRandomArgsGenerator(args.toTypedArray())
+	IntRangeBasedRandomArgsGenerator(0, args.size) { args[it] }
 
 /**
  * Returns an [RandomArgsGenerator] based on the given [args] where each element is transformed into an [Args1].
@@ -38,7 +39,7 @@ fun RandomArgsGenerator.Companion.fromArray(args: ShortArray): RandomArgsGenerat
  * @since 2.0.0
  */
 fun RandomArgsGenerator.Companion.fromArray(args: IntArray): RandomArgsGenerator<Int> =
-	ArrayRandomArgsGenerator(args.toTypedArray())
+	IntRangeBasedRandomArgsGenerator(0, args.size) { args[it] }
 
 /**
  * Returns an [RandomArgsGenerator] based on the given [args] where each element is transformed into an [Args1].
@@ -47,7 +48,7 @@ fun RandomArgsGenerator.Companion.fromArray(args: IntArray): RandomArgsGenerator
  * @since 2.0.0
  */
 fun RandomArgsGenerator.Companion.fromArray(args: LongArray): RandomArgsGenerator<Long> =
-	ArrayRandomArgsGenerator(args.toTypedArray())
+	IntRangeBasedRandomArgsGenerator(0, args.size) { args[it] }
 
 /**
  * Returns an [RandomArgsGenerator] based on the given [args] where each element is transformed into an [Args1].
@@ -56,7 +57,7 @@ fun RandomArgsGenerator.Companion.fromArray(args: LongArray): RandomArgsGenerato
  * @since 2.0.0
  */
 fun RandomArgsGenerator.Companion.fromArray(args: FloatArray): RandomArgsGenerator<Float> =
-	ArrayRandomArgsGenerator(args.toTypedArray())
+	IntRangeBasedRandomArgsGenerator(0, args.size) { args[it] }
 
 /**
  * Returns an [RandomArgsGenerator] based on the given [args] where each element is transformed into an [Args1].
@@ -65,7 +66,7 @@ fun RandomArgsGenerator.Companion.fromArray(args: FloatArray): RandomArgsGenerat
  * @since 2.0.0
  */
 fun RandomArgsGenerator.Companion.fromArray(args: DoubleArray): RandomArgsGenerator<Double> =
-	ArrayRandomArgsGenerator(args.toTypedArray())
+	IntRangeBasedRandomArgsGenerator(0, args.size) { args[it] }
 
 /**
  * Returns an [RandomArgsGenerator] based on the given [args] where each element is transformed into an [Args1].
@@ -74,7 +75,7 @@ fun RandomArgsGenerator.Companion.fromArray(args: DoubleArray): RandomArgsGenera
  * @since 2.0.0
  */
 fun RandomArgsGenerator.Companion.fromArray(args: BooleanArray): RandomArgsGenerator<Boolean> =
-	ArrayRandomArgsGenerator(args.toTypedArray())
+	IntRangeBasedRandomArgsGenerator(0, args.size) { args[it] }
 
 /**
  * Returns an [RandomArgsGenerator] based on the given [args] where each element is transformed into an [Args1].

@@ -1,5 +1,6 @@
 package com.tegonal.minimalist.generators.impl
 
+import ch.tutteli.kbox.takeIf
 import com.tegonal.minimalist.generators.OrderedArgsGenerator
 import com.tegonal.minimalist.utils.repeatForever
 
@@ -45,16 +46,18 @@ class OrderedArgsGeneratorCombiner<A1, A2, R>(
 
 			// in case of the first generation, we need to take inChunkOffset into account, otherwise it doesn't matter
 			val drop = if (index == 0) inChunkOffset else 0
+			// we don't really drop (as this would generate values unnecessarily) instead we forward within the
+			// chunk by the drop and create drop values less, resulting in the same as .drop(drop) but without
+			// generating the values
+			val numToGenerate = maxSize - drop
 
 			// we use a specialised zip function which doesn't require range checks since we know (by contract)
 			// that an OrderedArgsGenerator generates exactly the desired amount of elements
+
 			zipDefinedSize(
-				// we don't really drop (as this would generate values unnecessarily) instead we forward within the
-				// chunk by the drop and create drop values less, resulting in the same as .drop(drop) but without
-				// generating the values
-				a1Generator.generateOrdered(maxSize - drop, a1Offset + drop),
-				a2Generator.generateOrdered(maxSize - drop, a2Offset + drop),
-				maxSize,
+				a1Generator.generateOrdered(numToGenerate, a1Offset + drop),
+				a2Generator.generateOrdered(numToGenerate, a2Offset + drop),
+				numToGenerate,
 				transform
 			)
 		}
@@ -72,10 +75,10 @@ class OrderedArgsGeneratorCombiner<A1, A2, R>(
 		var index = 0
 
 		return generateSequence {
-			if (index >= size) return@generateSequence null
-
-			transform(iterA.next(), iterB.next()).also {
-				++index
+			takeIf(index < size) {
+				transform(iterA.next(), iterB.next()).also {
+					++index
+				}
 			}
 		}
 	}

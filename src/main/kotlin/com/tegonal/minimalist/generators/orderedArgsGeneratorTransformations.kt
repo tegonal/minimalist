@@ -1,30 +1,30 @@
 package com.tegonal.minimalist.generators
 
 import ch.tutteli.kbox.append
-import com.tegonal.minimalist.Args
-import com.tegonal.minimalist.Args2
-import com.tegonal.minimalist.generators.impl.OrderedArgsGeneratorTransformer
+import com.tegonal.minimalist.generators.impl.DefaultSemiOrderedArgsGenerator
 import com.tegonal.minimalist.generators.impl.OrderedArgsGeneratorCombiner
-import kotlin.sequences.filter
-import kotlin.sequences.filterNot
-import kotlin.sequences.map
+import com.tegonal.minimalist.generators.impl.OrderedArgsGeneratorTransformer
 
 /**
  * @since 2.0.0
  */
-fun <A1, A2> OrderedArgsGenerator<A1>.append(
+fun <A1, A2> OrderedArgsGenerator<A1>.combine(
 	other: OrderedArgsGenerator<A2>
 ): OrderedArgsGenerator<Pair<A1, A2>> = this.combine(other, ::Pair)
+
+//TODO 2.0.0 required?
+fun <A1, A2> OrderedArgsGenerator<A1>.combine(
+	other: RandomArgsGenerator<A2>
+): SemiOrderedArgsGenerator<A1, A2> = DefaultSemiOrderedArgsGenerator(this, other)
 
 /**
  * @since 2.0.0
  */
 @JvmName("appendToPair")
-fun <A1, A2, A3> OrderedArgsGenerator<Pair<A1, A2>>.append(
+fun <A1, A2, A3> OrderedArgsGenerator<Pair<A1, A2>>.combine(
 	other: OrderedArgsGenerator<A3>
 ): OrderedArgsGenerator<Triple<A1, A2, A3>> =
 	OrderedArgsGeneratorCombiner(this, other) { args, a3 -> args.append(a3) }
-
 
 ///**
 // * @since 2.0.0
@@ -36,9 +36,9 @@ fun <A1, A2, A3> OrderedArgsGenerator<Pair<A1, A2>>.append(
 /**
  * @since 2.0.0
  */
-fun <A1, A2> OrderedArgsGenerator<A1>.appendDependent(
+fun <A1, A2> OrderedArgsGenerator<A1>.combineDependent(
 	map: (A1) -> RandomArgsGenerator<A2>
-): OrderedArgsGenerator<Args2<A1, A2>> = this.map { Args.of(it, map(it).generate().first()) }
+): OrderedArgsGenerator<Pair<A1, A2>> = this.map { it to map(it).generate().first() }
 
 
 /**
@@ -85,4 +85,3 @@ fun <T> OrderedArgsGenerator<T>.filterNot(predicate: (T) -> Boolean): OrderedArg
  */
 fun <T, R> OrderedArgsGenerator<T>.transform(transform: (Sequence<T>) -> Sequence<R>): OrderedArgsGenerator<R> =
 	OrderedArgsGeneratorTransformer(this, transform)
-

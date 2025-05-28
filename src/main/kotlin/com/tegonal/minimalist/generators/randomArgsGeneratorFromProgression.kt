@@ -11,6 +11,10 @@ fun RandomArgsGenerator.Companion.fromProgression(progression: CharProgression):
 	RandomArgsGenerator.fromList(progression.toList())
 
 
+// TODO 2.1.0 optimise, if step = 1 and endInclusive is not MAX_VALUE, then we could use
+//  RandomArgsGenerator.intFromUntil -- for other cases we could come up with something more efficient which does not
+//  require to materialise the progression, I guess something like RandomArgsGenerator.intFromUntil + modulo would be
+//  more efficient
 /**
  * Returns an [RandomArgsGenerator] generating [Int]s based on the given [progression].
  *
