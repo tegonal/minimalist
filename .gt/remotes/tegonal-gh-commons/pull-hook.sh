@@ -37,5 +37,5 @@ function gt_pullHook_tegonal_gh_commons_before() {
 
 function gt_pullHook_tegonal_gh_commons_after() {
 	# no op, nothing to do
-	true
+	:
 }
