@@ -8,7 +8,7 @@ import com.tegonal.minimalist.generators.RandomArgsGenerator
  *
  * @since 2.0.0
  */
-class RandomArgsGeneratorTransformer<T , R >(
+class GenericArgsGeneratorTransformer<T , R >(
     private val baseGenerator: RandomArgsGenerator<T>,
     private val transformation: (Sequence<T>) -> Sequence<R>
 ) : RandomArgsGenerator<R> {

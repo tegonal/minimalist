@@ -4,17 +4,9 @@ import ch.tutteli.atrium.api.fluent.en_GB.toBeAfterOrTheSamePointInTimeAs
 import ch.tutteli.atrium.api.fluent.en_GB.toBeLessThan
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.generators.OrderedArgsGenerator
-import com.tegonal.minimalist.generators.RandomArgsGenerator
-import com.tegonal.minimalist.generators.combineDependent
-import com.tegonal.minimalist.generators.fromEnum
-import com.tegonal.minimalist.generators.fromRange
-import com.tegonal.minimalist.generators.intFromUntil
-import com.tegonal.minimalist.generators.localDateFromUntil
-import com.tegonal.minimalist.generators.map
-import com.tegonal.minimalist.generators.zip
+import com.tegonal.minimalist.generators.*
 import com.tegonal.minimalist.providers.ArgsSource
-import com.tegonal.minimalist.utils.repeatForever
+import com.tegonal.minimalist.utils.repeatForeverFromUntil
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import java.time.LocalDate
@@ -22,8 +14,6 @@ import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAdjusters
 import java.util.*
 import kotlin.random.Random
-import kotlin.sequences.plus
-import kotlin.sequences.zip
 import kotlin.system.measureNanoTime
 
 
@@ -102,18 +92,18 @@ class DummyTest {
 				"if" to { run ->
 					// probably micro-optimisation, if this should become bigger, then we should refactor it
 					val sequence = if (a1IsSmaller) {
-						a1Generator.generateOrdered(maxSize, chunkOffset).drop(inChunkOffset)
-							.zip(a2Generator.generateOrdered(maxSize, 0).drop(inChunkOffset), transform) +
-							repeatForever(chunkOffset + 1, a1Size).flatMap { a1Offset ->
-								a1Generator.generateOrdered(maxSize, a1Offset)
-									.zip(a2Generator.generateOrdered(maxSize, 0), transform)
+						a1Generator.generate(chunkOffset).take(maxSize).drop(inChunkOffset)
+							.zip(a2Generator.generate(0).take(maxSize).drop(inChunkOffset), transform) +
+							repeatForeverFromUntil(0, a1Size, offset = chunkOffset + 1).flatMap { a1Offset ->
+								a1Generator.generate(a1Offset).take(maxSize)
+									.zip(a2Generator.generate(0).take(maxSize), transform)
 							}
 					} else {
-						a1Generator.generateOrdered(maxSize, 0).drop(inChunkOffset)
-							.zip(a2Generator.generateOrdered(maxSize, chunkOffset).drop(inChunkOffset), transform) +
-							repeatForever(chunkOffset + 1, a2Size).flatMap { a2Offset ->
-								a1Generator.generateOrdered(maxSize, 0)
-									.zip(a2Generator.generateOrdered(maxSize, a2Offset), transform)
+						a1Generator.generate(0).take(maxSize).drop(inChunkOffset)
+							.zip(a2Generator.generate(chunkOffset).take(maxSize).drop(inChunkOffset), transform) +
+							repeatForeverFromUntil(0, a2Size, offset = chunkOffset + 1).flatMap { a2Offset ->
+								a1Generator.generate(0).take(maxSize)
+									.zip(a2Generator.generate(a2Offset).take(maxSize), transform)
 							}
 					}
 					sequence.take(run * 10).count()
@@ -131,12 +121,12 @@ class DummyTest {
 					}
 
 					val sequence = run {
-						a1Generator.generateOrdered(maxSize, a1OffsetFirstChunk).drop(inChunkOffset)
+						a1Generator.generate(a1OffsetFirstChunk).take(maxSize).drop(inChunkOffset)
 							.zip(
-								a2Generator.generateOrdered(maxSize, a2OffsetFirstChunk).drop(inChunkOffset),
+								a2Generator.generate(a2OffsetFirstChunk).take(maxSize).drop(inChunkOffset),
 								transform
 							)
-					} + repeatForever(chunkOffset + 1, sizeOfSmaller).flatMap { offsetOfSmaller ->
+					} + repeatForeverFromUntil(0, sizeOfSmaller, chunkOffset + 1).flatMap { offsetOfSmaller ->
 						var a1Offset = 0
 						var a2Offset = offsetOfSmaller
 						if (a1IsSmaller) {
@@ -144,8 +134,8 @@ class DummyTest {
 							a2Offset = 0
 						}
 
-						a1Generator.generateOrdered(maxSize, a1Offset)
-							.zip(a2Generator.generateOrdered(maxSize, a2Offset), transform)
+						a1Generator.generate(a1Offset).take(maxSize)
+							.zip(a2Generator.generate(a2Offset).take(maxSize), transform)
 					}
 					sequence.take(run * 10).count()
 				},
@@ -154,7 +144,7 @@ class DummyTest {
 					val sizeOfSmaller = if (a1IsSmaller) a1Size else a2Size
 
 					var firstTime = true
-					val sequence = repeatForever(chunkOffset, sizeOfSmaller).flatMap { offsetOfSmaller ->
+					val sequence = repeatForeverFromUntil(0, sizeOfSmaller, offset = chunkOffset).flatMap { offsetOfSmaller ->
 						var a1Offset = 0
 						var a2Offset = offsetOfSmaller
 						var a1Drop = 0
@@ -168,8 +158,8 @@ class DummyTest {
 							a2Offset = 0
 						}
 
-						a1Generator.generateOrdered(maxSize, a1Offset + a1Drop).zip(
-							a2Generator.generateOrdered(maxSize, a2Offset + a2Drop),
+						a1Generator.generate(a1Offset + a1Drop).take(maxSize).zip(
+							a2Generator.generate(a2Offset + a2Drop).take(maxSize),
 							transform
 						)
 //
@@ -191,18 +181,18 @@ class DummyTest {
 
 					val sequence = run {
 						zipWithGenerateSequence(
-							a1Generator.generateOrdered(maxSize, a1OffsetFirstChunk),
-							a2Generator.generateOrdered(maxSize, a2OffsetFirstChunk),
+							a1Generator.generate(a1OffsetFirstChunk).take(maxSize),
+							a2Generator.generate(a2OffsetFirstChunk).take(maxSize),
 							maxSize,
 							transform
 						).drop(inChunkOffset)
-					} + repeatForever(chunkOffset + 1, sizeOfSmaller).take(run * 10 / maxSize)
+					} + repeatForeverFromUntil(0, sizeOfSmaller, offset = chunkOffset + 1).take(run * 10 / maxSize)
 						.flatMap { offsetOfSmaller ->
 							val (a1Offset, a2Offset) = if (a1IsSmaller) offsetOfSmaller to 0 else 0 to offsetOfSmaller
 
 							zipWithGenerateSequence(
-								a1Generator.generateOrdered(maxSize, a1Offset),
-								a2Generator.generateOrdered(maxSize, a2Offset),
+								a1Generator.generate(a1Offset).take(maxSize),
+								a2Generator.generate(a2Offset).take(maxSize),
 								maxSize,
 								transform
 							)
@@ -216,34 +206,35 @@ class DummyTest {
 						else Triple(0, chunkOffset, a2Size)
 
 					val sequence = run {
-						a1Generator.generateOrdered(maxSize, a1OffsetFirstChunk)
-							.zip(a2Generator.generateOrdered(maxSize, a2OffsetFirstChunk), transform)
+						a1Generator.generate(a1OffsetFirstChunk).take(maxSize)
+							.zip(a2Generator.generate(a2OffsetFirstChunk).take(maxSize), transform)
 							.drop(inChunkOffset)
-					} + repeatForever(chunkOffset + 1, sizeOfSmaller).flatMap { offsetOfSmaller ->
+					} + repeatForeverFromUntil(0, sizeOfSmaller, offset = chunkOffset + 1).flatMap { offsetOfSmaller ->
 						val (a1Offset, a2Offset) = if (a1IsSmaller) offsetOfSmaller to 0 else 0 to offsetOfSmaller
 
-						a1Generator.generateOrdered(maxSize, a1Offset)
-							.zip(a2Generator.generateOrdered(maxSize, a2Offset), transform)
+						a1Generator.generate(a1Offset).take(maxSize)
+							.zip(a2Generator.generate(a2Offset).take(maxSize), transform)
 					}
 					sequence.take(run * 10).count()
 				},
 				"flatMap" to { run ->
-					val sequence = a1Generator.generateOrdered(run * 10 + offset, 0).flatMap { a1 ->
-						a2Generator.generateOrdered(run * 10 + offset, 0).map { a2 -> a1 to a2 }
+					val sequence = a1Generator.generate(0).take(run * 10 + offset).flatMap { a1 ->
+						a2Generator.generate(0).take(run * 10 + offset).map { a2 -> a1 to a2 }
 					}.drop(offset)
 					sequence.take(run * 10).count()
 				},
 				"var optimised" to { run ->
 					val sizeOfSmaller = if (a1IsSmaller) a1Size else a2Size
-					val sequence = repeatForever(chunkOffset, sizeOfSmaller).flatMapIndexed { index, offsetOfSmaller ->
-						val a1Offset = if (a1IsSmaller) offsetOfSmaller else 0
-						val a2Offset = if (a1IsSmaller) 0 else offsetOfSmaller
+					val sequence =
+						repeatForeverFromUntil(0, sizeOfSmaller, offset = chunkOffset).flatMapIndexed { index, offsetOfSmaller ->
+							val a1Offset = if (a1IsSmaller) offsetOfSmaller else 0
+							val a2Offset = if (a1IsSmaller) 0 else offsetOfSmaller
 
-						val drop = if (index == 0) inChunkOffset else 0
+							val drop = if (index == 0) inChunkOffset else 0
 
-						a1Generator.generateOrdered(maxSize - drop, a1Offset + drop).zip(
-							a2Generator.generateOrdered(maxSize - drop, a2Offset + drop), transform
-						)
+							a1Generator.generate(a1Offset + drop).take(maxSize - drop).zip(
+								a2Generator.generate(a2Offset + drop).take(maxSize - drop), transform
+							)
 
 //			zipWithGenerateSequence(
 //				a1Generator.generateOrdered(maxSize, a1Offset + drop),
@@ -251,24 +242,25 @@ class DummyTest {
 //				maxSize,
 //				transform
 //			)
-					}
+						}
 					sequence.take(run * 10).count()
 				},
 				"var optimised 2" to { run ->
 					val sizeOfSmaller = if (a1IsSmaller) a1Size else a2Size
-					val sequence = repeatForever(chunkOffset, sizeOfSmaller).flatMapIndexed { index, offsetOfSmaller ->
-						val a1Offset = if (a1IsSmaller) offsetOfSmaller else 0
-						val a2Offset = if (a1IsSmaller) 0 else offsetOfSmaller
+					val sequence =
+						repeatForeverFromUntil(0, sizeOfSmaller, offset = chunkOffset).flatMapIndexed { index, offsetOfSmaller ->
+							val a1Offset = if (a1IsSmaller) offsetOfSmaller else 0
+							val a2Offset = if (a1IsSmaller) 0 else offsetOfSmaller
 
-						val drop = if (index == 0) inChunkOffset else 0
+							val drop = if (index == 0) inChunkOffset else 0
 
-						zipWithGenerateSequence(
-							a1Generator.generateOrdered(maxSize - drop, a1Offset + drop),
-							a2Generator.generateOrdered(maxSize - drop, a2Offset + drop),
-							maxSize,
-							transform
-						)
-					}
+							zipWithGenerateSequence(
+								a1Generator.generate(a1Offset + drop).take(maxSize - drop),
+								a2Generator.generate(a2Offset + drop).take(maxSize - drop),
+								maxSize,
+								transform
+							)
+						}
 					sequence.take(run * 10).count()
 				}
 			)
@@ -311,7 +303,7 @@ class DummyTest {
 
 	companion object {
 		@JvmStatic
-		fun randomOnly(): Pair<RandomArgsGenerator<Args2<LocalDate, LocalDate>>, RandomArgsGenerator<Int>> {
+		fun randomOnly(): Pair<RandomArgsGenerator<Pair<LocalDate, LocalDate>>, RandomArgsGenerator<Int>> {
 			val now = LocalDate.now()
 			val startDates = RandomArgsGenerator.localDateFromUntil(now, now.with(TemporalAdjusters.lastDayOfYear()))
 
@@ -319,7 +311,7 @@ class DummyTest {
 				RandomArgsGenerator.localDateFromUntil(startDate, startDate.plusYears(1))
 			}
 
-			val a = RandomArgsGenerator.intFromUntil(2, 10).zip(RandomArgsGenerator.intFromUntil(2, 10)) { a1, a2 ->
+			val a = RandomArgsGenerator.intFromUntil(2, 10).combine(RandomArgsGenerator.intFromUntil(2, 10)) { a1, a2 ->
 
 			}
 
@@ -342,7 +334,7 @@ class DummyTest {
 }
 
 
-//TODO 2.1.0 introduce filtering, pinning (via config) and such, though, I think filtering via Annotation might be abit
+//TODO 2.1.0 introduce filtering, pinning (via config) and such, though, I think filtering via Annotation might be a bit
 // complicated as there could be a ArgsX with X > 1 behind the scene, i.e. filter just one argument might be not feasible.
 // I suggest we start of with filtering in code only (not via annotation). Pinning via config might be more interesting
 //@Target(AnnotationTarget.VALUE_PARAMETER)

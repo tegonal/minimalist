@@ -1,6 +1,6 @@
 package com.tegonal.minimalist.generators.impl
 
-import com.tegonal.minimalist.generators.OrderedArgsGenerator
+import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
 
 /**
  * !! No backward compatibility guarantees !!
@@ -8,10 +8,10 @@ import com.tegonal.minimalist.generators.OrderedArgsGenerator
  *
  * @since 2.0.0
  */
-class OrderedArgsGeneratorTransformer<T, R>(
-	private val baseGenerator: OrderedArgsGenerator<T>,
+class SemiOrderedArgsGeneratorTransformer<T, R>(
+	private val baseGenerator: SemiOrderedArgsGenerator<T>,
 	private val transformation: (Sequence<T>) -> Sequence<R>
-) : OrderedArgsGenerator<R> {
+) : SemiOrderedArgsGenerator<R> {
 	override val size: Int get() = baseGenerator.size
 	override fun generate(offset: Int): Sequence<R> =
 		baseGenerator.generate(offset).let(transformation)

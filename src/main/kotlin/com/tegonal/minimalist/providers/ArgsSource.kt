@@ -1,5 +1,6 @@
 package com.tegonal.minimalist.providers
 
+import org.intellij.lang.annotations.Language
 import org.junit.jupiter.params.provider.ArgumentsSource
 import java.lang.annotation.Repeatable
 
@@ -11,7 +12,11 @@ import java.lang.annotation.Repeatable
 @MustBeDocumented
 @Repeatable(ArgSources::class)
 @ArgumentsSource(ArgsArgumentProvider::class)
-annotation class ArgsSource(val methodName: String, val fixedMaxNumberOfArgs: Int = 0, val fixedOffset: Int = 0)
+annotation class ArgsSource(
+	@Language("jvm-method-name") val methodName: String,
+	val fixedMaxNumberOfArgs: Int = 0,
+	val fixedOffset: Int = 0
+)
 
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)

@@ -24,7 +24,7 @@ class GenericToArgumentsTransformerTest {
 		expect {
 			DefaultGenericToArgumentsTransformer().toArguments(
 				testInfo.testMethod.get(),
-				ArgsSource(methodName = "shouldn't matter"),
+				ArgsSource(methodName = "dummy"),
 				emptyList()
 			)
 		}.toThrow<IllegalStateException> {
@@ -37,9 +37,9 @@ class GenericToArgumentsTransformerTest {
 	fun randomOnly(numOfGenerators: Int, testInfo: TestInfo) {
 		val combinations = DefaultGenericToArgumentsTransformer().toArguments(
 			testInfo.testMethod.get(),
-			ArgsSource(methodName = "shouldn't matter", fixedMaxNumberOfArgs = 1000),
+			ArgsSource(methodName = "dummy", fixedMaxNumberOfArgs = 1000),
 			(0 until numOfGenerators).map {
-				RandomArgsGenerator.fromRange(it * 10 until  it * 10 + 10)
+				RandomArgsGenerator.fromRange(it * 10 until it * 10 + 10)
 			}
 		)
 		expect(combinations) {
@@ -78,7 +78,7 @@ class GenericToArgumentsTransformerTest {
 		}
 		val combinations = DefaultGenericToArgumentsTransformer().toArguments(
 			testInfo.testMethod.get(),
-			ArgsSource(methodName = "shouldn't matter", fixedMaxNumberOfArgs = 1000),
+			ArgsSource(methodName = "dummy", fixedMaxNumberOfArgs = 1000),
 			listOf(startAndEndDates)
 		)
 		val firstNameGenerator = RandomArgsGenerator.intFromUntil(1, 1000).map { "firstName $it" }
@@ -119,6 +119,13 @@ class GenericToArgumentsTransformerTest {
 	enum class A {
 		A, B, C, D, E, F, G, H
 	}
+
+	companion object {
+		@JvmStatic
+		fun dummy() {
+		}
+	}
+
 }
 
 

@@ -152,7 +152,7 @@ class DefaultGenericToArgumentsTransformer : GenericToArgumentsTransformer {
 		}.flatMap { (offsets, _) ->
 			val chunkOfSequencesOfArgs = generatorsAsSequence.mapIndexed { index, generator ->
 				val individualOffset = offsets[index]
-				generator.generateOrdered(maxSize, individualOffset).map {
+				generator.generate(individualOffset).take(maxSize).map {
 					it as? Args ?: Args.of(it)
 				}
 			}

@@ -1,7 +1,7 @@
 package com.tegonal.minimalist.generators.impl
 
 import com.tegonal.minimalist.generators.OrderedArgsGenerator
-import com.tegonal.minimalist.utils.repeatForever
+import com.tegonal.minimalist.utils.repeatForeverFromUntil
 
 /**
  * Represents a base class for [OrderedArgsGenerator] which provide fast random access.
@@ -21,7 +21,7 @@ open class RandomAccessOrderedArgsGenerator<T>(
 		}
 	}
 
-	final override fun generateOrdered(offset: Int): Sequence<T> =
-		repeatForever(offset, size)
+	final override fun generate(offset: Int): Sequence<T> =
+		repeatForeverFromUntil(0, size, offset = offset)
 			.map { elementAt(it) }
 }

@@ -1,6 +1,5 @@
 package com.tegonal.minimalist.generators.impl
 
-import com.tegonal.minimalist.generators.OrderedArgsGenerator
 import com.tegonal.minimalist.generators.RandomArgsGenerator
 import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
 
@@ -10,11 +9,12 @@ import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
  *
  * @since 2.0.0
  */
-class DefaultSemiOrderedArgsGenerator<A1, A2>(
-	private val orderedArgsGenerator: OrderedArgsGenerator<A1>,
+class SemiOrderedArgsWithRandomArgsGeneratorCombiner<A1, A2, R>(
+	private val orderedArgsGenerator: SemiOrderedArgsGenerator<A1>,
 	private val randomArgsGenerator: RandomArgsGenerator<A2>,
-) : SemiOrderedArgsGenerator<A1, A2> {
+	private val transform: (A1, A2) -> R
+) : SemiOrderedArgsGenerator<R> {
 	override val size: Int get() = orderedArgsGenerator.size
-	override fun generateOrdered(offset: Int): Sequence<Pair<A1, A2>> =
-		orderedArgsGenerator.generateOrdered(offset).zip(randomArgsGenerator.generate())
+	override fun generate(offset: Int): Sequence<R> =
+		zipDefinedSize(orderedArgsGenerator.generate(offset), randomArgsGenerator.generate(), size, transform)
 }

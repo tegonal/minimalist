@@ -1,3 +1,5 @@
+import ch.tutteli.kbox.append
+import java.util.Locale.getDefault
 import ch.tutteli.kbox.joinToString as joinToStringAndLast
 
 val generationFolder: ConfigurableFileCollection = project.files("src/main/generated/kotlin")
@@ -5,8 +7,8 @@ val generationFolder: ConfigurableFileCollection = project.files("src/main/gener
 val generationTestFolder: ConfigurableFileCollection = project.files("src/test/generated/kotlin")
 val generationTestFolderJava: ConfigurableFileCollection = project.files("src/test/generated/java")
 
-val packageName = "com.tegonal.minimalist"
-val packageNameAsPath = packageName.replace('.', '/')
+val mainPackageName = "com.tegonal.minimalist"
+val mainPackageNameAsPath = mainPackageName.replace('.', '/')
 
 
 fun dontModifyNotice(place: String) =
@@ -30,9 +32,9 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 		.append("package ").append(packageName).append("\n\n")
 
 	doFirst {
-		val packageDir = File(generationFolder.asPath + "/" + packageNameAsPath)
+		val packageDir = File(generationFolder.asPath + "/" + mainPackageNameAsPath)
 
-		val argsInterface = createStringBuilder(packageName)
+		val argsInterface = createStringBuilder(mainPackageName)
 			.append(
 				"""
 				 |import org.junit.jupiter.params.provider.Arguments
@@ -52,9 +54,50 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 			)
 			.appendLine()
 
-		val argsComponents = createStringBuilder(packageName)
+		val argsComponents = createStringBuilder(mainPackageName)
 
 		fun wrapIntoRepresentationIfFirst(num: Int) = if (num == 1) "?.let { r -> Representation(r) }" else ""
+		fun tupleType(arity: Int) = when (arity) {
+			2 -> "Pair"
+			3 -> "Triple"
+			else -> "Tuple$arity"
+		}
+
+		fun tupleTypeWithTypeArgs(arity: Int, tArgs: String) = when (arity) {
+			1 -> tArgs
+			else -> "${tupleType(arity)}<$tArgs>"
+		}
+
+		fun StringBuilder.importTupleTypes() =
+			append("import ch.tutteli.kbox.append\n")
+				.append("import ch.tutteli.kbox.Tuple4\n")
+				.append("import ch.tutteli.kbox.Tuple5\n")
+				.append("import ch.tutteli.kbox.Tuple6\n")
+				.append("import ch.tutteli.kbox.Tuple7\n")
+				.append("import ch.tutteli.kbox.Tuple8\n")
+				.append("import ch.tutteli.kbox.Tuple9\n")
+
+		val semiOrderedArgsLikeGeneratorCombine = listOf(
+			"orderedArgsGeneratorCombine" to "OrderedArgsGenerator",
+			"semiOrderedArgsGeneratorCombine" to "SemiOrderedArgsGenerator"
+		).map {
+			it.append(
+				createStringBuilder("$mainPackageName.generators")
+					.importTupleTypes()
+					.appendLine()
+			)
+		}
+
+		val randomArgsLikeGeneratorCombine = listOf(
+			"randomArgsGeneratorCombine" to "RandomArgsGenerator",
+			"semiOrderedWithRandomArgsGeneratorCombine" to "SemiOrderedArgsGenerator"
+		).map {
+			it.append(
+				createStringBuilder("$mainPackageName.generators")
+					.importTupleTypes()
+					.appendLine()
+			)
+		}
 
 
 		(1..numOfArgs).forEach { upperNumber ->
@@ -64,7 +107,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 			val representationConstructorProperties =
 				numbers.joinToString(",\n\t") { "override val representation$it: String? = null" }
 
-			val argsInterfaces = createStringBuilder(packageName)
+			val argsInterfaces = createStringBuilder(mainPackageName)
 			argsInterfaces.append(
 				"""
 				|/**
@@ -102,7 +145,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 				).appendLine()
 			}
 
-			val defaultArgs = createStringBuilder("$packageName.impl")
+			val defaultArgs = createStringBuilder("$mainPackageName.impl")
 				.append("import com.tegonal.minimalist.*\n\n")
 				.append("import org.junit.jupiter.api.Named\n\n")
 
@@ -418,6 +461,70 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 				|
 				""".trimMargin()
 			)
+
+			val upperNumberPlus1 = upperNumber + 1
+			if (upperNumberPlus1 <= 9) {
+				val typeArgsPlus1 = (1..upperNumberPlus1).joinToString(", ") { "A$it" }
+				val tupleX = tupleTypeWithTypeArgs(upperNumber, typeArgs)
+				val tupleXPlus1 = tupleTypeWithTypeArgs(upperNumberPlus1, typeArgsPlus1)
+
+				semiOrderedArgsLikeGeneratorCombine.forEach { (_, className, sb) ->
+					sb.append(
+						"""
+						|/**
+						| * Combines this [${className}] with the given [other] [${className}] resulting
+						| * in an [${className}] which generates
+						| * [this.size][${className}.size] * [other.size][${className}.size] values before repeating.
+						| *
+						| * @param other The other [${className}] which generates values of type [A$upperNumberPlus1].
+						| *
+						| * @return The resulting [${className}] which generates values of type [${
+							tupleType(upperNumberPlus1)
+						}].
+						| *
+						| * @since 2.0.0
+						| */
+						|@JvmName("combineToTuple${upperNumberPlus1}")
+						|fun <$typeArgsPlus1> ${className}<$tupleX>.combine(
+						|	other: ${className}<A$upperNumberPlus1>
+						|): ${className}<$tupleXPlus1> = this.combine(other${
+							if (upperNumber == 1) ", ::Pair)"
+							else """) { args, otherArg ->
+								|	args.append(otherArg)
+								|}""".trimMargin()
+						}
+						|""".trimMargin()
+					).appendLine()
+				}
+
+				randomArgsLikeGeneratorCombine.forEach { (_, className, sb) ->
+
+					sb.append(
+						"""
+					|/**
+					| * Combines this [${className}] with the given [other] [${className}].
+					| *
+					| * @param other The other [${className}] which generates values of type [A$upperNumberPlus1].
+					| *
+					| * @return The resulting [${className}] which generates values of type [${
+							tupleType(upperNumberPlus1)
+						}].
+					| *
+					| * @since 2.0.0
+					| */
+					|@JvmName("combineToTuple${upperNumberPlus1}")
+					|fun <$typeArgsPlus1> ${className}<$tupleX>.combine(
+					|	other: RandomArgsGenerator<A$upperNumberPlus1>
+					|): ${className}<$tupleXPlus1> = this.combine(other${
+							if (upperNumber == 1) ", ::Pair)"
+							else """) { args, otherArg ->
+							|	args.append(otherArg)
+							|}""".trimMargin()
+						}
+					|""".trimMargin()
+					).appendLine()
+				}
+			}
 		}
 
 		argsInterface.append(
@@ -432,6 +539,98 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 
 		val argsComponentFile = packageDir.resolve("argsComponents.kt")
 		argsComponentFile.writeText(argsComponents.toString())
+
+		semiOrderedArgsLikeGeneratorCombine.forEach { (fileName, _, sb) ->
+			val file = packageDir.resolve("generators/$fileName.kt")
+			file.writeText(sb.toString())
+		}
+
+		randomArgsLikeGeneratorCombine.forEach { (fileName, _, sb) ->
+			val file = packageDir.resolve("generators/$fileName.kt")
+			file.writeText(sb.toString())
+		}
+
+		listOf("ordered", "semiOrdered", "random").forEach { name ->
+			val className =
+				name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(getDefault()) else it.toString() } + "ArgsGenerator"
+			val sb = createStringBuilder("$mainPackageName.generators")
+				.append("import com.tegonal.minimalist.generators.impl.").append(className).append("Transformer\n")
+				.appendLine()
+
+			sb.append(
+				"""
+				|/**
+				| * Maps the values this [${className}] generates to type [R] with the help of the given [transform] function.
+				| *
+				| * @param transform The transformation function which takes a [T] and produces an [R].
+				| *
+				| * @param T The type of values generated by this [${className}].
+				| * @param R the type of values generated by the resulting [${className}].
+				| *
+				| * @return The resulting [${className}] which generates values of type [R].
+				| *
+				| * @since 2.0.0
+				| */
+				|fun <T, R> ${className}<T>.map(transform: (T) -> R): ${className}<R> =
+				|	this.transform { it.map(transform) }
+				|
+				|/**
+				| * Filters the [Sequence] of values this [${className}] will [generate][${className}.generate] which
+				| * match the given [predicate] - should not filter out all values otherwise it will break the [ArgsGenerator] contract.
+				| *
+				| * @param predicate which should return `true` for a given value if it shall be kept in the sequence, otherwise `false`.
+				| *
+				| * @param T The type of values generated by this [${className}].
+				| *
+				| * @return The resulting [${className}] which generates only values for which
+				| *   the given [predicate] returns `true`.
+				| *
+				| * @since 2.0.0
+				| */
+				|fun <T> ${className}<T>.filter(predicate: (T) -> Boolean): ${className}<T> =
+				|	this.transform { it.filter(predicate) }
+				|
+				|/**
+				| * Filters the [Sequence] of values this [${className}] will [generate][${className}.generate] which
+				| * do **not** match the given [predicate] - should not filter out all values otherwise it will break the
+				| * [ArgsGenerator] contract.
+				| *
+				| * @param predicate which should return `true` for a given value if it shall be filtered out, otherwise `false`.
+				| *
+				| * @param T The type of values generated by this [${className}].
+				| *
+				| * @return The resulting [${className}] which generates only values for which
+				| *   the given [predicate] returns `false`.
+				| *
+				| * @since 2.0.0
+				| */
+				|fun <T> ${className}<T>.filterNot(predicate: (T) -> Boolean): ${className}<T> =
+				|	this.transform { it.filterNot(predicate) }
+				|
+				|/**
+				| * Transforms the [Sequence] this [${className}] will generate into a [Sequence] of type [R] and thus creating a
+				| * [${className}] of type [R].
+				| *
+				| * Note that the resulting sequence should still be an infinite stream of values.
+				| *
+				| * @param transform The transformation function which takes a [Sequence] of type [T] and
+				| *   produces a [Sequence] of type [R].
+				| *
+				| * @param T The type of values generated by this [${className}].
+				| * @param R the type of values generated by the resulting [${className}].
+				| *
+				| * @return The resulting [${className}] which generates values of type [R].
+				| *
+				| * @since 2.0.0
+				| */
+				|fun <T, R> ${className}<T>.transform(transform: (Sequence<T>) -> Sequence<R>): ${className}<R> =
+				|	${className}Transformer(this, transform)
+			""".trimMargin()
+			)
+
+			val file = packageDir.resolve("generators/${name}ArgsGeneratorTransform.kt")
+			file.writeText(sb.toString())
+		}
 	}
 }
 generationFolder.builtBy(generate)
@@ -513,10 +712,10 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 			|
 			|class $testName {
 			|
-	""".trimMargin()
+			""".trimMargin()
 		).appendLine()
 
-		val packageDir = File(generationTestFolder.asPath + "/" + packageNameAsPath)
+		val packageDir = File(generationTestFolder.asPath + "/" + mainPackageNameAsPath)
 
 		fun wrapIntoRepresentationIfFirst(arg: String, num: Int) = if (num == 1) "Representation($arg)" else arg
 
@@ -524,7 +723,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 			val numbers = (1..upperNumber)
 			val typeArgs = numbers.joinToString(", ") { "A$it" }
 
-			val argsExpectations = createStringBuilder("$packageName.atrium")
+			val argsExpectations = createStringBuilder("$mainPackageName.atrium")
 				.append(
 					"""
 					import ch.tutteli.atrium.creating.Expect
@@ -556,7 +755,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 			argsExpectationsFile.writeText(argsExpectations.toString())
 
 			if (upperNumber > 1) {
-				val dropTest = createStringBuilder("$packageName.arguments.drop")
+				val dropTest = createStringBuilder("$mainPackageName.arguments.drop")
 					.appendTest("Args${upperNumber}DropTest")
 
 				numbers.forEach { number ->
@@ -606,10 +805,10 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 				val dropTestFile = packageDir.resolve("arguments/drop/Args${upperNumber}DropTest.kt")
 				dropTestFile.writeText(dropTest.toString())
 
-				val withArgTest = createStringBuilder("$packageName.arguments.withArg")
+				val withArgTest = createStringBuilder("$mainPackageName.arguments.withArg")
 					.appendTest("Args${upperNumber}WithArgTest")
 
-				val mapArgTest = createStringBuilder("$packageName.arguments.mapArg")
+				val mapArgTest = createStringBuilder("$mainPackageName.arguments.mapArg")
 					.appendTest("Args${upperNumber}MapArgTest")
 
 				numbers.forEach { number ->
@@ -774,7 +973,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 				mapArgTestFile.writeText(mapArgTest.toString())
 			}
 
-			val argumentsTest = createStringBuilder("$packageName.arguments.annotation")
+			val argumentsTest = createStringBuilder("$mainPackageName.arguments.annotation")
 				.appendTest("Args${upperNumber}ArgumentsTest")
 
 			argumentsTest.append(
@@ -850,7 +1049,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 			argumentsTestFile.writeText(argumentsTest.toString())
 
 			if (upperNumber < numOfArgs) {
-				val appendTest = createStringBuilder("${packageName}.arguments.append")
+				val appendTest = createStringBuilder("${mainPackageName}.arguments.append")
 					.appendTest("Args${upperNumber}AppendTest")
 
 
@@ -907,7 +1106,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 				appendTestFile.writeText(appendTest.toString())
 			}
 
-			val argsComponentTest = createStringBuilder("$packageName.arguments.components")
+			val argsComponentTest = createStringBuilder("$mainPackageName.arguments.components")
 				.appendTest("Args${upperNumber}ComponentsTest")
 
 			numbers.forEach { number ->
@@ -992,11 +1191,11 @@ val generateTestJava: TaskProvider<Task> = tasks.register("generateTestJava") {
 			""".trimMargin()
 		).appendLine()
 
-		val packageDir = File(generationTestFolderJava.asPath + "/" + packageNameAsPath + "/java")
+		val packageDir = File(generationTestFolderJava.asPath + "/" + mainPackageNameAsPath + "/java")
 
 		fun wrapIntoRepresentationIfFirst(arg: String, num: Int) = if (num == 1) "new Representation($arg)" else arg
 
-		val packageName = "$packageName.java"
+		val packageName = "$mainPackageName.java"
 
 		(1..numOfArgs).forEach { upperNumber ->
 			val numbers = (1..upperNumber)

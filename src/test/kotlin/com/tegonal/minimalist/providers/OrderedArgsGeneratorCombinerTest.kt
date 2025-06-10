@@ -3,7 +3,6 @@ package com.tegonal.minimalist.providers
 import ch.tutteli.atrium.api.fluent.en_GB.*
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
-import ch.tutteli.kbox.Tuple3Like
 import com.tegonal.minimalist.generators.*
 import com.tegonal.minimalist.generators.impl.OrderedArgsGeneratorCombiner
 import org.junit.jupiter.params.ParameterizedTest
@@ -50,11 +49,12 @@ class OrderedArgsGeneratorCombinerTest {
 			}
 		}
 		val generators = values.map { OrderedArgsGenerator.fromList(it) }
-		val generator = generators.drop(1).fold(generators.first().map { mutableListOf(it) }) { generator, other ->
-			OrderedArgsGeneratorCombiner(generator, other) { l, a2 ->
-				l.also { it.add(a2) }
+		val generator: OrderedArgsGenerator<List<Any>> =
+			generators.drop(1).fold(generators.first().map { mutableListOf(it) }) { generator, other ->
+				OrderedArgsGeneratorCombiner(generator, other) { l, a2 ->
+					l.also { it.add(a2) }
+				}
 			}
-		}
 
 		validateGeneration(generator, values)
 	}
@@ -76,10 +76,10 @@ class OrderedArgsGeneratorCombinerTest {
 				}
 			}
 		val allCombinations = (0 until numberOfCombinations).map { offset ->
-			generator.generateOrdered(numberOfCombinations, offset).toList()
+			generator.generate(offset).take(numberOfCombinations).toList()
 		}
 		val offsetAllCombinations = (0 until numberOfCombinations).map { offset ->
-			generator.generateOrdered(numberOfCombinations, numberOfCombinations + offset).toList()
+			generator.generate(numberOfCombinations + offset).take(numberOfCombinations).toList()
 		}
 		allCombinations.forEachIndexed { offset, combination ->
 			expect(combination).withOptions { withVerb("I expected offset $offset") }
