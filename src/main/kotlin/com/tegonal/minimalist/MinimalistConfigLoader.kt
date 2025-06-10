@@ -35,7 +35,6 @@ object MinimalistConfigLoader {
 
 						else -> error("Unknown minimalist config property $key with value $value")
 					}
-					config
 				}
 				copy(maxArgsLevels = newLevels)
 			}

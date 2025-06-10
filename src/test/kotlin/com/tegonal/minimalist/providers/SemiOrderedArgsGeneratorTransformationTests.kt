@@ -32,7 +32,7 @@ class SemiOrderedArgsGeneratorTransformationTests {
 	@Test
 	fun filter() {
 		val a1s = listOf(1, 2, 3, 4)
-		val generator = OrderedArgsGenerator.fromList(a1s).filter { it % 2 == 0 }
+		val generator = (OrderedArgsGenerator.fromList(a1s) as SemiOrderedArgsGenerator<Int>).filter { it % 2 == 0 }
 
 		val expected = repeatForeverFromUntil(2, 5, step = 2)
 		expect(generator.generate().take(1).toList()).toContainExactlyElementsOf(expected.take(1).toList())
@@ -45,7 +45,7 @@ class SemiOrderedArgsGeneratorTransformationTests {
 	@Test
 	fun filterNot() {
 		val a1s = listOf(1, 2, 3, 4)
-		val generator = OrderedArgsGenerator.fromList(a1s).filterNot { it % 2 == 0 }
+		val generator = (OrderedArgsGenerator.fromList(a1s) as SemiOrderedArgsGenerator<Int>).filterNot { it % 2 == 0 }
 
 		val expected = repeatForeverFromUntil(1, 4, step = 2)
 		expect(generator.generate().take(1).toList()).toContainExactlyElementsOf(expected.take(1).toList())
@@ -59,7 +59,7 @@ class SemiOrderedArgsGeneratorTransformationTests {
 	@Test
 	fun transform() {
 		val a1s = listOf(1, 2)
-		val generator = OrderedArgsGenerator.fromList(a1s).transform { seq ->
+		val generator = (OrderedArgsGenerator.fromList(a1s) as SemiOrderedArgsGenerator<Int>).transform { seq ->
 			seq.flatMap { sequenceOf('a' + it, 'A' + it) }
 		}
 

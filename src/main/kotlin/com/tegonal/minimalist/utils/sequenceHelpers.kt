@@ -45,4 +45,4 @@ fun repeatForeverFromUntil(start: Int, endNotInclusive: Int, offset: Int = 0, st
  * Returns an infinite [Sequence] of [Unit].
  * @since 2.0.0
  */
-fun repeatForever(): Sequence<Unit> = generateSequence(Unit) { it }
+fun repeatForever(): Sequence<Unit> = generateSequence(Unit) {  }
