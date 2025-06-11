@@ -24,14 +24,15 @@ interface RandomArgsGenerator<out T> : ArgsGenerator<T> {
 	 * @since 2.0.0
 	 */
 	fun generate(): Sequence<T>
-
-	/**
-	 * Extension point for things like [RandomArgsGenerator.of][RandomArgsGenerator.Companion.of].
-	 *
-	 * @since 2.0.0
-	 */
-	companion object
 }
+
+/**
+ * Extension point for things like [random.of].
+ *
+ * @since 2.0.0
+ */
+@Suppress("ClassName")
+object random
 
 /**
  * Represents an [ArgsGenerator] which provides the method [generate] where some part of [T] is always in the
@@ -82,11 +83,12 @@ interface OrderedArgsGenerator<out T> : SemiOrderedArgsGenerator<T> {
 	 * @since 2.0.0
 	 */
 	override fun generate(offset: Int): Sequence<T>
-
-	/**
-	 * Extension point for things like [OrderedArgsGenerator.of][OrderedArgsGenerator.Companion.of].
-	 *
-	 * @since 2.0.0
-	 */
-	companion object
 }
+
+/**
+ * Extension point for things like [ordered.of].
+ *
+ * @since 2.0.0
+ */
+@Suppress("ClassName")
+object ordered

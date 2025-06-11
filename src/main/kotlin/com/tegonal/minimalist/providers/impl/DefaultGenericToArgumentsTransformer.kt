@@ -83,7 +83,7 @@ class DefaultGenericToArgumentsTransformer : GenericToArgumentsTransformer {
 		randomArgsGenerators: List<Pair<Int, RandomArgsGenerator<*>>>
 	): Pair<Int, Int> =
 		if (annotation.fixedMaxNumberOfArgs > 0) {
-			// value in annotation takes precedence over MaxArgProvider
+			// value in annotation takes precedence over MaxArgsAndOffsetDeterminer
 			annotation.fixedMaxNumberOfArgs to annotation.fixedOffset
 		} else {
 			val config = MinimalistConfigLoader.config

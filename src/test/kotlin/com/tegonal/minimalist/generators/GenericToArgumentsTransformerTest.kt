@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.providers
+package com.tegonal.minimalist.generators
 
 import ch.tutteli.atrium.api.fluent.en_GB.*
 import ch.tutteli.atrium.api.verbs.expect
@@ -9,6 +9,7 @@ import ch.tutteli.kbox.toVararg
 import com.tegonal.minimalist.Args
 import com.tegonal.minimalist.Representation
 import com.tegonal.minimalist.generators.*
+import com.tegonal.minimalist.providers.ArgsSource
 import com.tegonal.minimalist.providers.impl.DefaultGenericToArgumentsTransformer
 import org.junit.jupiter.api.TestInfo
 import org.junit.jupiter.params.ParameterizedTest
@@ -39,7 +40,7 @@ class GenericToArgumentsTransformerTest {
 			testInfo.testMethod.get(),
 			ArgsSource(methodName = "dummy", fixedMaxNumberOfArgs = 1000),
 			(0 until numOfGenerators).map {
-				RandomArgsGenerator.fromRange(it * 10 until it * 10 + 10)
+				random.fromRange(it * 10 until it * 10 + 10)
 			}
 		)
 		expect(combinations) {
@@ -71,27 +72,27 @@ class GenericToArgumentsTransformerTest {
 	fun randomOnlyDependent(testInfo: TestInfo) {
 		val now = LocalDate.now()
 		val lastDayOfYear = now.with(TemporalAdjusters.lastDayOfYear())
-		val startDates = RandomArgsGenerator.localDateFromUntil(now, lastDayOfYear)
+		val startDates = random.localDateFromUntil(now, lastDayOfYear)
 
 		val startAndEndDates = startDates.combineDependent { startDate ->
-			RandomArgsGenerator.localDateFromUntil(startDate, startDate.plusYears(1))
+			random.localDateFromUntil(startDate, startDate.plusYears(1))
 		}
 		val combinations = DefaultGenericToArgumentsTransformer().toArguments(
 			testInfo.testMethod.get(),
 			ArgsSource(methodName = "dummy", fixedMaxNumberOfArgs = 1000),
 			listOf(startAndEndDates)
 		)
-		val firstNameGenerator = RandomArgsGenerator.intFromUntil(1, 1000).map { "firstName $it" }
+		val firstNameGenerator = random.intFromUntil(1, 1000).map { "firstName $it" }
 			.map { Args.of(it, representation1 = Representation("firstName")) }
-		val lastNameGenerator = RandomArgsGenerator.intFromUntil(1, 1000).map { "lastName $it" }
-		val ageGenerator = RandomArgsGenerator.intFromUntil(1, 90)
+		val lastNameGenerator = random.intFromUntil(1, 1000).map { "lastName $it" }
+		val ageGenerator = random.intFromUntil(1, 90)
 
 		val a = Tuple(firstNameGenerator, lastNameGenerator, ageGenerator).append(ageGenerator)
 
 		val p = firstNameGenerator.combine(lastNameGenerator).combine(ageGenerator).map { (args1, firstName, age) ->
 			Person(args1.a1, firstName, age)
 		}
-		OrderedArgsGenerator.fromEnum<A>()
+		ordered.fromEnum<A>()
 
 		expect(combinations) {
 			toHaveSize(1000)

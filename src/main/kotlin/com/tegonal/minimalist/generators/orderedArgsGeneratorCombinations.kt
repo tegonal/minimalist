@@ -11,10 +11,11 @@ fun <A1, A2, R> OrderedArgsGenerator<A1>.combine(
 	transform: (A1, A2) -> R
 ): OrderedArgsGenerator<R> = OrderedArgsGeneratorCombiner(this, other, transform)
 
-/**
- * @since 2.0.0
- */
-fun <A1, A2> OrderedArgsGenerator<A1>.combine(
-	other: RandomArgsGenerator<A2>
-): SemiOrderedArgsGenerator<Pair<A1, A2>> = SemiOrderedArgsWithRandomArgsGeneratorCombiner(this, other, ::Pair)
-
+///**
+// * @since 2.0.0
+// */
+//fun <A1, A2, R> OrderedArgsGenerator<A1>.combine(
+//	other: RandomArgsGenerator<A2>,
+//	transform: (A1, A2) -> R
+//): SemiOrderedArgsGenerator<R> = SemiOrderedArgsWithRandomArgsGeneratorCombiner(this, other, transform)
+//

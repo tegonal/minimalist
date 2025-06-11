@@ -10,5 +10,5 @@ import com.tegonal.minimalist.generators.impl.ListRandomArgsGenerator
  * @since 2.0.0
  */
 @JvmName("fromValueList")
-fun <T> RandomArgsGenerator.Companion.fromList(args: List<T>): RandomArgsGenerator<T> =
+fun <T> random.fromList(args: List<T>): RandomArgsGenerator<T> =
 	ListRandomArgsGenerator(args)

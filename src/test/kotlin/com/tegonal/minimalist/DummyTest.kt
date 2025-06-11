@@ -26,8 +26,8 @@ class DummyTest {
 
 	@Test
 	fun test() {
-		OrderedArgsGenerator.fromEnum<A>()
-		RandomArgsGenerator.localDateFromUntil(LocalDate.now(), LocalDate.now().plusYears(1), ChronoUnit.DAYS)
+		ordered.fromEnum<A>()
+		random.localDateFromUntil(LocalDate.now(), LocalDate.now().plusYears(1), ChronoUnit.DAYS)
 	}
 
 	@Test
@@ -72,8 +72,8 @@ class DummyTest {
 
 	@Test
 	fun benchCombine() {
-		val a1Generator = OrderedArgsGenerator.fromRange(1..100)
-		val a2Generator = OrderedArgsGenerator.fromRange(0 until 26).map { 'A' + it }
+		val a1Generator = ordered.fromRange(1..100)
+		val a2Generator = ordered.fromRange(0 until 26).map { 'A' + it }
 		val a1Size = a1Generator.size
 		val a2Size = a2Generator.size
 		val a1IsSmaller = a1Size < a2Size
@@ -305,23 +305,23 @@ class DummyTest {
 		@JvmStatic
 		fun randomOnly(): Pair<RandomArgsGenerator<Pair<LocalDate, LocalDate>>, RandomArgsGenerator<Int>> {
 			val now = LocalDate.now()
-			val startDates = RandomArgsGenerator.localDateFromUntil(now, now.with(TemporalAdjusters.lastDayOfYear()))
+			val startDates = random.localDateFromUntil(now, now.with(TemporalAdjusters.lastDayOfYear()))
 
 			val startAndEndDates = startDates.combineDependent { startDate ->
-				RandomArgsGenerator.localDateFromUntil(startDate, startDate.plusYears(1))
+				random.localDateFromUntil(startDate, startDate.plusYears(1))
 			}
 
-			val a = RandomArgsGenerator.intFromUntil(2, 10).combine(RandomArgsGenerator.intFromUntil(2, 10)) { a1, a2 ->
+			val a = random.intFromUntil(2, 10).combine(random.intFromUntil(2, 10)) { a1, a2 ->
 
 			}
 
-			return startAndEndDates to RandomArgsGenerator.intFromUntil(2, 10)
+			return startAndEndDates to random.intFromUntil(2, 10)
 		}
 
 		@JvmStatic
 		fun orderedOnly() = Tuple(
-			OrderedArgsGenerator.fromEnum<A>(),
-			OrderedArgsGenerator.fromEnum<A>()
+			ordered.fromEnum<A>(),
+			ordered.fromEnum<A>()
 		)
 //
 //		@JvmStatic

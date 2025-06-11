@@ -12,7 +12,7 @@ import java.time.temporal.TemporalUnit
 /**
  * @since 2.0.0
  */
-fun RandomArgsGenerator.Companion.localDateFromUntil(
+fun random.localDateFromUntil(
 	from: LocalDate,
 	toExclusive: LocalDate,
 	temporalUnit: TemporalUnit = ChronoUnit.DAYS,
@@ -21,7 +21,7 @@ fun RandomArgsGenerator.Companion.localDateFromUntil(
 /**
  * @since 2.0.0
  */
-fun RandomArgsGenerator.Companion.localDateTimeFromUntil(
+fun random.localDateTimeFromUntil(
 	from: LocalDateTime,
 	toExclusive: LocalDateTime,
 	temporalUnit: TemporalUnit,
@@ -30,7 +30,7 @@ fun RandomArgsGenerator.Companion.localDateTimeFromUntil(
 /**
  * @since 2.0.0
  */
-fun RandomArgsGenerator.Companion.zonedDateTimeFromUntil(
+fun random.zonedDateTimeFromUntil(
 	from: ZonedDateTime,
 	toExclusive: ZonedDateTime,
 	temporalUnit: TemporalUnit,

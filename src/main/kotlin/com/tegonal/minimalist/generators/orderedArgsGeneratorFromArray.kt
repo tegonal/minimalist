@@ -11,7 +11,7 @@ import com.tegonal.minimalist.generators.impl.RandomAccessOrderedArgsGenerator
  * @return an [OrderedArgsGenerator] based on the given [args] where each element is transformed into an [com.tegonal.minimalist.Args1].
  * @since 2.0.0
  */
-fun OrderedArgsGenerator.Companion.fromArray(args: ByteArray): OrderedArgsGenerator<Byte> =
+fun ordered.fromArray(args: ByteArray): OrderedArgsGenerator<Byte> =
 	RandomAccessOrderedArgsGenerator(args.size) { args[it] }
 
 /**
@@ -20,7 +20,7 @@ fun OrderedArgsGenerator.Companion.fromArray(args: ByteArray): OrderedArgsGenera
  * @return an [OrderedArgsGenerator] based on the given [args] where each element is transformed into an [Args1].
  * @since 2.0.0
  */
-fun OrderedArgsGenerator.Companion.fromArray(args: CharArray): OrderedArgsGenerator<Char> =
+fun ordered.fromArray(args: CharArray): OrderedArgsGenerator<Char> =
 	RandomAccessOrderedArgsGenerator(args.size) { args[it] }
 
 
@@ -30,7 +30,7 @@ fun OrderedArgsGenerator.Companion.fromArray(args: CharArray): OrderedArgsGenera
  * @return an [OrderedArgsGenerator] based on the given [args] where each element is transformed into an [Args1].
  * @since 2.0.0
  */
-fun OrderedArgsGenerator.Companion.fromArray(args: ShortArray): OrderedArgsGenerator<Short> =
+fun ordered.fromArray(args: ShortArray): OrderedArgsGenerator<Short> =
 	RandomAccessOrderedArgsGenerator(args.size) { args[it] }
 
 /**
@@ -39,7 +39,7 @@ fun OrderedArgsGenerator.Companion.fromArray(args: ShortArray): OrderedArgsGener
  * @return an [OrderedArgsGenerator] based on the given [args] where each element is transformed into an [Args1].
  * @since 2.0.0
  */
-fun OrderedArgsGenerator.Companion.fromArray(args: IntArray): OrderedArgsGenerator<Int> =
+fun ordered.fromArray(args: IntArray): OrderedArgsGenerator<Int> =
 	RandomAccessOrderedArgsGenerator(args.size) { args[it] }
 
 /**
@@ -48,7 +48,7 @@ fun OrderedArgsGenerator.Companion.fromArray(args: IntArray): OrderedArgsGenerat
  * @return an [OrderedArgsGenerator] based on the given [args] where each element is transformed into an [Args1].
  * @since 2.0.0
  */
-fun OrderedArgsGenerator.Companion.fromArray(args: LongArray): OrderedArgsGenerator<Long> =
+fun ordered.fromArray(args: LongArray): OrderedArgsGenerator<Long> =
 	RandomAccessOrderedArgsGenerator(args.size) { args[it] }
 
 /**
@@ -57,7 +57,7 @@ fun OrderedArgsGenerator.Companion.fromArray(args: LongArray): OrderedArgsGenera
  * @return an [OrderedArgsGenerator] based on the given [args] where each element is transformed into an [Args1].
  * @since 2.0.0
  */
-fun OrderedArgsGenerator.Companion.fromArray(args: FloatArray): OrderedArgsGenerator<Float> =
+fun ordered.fromArray(args: FloatArray): OrderedArgsGenerator<Float> =
 	RandomAccessOrderedArgsGenerator(args.size) { args[it] }
 
 /**
@@ -66,7 +66,7 @@ fun OrderedArgsGenerator.Companion.fromArray(args: FloatArray): OrderedArgsGener
  * @return an [OrderedArgsGenerator] based on the given [args] where each element is transformed into an [Args1].
  * @since 2.0.0
  */
-fun OrderedArgsGenerator.Companion.fromArray(args: DoubleArray): OrderedArgsGenerator<Double> =
+fun ordered.fromArray(args: DoubleArray): OrderedArgsGenerator<Double> =
 	RandomAccessOrderedArgsGenerator(args.size) { args[it] }
 
 /**
@@ -75,7 +75,7 @@ fun OrderedArgsGenerator.Companion.fromArray(args: DoubleArray): OrderedArgsGene
  * @return an [OrderedArgsGenerator] based on the given [args] where each element is transformed into an [Args1].
  * @since 2.0.0
  */
-fun OrderedArgsGenerator.Companion.fromArray(args: BooleanArray): OrderedArgsGenerator<Boolean> =
+fun ordered.fromArray(args: BooleanArray): OrderedArgsGenerator<Boolean> =
 	RandomAccessOrderedArgsGenerator(args.size) { args[it] }
 
 /**
@@ -84,5 +84,5 @@ fun OrderedArgsGenerator.Companion.fromArray(args: BooleanArray): OrderedArgsGen
  * @return an [OrderedArgsGenerator] based on the given [args] where each element is transformed into an [Args1].
  * @since 2.0.0
  */
-fun <A1> OrderedArgsGenerator.Companion.fromArray(args: Array<out A1>): OrderedArgsGenerator<A1> =
+fun <A1> ordered.fromArray(args: Array<out A1>): OrderedArgsGenerator<A1> =
 	ArrayOrderedArgsGenerator(args)

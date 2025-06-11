@@ -1,10 +1,9 @@
-package com.tegonal.minimalist.providers
+package com.tegonal.minimalist.generators
 
 import ch.tutteli.atrium.api.fluent.en_GB.toContainExactlyElementsOf
 import ch.tutteli.atrium.api.verbs.expect
 import com.tegonal.minimalist.Args
 import com.tegonal.minimalist.Args2
-import com.tegonal.minimalist.generators.*
 import com.tegonal.minimalist.utils.repeatForever
 import com.tegonal.minimalist.utils.repeatForeverFromUntil
 import kotlin.test.Test

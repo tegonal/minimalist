@@ -10,5 +10,5 @@ import com.tegonal.minimalist.generators.impl.ListOrderedArgsGenerator
  * @since 2.0.0
  */
 @JvmName("fromValueList")
-fun <T> OrderedArgsGenerator.Companion.fromList(args: List<T>): OrderedArgsGenerator<T> =
+fun <T> ordered.fromList(args: List<T>): OrderedArgsGenerator<T> =
 	ListOrderedArgsGenerator(args)

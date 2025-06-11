@@ -8,7 +8,7 @@ import com.tegonal.minimalist.generators.impl.LongRangeRandomArgsGenerator
 /**
  * @since 2.0.0
  */
-fun RandomArgsGenerator.Companion.intFromUntil(
+fun random.intFromUntil(
 	from: Int,
 	toExclusive: Int,
 ): RandomArgsGenerator<Int> = IntRangeRandomArgsGenerator(from, toExclusive, ::identity)
@@ -16,7 +16,7 @@ fun RandomArgsGenerator.Companion.intFromUntil(
 /**
  * @since 2.0.0
  */
-fun RandomArgsGenerator.Companion.longFromUntil(
+fun random.longFromUntil(
 	from: Long,
 	toExclusive: Long,
 ): RandomArgsGenerator<Long> = LongRangeRandomArgsGenerator(from, toExclusive, ::identity)
@@ -24,7 +24,7 @@ fun RandomArgsGenerator.Companion.longFromUntil(
 /**
  * @since 2.0.0
  */
-fun RandomArgsGenerator.Companion.doubleFromUntil(
+fun random.doubleFromUntil(
 	from: Double,
 	toExclusive: Double,
 ): RandomArgsGenerator<Double> = DoubleRangeRandomArgsGenerator(from, toExclusive, ::identity)

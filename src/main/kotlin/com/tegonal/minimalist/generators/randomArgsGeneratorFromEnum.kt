@@ -11,5 +11,5 @@ import com.tegonal.minimalist.generators.impl.ArrayRandomArgsGenerator
  *
  * @since 2.0.0
  */
-inline fun <reified E : Enum<E>> RandomArgsGenerator.Companion.fromEnum(): RandomArgsGenerator<E> =
+inline fun <reified E : Enum<E>> random.fromEnum(): RandomArgsGenerator<E> =
 	ArrayRandomArgsGenerator(enumValues<E>())

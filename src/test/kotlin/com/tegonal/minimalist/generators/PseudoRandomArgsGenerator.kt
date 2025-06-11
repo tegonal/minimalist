@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.providers
+package com.tegonal.minimalist.generators
 
 import com.tegonal.minimalist.generators.RandomArgsGenerator
 import com.tegonal.minimalist.utils.repeatForever

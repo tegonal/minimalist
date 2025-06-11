@@ -11,5 +11,5 @@ import com.tegonal.minimalist.generators.impl.ArrayOrderedArgsGenerator
  *
  * @since 2.0.0
  */
-inline fun <reified E : Enum<E>> OrderedArgsGenerator.Companion.fromEnum(): OrderedArgsGenerator<E> =
+inline fun <reified E : Enum<E>> ordered.fromEnum(): OrderedArgsGenerator<E> =
 	ArrayOrderedArgsGenerator(enumValues<E>())
