@@ -147,7 +147,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	fun withArg1(value: A1, representation: String? = null): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
 	/**
-	 * Maps [a1] of this [Args10] with the given [transform] function resulting in a new [Args10].
+	 * Maps [a1] of `this` [Args10] with the given [transform] function resulting in a new [Args10].
 	 *
 	 * @param transform The function which maps [a1] to a new value.
 	 *
@@ -158,7 +158,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	fun <A1New> mapArg1(transform: (A1) -> A1New): Args10<A1New, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
 	/**
-	 * Maps [a1] and its [representation1] of this [Args10] with the given [transform] function resulting in a new [Args10].
+	 * Maps [a1] and its [representation1] of `this` [Args10] with the given [transform] function resulting in a new [Args10].
 	 *
 	 * @param transform The function which maps [a1] and [representation1].
 	 *
@@ -183,7 +183,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	fun withArg2(value: A2, representation: String? = null): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
 	/**
-	 * Maps [a2] of this [Args10] with the given [transform] function resulting in a new [Args10].
+	 * Maps [a2] of `this` [Args10] with the given [transform] function resulting in a new [Args10].
 	 *
 	 * @param transform The function which maps [a2] to a new value.
 	 *
@@ -194,7 +194,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	fun <A2New> mapArg2(transform: (A2) -> A2New): Args10<A1, A2New, A3, A4, A5, A6, A7, A8, A9, A10>
 
 	/**
-	 * Maps [a2] and its [representation2] of this [Args10] with the given [transform] function resulting in a new [Args10].
+	 * Maps [a2] and its [representation2] of `this` [Args10] with the given [transform] function resulting in a new [Args10].
 	 *
 	 * @param transform The function which maps [a2] and [representation2].
 	 *
@@ -219,7 +219,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	fun withArg3(value: A3, representation: String? = null): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
 	/**
-	 * Maps [a3] of this [Args10] with the given [transform] function resulting in a new [Args10].
+	 * Maps [a3] of `this` [Args10] with the given [transform] function resulting in a new [Args10].
 	 *
 	 * @param transform The function which maps [a3] to a new value.
 	 *
@@ -230,7 +230,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	fun <A3New> mapArg3(transform: (A3) -> A3New): Args10<A1, A2, A3New, A4, A5, A6, A7, A8, A9, A10>
 
 	/**
-	 * Maps [a3] and its [representation3] of this [Args10] with the given [transform] function resulting in a new [Args10].
+	 * Maps [a3] and its [representation3] of `this` [Args10] with the given [transform] function resulting in a new [Args10].
 	 *
 	 * @param transform The function which maps [a3] and [representation3].
 	 *
@@ -255,7 +255,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	fun withArg4(value: A4, representation: String? = null): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
 	/**
-	 * Maps [a4] of this [Args10] with the given [transform] function resulting in a new [Args10].
+	 * Maps [a4] of `this` [Args10] with the given [transform] function resulting in a new [Args10].
 	 *
 	 * @param transform The function which maps [a4] to a new value.
 	 *
@@ -266,7 +266,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	fun <A4New> mapArg4(transform: (A4) -> A4New): Args10<A1, A2, A3, A4New, A5, A6, A7, A8, A9, A10>
 
 	/**
-	 * Maps [a4] and its [representation4] of this [Args10] with the given [transform] function resulting in a new [Args10].
+	 * Maps [a4] and its [representation4] of `this` [Args10] with the given [transform] function resulting in a new [Args10].
 	 *
 	 * @param transform The function which maps [a4] and [representation4].
 	 *
@@ -291,7 +291,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	fun withArg5(value: A5, representation: String? = null): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
 	/**
-	 * Maps [a5] of this [Args10] with the given [transform] function resulting in a new [Args10].
+	 * Maps [a5] of `this` [Args10] with the given [transform] function resulting in a new [Args10].
 	 *
 	 * @param transform The function which maps [a5] to a new value.
 	 *
@@ -302,7 +302,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	fun <A5New> mapArg5(transform: (A5) -> A5New): Args10<A1, A2, A3, A4, A5New, A6, A7, A8, A9, A10>
 
 	/**
-	 * Maps [a5] and its [representation5] of this [Args10] with the given [transform] function resulting in a new [Args10].
+	 * Maps [a5] and its [representation5] of `this` [Args10] with the given [transform] function resulting in a new [Args10].
 	 *
 	 * @param transform The function which maps [a5] and [representation5].
 	 *
@@ -327,7 +327,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	fun withArg6(value: A6, representation: String? = null): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
 	/**
-	 * Maps [a6] of this [Args10] with the given [transform] function resulting in a new [Args10].
+	 * Maps [a6] of `this` [Args10] with the given [transform] function resulting in a new [Args10].
 	 *
 	 * @param transform The function which maps [a6] to a new value.
 	 *
@@ -338,7 +338,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	fun <A6New> mapArg6(transform: (A6) -> A6New): Args10<A1, A2, A3, A4, A5, A6New, A7, A8, A9, A10>
 
 	/**
-	 * Maps [a6] and its [representation6] of this [Args10] with the given [transform] function resulting in a new [Args10].
+	 * Maps [a6] and its [representation6] of `this` [Args10] with the given [transform] function resulting in a new [Args10].
 	 *
 	 * @param transform The function which maps [a6] and [representation6].
 	 *
@@ -363,7 +363,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	fun withArg7(value: A7, representation: String? = null): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
 	/**
-	 * Maps [a7] of this [Args10] with the given [transform] function resulting in a new [Args10].
+	 * Maps [a7] of `this` [Args10] with the given [transform] function resulting in a new [Args10].
 	 *
 	 * @param transform The function which maps [a7] to a new value.
 	 *
@@ -374,7 +374,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	fun <A7New> mapArg7(transform: (A7) -> A7New): Args10<A1, A2, A3, A4, A5, A6, A7New, A8, A9, A10>
 
 	/**
-	 * Maps [a7] and its [representation7] of this [Args10] with the given [transform] function resulting in a new [Args10].
+	 * Maps [a7] and its [representation7] of `this` [Args10] with the given [transform] function resulting in a new [Args10].
 	 *
 	 * @param transform The function which maps [a7] and [representation7].
 	 *
@@ -399,7 +399,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	fun withArg8(value: A8, representation: String? = null): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
 	/**
-	 * Maps [a8] of this [Args10] with the given [transform] function resulting in a new [Args10].
+	 * Maps [a8] of `this` [Args10] with the given [transform] function resulting in a new [Args10].
 	 *
 	 * @param transform The function which maps [a8] to a new value.
 	 *
@@ -410,7 +410,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	fun <A8New> mapArg8(transform: (A8) -> A8New): Args10<A1, A2, A3, A4, A5, A6, A7, A8New, A9, A10>
 
 	/**
-	 * Maps [a8] and its [representation8] of this [Args10] with the given [transform] function resulting in a new [Args10].
+	 * Maps [a8] and its [representation8] of `this` [Args10] with the given [transform] function resulting in a new [Args10].
 	 *
 	 * @param transform The function which maps [a8] and [representation8].
 	 *
@@ -435,7 +435,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	fun withArg9(value: A9, representation: String? = null): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
 	/**
-	 * Maps [a9] of this [Args10] with the given [transform] function resulting in a new [Args10].
+	 * Maps [a9] of `this` [Args10] with the given [transform] function resulting in a new [Args10].
 	 *
 	 * @param transform The function which maps [a9] to a new value.
 	 *
@@ -446,7 +446,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	fun <A9New> mapArg9(transform: (A9) -> A9New): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9New, A10>
 
 	/**
-	 * Maps [a9] and its [representation9] of this [Args10] with the given [transform] function resulting in a new [Args10].
+	 * Maps [a9] and its [representation9] of `this` [Args10] with the given [transform] function resulting in a new [Args10].
 	 *
 	 * @param transform The function which maps [a9] and [representation9].
 	 *
@@ -471,7 +471,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	fun withArg10(value: A10, representation: String? = null): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>
 
 	/**
-	 * Maps [a10] of this [Args10] with the given [transform] function resulting in a new [Args10].
+	 * Maps [a10] of `this` [Args10] with the given [transform] function resulting in a new [Args10].
 	 *
 	 * @param transform The function which maps [a10] to a new value.
 	 *
@@ -482,7 +482,7 @@ interface Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10>: Args {
 	fun <A10New> mapArg10(transform: (A10) -> A10New): Args10<A1, A2, A3, A4, A5, A6, A7, A8, A9, A10New>
 
 	/**
-	 * Maps [a10] and its [representation10] of this [Args10] with the given [transform] function resulting in a new [Args10].
+	 * Maps [a10] and its [representation10] of `this` [Args10] with the given [transform] function resulting in a new [Args10].
 	 *
 	 * @param transform The function which maps [a10] and [representation10].
 	 *

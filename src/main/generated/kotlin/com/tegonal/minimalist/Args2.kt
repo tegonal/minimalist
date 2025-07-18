@@ -51,7 +51,7 @@ interface Args2<A1, A2>: Args {
 	fun withArg1(value: A1, representation: String? = null): Args2<A1, A2>
 
 	/**
-	 * Maps [a1] of this [Args2] with the given [transform] function resulting in a new [Args2].
+	 * Maps [a1] of `this` [Args2] with the given [transform] function resulting in a new [Args2].
 	 *
 	 * @param transform The function which maps [a1] to a new value.
 	 *
@@ -62,7 +62,7 @@ interface Args2<A1, A2>: Args {
 	fun <A1New> mapArg1(transform: (A1) -> A1New): Args2<A1New, A2>
 
 	/**
-	 * Maps [a1] and its [representation1] of this [Args2] with the given [transform] function resulting in a new [Args2].
+	 * Maps [a1] and its [representation1] of `this` [Args2] with the given [transform] function resulting in a new [Args2].
 	 *
 	 * @param transform The function which maps [a1] and [representation1].
 	 *
@@ -87,7 +87,7 @@ interface Args2<A1, A2>: Args {
 	fun withArg2(value: A2, representation: String? = null): Args2<A1, A2>
 
 	/**
-	 * Maps [a2] of this [Args2] with the given [transform] function resulting in a new [Args2].
+	 * Maps [a2] of `this` [Args2] with the given [transform] function resulting in a new [Args2].
 	 *
 	 * @param transform The function which maps [a2] to a new value.
 	 *
@@ -98,7 +98,7 @@ interface Args2<A1, A2>: Args {
 	fun <A2New> mapArg2(transform: (A2) -> A2New): Args2<A1, A2New>
 
 	/**
-	 * Maps [a2] and its [representation2] of this [Args2] with the given [transform] function resulting in a new [Args2].
+	 * Maps [a2] and its [representation2] of `this` [Args2] with the given [transform] function resulting in a new [Args2].
 	 *
 	 * @param transform The function which maps [a2] and [representation2].
 	 *

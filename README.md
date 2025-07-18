@@ -57,4 +57,4 @@ Code documentation can be found on github-pages: <https://tegonal.github.io/mini
 Minimalist is licensed under [European Union Public Licence 1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12).
 
 Minimalist is using
-- [junit-jupiter-params](https://github.com/junit-team/junit5) licensed under [EPL 2.0](https://www.eclipse.org/legal/epl-v20.html)
+- [junit-jupiter-params/junit-platform-commons](https://github.com/junit-team/junit5) licensed under [EPL 2.0](https://www.eclipse.org/legal/epl-v20.html)
