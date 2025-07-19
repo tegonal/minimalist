@@ -2,9 +2,10 @@ plugins {
 	id("build-logic.published-kotlin-jvm")
 	id("code-generation.generate")
 	alias(libs.plugins.nexus.publish)
+	id("me.champeau.jmh") version "0.7.3"
 }
 
-version = "1.1.0"
+version = "2.0.0-SNAPSHOT"
 group = "com.tegonal.minimalist"
 description = "Library which helps to setup and prioritise parameterized tests"
 
@@ -21,6 +22,7 @@ val generationFolder: ConfigurableFileCollection = project.files("src/main/gener
 val generationFolderJava: ConfigurableFileCollection = project.files("src/main/generated/java")
 val generationTestFolder: ConfigurableFileCollection = project.files("src/test/generated/kotlin")
 val generationTestFolderJava: ConfigurableFileCollection = project.files("src/test/generated/java")
+
 kotlin {
 	sourceSets {
 		main {
@@ -35,20 +37,42 @@ java {
 	sourceSets {
 		main {
 			java.srcDir(generationFolderJava)
+			java.srcDir(project.files("src/main/lib/java"))
 		}
 		test {
 			java {
 				srcDir(generationTestFolderJava)
-				srcDir(project.files("src/test/java"))
 			}
 		}
 	}
 }
 
+// current workaround for java so that we can execute `main` methods
+// intellij uses the module path and apparently it is not possible to patch modules if it contains only
+// the module-info.class -- moreover, intellij adds only the java sources to the module path, so as for now it is
+// easier to just copy the kotlin .class files to the output folder of java
+//project.tasks.withType<KotlinJvmCompile>().configureEach {
+//	doLast {
+//		this.outputs.files.filter { it.name == "main" }.forEach {
+//			@OptIn(ExperimentalPathApi::class)
+//			it.toPath().copyToRecursively(
+//				project.layout.buildDirectory.file("classes/java/main/").get().asFile.toPath(),
+//				followLinks = false,
+//				overwrite = true
+//			)
+//		}
+//	}
+//}
+
 nexusPublishing {
 	repositories {
 		sonatype()
 	}
+}
+
+jmh {
+	profilers = listOf("gc")
+	includes.set(project.findProperty("jmh.include")?.let { listOf(it.toString()) } ?: emptyList())
 }
 
 /*

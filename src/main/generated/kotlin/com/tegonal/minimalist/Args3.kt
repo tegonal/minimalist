@@ -63,7 +63,7 @@ interface Args3<A1, A2, A3>: Args {
 	fun withArg1(value: A1, representation: String? = null): Args3<A1, A2, A3>
 
 	/**
-	 * Maps [a1] of this [Args3] with the given [transform] function resulting in a new [Args3].
+	 * Maps [a1] of `this` [Args3] with the given [transform] function resulting in a new [Args3].
 	 *
 	 * @param transform The function which maps [a1] to a new value.
 	 *
@@ -74,7 +74,7 @@ interface Args3<A1, A2, A3>: Args {
 	fun <A1New> mapArg1(transform: (A1) -> A1New): Args3<A1New, A2, A3>
 
 	/**
-	 * Maps [a1] and its [representation1] of this [Args3] with the given [transform] function resulting in a new [Args3].
+	 * Maps [a1] and its [representation1] of `this` [Args3] with the given [transform] function resulting in a new [Args3].
 	 *
 	 * @param transform The function which maps [a1] and [representation1].
 	 *
@@ -99,7 +99,7 @@ interface Args3<A1, A2, A3>: Args {
 	fun withArg2(value: A2, representation: String? = null): Args3<A1, A2, A3>
 
 	/**
-	 * Maps [a2] of this [Args3] with the given [transform] function resulting in a new [Args3].
+	 * Maps [a2] of `this` [Args3] with the given [transform] function resulting in a new [Args3].
 	 *
 	 * @param transform The function which maps [a2] to a new value.
 	 *
@@ -110,7 +110,7 @@ interface Args3<A1, A2, A3>: Args {
 	fun <A2New> mapArg2(transform: (A2) -> A2New): Args3<A1, A2New, A3>
 
 	/**
-	 * Maps [a2] and its [representation2] of this [Args3] with the given [transform] function resulting in a new [Args3].
+	 * Maps [a2] and its [representation2] of `this` [Args3] with the given [transform] function resulting in a new [Args3].
 	 *
 	 * @param transform The function which maps [a2] and [representation2].
 	 *
@@ -135,7 +135,7 @@ interface Args3<A1, A2, A3>: Args {
 	fun withArg3(value: A3, representation: String? = null): Args3<A1, A2, A3>
 
 	/**
-	 * Maps [a3] of this [Args3] with the given [transform] function resulting in a new [Args3].
+	 * Maps [a3] of `this` [Args3] with the given [transform] function resulting in a new [Args3].
 	 *
 	 * @param transform The function which maps [a3] to a new value.
 	 *
@@ -146,7 +146,7 @@ interface Args3<A1, A2, A3>: Args {
 	fun <A3New> mapArg3(transform: (A3) -> A3New): Args3<A1, A2, A3New>
 
 	/**
-	 * Maps [a3] and its [representation3] of this [Args3] with the given [transform] function resulting in a new [Args3].
+	 * Maps [a3] and its [representation3] of `this` [Args3] with the given [transform] function resulting in a new [Args3].
 	 *
 	 * @param transform The function which maps [a3] and [representation3].
 	 *

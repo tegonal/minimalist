@@ -1,0 +1,4 @@
+--directory "src/main/lib/java/com/tegonal/minimalist/export/org/junit/platform/commons"
+--unsecure true
+--chop-path true
+--tag-filter "^r[0-9]+\.[0-9]+\.[0-9]+$"

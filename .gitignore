@@ -4,6 +4,7 @@
 .gt/**/gpg
 build
 .gradle
+.kotlin
 
 .idea/*
 !/.idea/icon.png

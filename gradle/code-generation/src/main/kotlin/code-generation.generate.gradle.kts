@@ -1,3 +1,4 @@
+import ch.tutteli.kbox.append
 import ch.tutteli.kbox.joinToString as joinToStringAndLast
 
 val generationFolder: ConfigurableFileCollection = project.files("src/main/generated/kotlin")
@@ -5,8 +6,8 @@ val generationFolder: ConfigurableFileCollection = project.files("src/main/gener
 val generationTestFolder: ConfigurableFileCollection = project.files("src/test/generated/kotlin")
 val generationTestFolderJava: ConfigurableFileCollection = project.files("src/test/generated/java")
 
-val packageName = "com.tegonal.minimalist"
-val packageNameAsPath = packageName.replace('.', '/')
+val mainPackageName = "com.tegonal.minimalist"
+val mainPackageNameAsPath = mainPackageName.replace('.', '/')
 
 
 fun dontModifyNotice(place: String) =
@@ -30,9 +31,9 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 		.append("package ").append(packageName).append("\n\n")
 
 	doFirst {
-		val packageDir = File(generationFolder.asPath + "/" + packageNameAsPath)
+		val packageDir = File(generationFolder.asPath + "/" + mainPackageNameAsPath)
 
-		val argsInterface = createStringBuilder(packageName)
+		val argsInterface = createStringBuilder(mainPackageName)
 			.append(
 				"""
 				 |import org.junit.jupiter.params.provider.Arguments
@@ -52,9 +53,50 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 			)
 			.appendLine()
 
-		val argsComponents = createStringBuilder(packageName)
+		val argsComponents = createStringBuilder(mainPackageName)
 
 		fun wrapIntoRepresentationIfFirst(num: Int) = if (num == 1) "?.let { r -> Representation(r) }" else ""
+		fun tupleType(arity: Int) = when (arity) {
+			2 -> "Pair"
+			3 -> "Triple"
+			else -> "Tuple$arity"
+		}
+
+		fun tupleTypeWithTypeArgs(arity: Int, tArgs: String) = when (arity) {
+			1 -> tArgs
+			else -> "${tupleType(arity)}<$tArgs>"
+		}
+
+		fun StringBuilder.importTupleTypes() =
+			append("import ch.tutteli.kbox.append\n")
+				.append("import ch.tutteli.kbox.Tuple4\n")
+				.append("import ch.tutteli.kbox.Tuple5\n")
+				.append("import ch.tutteli.kbox.Tuple6\n")
+				.append("import ch.tutteli.kbox.Tuple7\n")
+				.append("import ch.tutteli.kbox.Tuple8\n")
+				.append("import ch.tutteli.kbox.Tuple9\n")
+
+		val semiOrderedArgsLikeGeneratorCombine = listOf(
+			"orderedArgsGeneratorCombine" to "OrderedArgsGenerator",
+			"semiOrderedArgsGeneratorCombine" to "SemiOrderedArgsGenerator"
+		).map {
+			it.append(
+				createStringBuilder("$mainPackageName.generators")
+					.importTupleTypes()
+					.appendLine()
+			)
+		}
+
+		val randomArgsLikeGeneratorCombine = listOf(
+			"randomArgsGeneratorCombine" to "RandomArgsGenerator",
+			"semiOrderedWithRandomArgsGeneratorCombine" to "SemiOrderedArgsGenerator"
+		).map {
+			it.append(
+				createStringBuilder("$mainPackageName.generators")
+					.importTupleTypes()
+					.appendLine()
+			)
+		}
 
 
 		(1..numOfArgs).forEach { upperNumber ->
@@ -64,7 +106,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 			val representationConstructorProperties =
 				numbers.joinToString(",\n\t") { "override val representation$it: String? = null" }
 
-			val argsInterfaces = createStringBuilder(packageName)
+			val argsInterfaces = createStringBuilder(mainPackageName)
 			argsInterfaces.append(
 				"""
 				|/**
@@ -102,7 +144,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 				).appendLine()
 			}
 
-			val defaultArgs = createStringBuilder("$packageName.impl")
+			val defaultArgs = createStringBuilder("$mainPackageName.impl")
 				.append("import com.tegonal.minimalist.*\n\n")
 				.append("import org.junit.jupiter.api.Named\n\n")
 
@@ -112,7 +154,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 				| * A simple data class based implementation of an [Args$upperNumber].
 				| *
 				| * !! No backward compatibility guarantees !!
-                | * Re-use on own risk
+                | * Reuse at your own risk
 				| *
 				| * @since 1.0.0
 				| */
@@ -140,6 +182,9 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 
 				if (upperNumber > 1) {
 
+					//TODO 2.0.0 move out of ArgsX again? we only do this for the Java api, maybe we are never going to
+					// use it in java, also, we could introduce sub-interface in Java which provide those but leave them
+					// out for Kotlin.
 					argsInterfaces.append(
 						"""
 						|	/**
@@ -171,7 +216,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					argsInterfaces.append(
 						"""
 						|	/**
-						|	 * Maps [a$index] of this [Args$upperNumber] with the given [transform] function resulting in a new [Args$upperNumber].
+						|	 * Maps [a$index] of `this` [Args$upperNumber] with the given [transform] function resulting in a new [Args$upperNumber].
 						|	 *
 						|	 * @param transform The function which maps [a$index] to a new value.
 						|	 *
@@ -187,7 +232,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					argsInterfaces.append(
 						"""
 						|	/**
-						|	 * Maps [a$index] and its [representation$index] of this [Args$upperNumber] with the given [transform] function resulting in a new [Args$upperNumber].
+						|	 * Maps [a$index] and its [representation$index] of `this` [Args$upperNumber] with the given [transform] function resulting in a new [Args$upperNumber].
 						|	 *
 						|	 * @param transform The function which maps [a$index] and [representation$index].
 						|	 *
@@ -249,7 +294,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 				argsComponents.append(
 					"""
 					|/**
-					| * Extracts [a$index][Args$upperNumber.a$index] (the $index argument) of this Args$upperNumber.
+					| * Extracts [a$index][Args$upperNumber.a$index] (the $index argument) of `this` Args$upperNumber.
 					| *
 					| * Be aware of that you loose the [representation$index][Args$upperNumber.representation$index] this way. Should you extract
 					| * the argument in order to create another Args afterwards, then ${if (upperNumber < numOfArgs) "[Args$upperNumber.append] or " else ""}
@@ -351,6 +396,44 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 						""".trimMargin()
 					).appendLine()
 				}
+
+				if (upperNumber <= 9) {
+					val combine3ToX = (if (upperNumber > 3) "\n\t\t" else "") +
+						(3..upperNumber).joinToString("\n\t\t") { ".combine(component$it()) { args, a$it -> args.append(a$it) }" }
+					semiOrderedArgsLikeGeneratorCombine
+						.forEach { (_, className, sb) ->
+							val otherClassName = if (className == "OrderedArgsGenerator") className else "ArgsGenerator"
+							val argsGenerators = (2..upperNumber).joinToString(",\n\t") { "$otherClassName<A$it>" }
+
+							//TODO 2.1.0 come up with a solution which combines in one go so that we don't have to
+							// create intermediate Pair, Triple .. until reaching the final TupleN
+							// Moreover, such an implementation would also allow to provide a custom transform function
+							sb.append(
+								"""
+								|/**
+								| * Combines the [component1] [$className] with ${if (upperNumber < 3) "the [component2] [$otherClassName]" else "all other [$otherClassName] from left to right"}
+								| * resulting in a [$className] which generates [${tupleType(upperNumber)}].
+								|${
+									if (className == "OrderedArgsGenerator") {
+										"""
+									| *
+									| * The resulting [OrderedArgsGenerator] generates the product of all [OrderedArgsGenerator.size] values before repeating.
+									| *
+									|""".trimMargin()
+									} else " *"
+								}
+								| * @since 2.0.0
+								| */
+								|fun <$typeArgs> ${tupleType(upperNumber)}<
+								|	$className<A1>,
+								|	$argsGenerators
+								|>.combineAll(): $className<${tupleTypeWithTypeArgs(upperNumber, typeArgs)}> =
+								|	component1().combine(component2(), ::Pair)$combine3ToX
+								|
+								""".trimMargin()
+							)
+						}
+				}
 			}
 
 			argsInterfaces.append("}\n")
@@ -415,6 +498,72 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 				|
 				""".trimMargin()
 			)
+
+			val upperNumberPlus1 = upperNumber + 1
+			if (upperNumberPlus1 <= 9) {
+				val typeArgsPlus1 = (1..upperNumberPlus1).joinToString(", ") { "A$it" }
+				val tupleX = tupleTypeWithTypeArgs(upperNumber, typeArgs)
+				val tupleXPlus1 = tupleTypeWithTypeArgs(upperNumberPlus1, typeArgsPlus1)
+
+				semiOrderedArgsLikeGeneratorCombine.forEach { (_, className, sb) ->
+					sb.append(
+						"""
+						|/**
+						| * Combines `this` [${className}] with the given [other] [${className}] transforming the values
+						| * into a [${tupleType(upperNumberPlus1)}].
+						| *
+						| * The resulting [OrderedArgsGenerator] generates
+						| * [this.size][OrderedArgsGenerator.size] * [other.size][OrderedArgsGenerator.size] values before repeating.
+						| *
+						| * @param other The other [${className}] which generates values of type [A$upperNumberPlus1].
+						| *
+						| * @return The resulting [${className}] which generates values of type [${
+							tupleType(upperNumberPlus1)
+						}].
+						| *
+						| * @since 2.0.0
+						| */
+						|@JvmName("combineToTuple${upperNumberPlus1}")
+						|fun <$typeArgsPlus1> ${className}<$tupleX>.combine(
+						|	other: ${className}<A$upperNumberPlus1>
+						|): ${className}<$tupleXPlus1> = this.combine(other${
+							if (upperNumber == 1) ", ::Pair)"
+							else """) { args, otherArg ->
+								|	args.append(otherArg)
+								|}""".trimMargin()
+						}
+						|""".trimMargin()
+					).appendLine()
+				}
+
+				randomArgsLikeGeneratorCombine.forEach { (_, className, sb) ->
+
+					sb.append(
+						"""
+					|/**
+					| * Combines `this` [${className}] with the given [other] [${className}].
+					| *
+					| * @param other The other [${className}] which generates values of type [A$upperNumberPlus1].
+					| *
+					| * @return The resulting [${className}] which generates values of type [${
+							tupleType(upperNumberPlus1)
+						}].
+					| *
+					| * @since 2.0.0
+					| */
+					|@JvmName("combineToTuple${upperNumberPlus1}")
+					|fun <$typeArgsPlus1> ${className}<$tupleX>.combine(
+					|	other: RandomArgsGenerator<A$upperNumberPlus1>
+					|): ${className}<$tupleXPlus1> = this.combine(other${
+							if (upperNumber == 1) ", ::Pair)"
+							else """) { args, otherArg ->
+							|	args.append(otherArg)
+							|}""".trimMargin()
+						}
+					|""".trimMargin()
+					).appendLine()
+				}
+			}
 		}
 
 		argsInterface.append(
@@ -429,6 +578,16 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 
 		val argsComponentFile = packageDir.resolve("argsComponents.kt")
 		argsComponentFile.writeText(argsComponents.toString())
+
+		semiOrderedArgsLikeGeneratorCombine.forEach { (fileName, _, sb) ->
+			val file = packageDir.resolve("generators/$fileName.kt")
+			file.writeText(sb.toString())
+		}
+
+		randomArgsLikeGeneratorCombine.forEach { (fileName, _, sb) ->
+			val file = packageDir.resolve("generators/$fileName.kt")
+			file.writeText(sb.toString())
+		}
 	}
 }
 generationFolder.builtBy(generate)
@@ -510,10 +669,10 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 			|
 			|class $testName {
 			|
-	""".trimMargin()
+			""".trimMargin()
 		).appendLine()
 
-		val packageDir = File(generationTestFolder.asPath + "/" + packageNameAsPath)
+		val packageDir = File(generationTestFolder.asPath + "/" + mainPackageNameAsPath)
 
 		fun wrapIntoRepresentationIfFirst(arg: String, num: Int) = if (num == 1) "Representation($arg)" else arg
 
@@ -521,7 +680,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 			val numbers = (1..upperNumber)
 			val typeArgs = numbers.joinToString(", ") { "A$it" }
 
-			val argsExpectations = createStringBuilder("$packageName.atrium")
+			val argsExpectations = createStringBuilder("$mainPackageName.atrium")
 				.append(
 					"""
 					import ch.tutteli.atrium.creating.Expect
@@ -553,7 +712,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 			argsExpectationsFile.writeText(argsExpectations.toString())
 
 			if (upperNumber > 1) {
-				val dropTest = createStringBuilder("$packageName.arguments.drop")
+				val dropTest = createStringBuilder("$mainPackageName.arguments.drop")
 					.appendTest("Args${upperNumber}DropTest")
 
 				numbers.forEach { number ->
@@ -603,10 +762,10 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 				val dropTestFile = packageDir.resolve("arguments/drop/Args${upperNumber}DropTest.kt")
 				dropTestFile.writeText(dropTest.toString())
 
-				val withArgTest = createStringBuilder("$packageName.arguments.withArg")
+				val withArgTest = createStringBuilder("$mainPackageName.arguments.withArg")
 					.appendTest("Args${upperNumber}WithArgTest")
 
-				val mapArgTest = createStringBuilder("$packageName.arguments.mapArg")
+				val mapArgTest = createStringBuilder("$mainPackageName.arguments.mapArg")
 					.appendTest("Args${upperNumber}MapArgTest")
 
 				numbers.forEach { number ->
@@ -771,7 +930,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 				mapArgTestFile.writeText(mapArgTest.toString())
 			}
 
-			val argumentsTest = createStringBuilder("$packageName.arguments.annotation")
+			val argumentsTest = createStringBuilder("$mainPackageName.arguments.annotation")
 				.appendTest("Args${upperNumber}ArgumentsTest")
 
 			argumentsTest.append(
@@ -847,7 +1006,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 			argumentsTestFile.writeText(argumentsTest.toString())
 
 			if (upperNumber < numOfArgs) {
-				val appendTest = createStringBuilder("${packageName}.arguments.append")
+				val appendTest = createStringBuilder("${mainPackageName}.arguments.append")
 					.appendTest("Args${upperNumber}AppendTest")
 
 
@@ -904,7 +1063,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 				appendTestFile.writeText(appendTest.toString())
 			}
 
-			val argsComponentTest = createStringBuilder("$packageName.arguments.components")
+			val argsComponentTest = createStringBuilder("$mainPackageName.arguments.components")
 				.appendTest("Args${upperNumber}ComponentsTest")
 
 			numbers.forEach { number ->
@@ -989,11 +1148,11 @@ val generateTestJava: TaskProvider<Task> = tasks.register("generateTestJava") {
 			""".trimMargin()
 		).appendLine()
 
-		val packageDir = File(generationTestFolderJava.asPath + "/" + packageNameAsPath + "/java")
+		val packageDir = File(generationTestFolderJava.asPath + "/" + mainPackageNameAsPath + "/java")
 
 		fun wrapIntoRepresentationIfFirst(arg: String, num: Int) = if (num == 1) "new Representation($arg)" else arg
 
-		val packageName = "$packageName.java"
+		val packageName = "$mainPackageName.java"
 
 		(1..numOfArgs).forEach { upperNumber ->
 			val numbers = (1..upperNumber)
