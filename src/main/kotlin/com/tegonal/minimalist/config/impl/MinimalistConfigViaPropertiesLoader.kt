@@ -12,6 +12,7 @@ class MinimalistConfigViaPropertiesLoader {
 			.run { mergeWithPropertiesInResource("/minimalist.local.properties") }
 			.also {
 				println("Loaded a minimalist config with seed: ${it.seed}")
+				//TODO 2.1.0 add seedCreated to MinimalistConfig and error after x hours, minutes or whatever (could be configurable)
 			}
 	}
 

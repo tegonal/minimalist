@@ -2,7 +2,6 @@ package com.tegonal.minimalist.generators.impl
 
 import com.tegonal.minimalist.config.ComponentFactoryContainer
 import com.tegonal.minimalist.generators.OrderedArgsGenerator
-import com.tegonal.minimalist.utils.impl.RepeatingListSequence
 import com.tegonal.minimalist.utils.repeatForever
 
 /**
