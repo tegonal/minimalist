@@ -7,6 +7,12 @@ import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
 import com.tegonal.minimalist.providers.ArgsRange
 import com.tegonal.minimalist.providers.ArgsRangeDecider
 
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 class LevelBasedArgsRangeDecider() : ArgsRangeDecider, RequiresConfig {
 	private lateinit var config: MinimalistConfig
 	override fun setConfig(config: MinimalistConfig) {

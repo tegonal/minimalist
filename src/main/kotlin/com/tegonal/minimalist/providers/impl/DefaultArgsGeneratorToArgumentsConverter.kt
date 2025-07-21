@@ -14,6 +14,12 @@ import com.tegonal.minimalist.providers.ArgsSource
 import org.junit.jupiter.params.provider.Arguments
 import java.lang.reflect.Method
 
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 class DefaultArgsGeneratorToArgumentsConverter : ArgsGeneratorToArgumentsConverter {
 
 	override fun toArguments(

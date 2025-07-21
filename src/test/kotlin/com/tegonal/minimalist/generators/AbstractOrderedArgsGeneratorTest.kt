@@ -8,13 +8,13 @@ import ch.tutteli.atrium.testfactories.TestFactory
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.config
 import com.tegonal.minimalist.generators.impl.DefaultOrderedExtensionPoint
-import kotlin.random.Random
+import com.tegonal.minimalist.utils.createMinimalistRandom
 
 typealias OrderedArgsTestFactoryResult<T> = ArgsTestFactoryResult<T, SemiOrderedArgsGenerator<T>>
 
 abstract class AbstractOrderedArgsGeneratorWithoutAnnotationsTest : AbstractArgsGeneratorTest() {
 
-	val ordered: OrderedExtensionPoint = DefaultOrderedExtensionPoint(customComponentFactoryContainer)
+	val modifiedOrdered: OrderedExtensionPoint = DefaultOrderedExtensionPoint(customComponentFactoryContainer)
 
 	protected fun <T> canAlwaysTakeTheDesiredAmountTest(factory: () -> OrderedArgsTestFactoryResult<T>) =
 		super.canAlwaysTakeTheDesiredAmountTest(factory) { it.generate(random._components.config.seed) }
@@ -35,10 +35,12 @@ abstract class AbstractOrderedArgsGeneratorWithoutAnnotationsTest : AbstractArgs
 		}
 
 	protected fun <T> minusOffsetThrowsTest(factory: () -> OrderedArgsTestFactoryResult<T>) =
-		testFactory(factory) { generator, _, _ ->
-			expect {
-				generator.generate(Random.nextInt(Int.MIN_VALUE, -1))
-			}.toThrow<IllegalStateException>()
+		createMinimalistRandom().let { minimalistRandom ->
+			testFactory(factory) { generator, _, _ ->
+				expect {
+					generator.generate(minimalistRandom.nextInt(Int.MIN_VALUE, -1))
+				}.toThrow<IllegalStateException>()
+			}
 		}
 
 

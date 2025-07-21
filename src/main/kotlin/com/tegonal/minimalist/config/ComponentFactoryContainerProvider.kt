@@ -9,6 +9,9 @@ package com.tegonal.minimalist.config
  */
 interface IsComponentFactoryContainerProvider
 
+/**
+ * @since 2.0.0
+ */
 interface ComponentFactoryContainerProvider {
 	val componentFactoryContainer: ComponentFactoryContainer
 }

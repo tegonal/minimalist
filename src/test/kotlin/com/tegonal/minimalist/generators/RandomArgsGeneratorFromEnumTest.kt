@@ -1,14 +1,11 @@
 package com.tegonal.minimalist.generators
 
 import ch.tutteli.kbox.Tuple
+import com.tegonal.minimalist.testutils.AbcdEnum
 
-class RandomArgsGeneratorFromEnumTest : AbstractRandomArgsGeneratorTest<RandomArgsGeneratorFromEnumTest.TestEnum>() {
+class RandomArgsGeneratorFromEnumTest : AbstractRandomArgsGeneratorTest<AbcdEnum>() {
 
 	override fun createGenerators() = sequenceOf(
-		Tuple("fromEnum", random.fromEnum<TestEnum>(), listOf(TestEnum.A, TestEnum.B, TestEnum.C, TestEnum.D))
+		Tuple("fromEnum", modifiedRandom.fromEnum<AbcdEnum>(), AbcdEnum.entries)
 	)
-
-	enum class TestEnum {
-		A, B, C, D
-	}
 }

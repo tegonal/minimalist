@@ -1,8 +1,5 @@
 package com.tegonal.minimalist.config
 
-import com.tegonal.minimalist.config.impl.DefaultComponentFactoryContainer
-import com.tegonal.minimalist.generators.OrderedExtensionPoint
-import com.tegonal.minimalist.generators.RandomExtensionPoint
 import kotlin.reflect.KClass
 
 
@@ -10,6 +7,8 @@ import kotlin.reflect.KClass
  * Manages the factories to create the different components of Minimalist.
  * It takes basically the responsibility of a dependency injection facility, tailored for Minimalist - initially copied
  * from [Atrium](https://atriumlib.org).
+ *
+ * @since 2.0.0
  */
 interface ComponentFactoryContainer {
 
@@ -53,18 +52,10 @@ interface ComponentFactoryContainer {
 	 */
 	fun merge(componentFactoryContainer: ComponentFactoryContainer?): ComponentFactoryContainer
 
-	companion object {
-		fun createIfNotEmpty(
-			components: Map<KClass<*>, ComponentFactory>,
-			chainedComponents: Map<KClass<*>, Sequence<ComponentFactory>>
-		): ComponentFactoryContainer? =
-			if (components.isEmpty() && chainedComponents.isEmpty()) null
-			else DefaultComponentFactoryContainer(
-				if (components.isEmpty()) emptyMap() else HashMap(components),
-				if (chainedComponents.isEmpty()) emptyMap() else HashMap(chainedComponents)
-			)
-
-	}
+	/**
+	 * Extension point for [ComponentFactoryContainer] (such as factory methods).
+	 */
+	companion object
 }
 
 /**
@@ -76,44 +67,3 @@ interface ComponentFactoryContainer {
  * Copied from [Atrium](https://atriumlib.org).
  */
 data class ComponentFactory(val build: (ComponentFactoryContainer) -> Any, val producesSingleton: Boolean)
-
-/**
- * Returns the component of type [T] using a corresponding factory or throws an [IllegalStateException]
- * in case no factory was found which is able to build a component of the given type.
- *
- * @throws IllegalStateException in case [ComponentFactoryContainer.buildOrNull] returns `null`
- *   because not suitable factory was found.
- * @throws ClassCastException in case the factory returns an illegal type.
- *
- * @since 2.0.0
- *
- * Copied from [Atrium](https://atriumlib.org).
- */
-inline fun <reified T : Any> ComponentFactoryContainer.build(): T = buildOrNull(T::class)
-	?: error("No factory is registered in this ComponentFactoryContainer which is able to build a ${T::class.qualifiedName}")
-
-
-/**
- * Returns a chain of components of type [T] using a corresponding factory or throws an [IllegalStateException]
- * in case no factory was found which is able to build a chain of components of the given type.
-
- * @throws IllegalStateException in case [ComponentFactoryContainer.buildChainedOrNull] returns `null`
- *   because no suitable factory was found.
- * @throws ClassCastException in case one of factories returns an illegal type.
- *
- * @since 2.0.0
- *
- * Copied from [Atrium](https://atriumlib.org).
- */
-inline fun <reified T : Any> ComponentFactoryContainer.buildChained(): Sequence<T> = buildChainedOrNull(T::class)
-	?: error("No factory is registered in this ComponentFactoryContainer which is able to build a chain of ${T::class.qualifiedName}")
-
-
-/**
- *
- * @since 2.0.0
- */
-val ComponentFactoryContainer.config get() = build<MinimalistConfig>()
-
-val ComponentFactoryContainer.ordered get() = build<OrderedExtensionPoint>()
-val ComponentFactoryContainer.random get() = build<RandomExtensionPoint>()

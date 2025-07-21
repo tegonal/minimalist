@@ -4,15 +4,16 @@ import ch.tutteli.atrium.api.fluent.en_GB.*
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.atrium.testfactories.TestFactoryBuilder
 import ch.tutteli.kbox.toVararg
+import com.tegonal.minimalist.config.ComponentFactoryContainer
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.config
-import com.tegonal.minimalist.config.impl.createComponentFactoryContainerBasedOnConfig
+import com.tegonal.minimalist.config.createBasedOnConfig
 
 typealias ArgsTestFactoryResult<T, ArgsGeneratorT> = Sequence<Triple<String, ArgsGeneratorT, List<T>>>
 
 abstract class AbstractArgsGeneratorTest {
 	protected val customComponentFactoryContainer =
-		createComponentFactoryContainerBasedOnConfig(ordered._components.config.copy(seed = 1))
+		ComponentFactoryContainer.createBasedOnConfig(ordered._components.config.copy(seed = 1))
 
 	protected fun <T, ArgsGeneratorT : ArgsGenerator<T>, TestResultT : ArgsTestFactoryResult<T, ArgsGeneratorT>> usesGivenComponentContainerFactoryTest(
 		factory: () -> TestResultT

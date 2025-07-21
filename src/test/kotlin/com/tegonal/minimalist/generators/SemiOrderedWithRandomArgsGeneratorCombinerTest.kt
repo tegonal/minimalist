@@ -2,12 +2,13 @@ package com.tegonal.minimalist.generators
 
 import ch.tutteli.kbox.Tuple
 import ch.tutteli.kbox.mapSecond
+import com.tegonal.minimalist.testutils.PseudoRandomArgsGenerator
 import org.junit.jupiter.api.TestFactory
 
 class SemiOrderedWithRandomArgsGeneratorCombinerTest : AbstractOrderedArgsGeneratorWithoutAnnotationsTest() {
 	val a1s = listOf(1, 2)
 	val a2s = listOf('a', 'b', 'c')
-	val generator = ordered.fromList(a1s)
+	val generator = modifiedOrdered.fromList(a1s)
 	val randomGenerator = PseudoRandomArgsGenerator(a2s.asSequence())
 
 	fun createGenerators(): OrderedArgsTestFactoryResult<Pair<Int, Any>> = sequenceOf(

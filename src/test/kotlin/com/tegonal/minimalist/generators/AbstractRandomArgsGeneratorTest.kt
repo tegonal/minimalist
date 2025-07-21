@@ -7,7 +7,7 @@ typealias RandomArgsTestFactoryResult<T> = ArgsTestFactoryResult<T, RandomArgsGe
 
 abstract class AbstractRandomArgsGeneratorWithoutAnnotationsTest : AbstractArgsGeneratorTest() {
 
-	val random: RandomExtensionPoint = customComponentFactoryContainer.random
+	val modifiedRandom: RandomExtensionPoint = customComponentFactoryContainer.random
 }
 
 abstract class AbstractRandomArgsGeneratorTest<T>() : AbstractRandomArgsGeneratorWithoutAnnotationsTest() {

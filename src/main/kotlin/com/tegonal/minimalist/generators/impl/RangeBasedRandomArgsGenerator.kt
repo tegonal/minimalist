@@ -24,7 +24,7 @@ abstract class RangeBasedRandomArgsGenerator<E : Comparable<E>, T>(
 
 	protected abstract fun nextRandom(random: Random): E
 
-	override fun generate(): Sequence<T> = Random(config.seed).let { random ->
+	override fun generate(): Sequence<T> = createMinimalistRandom().let { random ->
 		repeatForever().map {
 			// Random is not thread safe, add synchronisation in case we run into issues
 			argsProvider(nextRandom(random))

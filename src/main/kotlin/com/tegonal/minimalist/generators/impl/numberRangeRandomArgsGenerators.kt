@@ -79,7 +79,7 @@ open class IntRangeBasedRandomArgsGenerator<T>(
 	componentFactoryContainer: ComponentFactoryContainer,
 	from: Int,
 	toExclusive: Int,
-	argsProvider: (Int) -> T
+	argsProvider: (index: Int) -> T
 ) : RangeBasedRandomArgsGenerator<Int, T>(componentFactoryContainer, from, toExclusive, argsProvider) {
 
 	final override fun nextRandom(random: Random): Int = random.nextInt(from, toExclusive)

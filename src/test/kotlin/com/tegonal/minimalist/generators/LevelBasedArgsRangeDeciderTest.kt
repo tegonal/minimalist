@@ -13,6 +13,7 @@ import com.tegonal.minimalist.config.config
 import com.tegonal.minimalist.providers.ArgsRange
 import com.tegonal.minimalist.providers.ArgsSource
 import com.tegonal.minimalist.providers.impl.LevelBasedArgsRangeDecider
+import com.tegonal.minimalist.testutils.createOrderedWithCustomConfig
 import org.junit.jupiter.params.ParameterizedTest
 import kotlin.test.Test
 
