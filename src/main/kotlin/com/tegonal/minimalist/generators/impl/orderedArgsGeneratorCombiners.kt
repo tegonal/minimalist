@@ -18,7 +18,8 @@ class OrderedArgsGeneratorCombiner<A1, A2, R>(
 	// note, we don't (and cannot) check that a1Generator and a2Generator use the same ComponentContainer,
 	// should you run into weird behaviour (such as one generator uses seed X and the other seed Y) then most likely
 	// someone used to different initial factories
-	a1Generator._components, a1Generator.size * a2Generator.size
+	a1Generator._components,
+	a1Generator.size * a2Generator.size
 ), OrderedArgsGenerator<R> {
 
 	override fun generateAfterChecks(offset: Int): Sequence<R> =
@@ -39,7 +40,8 @@ class SemiOrderedArgsGeneratorCombiner<A1, A2, R>(
 	// note, we don't (and cannot) check that a1Generator and a2Generator use the same ComponentContainer,
 	// should you run into weird behaviour (such as one generator uses seed X and the other seed Y) then most likely
 	// someone used to different initial factories
-	a1Generator._components, a1Generator.size * a2Generator.size
+	a1Generator._components,
+	a1Generator.size * a2Generator.size
 ) {
 
 	override fun generateAfterChecks(offset: Int): Sequence<R> =
@@ -53,8 +55,7 @@ class SemiOrderedArgsGeneratorCombiner<A1, A2, R>(
  *
  * This approach allows to generate lazily combined values without the need to generate more data than needed.
  */
-//TODO set private again
-fun <A1, A2, R> combine(
+private fun <A1, A2, R> combine(
 	a1Generator: SemiOrderedArgsGenerator<A1>,
 	a2Generator: SemiOrderedArgsGenerator<A2>,
 	transform: (A1, A2) -> R,

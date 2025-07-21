@@ -13,5 +13,6 @@ class RandomArgsGeneratorTransformer<T, R>(
 	private val baseGenerator: RandomArgsGenerator<T>,
 	private val transformation: (Sequence<T>) -> Sequence<R>
 ) : BaseRandomArgsGenerator<R>(baseGenerator._components) {
+
 	override fun generate(): Sequence<R> = baseGenerator.generate().let(transformation)
 }

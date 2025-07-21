@@ -77,22 +77,26 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 				.append("import ch.tutteli.kbox.Tuple9\n")
 
 		val semiOrderedArgsLikeGeneratorCombine = listOf(
-			"orderedArgsGeneratorCombine" to "OrderedArgsGenerator",
-			"semiOrderedArgsGeneratorCombine" to "SemiOrderedArgsGenerator"
+			"orderedArgsGeneratorCombineGenerated" to "OrderedArgsGenerator",
+			"semiOrderedArgsGeneratorCombineGenerated" to "SemiOrderedArgsGenerator"
 		).map {
 			it.append(
-				createStringBuilder("$mainPackageName.generators")
+				StringBuilder("@file:JvmName(\"${it.second}CombineKt\")\n@file:JvmMultifileClass\n")
+					.append(dontModifyNotice)
+					.append("package ").append(mainPackageName).append(".generators").append("\n\n")
 					.importTupleTypes()
 					.appendLine()
 			)
 		}
 
 		val randomArgsLikeGeneratorCombine = listOf(
-			"randomArgsGeneratorCombine" to "RandomArgsGenerator",
+			"randomArgsGeneratorCombineGenerated" to "RandomArgsGenerator",
 			"semiOrderedWithRandomArgsGeneratorCombine" to "SemiOrderedArgsGenerator"
 		).map {
 			it.append(
-				createStringBuilder("$mainPackageName.generators")
+				StringBuilder("@file:JvmName(\"${it.second}CombineKt\")\n@file:JvmMultifileClass\n")
+					.append(dontModifyNotice)
+					.append("package ").append(mainPackageName).append(".generators").append("\n\n")
 					.importTupleTypes()
 					.appendLine()
 			)

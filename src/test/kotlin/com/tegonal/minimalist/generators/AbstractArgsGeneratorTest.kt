@@ -24,9 +24,9 @@ abstract class AbstractArgsGeneratorTest {
 		factory: () -> TestResultT,
 		generate: (ArgsGeneratorT) -> Sequence<T>
 	) = testFactory(factory, { testResult, givenTestFactory ->
-		testResult.map { (name, generator, expectedValues) ->
+		testResult.mapIndexed { index, (name, generator, expectedValues) ->
 			{
-				describe(name) {
+				describe("[$index] $name") {
 					random.fromRange(1..500).generate().take(10).forEach { take ->
 						it("take $take") {
 							givenTestFactory(generator, expectedValues, take)
@@ -48,9 +48,9 @@ abstract class AbstractArgsGeneratorTest {
 	protected fun <T, ArgGeneratorT : ArgsGenerator<T>, TestResulT : ArgsTestFactoryResult<T, ArgGeneratorT>> testFactory(
 		factory: () -> TestResulT,
 		testFactoryDecorator: (TestResulT, TestFactoryBuilder.(generator: ArgGeneratorT, expectedValues: List<T>, decoratorValue: Any) -> Unit) -> Sequence<TestFactoryBuilder.() -> Unit> = { testResult, givenTestFactory ->
-			testResult.map { (name, generator, expectedValues) ->
+			testResult.mapIndexed { index, (name, generator, expectedValues) ->
 				{
-					it(name) {
+					it("[$index] $name") {
 						givenTestFactory(generator, expectedValues, Unit)
 					}
 				}

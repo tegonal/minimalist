@@ -1,3 +1,5 @@
+@file:JvmName("RandomArgsGeneratorCombineKt")
+@file:JvmMultifileClass
 package com.tegonal.minimalist.generators
 
 /**
@@ -35,6 +37,7 @@ fun <A1, A2, R> RandomArgsGenerator<A1>.combine(
  *
  * @since 2.0.0
  */
+//TODO 2.1.0 provide a way to take more than 1 value from otherFactory
 fun <A1, A2> RandomArgsGenerator<A1>.combineDependent(
 	otherFactory: (A1) -> RandomArgsGenerator<A2>
 ): RandomArgsGenerator<Pair<A1, A2>> = combineDependent(otherFactory, ::Pair)

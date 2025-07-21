@@ -1,3 +1,5 @@
+@file:JvmName("RandomArgsGeneratorCombineKt")
+@file:JvmMultifileClass
 // --------------------------------------------------------------------------------------------------------------------
 // automatically generated, don't modify here but in:
 // gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts => generate

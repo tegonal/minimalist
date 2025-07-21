@@ -1,3 +1,5 @@
+@file:JvmName("SemiOrderedArgsGeneratorCombineKt")
+@file:JvmMultifileClass
 package com.tegonal.minimalist.generators
 
 import com.tegonal.minimalist.generators.impl.SemiOrderedArgsGeneratorCombiner

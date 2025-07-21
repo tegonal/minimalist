@@ -9,3 +9,5 @@ build
 .idea/*
 !/.idea/icon.png
 *.iml
+
+minimalist.local.properties

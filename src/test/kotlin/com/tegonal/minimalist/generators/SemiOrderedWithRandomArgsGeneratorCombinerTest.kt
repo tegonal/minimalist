@@ -2,7 +2,6 @@ package com.tegonal.minimalist.generators
 
 import ch.tutteli.kbox.Tuple
 import ch.tutteli.kbox.mapSecond
-import ch.tutteli.kbox.mapThird
 import org.junit.jupiter.api.TestFactory
 
 class SemiOrderedWithRandomArgsGeneratorCombinerTest : AbstractOrderedArgsGeneratorWithoutAnnotationsTest() {
