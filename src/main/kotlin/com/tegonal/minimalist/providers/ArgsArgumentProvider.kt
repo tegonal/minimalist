@@ -2,9 +2,9 @@ package com.tegonal.minimalist.providers
 
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.build
+import com.tegonal.minimalist.export.org.junit.jupiter.params.provider.ArgumentsUtils
 import com.tegonal.minimalist.export.org.junit.platform.commons.util.*
 import com.tegonal.minimalist.generators.ArgsGenerator
-import com.tegonal.minimalist.generators.impl.throwDontKnowHowToConvertToArgsGenerator
 import com.tegonal.minimalist.providers.impl.tupleLikeToList
 import com.tegonal.minimalist.utils.impl.FEATURE_REQUEST_URL
 import org.junit.jupiter.api.Test
@@ -52,31 +52,48 @@ class ArgsArgumentProvider : AnnotationBasedArgumentsProvider<ArgsSource>() {
 		testMethod: Method,
 		annotation: ArgsSource
 	): List<Arguments> {
-		val (argsGenerator, restMaybeArgGenerators) = toListOfMaybeArgGenerators(result).let(::toArgsGeneratorAndRest)
-		val genericToArgsGeneratorConverter = argsGenerator._components.build<GenericToArgsGeneratorConverter>()
-		val argsGeneratorCombined =
-			genericToArgsGeneratorConverter.toArgsGenerator(argsGenerator, restMaybeArgGenerators)
-		val argsGeneratorToArgumentsConverter = argsGenerator._components.build<ArgsGeneratorToArgumentsConverter>()
-		return argsGeneratorToArgumentsConverter.toArguments(testMethod, annotation, argsGeneratorCombined)
-	}
-
-	private fun toArgsGeneratorAndRest(maybeArgGenerators: List<*>): Pair<ArgsGenerator<*>, List<*>> {
-		check(maybeArgGenerators.isNotEmpty()) { "no ArgGenerators defined" }
-
+		val maybeArgGenerators = toListOfMaybeArgGenerators(result)
+		check(maybeArgGenerators.isNotEmpty()) { "no ArgGenerators/arguments defined" }
 		return when (val first = maybeArgGenerators.first()) {
-			is ArgsGenerator<*> -> first to maybeArgGenerators.drop(1)
-			//TODO 2.1.0 support Args and Arguments?
-			else -> throwDontKnowHowToConvertToArgsGenerator(first)
+			is ArgsGenerator<*> -> {
+				generateArguments(first, maybeArgGenerators, testMethod, annotation)
+			}
+
+			else -> maybeArgGenerators.map { ArgumentsUtils.toArguments(it) }
 		}
 	}
 
-
 	private fun toListOfMaybeArgGenerators(result: Any): List<Any?> = tupleLikeToList(result) ?: when (result) {
 		is ArgsGenerator<*> -> listOf(result)
-		//TODO 2.1.0 support also Iterable and Sequence?
-		is List<*> -> result
+		is Iterable<*> -> result.toList()
+		is Sequence<*> -> result.toList()
+		is Array<*> -> result.toList()
+		is ByteArray -> result.toList()
+		is CharArray -> result.toList()
+		is ShortArray -> result.toList()
+		is IntArray -> result.toList()
+		is LongArray -> result.toList()
+		is FloatArray -> result.toList()
+		is DoubleArray -> result.toList()
+		is BooleanArray -> result.toList()
 
-		else -> throw UnsupportedOperationException("don't know how to convert ${result::class.qualifiedName} into Arguments, please open a feature request: $FEATURE_REQUEST_URL&title=Convert%20${result::class}%20to%20Arguments")
+		else -> throw UnsupportedOperationException("don't know how to convert ${result::class.qualifiedName ?: result} into Arguments, please open a feature request: $FEATURE_REQUEST_URL&title=Convert%20${result::class}%20to%20Arguments")
+	}
+
+
+	private fun generateArguments(
+		first: ArgsGenerator<*>,
+		maybeArgGenerators: List<Any?>,
+		testMethod: Method,
+		annotation: ArgsSource
+	): List<Arguments> {
+		val (argsGenerator, restMaybeArgGenerators) = first to maybeArgGenerators.drop(1)
+		val genericToArgsGeneratorConverter = argsGenerator._components.build<GenericToArgsGeneratorConverter>()
+		val argsGeneratorCombined =
+			genericToArgsGeneratorConverter.toArgsGenerator(argsGenerator, restMaybeArgGenerators)
+		val argsGeneratorToArgumentsConverter =
+			argsGenerator._components.build<ArgsGeneratorToArgumentsConverter>()
+		return argsGeneratorToArgumentsConverter.toArguments(testMethod, annotation, argsGeneratorCombined)
 	}
 
 
@@ -92,6 +109,7 @@ class ArgsArgumentProvider : AnnotationBasedArgumentsProvider<ArgsSource>() {
 		return findMethodByFullyQualifiedName(testClass, testMethod, methodNameToSearch)
 	}
 
+	// copied from JUnit's MethodArgumentsProvider (EPL License) and adopted to our needs
 	private fun findFactoryMethodBySimpleName(clazz: Class<*>, testMethod: Method, factoryMethodName: String): Method {
 		val isCandidate = Predicate { candidate: Method ->
 			factoryMethodName == candidate.name
@@ -124,6 +142,7 @@ class ArgsArgumentProvider : AnnotationBasedArgumentsProvider<ArgsSource>() {
 		return factoryMethods[0]
 	}
 
+	// copied from JUnit's MethodArgumentsProvider (EPL License) and adopted to our needs
 	private fun looksLikeAFullyQualifiedMethodName(factoryMethodName: String): Boolean {
 		if (factoryMethodName.contains("#")) {
 			return true
@@ -144,7 +163,7 @@ class ArgsArgumentProvider : AnnotationBasedArgumentsProvider<ArgsSource>() {
 		return true
 	}
 
-
+	// copied from JUnit's MethodArgumentsProvider (EPL License) and adopted to our needs
 	private fun findMethodByFullyQualifiedName(
 		testClass: Class<*>,
 		testMethod: Method,
@@ -181,11 +200,13 @@ class ArgsArgumentProvider : AnnotationBasedArgumentsProvider<ArgsSource>() {
 	}
 
 
+	// copied from JUnit's MethodArgumentsProvider (EPL License) and adopted to our needs
 	private val isFactoryMethod: Predicate<Method> =  //
 		Predicate { method: Method ->
 			CollectionUtils.isConvertibleToStream(method.returnType) && !isTestMethod(method)
 		}
 
+	// copied from JUnit's MethodArgumentsProvider (EPL License) and adopted to our needs
 	private fun isTestMethod(candidate: Method): Boolean {
 		return AnnotationUtils.isAnnotated(candidate, Test::class.java) ||
 			// Note, ParameterizedTest is a subclass of TestTemplate
@@ -193,6 +214,7 @@ class ArgsArgumentProvider : AnnotationBasedArgumentsProvider<ArgsSource>() {
 			AnnotationUtils.isAnnotated(candidate, TestFactory::class.java)
 	}
 
+	// copied from JUnit's MethodArgumentsProvider (EPL License) and adopted to our needs
 	private fun validateFactoryMethod(factoryMethod: Method, testInstance: Any?) {
 		Preconditions.condition(
 			factoryMethod.declaringClass.isInstance(testInstance)

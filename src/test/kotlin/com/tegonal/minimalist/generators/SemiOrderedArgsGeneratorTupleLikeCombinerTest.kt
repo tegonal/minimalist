@@ -2,12 +2,10 @@ package com.tegonal.minimalist.generators
 
 import ch.tutteli.kbox.Tuple
 import ch.tutteli.kbox.Tuple4
-import ch.tutteli.kbox.Tuple4Like
 import ch.tutteli.kbox.toList
 import com.tegonal.minimalist.providers.ArgsSource
+import com.tegonal.minimalist.testutils.Tuple4LikeStructure
 import org.junit.jupiter.params.ParameterizedTest
-import kotlin.collections.map
-import kotlin.toList
 
 class SemiOrderedArgsGeneratorTupleLikeCombinerTest : AbstractOrderedArgsGeneratorCombinerTest() {
 
@@ -55,11 +53,4 @@ class SemiOrderedArgsGeneratorTupleLikeCombinerTest : AbstractOrderedArgsGenerat
 
 	// since combineAll is a composition of combine calls (currently, that could change but for now) we don't have to
 	// test Tuple5Like - Tuple9Like
-
-	private data class Tuple4LikeStructure<A1, A2, A3, A4>(
-		val a1: SemiOrderedArgsGenerator<A1>,
-		val a2: SemiOrderedArgsGenerator<A2>,
-		val a3: SemiOrderedArgsGenerator<A3>,
-		val a4: SemiOrderedArgsGenerator<A4>
-	) : Tuple4Like<SemiOrderedArgsGenerator<A1>, SemiOrderedArgsGenerator<A2>, SemiOrderedArgsGenerator<A3>, SemiOrderedArgsGenerator<A4>>
 }

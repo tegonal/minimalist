@@ -2,12 +2,10 @@ package com.tegonal.minimalist.generators
 
 import ch.tutteli.kbox.Tuple
 import ch.tutteli.kbox.Tuple4
-import ch.tutteli.kbox.Tuple4Like
 import ch.tutteli.kbox.toList
 import com.tegonal.minimalist.providers.ArgsSource
+import com.tegonal.minimalist.testutils.Tuple4LikeStructure
 import org.junit.jupiter.params.ParameterizedTest
-import kotlin.collections.map
-import kotlin.toList
 
 class OrderedArgsGeneratorTupleLikeCombinerTest : AbstractOrderedArgsGeneratorCombinerTest() {
 
@@ -57,10 +55,4 @@ class OrderedArgsGeneratorTupleLikeCombinerTest : AbstractOrderedArgsGeneratorCo
 	// test Tuple5 - Tuple9 (which could cause an OutOfMemoryException due to way we cache combinations in
 	// validateGeneration)
 
-	private data class Tuple4LikeStructure<A1, A2, A3, A4>(
-		val a1: OrderedArgsGenerator<A1>,
-		val a2: OrderedArgsGenerator<A2>,
-		val a3: OrderedArgsGenerator<A3>,
-		val a4: OrderedArgsGenerator<A4>
-	) : Tuple4Like<OrderedArgsGenerator<A1>, OrderedArgsGenerator<A2>, OrderedArgsGenerator<A3>, OrderedArgsGenerator<A4>>
 }
