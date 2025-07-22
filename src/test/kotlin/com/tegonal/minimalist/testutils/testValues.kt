@@ -28,6 +28,7 @@ fun getTestValue(key: String, index: Int) = (testValues[key]!!).let { it[index] 
 @Suppress("UNCHECKED_CAST")
 fun anyToList(v: Any): List<Any> = when (v) {
 	is List<*> -> v as List<Any>
+	is Iterable<*> -> v.toList() as List<Any>
 	is Array<*> -> v.toList() as List<Any>
 	is ByteArray -> v.toList()
 	is CharArray -> v.toList()
@@ -37,11 +38,5 @@ fun anyToList(v: Any): List<Any> = when (v) {
 	is FloatArray -> v.toList()
 	is DoubleArray -> v.toList()
 	is BooleanArray -> v.toList()
-	is CharRange -> v.toList()
-	is IntRange -> v.toList()
-	is LongRange -> v.toList()
-	is CharProgression -> v.toList()
-	is IntProgression -> v.toList()
-	is LongProgression -> v.toList()
 	else -> error("a type which we did not expect ${v::class.qualifiedName}")
 }
