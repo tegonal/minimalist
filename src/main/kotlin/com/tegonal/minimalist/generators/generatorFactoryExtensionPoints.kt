@@ -1,19 +1,19 @@
 package com.tegonal.minimalist.generators
 
-import com.tegonal.minimalist.config.ComponentFactoryContainer
-import com.tegonal.minimalist.config.IsComponentFactoryContainerProvider
+import com.tegonal.minimalist.config.*
 import com.tegonal.minimalist.config.impl.MinimalistConfigViaPropertiesLoader
-import com.tegonal.minimalist.config.impl.createComponentFactoryContainerBasedOnConfig
-import com.tegonal.minimalist.config.ordered
-import com.tegonal.minimalist.config.random
 
 /**
  * Extension point for factories which generate [OrderedArgsGenerator].
+ *
+ * @since 2.0.0
  */
 interface OrderedExtensionPoint : IsComponentFactoryContainerProvider
 
 /**
  * Extension point for factories which generate [RandomArgsGenerator].
+ *
+ * @since 2.0.0
  */
 interface RandomExtensionPoint : IsComponentFactoryContainerProvider
 
@@ -22,7 +22,7 @@ interface RandomExtensionPoint : IsComponentFactoryContainerProvider
  */
 private val propertiesBasedComponentFactoryContainer: ComponentFactoryContainer = run {
 	val config = MinimalistConfigViaPropertiesLoader().config
-	createComponentFactoryContainerBasedOnConfig(config)
+	ComponentFactoryContainer.createBasedOnConfig(config)
 }
 
 /**

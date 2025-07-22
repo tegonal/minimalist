@@ -5,7 +5,8 @@ import org.junit.jupiter.params.provider.ArgumentsSource
 import java.lang.annotation.Repeatable
 
 /**
- * Define the method which provides the
+ *
+ * @since 2.0.0
  */
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
@@ -14,13 +15,14 @@ import java.lang.annotation.Repeatable
 @ArgumentsSource(ArgsArgumentProvider::class)
 annotation class ArgsSource(
 	@Language("jvm-method-name") val methodName: String,
-	/**
-	 *
-	 */
+
 	val fixedNumberOfArgs: Int = 0,
 	val fixedOffset: Int = -1,
 )
 
+/**
+ * @since 2.0.0
+ */
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented

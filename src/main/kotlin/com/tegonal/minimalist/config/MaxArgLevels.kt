@@ -2,6 +2,9 @@ package com.tegonal.minimalist.config
 
 import java.lang.IllegalArgumentException
 
+/**
+ * @since 2.0.0
+ */
 class MaxArgLevels(val maxArgsInGeneral: Int, levels: Map<Int, Int>) {
 	private val levels: Map<Int, Int>
 

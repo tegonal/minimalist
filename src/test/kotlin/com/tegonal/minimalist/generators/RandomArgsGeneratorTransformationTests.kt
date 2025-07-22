@@ -9,7 +9,7 @@ class RandomArgsGeneratorTransformationTests : AbstractRandomArgsGeneratorTest<I
 	override fun createGenerators() =
 		listOf(1, 2, 3, 4).let { l ->
 			val mapFun: (Int) -> Int = { it + 1 }
-			val generator = random.fromList(l)
+			val generator = modifiedRandom.fromList(l)
 			sequenceOf(
 				Tuple("map", generator.map(mapFun), l.map(mapFun)),
 				Tuple(

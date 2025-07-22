@@ -86,12 +86,12 @@ private fun <A1, A2, R> combine(
 
 	return object : Sequence<R> {
 		override fun iterator(): Iterator<R> = object : Iterator<R> {
-			var chunkIndex = chunkOffset
-			var a1Iterator = a1Generator.generate(firstChunkOffset + if (a1IsSmaller) chunkOffset else 0).iterator()
-			var a2Iterator = a2Generator.generate(firstChunkOffset + if (a1IsSmaller) 0 else chunkOffset).iterator()
+			private var chunkIndex = chunkOffset
+			private var a1Iterator = a1Generator.generate(firstChunkOffset + if (a1IsSmaller) chunkOffset else 0).iterator()
+			private var a2Iterator = a2Generator.generate(firstChunkOffset + if (a1IsSmaller) 0 else chunkOffset).iterator()
 
 			// in the first chunk we might have an offset and if so will produce less values
-			var count = firstChunkOffset
+			private var count = firstChunkOffset
 
 			override fun hasNext(): Boolean = true
 			override fun next(): R =

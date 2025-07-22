@@ -100,15 +100,16 @@ internal abstract class DefaultComponentFactoryContainer : ComponentFactoryConta
 	}
 }
 
+/**
+ * Copied from [Atrium](https://atriumlib.org)
+ *
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 infix fun <T : Any> KClass<T>.createVia(factory: (ComponentFactoryContainer) -> T): Pair<KClass<*>, ComponentFactory> =
 	this to ComponentFactory(factory, producesSingleton = false)
-
-infix fun <T : Any> KClass<T>.createSingletonVia(factory: (ComponentFactoryContainer) -> T): Pair<KClass<*>, ComponentFactory> =
-	this to ComponentFactory(factory, producesSingleton = true)
-
-
-private infix fun <T : Any> KClass<T>.createChainVia(factories: Sequence<(ComponentFactoryContainer) -> T>): Pair<KClass<*>, Sequence<ComponentFactory>> =
-	this to factories.map { ComponentFactory(it, producesSingleton = false) }
 
 /**
  * Copied from [Atrium](https://atriumlib.org)
@@ -118,24 +119,17 @@ private infix fun <T : Any> KClass<T>.createChainVia(factories: Sequence<(Compon
  *
  * @since 2.0.0
  */
-fun createComponentFactoryContainerBasedOnConfig(config: MinimalistConfig): ComponentFactoryContainer =
-	DefaultComponentFactoryContainer(
-		mapOf(
-			OrderedExtensionPoint::class createSingletonVia { c -> DefaultOrderedExtensionPoint(c) },
-			RandomExtensionPoint::class createSingletonVia { c -> DefaultRandomExtensionPoint(c) },
+infix fun <T : Any> KClass<T>.createSingletonVia(factory: (ComponentFactoryContainer) -> T): Pair<KClass<*>, ComponentFactory> =
+	this to ComponentFactory(factory, producesSingleton = true)
 
-			MinimalistConfig::class createSingletonVia { config },
-			GenericToArgsGeneratorConverter::class createSingletonVia { _ ->
-				DefaultGenericToArgsGeneratorConverter()
-			},
-			ArgsGeneratorToArgumentsConverter::class createSingletonVia { _ ->
-				DefaultArgsGeneratorToArgumentsConverter()
-			},
-			ArgsRangeDecider::class createSingletonVia { _ ->
-				loadService<ArgsRangeDecider>(config.activeArgsRangeDecider).also {
-					if (it is RequiresConfig) it.setConfig(config)
-				}
-			},
-		),
-		emptyMap()
-	)
+/**
+ * Copied from [Atrium](https://atriumlib.org)
+ *
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
+infix fun <T : Any> KClass<T>.createChainVia(factories: Sequence<(ComponentFactoryContainer) -> T>): Pair<KClass<*>, Sequence<ComponentFactory>> =
+	this to factories.map { ComponentFactory(it, producesSingleton = false) }
+

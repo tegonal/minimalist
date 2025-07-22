@@ -4,6 +4,7 @@ import ch.tutteli.atrium.api.fluent.en_GB.toContainExactlyElementsOf
 import ch.tutteli.atrium.api.verbs.expect
 import com.tegonal.minimalist.Args
 import com.tegonal.minimalist.Args2
+import com.tegonal.minimalist.testutils.PseudoRandomArgsGenerator
 import com.tegonal.minimalist.utils.impl.RepeatingListSequence
 import com.tegonal.minimalist.utils.repeatForever
 import kotlin.test.Test
@@ -52,12 +53,12 @@ class PseudoRandomArgsGeneratorTransformationTests {
 		val a1s = sequenceOf(1, 2, 3, 4)
 		val a2s = sequenceOf('a', 'b', 'c', 'd')
 		val generator = PseudoRandomArgsGenerator(a1s).combineDependent { int ->
-			PseudoRandomArgsGenerator(a2s.map { char -> char + int })
+            PseudoRandomArgsGenerator(a2s.map { char -> char + int })
 		}
 
 		// note, we expect 'b' to 'e' for a2 because of an implementation detail, we know that combineDependent just
-		// picks the first generated value of the resulting RandomArgsGenerator (i.e. in our case it always picks 'a'), we
-		// expect
+		// picks the first generated value of the resulting RandomArgsGenerator (i.e. in our case it always picks 'a'),
+		// we expect
 		val a2sexpected = sequenceOf('b', 'c', 'd', 'e')
 		val expected = a1s.zip(a2sexpected)
 		val oneCombined = expected.take(1).toList()

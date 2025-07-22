@@ -3,7 +3,9 @@ package com.tegonal.minimalist.config
 import com.tegonal.minimalist.providers.impl.LevelBasedArgsRangeDecider
 import kotlin.random.Random
 
-
+/**
+ * @since 2.0.0
+ */
 data class MinimalistConfig(
 	val seed: Int = Random.nextInt(0, Int.MAX_VALUE),
 
@@ -45,6 +47,9 @@ data class MinimalistConfig(
 	)
 }
 
+/**
+ * @since 2.0.0
+ */
 class MinimalistConfigBuilder(
 	var seed: Int,
 	var activeArgsRangeDecider: String,
@@ -62,6 +67,7 @@ class MinimalistConfigBuilder(
 
 /**
  * Our way to inject the config after ServiceLoader creation.
+ *
  * @since 2.0.0
  */
 interface RequiresConfig {
