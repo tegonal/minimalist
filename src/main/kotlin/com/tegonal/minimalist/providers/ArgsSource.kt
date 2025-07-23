@@ -2,7 +2,9 @@ package com.tegonal.minimalist.providers
 
 import org.intellij.lang.annotations.Language
 import org.junit.jupiter.params.provider.ArgumentsSource
-import java.lang.annotation.Repeatable
+import com.tegonal.minimalist.generators.ArgsGenerator
+import com.tegonal.minimalist.Args
+import java.lang.annotation.Inherited
 
 /**
  *
@@ -11,21 +13,31 @@ import java.lang.annotation.Repeatable
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented
-@Repeatable(ArgSources::class)
 @ArgumentsSource(ArgsArgumentProvider::class)
+@ArgsSourceLike
 annotation class ArgsSource(
 	@Language("jvm-method-name") val methodName: String,
-
-	val fixedNumberOfArgs: Int = 0,
-	val fixedOffset: Int = -1,
 )
 
 /**
+ * Marker annotation for annotations which acts as [ArgsSource], i.e. provide a `methodName: String` property which is
+ * used to retrieve [ArgsGenerator] or [Args]
  * @since 2.0.0
  */
-@Target(AnnotationTarget.FUNCTION)
+@Target(AnnotationTarget.ANNOTATION_CLASS)
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented
-annotation class ArgSources(
-	vararg val value: ArgsSource
+annotation class ArgsSourceLike
+
+/**
+ *
+ * @since 2.0.0
+ */
+@Target(AnnotationTarget.FUNCTION, AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.RUNTIME)
+@MustBeDocumented
+@Inherited
+annotation class ArgsSourceOptions(
+	val fixedNumberOfArgs: Int = 0,
+	val fixedOffset: Int = -1,
 )

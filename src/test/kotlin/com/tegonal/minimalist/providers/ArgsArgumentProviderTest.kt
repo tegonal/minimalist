@@ -10,32 +10,32 @@ import com.tegonal.minimalist.component2
 import com.tegonal.minimalist.testutils.Tuple4LikeStructure
 import org.junit.jupiter.params.ParameterizedTest
 
-class ArgsProviderTest {
+class ArgsArgumentProviderTest {
 
 	@ParameterizedTest
 	@ArgsSource("rawValuesInList")
-	fun rawValues_inList(value: Int) {
+	fun rawValues_inList(value: Long) {
 		val range = rawValuesInRange()
 		expect(value).toBeGreaterThanOrEqualTo(range.start).toBeLessThanOrEqualTo(range.endInclusive)
 	}
 
 	@ParameterizedTest
 	@ArgsSource("rawValuesInSet")
-	fun rawValues_inSet(value: Int) {
+	fun rawValues_inSet(value: Long) {
 		val range = rawValuesInRange()
 		expect(value).toBeGreaterThanOrEqualTo(range.start).toBeLessThanOrEqualTo(range.endInclusive)
 	}
 
 	@ParameterizedTest
 	@ArgsSource("rawValuesInIterable")
-	fun rawValues_inIterable(value: Int) {
+	fun rawValues_inIterable(value: Long) {
 		val range = rawValuesInRange()
 		expect(value).toBeGreaterThanOrEqualTo(range.start).toBeLessThanOrEqualTo(range.endInclusive)
 	}
 
 	@ParameterizedTest
 	@ArgsSource("rawValuesInSequence")
-	fun rawValues_inSequence(value: Int) {
+	fun rawValues_inSequence(value: Long) {
 		val range = rawValuesInRange()
 		expect(value).toBeGreaterThanOrEqualTo(range.start).toBeLessThanOrEqualTo(range.endInclusive)
 	}
@@ -43,7 +43,7 @@ class ArgsProviderTest {
 
 	@ParameterizedTest
 	@ArgsSource("rawValuesInRange")
-	fun rawValues_inRange(value: Int) {
+	fun rawValues_inRange(value: Long) {
 		val range = rawValuesInRange()
 		expect(value).toBeGreaterThanOrEqualTo(range.start).toBeLessThanOrEqualTo(range.endInclusive)
 	}
@@ -51,18 +51,18 @@ class ArgsProviderTest {
 
 	@ParameterizedTest
 	@ArgsSource("args")
-	fun args(value: Int, index: Int) {
-		val (expectValue, expectedIndex) = args()[index]
+	fun args(index: Int, value: Long) {
+		val (expectedIndex, expectValue) = args()[index]
 		expect(value).toEqual(expectValue)
 		expect(index).toEqual(expectedIndex)
 	}
 
 	@ParameterizedTest
 	@ArgsSource("pairs")
-	fun pairIsNotSplit(pair: Pair<Int, Int>) {
-		val (expectValue, expectedIndex) = pairs()[pair.second]
-		expect(pair.first).toEqual(expectValue)
-		expect(pair.second).toEqual(expectedIndex)
+	fun pairIsSplit(index: Int, value: Long) {
+		val (expectedIndex, expectValue) = pairs()[index]
+		expect(value).toEqual(expectValue)
+		expect(index).toEqual(expectedIndex)
 	}
 
 	@ParameterizedTest
@@ -88,13 +88,13 @@ class ArgsProviderTest {
 		fun rawValuesInSequence() = rawValuesInRange().asSequence()
 
 		@JvmStatic
-		fun rawValuesInRange() = (20..22)
+		fun rawValuesInRange() = (20L..22L)
 
 		@JvmStatic
-		fun args() = rawValuesInRange().mapIndexed { index, it -> Args.of(it, index) }
+		fun args() = rawValuesInRange().mapIndexed { index, it -> Args.of(index, it) }
 
 		@JvmStatic
-		fun pairs() = rawValuesInRange().mapIndexed { index, it -> it to index }
+		fun pairs() = rawValuesInRange().mapIndexed { index, it -> index to it }
 
 		@JvmStatic
 		fun tupleLike() = listOf(Tuple4LikeStructure(0, 2L, 3.0, 4.0f), Tuple4LikeStructure(1, 20L, 30.0, 40.0f))

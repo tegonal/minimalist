@@ -1,3 +1,6 @@
+//import kotlin.io.path.ExperimentalPathApi
+//import kotlin.io.path.copyToRecursively
+
 plugins {
 	id("build-logic.published-kotlin-jvm")
 	id("code-generation.generate")
@@ -5,7 +8,7 @@ plugins {
 	id("me.champeau.jmh") version "0.7.3"
 }
 
-version = "2.0.0-SNAPSHOT"
+version = "2.0.0-RC-1"
 group = "com.tegonal.minimalist"
 description = "Library which helps to setup and prioritise parameterized tests"
 
@@ -13,6 +16,8 @@ description = "Library which helps to setup and prioritise parameterized tests"
 dependencies {
 	api(libs.junit.jupiter.params)
 	implementation(libs.kbox)
+	implementation(kotlin("reflect"))
+	api("org.jetbrains:annotations:13.0")
 
 	testImplementation(kotlin("test"))
 	testImplementation(libs.atrium.fluent)
@@ -51,7 +56,7 @@ java {
 // intellij uses the module path and apparently it is not possible to patch modules if it contains only
 // the module-info.class -- moreover, intellij adds only the java sources to the module path, so as for now it is
 // easier to just copy the kotlin .class files to the output folder of java
-//project.tasks.withType<KotlinJvmCompile>().configureEach {
+//project.tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
 //	doLast {
 //		this.outputs.files.filter { it.name == "main" }.forEach {
 //			@OptIn(ExperimentalPathApi::class)

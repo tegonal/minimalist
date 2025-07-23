@@ -1,8 +1,12 @@
 package com.tegonal.minimalist.utils.impl
 
 /**
+ *
  * Returns an [Iterator] which produces an infinite stream of [T]s based on an [Int] range from [startIndex] until
  * [endIndexExclusive] considering the given [step] and [offset].
+ *
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
  *
  * @param startIndex The inclusive lower bound of the range (in case [offset] = 0 also the starting number) --
  *   has to be less than [endIndexExclusive] and greater than or equal to 0.

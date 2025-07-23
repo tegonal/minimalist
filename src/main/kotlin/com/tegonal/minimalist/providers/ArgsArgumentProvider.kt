@@ -1,69 +1,93 @@
 package com.tegonal.minimalist.providers
 
+import ch.tutteli.kbox.failIf
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.build
-import com.tegonal.minimalist.export.org.junit.jupiter.params.provider.ArgumentsUtils
 import com.tegonal.minimalist.export.org.junit.platform.commons.util.*
 import com.tegonal.minimalist.generators.ArgsGenerator
-import com.tegonal.minimalist.providers.impl.tupleLikeToList
+import com.tegonal.minimalist.generators.fromList
+import com.tegonal.minimalist.generators.ordered
+import com.tegonal.minimalist.providers.impl.tupleAndTupleLikeToList
 import com.tegonal.minimalist.utils.impl.FEATURE_REQUEST_URL
+import com.tegonal.minimalist.utils.impl.getPropertyValue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 import org.junit.jupiter.api.TestTemplate
 import org.junit.jupiter.api.extension.ExtensionContext
-import org.junit.jupiter.params.provider.AnnotationBasedArgumentsProvider
 import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.ArgumentsProvider
+import org.junit.jupiter.params.support.ParameterDeclarations
 import java.lang.reflect.Method
 import java.util.function.Predicate
 import java.util.stream.Collectors
 import java.util.stream.Stream
+import kotlin.streams.asStream
 
 /**
  * The [org.junit.jupiter.params.provider.ArgumentsProvider] for [ArgsSource].
  *
- * Copied and adapter from [org.junit.jupiter.params.provider.MethodArgumentsProvider] (EPL License)
+ * Copied and adapter from [org.junit.jupiter.params.provider.MethodArgumentsProvider] (Eclipse Public License 2.0)
  *
  * @since 2.0.0
  */
-class ArgsArgumentProvider : AnnotationBasedArgumentsProvider<ArgsSource>() {
+class ArgsArgumentProvider : ArgumentsProvider {
+
+	@Suppress("DEPRECATION")
+	override fun provideArguments(
+		parameters: ParameterDeclarations,
+		context: ExtensionContext
+	): Stream<out Arguments> = provideArguments(context)
 
 	// we know it is deprecated but users using an older version of JUnit (< 5.13) would fail if we would already
 	// override the overload which expects ParameterDeclarations in addition. We will switch with JUnit 6
 	@Suppress("OVERRIDE_DEPRECATION")
-	override fun provideArguments(context: ExtensionContext, annotation: ArgsSource): Stream<out Arguments> {
+	override fun provideArguments(context: ExtensionContext): Stream<out Arguments> {
 		val testClass = context.requiredTestClass
 		val testMethod = context.requiredTestMethod
 		val testInstance = context.testInstance.orElse(null)
 
-		check(annotation.methodName.isNotBlank()) {
-			"It looks like you forgot to specify the method in ArgsSource (was empty or blank)"
+		val annotations = testMethod.annotations.filter {
+			it.annotationClass.annotations.any { metaAnnotation ->
+				metaAnnotation.annotationClass == ArgsSourceLike::class
+			}
 		}
 
-		val factoryMethod = findMethod(testClass, testMethod, annotation.methodName).also {
+		failIf(annotations.isEmpty()) {
+			"It looks like you forgot to annotate your ArgSource annotation with ArgsSourceLike, at least couldn't find an annotation on ${testMethod.name} which itself is annotated with ArgsSourceLike"
+		}
+		val annotation = annotations.singleOrNull()
+			?: error("For now we don't support to provide more than one ArgsSourceLike annotation, please open a feature request: $FEATURE_REQUEST_URL&title=annotate%20with%20multiple%20ArgsSourceLike")
+
+		val methodName = annotation.getPropertyValue<String>("methodName")
+
+		val factoryMethod = findMethod(testClass, testMethod, methodName).also {
 			validateFactoryMethod(it, testInstance)
 		}
 
 		val factoryResult = context.executableInvoker.invoke(factoryMethod, testInstance)
-		return factoryResultToArguments(factoryResult, testMethod, annotation).stream()
+		return factoryResultToArguments(factoryResult, testMethod, methodName).asStream()
 	}
+
 
 	private fun factoryResultToArguments(
 		result: Any,
 		testMethod: Method,
-		annotation: ArgsSource
-	): List<Arguments> {
+		argsSourceMethodName: String
+	): Sequence<Arguments> {
 		val maybeArgGenerators = toListOfMaybeArgGenerators(result)
-		check(maybeArgGenerators.isNotEmpty()) { "no ArgGenerators/arguments defined" }
-		return when (val first = maybeArgGenerators.first()) {
-			is ArgsGenerator<*> -> {
-				generateArguments(first, maybeArgGenerators, testMethod, annotation)
+		check(maybeArgGenerators.isNotEmpty()) { "no ArgGenerators/Args defined" }
+		val (first, maybeArgGeneratorsRest) = when (val first = maybeArgGenerators.first()) {
+			is ArgsGenerator<*> -> first to maybeArgGenerators.drop(1)
+			else -> {
+				// assuming raw values. Since no ArgsGenerator is involved, we cannot use a custom `ordered` and
+				// fallback to the default `ordered`
+				ordered.fromList(maybeArgGenerators) to emptyList()
 			}
-
-			else -> maybeArgGenerators.map { ArgumentsUtils.toArguments(it) }
 		}
+		return generateArguments(first, maybeArgGeneratorsRest, testMethod, argsSourceMethodName)
 	}
 
-	private fun toListOfMaybeArgGenerators(result: Any): List<Any?> = tupleLikeToList(result) ?: when (result) {
+	private fun toListOfMaybeArgGenerators(result: Any): List<Any?> = tupleAndTupleLikeToList(result) ?: when (result) {
 		is ArgsGenerator<*> -> listOf(result)
 		is Iterable<*> -> result.toList()
 		is Sequence<*> -> result.toList()
@@ -82,18 +106,22 @@ class ArgsArgumentProvider : AnnotationBasedArgumentsProvider<ArgsSource>() {
 
 
 	private fun generateArguments(
-		first: ArgsGenerator<*>,
-		maybeArgGenerators: List<Any?>,
+		argsGenerator: ArgsGenerator<*>,
+		restMaybeArgGenerators: List<Any?>,
 		testMethod: Method,
-		annotation: ArgsSource
-	): List<Arguments> {
-		val (argsGenerator, restMaybeArgGenerators) = first to maybeArgGenerators.drop(1)
-		val genericToArgsGeneratorConverter = argsGenerator._components.build<GenericToArgsGeneratorConverter>()
+		argsSourceMethodName: String,
+	): Sequence<Arguments> = argsGenerator._components.let { components ->
+		val genericToArgsGeneratorConverter = components.build<GenericToArgsGeneratorConverter>()
+
 		val argsGeneratorCombined =
 			genericToArgsGeneratorConverter.toArgsGenerator(argsGenerator, restMaybeArgGenerators)
-		val argsGeneratorToArgumentsConverter =
-			argsGenerator._components.build<ArgsGeneratorToArgumentsConverter>()
-		return argsGeneratorToArgumentsConverter.toArguments(testMethod, annotation, argsGeneratorCombined)
+
+		val annotationData = components.build<AnnotationDataDeducer>().deduce(testMethod, argsSourceMethodName)
+			?: AnnotationData(argsSourceMethodName)
+
+		val argsGeneratorToArgumentsConverter = components.build<ArgsGeneratorToArgumentsConverter>()
+
+		argsGeneratorToArgumentsConverter.toArguments(annotationData, argsGeneratorCombined)
 	}
 
 

@@ -2,20 +2,7 @@ package com.tegonal.minimalist.config.impl
 
 import com.tegonal.minimalist.config.ComponentFactory
 import com.tegonal.minimalist.config.ComponentFactoryContainer
-import com.tegonal.minimalist.config.MinimalistConfig
-import com.tegonal.minimalist.config.RequiresConfig
-import com.tegonal.minimalist.generators.OrderedExtensionPoint
-import com.tegonal.minimalist.generators.RandomExtensionPoint
-import com.tegonal.minimalist.generators.impl.DefaultOrderedExtensionPoint
-import com.tegonal.minimalist.generators.impl.DefaultRandomExtensionPoint
-import com.tegonal.minimalist.providers.ArgsGeneratorToArgumentsConverter
-import com.tegonal.minimalist.providers.ArgsRangeDecider
-import com.tegonal.minimalist.providers.GenericToArgsGeneratorConverter
-import com.tegonal.minimalist.providers.impl.DefaultArgsGeneratorToArgumentsConverter
-import com.tegonal.minimalist.providers.impl.DefaultGenericToArgsGeneratorConverter
-import com.tegonal.minimalist.utils.impl.loadService
 import java.util.concurrent.ConcurrentHashMap
-import kotlin.collections.mapOf
 import kotlin.reflect.KClass
 import kotlin.reflect.cast
 
@@ -46,7 +33,10 @@ internal abstract class DefaultComponentFactoryContainer : ComponentFactoryConta
 		factory: ComponentFactory
 	): I {
 		val untypedInstance = if (factory.producesSingleton) {
-			singletonComponents.computeIfAbsent(kClass) { factory.build(this) }
+			// we first check so that we only invoke the factory more than once in case of a race condition
+			// Note, we cannot use computeIfAbsent as the build might relay on other singleton components
+			// which yet need to be built.
+			singletonComponents[kClass] ?: factory.build(this).also { singletonComponents.putIfAbsent(kClass, it) }
 		} else {
 			factory.build(this)
 		}
@@ -132,4 +122,3 @@ infix fun <T : Any> KClass<T>.createSingletonVia(factory: (ComponentFactoryConta
  */
 infix fun <T : Any> KClass<T>.createChainVia(factories: Sequence<(ComponentFactoryContainer) -> T>): Pair<KClass<*>, Sequence<ComponentFactory>> =
 	this to factories.map { ComponentFactory(it, producesSingleton = false) }
-

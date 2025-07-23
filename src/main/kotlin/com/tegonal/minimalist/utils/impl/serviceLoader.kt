@@ -2,6 +2,12 @@ package com.tegonal.minimalist.utils.impl
 
 import java.util.*
 
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 inline fun <reified T : Any> loadService(qualifiedName: String): T {
 	val klass = T::class
 	val allServices = ServiceLoader.load(klass.java)

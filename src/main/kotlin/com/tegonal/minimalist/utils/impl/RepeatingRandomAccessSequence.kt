@@ -1,5 +1,11 @@
 package com.tegonal.minimalist.utils.impl
 
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 class RepeatingRandomAccessSequence<T>(
 	private val size: Int,
 	private val offset: Int,
