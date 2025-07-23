@@ -8,3 +8,5 @@ import com.tegonal.minimalist.generators.OrderedExtensionPoint
 
 fun createOrderedWithCustomConfig(customConfig: MinimalistConfig): OrderedExtensionPoint =
 	ComponentFactoryContainer.createBasedOnConfig(customConfig).ordered
+
+val orderedWithSeed0 = createOrderedWithCustomConfig(MinimalistConfig().copy(seed = 0))

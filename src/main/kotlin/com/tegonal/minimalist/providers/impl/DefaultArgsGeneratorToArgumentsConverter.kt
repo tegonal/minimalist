@@ -7,12 +7,11 @@ import com.tegonal.minimalist.generators.ArgsGenerator
 import com.tegonal.minimalist.generators.RandomArgsGenerator
 import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
 import com.tegonal.minimalist.generators.impl.throwUnsupportedArgsGenerator
+import com.tegonal.minimalist.providers.AnnotationData
 import com.tegonal.minimalist.providers.ArgsGeneratorToArgumentsConverter
 import com.tegonal.minimalist.providers.ArgsRange
 import com.tegonal.minimalist.providers.ArgsRangeDecider
-import com.tegonal.minimalist.providers.ArgsSource
 import org.junit.jupiter.params.provider.Arguments
-import java.lang.reflect.Method
 
 /**
  * !! No backward compatibility guarantees !!
@@ -23,36 +22,53 @@ import java.lang.reflect.Method
 class DefaultArgsGeneratorToArgumentsConverter : ArgsGeneratorToArgumentsConverter {
 
 	override fun toArguments(
-		testMethod: Method,
-		annotation: ArgsSource,
+		annotationData: AnnotationData,
 		argsGenerator: ArgsGenerator<List<*>>,
-	): List<Arguments> {
-		val argsRange = determineArgsRange(testMethod, annotation, argsGenerator)
-		val sequenceOfValues = when (argsGenerator) {
+	): Sequence<Arguments> {
+		val argsRange = determineArgsRange(annotationData, argsGenerator)
+		val sequenceOfList = when (argsGenerator) {
 			is RandomArgsGenerator<List<*>> -> argsGenerator.generate().take(argsRange.take)
 			is SemiOrderedArgsGenerator<List<*>> -> argsGenerator.generate(argsRange.offset).take(argsRange.take)
 			else -> throwUnsupportedArgsGenerator(argsGenerator)
 		}
-		return sequenceOfValues.map { args ->
-			when (args.size) {
-				0 -> error("The resulting ArgsGenerator returned by ${annotation.methodName} doesn't produce any arguments")
-				1 -> args.first().let { first ->
-					tupleLikeToList(first)?.let { Arguments.of(*it.toTypedArray()) } ?: Arguments.of(first)
+		return sequenceOfList.map { generatorResults ->
+			when (generatorResults.size) {
+				0 -> error(
+					"The ${ArgsGenerator::class.simpleName}(s) returned by ${annotationData.argsSourceMethodName} do not generate any value"
+				)
+
+				1 -> generatorResults.first().let { result ->
+					// we don't split TupleLike (in contrast to ArgsArgumentProvider)
+					tupleToList(result)?.let { Arguments.of(*it.toTypedArray()) }
+						?: (result as? Arguments)
+						?: Arguments.of(result)
 				}
 
-				else -> Arguments.of(*args.toTypedArray())
+				else -> {
+					val flattenedArgs = generatorResults.flatMap { result ->
+						tupleToList(result)
+							?: when (result) {
+								is Arguments -> result.get().toList()
+								// assuming a raw value
+								else -> listOf(result)
+							}
+					}
+
+					Arguments.of(*flattenedArgs.toTypedArray())
+				}
 			}
-		}.toList()
+		}
 	}
 
+	//TODO 2.0.0 move into ArgsRangeDecider, now that we have AnnotationData we no longer need to have this separate
+	// and it should be solely the responsibility of the Decider to decide
 	private fun determineArgsRange(
-		@Suppress("UNUSED_PARAMETER") testMethod: Method,
-		annotation: ArgsSource,
+		annotationData: AnnotationData,
 		argsGenerator: ArgsGenerator<*>,
 	): ArgsRange =
-		if (annotation.fixedNumberOfArgs > 0 && annotation.fixedOffset >= 0) {
+		if (annotationData.fixedNumberOfArgs != null && annotationData.fixedOffset != null) {
 			// values in annotation takes precedence over ArgsRangeDecider
-			ArgsRange(offset = annotation.fixedOffset, take = annotation.fixedNumberOfArgs)
+			ArgsRange(offset = annotationData.fixedOffset, take = annotationData.fixedNumberOfArgs)
 		} else {
 			val componentFactoryContainer = argsGenerator._components
 			val argsRangeDecider = componentFactoryContainer.build<ArgsRangeDecider>()
@@ -64,14 +80,14 @@ class DefaultArgsGeneratorToArgumentsConverter : ArgsGeneratorToArgumentsConvert
 					}
 				}
 				.let {
-					if (annotation.fixedOffset >= 0) {
-						it.copy(offset = annotation.fixedOffset)
+					if (annotationData.fixedOffset != null) {
+						it.copy(offset = annotationData.fixedOffset)
 					} else {
 						it
 					}
 				}.let {
-					if (annotation.fixedNumberOfArgs > 0) {
-						it.copy(take = annotation.fixedNumberOfArgs)
+					if (annotationData.fixedNumberOfArgs != null) {
+						it.copy(take = annotationData.fixedNumberOfArgs)
 					} else {
 						it
 					}

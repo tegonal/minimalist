@@ -93,7 +93,7 @@ class PseudoRandomArgsGeneratorTransformationTests {
 		val a1s = sequenceOf(1, 2, 3, 4)
 		val generator = PseudoRandomArgsGenerator(a1s).filter { it % 2 == 0 }
 
-		val expected = RepeatingListSequence((2 until 5 step 2).toList(), 0)
+		val expected = repeatForever((2 until 5 step 2).toList(), 0)
 		expect(generator.generateToList(1)).toContainExactlyElementsOf(expected.take(1).toList())
 		expect(generator.generateToList(2)).toContainExactlyElementsOf(expected.take(2).toList())
 		expect(generator.generateToList(3)).toContainExactlyElementsOf(expected.take(3).toList())
@@ -106,7 +106,7 @@ class PseudoRandomArgsGeneratorTransformationTests {
 		val a1s = sequenceOf(1, 2, 3, 4)
 		val generator = PseudoRandomArgsGenerator(a1s).filterNot { it % 2 == 0 }
 
-		val expected = RepeatingListSequence((1 until 5 step 2).toList(), 0)
+		val expected = repeatForever((1 until 5 step 2).toList(), 0)
 		expect(generator.generateToList(1)).toContainExactlyElementsOf(expected.take(1).toList())
 		expect(generator.generateToList(2)).toContainExactlyElementsOf(expected.take(2).toList())
 		expect(generator.generateToList(3)).toContainExactlyElementsOf(expected.take(3).toList())

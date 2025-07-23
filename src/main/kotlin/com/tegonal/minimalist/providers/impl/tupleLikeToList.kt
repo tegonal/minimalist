@@ -16,15 +16,23 @@ import ch.tutteli.kbox.Tuple9
 import ch.tutteli.kbox.Tuple9Like
 import ch.tutteli.kbox.toList
 
+fun tupleAndTupleLikeToList(maybeTupleOrTupleLike: Any?): List<*>? =
+	tupleToList(maybeTupleOrTupleLike) ?: tupleLikeToList(maybeTupleOrTupleLike)
+
+
+fun tupleToList(maybeTuple: Any?): List<*>? = when (maybeTuple) {
+	is Pair<*, *> -> maybeTuple.toList()
+	is Triple<*, *, *> -> maybeTuple.toList()
+	is Tuple4<*, *, *, *> -> maybeTuple.toList()
+	is Tuple5<*, *, *, *, *> -> maybeTuple.toList()
+	is Tuple6<*, *, *, *, *, *> -> maybeTuple.toList()
+	is Tuple7<*, *, *, *, *, *, *> -> maybeTuple.toList()
+	is Tuple8<*, *, *, *, *, *, *, *> -> maybeTuple.toList()
+	is Tuple9<*, *, *, *, *, *, *, *, *> -> maybeTuple.toList()
+	else -> null
+}
+
 fun tupleLikeToList(maybeTupleLike: Any?): List<*>? = when (maybeTupleLike) {
-	is Pair<*, *> -> maybeTupleLike.toList()
-	is Triple<*, *, *> -> maybeTupleLike.toList()
-	is Tuple4<*, *, *, *> -> maybeTupleLike.toList()
-	is Tuple5<*, *, *, *, *> -> maybeTupleLike.toList()
-	is Tuple6<*, *, *, *, *, *> -> maybeTupleLike.toList()
-	is Tuple7<*, *, *, *, *, *, *> -> maybeTupleLike.toList()
-	is Tuple8<*, *, *, *, *, *, *, *> -> maybeTupleLike.toList()
-	is Tuple9<*, *, *, *, *, *, *, *, *> -> maybeTupleLike.toList()
 
 	is Tuple2Like<*, *> -> listOf(maybeTupleLike.component1(), maybeTupleLike.component2())
 	is Tuple3Like<*, *, *> -> listOf(

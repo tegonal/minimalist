@@ -7,15 +7,16 @@ import com.tegonal.minimalist.generators.OrderedExtensionPoint
 import com.tegonal.minimalist.generators.RandomExtensionPoint
 import com.tegonal.minimalist.generators.impl.DefaultOrderedExtensionPoint
 import com.tegonal.minimalist.generators.impl.DefaultRandomExtensionPoint
+import com.tegonal.minimalist.providers.AnnotationDataDeducer
 import com.tegonal.minimalist.providers.ArgsGeneratorToArgumentsConverter
 import com.tegonal.minimalist.providers.ArgsRangeDecider
 import com.tegonal.minimalist.providers.GenericToArgsGeneratorConverter
+import com.tegonal.minimalist.providers.impl.DefaultAnnotationDataDeducer
 import com.tegonal.minimalist.providers.impl.DefaultArgsGeneratorToArgumentsConverter
 import com.tegonal.minimalist.providers.impl.DefaultGenericToArgsGeneratorConverter
 import com.tegonal.minimalist.utils.impl.loadService
 import kotlin.random.Random
 import kotlin.reflect.KClass
-
 
 /**
  *
@@ -30,6 +31,10 @@ fun ComponentFactoryContainer.Companion.createBasedOnConfig(config: MinimalistCo
 			MinimalistConfig::class createSingletonVia { config },
 			GenericToArgsGeneratorConverter::class createSingletonVia { _ ->
 				DefaultGenericToArgsGeneratorConverter()
+			},
+			//TODO 2.1.0 change to a chained approach to make it extensible?
+			AnnotationDataDeducer::class createSingletonVia { _ ->
+				DefaultAnnotationDataDeducer()
 			},
 			ArgsGeneratorToArgumentsConverter::class createSingletonVia { _ ->
 				DefaultArgsGeneratorToArgumentsConverter()

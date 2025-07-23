@@ -10,6 +10,7 @@ class RepeatingListSequence<T>(
 	private val values: List<T>,
 	private val offset: Int
 ) : Sequence<T> {
+
 	override fun iterator(): Iterator<T> {
 		return object : BaseRepeatingIterator<T>(0, values.size, offset) {
 			override fun getElementAt(index: Int): T = values[index]
