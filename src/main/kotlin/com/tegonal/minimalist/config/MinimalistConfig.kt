@@ -1,5 +1,8 @@
 package com.tegonal.minimalist.config
 
+import com.tegonal.minimalist.config.impl.failIfNegative
+import com.tegonal.minimalist.providers.AnnotationData
+import com.tegonal.minimalist.providers.ArgsRangeDecider
 import com.tegonal.minimalist.providers.impl.LevelBasedArgsRangeDecider
 import kotlin.random.Random
 
@@ -9,41 +12,81 @@ import kotlin.random.Random
 data class MinimalistConfig(
 	val seed: Int = Random.nextInt(0, Int.MAX_VALUE),
 
+	/**
+	 * Set to a value if you want to test a particular case (maybe together with [ArgsRangeOptions.atMostArgs] = 1)
+	 */
+	val offsetToDecidedOffset: Int? = null,
+
+	/**
+	 * Set to a value if you want to test a particular case (most likely together with [offsetToDecidedOffset]).
+	 *
+	 * This is meant to take precedence over an [ArgsRangeDecider] (but depends on the implementation of the [ArgsRangeDecider])
+	 */
+	val argsRangeOptions: ArgsRangeOptions = ArgsRangeOptions(),
+
 	val activeArgsRangeDecider: String = LevelBasedArgsRangeDecider::class.qualifiedName ?: error(
 		"cannot determine qualified name of LevelBasedArgsRangeDecider "
 	),
 
-	val activeMaxArgsLevel: Int = 3,
-	val maxArgsLevels: MaxArgLevels = 10_000.let { maxArgsInGeneral ->
-		MaxArgLevels(
-			maxArgsInGeneral,
-			mapOf(
-				// the following comments describe a possible way to define/use the levels
-				1 to 3,  // local dev
-				2 to 10, // in PR
-				3 to 30, // on main
-				4 to 50, // nightly
-				5 to maxArgsInGeneral // on release branch
-			)
-		)
-	},
+	/**
+	 * Defines which category (see [MaxArgsCategory] for predefined categories - you can also define own) is chosen
+	 * in case none is specified via [ArgsRangeOptions.category] (either in [argsRangeOptions] or in
+	 * [AnnotationData.argsRangeOptions])
+	 */
+	val defaultMaxArgsLevelCategory: String = MaxArgsCategory.Integration.name,
+
+	/**
+	 * Defines which level an [ArgsRangeDecider] shall consider.
+	 */
+	val activeMaxArgsLevel: String = MaxArgsLevel.Local.name,
+
+	/**
+	 * Allows to define different categories (of tests) with different associated [MaxArgsLevels]
+	 */
+	val categorizedMaxArgsLevels: CategorizedMaxArgsLevels = CategorizedMaxArgsLevels.create(
+		MaxArgsCategory.Unit to
+			MaxArgsLevels.create(
+				MaxArgsLevel.Local to 500,
+				MaxArgsLevel.PR to 1000,
+				MaxArgsLevel.Main to 2000,
+				MaxArgsLevel.Nightly to 5000,
+				MaxArgsLevel.Release to 3000,
+			),
+		MaxArgsCategory.Integration to
+			MaxArgsLevels.create(
+				MaxArgsLevel.Local to 3,
+				MaxArgsLevel.PR to 10,
+				MaxArgsLevel.Main to 50,
+				MaxArgsLevel.Nightly to 150,
+				MaxArgsLevel.Release to 75,
+			),
+	),
 ) {
 	init {
-		val levels = maxArgsLevels.toHashMap()
+		failIfNegative(seed, "seed")
+		offsetToDecidedOffset?.also { failIfNegative(it, "offsetToDecidedOffset") }
 
-		check(activeMaxArgsLevel in levels) {
-			"Your specified activeMaxArgsLevel (${activeMaxArgsLevel}) is not defined in maxArgsLevels (existing levels: ${
-				levels.keys.joinToString(", ")
+		val defaultMaxArgsLevels = categorizedMaxArgsLevels.find(defaultMaxArgsLevelCategory) ?: error(
+			"Your specified defaultMaxArgsLevelCategory ($defaultMaxArgsLevelCategory) does not exists, existing categories: ${
+				categorizedMaxArgsLevels.categories().joinToString(",")
 			}"
+		)
+		check(activeMaxArgsLevel in defaultMaxArgsLevels) {
+			"Your specified activeMaxArgsLevel (${activeMaxArgsLevel}) is not defined in MaxArgsLevels (existing levels: ${
+				defaultMaxArgsLevels.levels().joinToString(", ")
+			})"
 		}
 	}
 
 	fun toBuilder(): MinimalistConfigBuilder = MinimalistConfigBuilder(
-		seed,
-		activeArgsRangeDecider,
-		activeMaxArgsLevel,
-		maxArgsLevels.maxArgsInGeneral,
-		maxArgsLevels.toHashMap()
+		seed = seed,
+		offsetToDecidedOffset = offsetToDecidedOffset,
+		atMostArgs = argsRangeOptions.atMostArgs,
+		atLeastArgs = argsRangeOptions.requestedMinArgs,
+		activeArgsRangeDecider = activeArgsRangeDecider,
+		activeMaxArgsLevel = activeMaxArgsLevel,
+		defaultMaxArgsLevelCategory = defaultMaxArgsLevelCategory,
+		categoryToMaxArgsLevel = categorizedMaxArgsLevels.toHashMap()
 	)
 }
 
@@ -52,24 +95,41 @@ data class MinimalistConfig(
  */
 class MinimalistConfigBuilder(
 	var seed: Int,
+	var offsetToDecidedOffset: Int?,
+	var atMostArgs: Int?,
+	var atLeastArgs: Int?,
 	var activeArgsRangeDecider: String,
-	var activeMaxArgsLevel: Int = 3,
-	var maxArgsInGeneral: Int,
-	var maxArgsLevels: HashMap<Int, Int>
+	var activeMaxArgsLevel: String,
+	var defaultMaxArgsLevelCategory: String,
+	var categoryToMaxArgsLevel: HashMap<String, HashMap<String, Int>>
 ) {
 	fun build(): MinimalistConfig = MinimalistConfig(
-		seed,
-		activeArgsRangeDecider,
-		activeMaxArgsLevel,
-		MaxArgLevels(maxArgsInGeneral, maxArgsLevels)
+		seed = seed,
+		offsetToDecidedOffset = offsetToDecidedOffset,
+		argsRangeOptions = ArgsRangeOptions(requestedMinArgs = atLeastArgs, atMostArgs = atMostArgs),
+		activeArgsRangeDecider = activeArgsRangeDecider,
+		activeMaxArgsLevel = activeMaxArgsLevel,
+		defaultMaxArgsLevelCategory = defaultMaxArgsLevelCategory,
+		categorizedMaxArgsLevels = CategorizedMaxArgsLevels.create(
+			categoryToMaxArgsLevel.entries.associate { (category, levels) -> category to MaxArgsLevels.create(levels) }
+		)
 	)
 }
 
 /**
- * Our way to inject the config after ServiceLoader creation.
+ * Our way to inject the [MinimalistConfig] into an instance after it was created via [java.util.ServiceLoader].
  *
  * @since 2.0.0
  */
 interface RequiresConfig {
-	fun setConfig(config: MinimalistConfig)
+	var config: MinimalistConfig
+}
+
+/**
+ * Predefined category names for [MinimalistConfig.categorizedMaxArgsLevels]
+ *
+ * @since 2.0.0
+ */
+enum class MaxArgsCategory {
+	Unit, Integration
 }

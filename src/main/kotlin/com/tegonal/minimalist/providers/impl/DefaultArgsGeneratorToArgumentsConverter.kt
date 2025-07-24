@@ -2,7 +2,6 @@ package com.tegonal.minimalist.providers.impl
 
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.build
-import com.tegonal.minimalist.config.config
 import com.tegonal.minimalist.generators.ArgsGenerator
 import com.tegonal.minimalist.generators.RandomArgsGenerator
 import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
@@ -25,7 +24,7 @@ class DefaultArgsGeneratorToArgumentsConverter : ArgsGeneratorToArgumentsConvert
 		annotationData: AnnotationData,
 		argsGenerator: ArgsGenerator<List<*>>,
 	): Sequence<Arguments> {
-		val argsRange = determineArgsRange(annotationData, argsGenerator)
+		val argsRange = decideArgsRange(annotationData, argsGenerator)
 		val sequenceOfList = when (argsGenerator) {
 			is RandomArgsGenerator<List<*>> -> argsGenerator.generate().take(argsRange.take)
 			is SemiOrderedArgsGenerator<List<*>> -> argsGenerator.generate(argsRange.offset).take(argsRange.take)
@@ -49,7 +48,7 @@ class DefaultArgsGeneratorToArgumentsConverter : ArgsGeneratorToArgumentsConvert
 						tupleToList(result)
 							?: when (result) {
 								is Arguments -> result.get().toList()
-								// assuming a raw value
+								// assuming a raw values
 								else -> listOf(result)
 							}
 					}
@@ -60,37 +59,12 @@ class DefaultArgsGeneratorToArgumentsConverter : ArgsGeneratorToArgumentsConvert
 		}
 	}
 
-	//TODO 2.0.0 move into ArgsRangeDecider, now that we have AnnotationData we no longer need to have this separate
-	// and it should be solely the responsibility of the Decider to decide
-	private fun determineArgsRange(
+	private fun decideArgsRange(
 		annotationData: AnnotationData,
 		argsGenerator: ArgsGenerator<*>,
-	): ArgsRange =
-		if (annotationData.fixedNumberOfArgs != null && annotationData.fixedOffset != null) {
-			// values in annotation takes precedence over ArgsRangeDecider
-			ArgsRange(offset = annotationData.fixedOffset, take = annotationData.fixedNumberOfArgs)
-		} else {
-			val componentFactoryContainer = argsGenerator._components
-			val argsRangeDecider = componentFactoryContainer.build<ArgsRangeDecider>()
-			argsRangeDecider.decideArgsRange(argsGenerator)
-				.also {
-					val maxArgsInGeneral = componentFactoryContainer.config.maxArgsLevels.maxArgsInGeneral
-					check(it.take <= maxArgsInGeneral) {
-						"ArgsRangeDecider ${argsRangeDecider::class.qualifiedName} decided to take ${it.take} although the configured maxArgsInGeneral is $maxArgsInGeneral"
-					}
-				}
-				.let {
-					if (annotationData.fixedOffset != null) {
-						it.copy(offset = annotationData.fixedOffset)
-					} else {
-						it
-					}
-				}.let {
-					if (annotationData.fixedNumberOfArgs != null) {
-						it.copy(take = annotationData.fixedNumberOfArgs)
-					} else {
-						it
-					}
-				}
-		}
+	): ArgsRange {
+		val componentFactoryContainer = argsGenerator._components
+		val argsRangeDecider = componentFactoryContainer.build<ArgsRangeDecider>()
+		return argsRangeDecider.decide(argsGenerator, annotationData.argsRangeOptions)
+	}
 }

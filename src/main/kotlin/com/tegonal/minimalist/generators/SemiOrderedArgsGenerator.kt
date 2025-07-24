@@ -39,7 +39,7 @@ interface SemiOrderedArgsGenerator<out T> : ArgsGenerator<T> {
  * @since 2.0.0
  */
 fun <T> SemiOrderedArgsGenerator<T>.generateAndTakeBasedOnDecider(): Sequence<T> =
-	_components.build<ArgsRangeDecider>().decideArgsRange(this).let(::generateAndTake)
+	_components.build<ArgsRangeDecider>().decide(this).let(::generateAndTake)
 
 /**
  * Returns a finite sequence of values influenced by the given [ArgsRange].

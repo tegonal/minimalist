@@ -40,9 +40,7 @@ fun ComponentFactoryContainer.Companion.createBasedOnConfig(config: MinimalistCo
 				DefaultArgsGeneratorToArgumentsConverter()
 			},
 			ArgsRangeDecider::class createSingletonVia { _ ->
-				loadService<ArgsRangeDecider>(config.activeArgsRangeDecider).also {
-					if (it is RequiresConfig) it.setConfig(config)
-				}
+				loadService<ArgsRangeDecider>(config.activeArgsRangeDecider)
 			},
 
 			RandomFactory::class createSingletonVia {
