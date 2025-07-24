@@ -7,6 +7,8 @@
 package com.tegonal.minimalist.generators
 
 import ch.tutteli.kbox.append
+import ch.tutteli.kbox.Tuple2
+import ch.tutteli.kbox.Tuple3
 import ch.tutteli.kbox.Tuple4
 import ch.tutteli.kbox.Tuple5
 import ch.tutteli.kbox.Tuple6
@@ -16,65 +18,65 @@ import ch.tutteli.kbox.Tuple9
 
 /**
  * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [SemiOrderedArgsGenerator] transforming the values
- * into a [Pair].
+ * into a [Tuple2].
  *
  * The resulting [OrderedArgsGenerator] generates
  * [this.size][OrderedArgsGenerator.size] * [other.size][OrderedArgsGenerator.size] values before repeating.
  *
  * @param other The other [SemiOrderedArgsGenerator] which generates values of type [A2].
  *
- * @return The resulting [SemiOrderedArgsGenerator] which generates values of type [Pair].
+ * @return The resulting [SemiOrderedArgsGenerator] which generates values of type [Tuple2].
  *
  * @since 2.0.0
  */
 @JvmName("combineToTuple2")
 fun <A1, A2> SemiOrderedArgsGenerator<A1>.combine(
 	other: SemiOrderedArgsGenerator<A2>
-): SemiOrderedArgsGenerator<Pair<A1, A2>> = this.combine(other, ::Pair)
+): SemiOrderedArgsGenerator<Tuple2<A1, A2>> = this.combine(other, ::Tuple2)
 
 /**
  * Combines the [component1] [SemiOrderedArgsGenerator] with the [component2] [ArgsGenerator]
- * resulting in a [SemiOrderedArgsGenerator] which generates [Pair].
+ * resulting in a [SemiOrderedArgsGenerator] which generates [Tuple2].
  *
  * @since 2.0.0
  */
-fun <A1, A2> Pair<
+fun <A1, A2> Tuple2<
 	SemiOrderedArgsGenerator<A1>,
 	ArgsGenerator<A2>
->.combineAll(): SemiOrderedArgsGenerator<Pair<A1, A2>> =
-	component1().combine(component2(), ::Pair)
+>.combineAll(): SemiOrderedArgsGenerator<Tuple2<A1, A2>> =
+	component1().combine(component2(), ::Tuple2)
 /**
  * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [SemiOrderedArgsGenerator] transforming the values
- * into a [Triple].
+ * into a [Tuple3].
  *
  * The resulting [OrderedArgsGenerator] generates
  * [this.size][OrderedArgsGenerator.size] * [other.size][OrderedArgsGenerator.size] values before repeating.
  *
  * @param other The other [SemiOrderedArgsGenerator] which generates values of type [A3].
  *
- * @return The resulting [SemiOrderedArgsGenerator] which generates values of type [Triple].
+ * @return The resulting [SemiOrderedArgsGenerator] which generates values of type [Tuple3].
  *
  * @since 2.0.0
  */
 @JvmName("combineToTuple3")
-fun <A1, A2, A3> SemiOrderedArgsGenerator<Pair<A1, A2>>.combine(
+fun <A1, A2, A3> SemiOrderedArgsGenerator<Tuple2<A1, A2>>.combine(
 	other: SemiOrderedArgsGenerator<A3>
-): SemiOrderedArgsGenerator<Triple<A1, A2, A3>> = this.combine(other) { args, otherArg ->
+): SemiOrderedArgsGenerator<Tuple3<A1, A2, A3>> = this.combine(other) { args, otherArg ->
 	args.append(otherArg)
 }
 
 /**
  * Combines the [component1] [SemiOrderedArgsGenerator] with all other [ArgsGenerator] from left to right
- * resulting in a [SemiOrderedArgsGenerator] which generates [Triple].
+ * resulting in a [SemiOrderedArgsGenerator] which generates [Tuple3].
  *
  * @since 2.0.0
  */
-fun <A1, A2, A3> Triple<
+fun <A1, A2, A3> Tuple3<
 	SemiOrderedArgsGenerator<A1>,
 	ArgsGenerator<A2>,
 	ArgsGenerator<A3>
->.combineAll(): SemiOrderedArgsGenerator<Triple<A1, A2, A3>> =
-	component1().combine(component2(), ::Pair).combine(component3()) { args, a3 -> args.append(a3) }
+>.combineAll(): SemiOrderedArgsGenerator<Tuple3<A1, A2, A3>> =
+	component1().combine(component2(), ::Tuple2).combine(component3()) { args, a3 -> args.append(a3) }
 /**
  * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [SemiOrderedArgsGenerator] transforming the values
  * into a [Tuple4].
@@ -89,7 +91,7 @@ fun <A1, A2, A3> Triple<
  * @since 2.0.0
  */
 @JvmName("combineToTuple4")
-fun <A1, A2, A3, A4> SemiOrderedArgsGenerator<Triple<A1, A2, A3>>.combine(
+fun <A1, A2, A3, A4> SemiOrderedArgsGenerator<Tuple3<A1, A2, A3>>.combine(
 	other: SemiOrderedArgsGenerator<A4>
 ): SemiOrderedArgsGenerator<Tuple4<A1, A2, A3, A4>> = this.combine(other) { args, otherArg ->
 	args.append(otherArg)
@@ -107,7 +109,7 @@ fun <A1, A2, A3, A4> Tuple4<
 	ArgsGenerator<A3>,
 	ArgsGenerator<A4>
 >.combineAll(): SemiOrderedArgsGenerator<Tuple4<A1, A2, A3, A4>> =
-	component1().combine(component2(), ::Pair)
+	component1().combine(component2(), ::Tuple2)
 		.combine(component3()) { args, a3 -> args.append(a3) }
 		.combine(component4()) { args, a4 -> args.append(a4) }
 /**
@@ -143,7 +145,7 @@ fun <A1, A2, A3, A4, A5> Tuple5<
 	ArgsGenerator<A4>,
 	ArgsGenerator<A5>
 >.combineAll(): SemiOrderedArgsGenerator<Tuple5<A1, A2, A3, A4, A5>> =
-	component1().combine(component2(), ::Pair)
+	component1().combine(component2(), ::Tuple2)
 		.combine(component3()) { args, a3 -> args.append(a3) }
 		.combine(component4()) { args, a4 -> args.append(a4) }
 		.combine(component5()) { args, a5 -> args.append(a5) }
@@ -181,7 +183,7 @@ fun <A1, A2, A3, A4, A5, A6> Tuple6<
 	ArgsGenerator<A5>,
 	ArgsGenerator<A6>
 >.combineAll(): SemiOrderedArgsGenerator<Tuple6<A1, A2, A3, A4, A5, A6>> =
-	component1().combine(component2(), ::Pair)
+	component1().combine(component2(), ::Tuple2)
 		.combine(component3()) { args, a3 -> args.append(a3) }
 		.combine(component4()) { args, a4 -> args.append(a4) }
 		.combine(component5()) { args, a5 -> args.append(a5) }
@@ -221,7 +223,7 @@ fun <A1, A2, A3, A4, A5, A6, A7> Tuple7<
 	ArgsGenerator<A6>,
 	ArgsGenerator<A7>
 >.combineAll(): SemiOrderedArgsGenerator<Tuple7<A1, A2, A3, A4, A5, A6, A7>> =
-	component1().combine(component2(), ::Pair)
+	component1().combine(component2(), ::Tuple2)
 		.combine(component3()) { args, a3 -> args.append(a3) }
 		.combine(component4()) { args, a4 -> args.append(a4) }
 		.combine(component5()) { args, a5 -> args.append(a5) }
@@ -263,7 +265,7 @@ fun <A1, A2, A3, A4, A5, A6, A7, A8> Tuple8<
 	ArgsGenerator<A7>,
 	ArgsGenerator<A8>
 >.combineAll(): SemiOrderedArgsGenerator<Tuple8<A1, A2, A3, A4, A5, A6, A7, A8>> =
-	component1().combine(component2(), ::Pair)
+	component1().combine(component2(), ::Tuple2)
 		.combine(component3()) { args, a3 -> args.append(a3) }
 		.combine(component4()) { args, a4 -> args.append(a4) }
 		.combine(component5()) { args, a5 -> args.append(a5) }
@@ -307,7 +309,7 @@ fun <A1, A2, A3, A4, A5, A6, A7, A8, A9> Tuple9<
 	ArgsGenerator<A8>,
 	ArgsGenerator<A9>
 >.combineAll(): SemiOrderedArgsGenerator<Tuple9<A1, A2, A3, A4, A5, A6, A7, A8, A9>> =
-	component1().combine(component2(), ::Pair)
+	component1().combine(component2(), ::Tuple2)
 		.combine(component3()) { args, a3 -> args.append(a3) }
 		.combine(component4()) { args, a4 -> args.append(a4) }
 		.combine(component5()) { args, a5 -> args.append(a5) }
