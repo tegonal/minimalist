@@ -1,10 +1,11 @@
 package com.tegonal.minimalist.providers
 
+import com.tegonal.minimalist.Args
+import com.tegonal.minimalist.generators.ArgsGenerator
 import org.intellij.lang.annotations.Language
 import org.junit.jupiter.params.provider.ArgumentsSource
-import com.tegonal.minimalist.generators.ArgsGenerator
-import com.tegonal.minimalist.Args
 import java.lang.annotation.Inherited
+import com.tegonal.minimalist.config.MinimalistConfig
 
 /**
  *
@@ -38,6 +39,18 @@ annotation class ArgsSourceLike
 @MustBeDocumented
 @Inherited
 annotation class ArgsSourceOptions(
-	val fixedNumberOfArgs: Int = 0,
-	val fixedOffset: Int = -1,
+	/**
+	 * Taken into account if > 0 and should influence an [ArgsRangeDecider]'s choice of [ArgsRange.take].
+	 */
+	val atMostArgs: Int = -1,
+
+	/**
+	 * Taken into account if > 0 and should influence an [ArgsRangeDecider]'s choice of [ArgsRange.take].
+	 */
+	val requestedMinArgs: Int = -1,
+
+	/**
+	 * Taken into account if non-empty and will take precedence over [MinimalistConfig.defaultMaxArgsLevelCategory].
+	 */
+	val category: String = ""
 )

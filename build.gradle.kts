@@ -17,7 +17,6 @@ dependencies {
 	api(libs.junit.jupiter.params)
 	implementation(libs.kbox)
 	implementation(kotlin("reflect"))
-	api("org.jetbrains:annotations:13.0")
 
 	testImplementation(kotlin("test"))
 	testImplementation(libs.atrium.fluent)

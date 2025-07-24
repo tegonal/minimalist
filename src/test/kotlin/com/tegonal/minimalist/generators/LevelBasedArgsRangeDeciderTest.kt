@@ -1,42 +1,51 @@
 package com.tegonal.minimalist.generators
 
 import ch.tutteli.atrium.api.fluent.en_GB.feature
-import ch.tutteli.atrium.api.fluent.en_GB.messageToContain
 import ch.tutteli.atrium.api.fluent.en_GB.toEqual
-import ch.tutteli.atrium.api.fluent.en_GB.toThrow
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.config.MaxArgLevels
+import com.tegonal.minimalist.config.CategorizedMaxArgsLevels
+import com.tegonal.minimalist.config.MaxArgsCategory
+import com.tegonal.minimalist.config.MaxArgsLevel
+import com.tegonal.minimalist.config.MaxArgsLevels
 import com.tegonal.minimalist.config.MinimalistConfig
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.config
 import com.tegonal.minimalist.providers.ArgsRange
 import com.tegonal.minimalist.providers.ArgsSource
+import com.tegonal.minimalist.providers.ArgsSourceOptions
 import com.tegonal.minimalist.providers.impl.LevelBasedArgsRangeDecider
 import com.tegonal.minimalist.testutils.createOrderedWithCustomConfig
 import org.junit.jupiter.params.ParameterizedTest
-import kotlin.test.Test
 
+@ArgsSourceOptions(category = "Unit")
 class LevelBasedArgsRangeDeciderTest {
 
-	@Test
-	fun configNotSet_throws() {
-		expect {
-			LevelBasedArgsRangeDecider().decideArgsRange(ordered.of(1, 2))
-		}.toThrow<UninitializedPropertyAccessException> {
-			messageToContain("property config")
+	val categorizedMaxArgsLevels = CategorizedMaxArgsLevels.create(
+		MaxArgsCategory.entries.associate { category ->
+			category.name to MaxArgsLevels.create(MaxArgsLevel.entries.associate {
+				it.name to when (it) {
+					MaxArgsLevel.Local -> 2
+					MaxArgsLevel.PR -> 3
+					MaxArgsLevel.Main -> 5
+					MaxArgsLevel.Nightly -> 8
+					MaxArgsLevel.Release -> 10
+				}
+			})
 		}
-	}
+	)
 
 	@ParameterizedTest
-	@ArgsSource("activeLevelAndGeneratorSize")
+	@ArgsSource("categoryLevelAndGeneratorSize")
 	fun activeLevel_takeMatchesMaxArgsOfLevelUnlessArgsGeneratorSizeIsSmaller(
-		activeLevel: Int,
+		activeCategory: MaxArgsCategory,
+		activeLevel: MaxArgsLevel,
 		argsGeneratorSize: Int
 	) {
 		val customConfig = MinimalistConfig().copy(
-			activeMaxArgsLevel = activeLevel,
-			maxArgsLevels = MaxArgLevels(20, maxArgsLevels)
+			defaultMaxArgsLevelCategory = activeCategory.name,
+			activeMaxArgsLevel = activeLevel.name,
+			categorizedMaxArgsLevels = categorizedMaxArgsLevels
 		)
 		val ordered = createOrderedWithCustomConfig(customConfig)
 
@@ -45,20 +54,25 @@ class LevelBasedArgsRangeDeciderTest {
 		val config = argsGenerator._components.config
 		expect(config.seed).toEqual(customConfig.seed)
 
-		val argsRange = LevelBasedArgsRangeDecider().also { it.setConfig(customConfig) }.decideArgsRange(argsGenerator)
+		val argsRange = LevelBasedArgsRangeDecider().decide(argsGenerator)
 
 		expect(argsRange) {
 			feature(ArgsRange::offset).toEqual(config.seed)
-			feature(ArgsRange::take).toEqual(minOf(argsGeneratorSize, maxArgsLevels[activeLevel]!!))
+			feature(ArgsRange::take).toEqual(
+				minOf(
+					argsGeneratorSize,
+					categorizedMaxArgsLevels[activeCategory.name][activeLevel.name]
+				)
+			)
 		}
 	}
 
 	companion object {
-		val maxArgsLevels = mapOf(1 to 2, 2 to 3, 3 to 10)
 
 		@JvmStatic
-		fun activeLevelAndGeneratorSize() = Tuple(
-			ordered.fromRange(1..3),
+		fun categoryLevelAndGeneratorSize() = Tuple(
+			ordered.fromEnum<MaxArgsCategory>(),
+			ordered.fromEnum<MaxArgsLevel>(),
 			ordered.fromRange(1..11),
 		)
 	}

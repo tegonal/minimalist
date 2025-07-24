@@ -48,6 +48,12 @@ class LocalDateTimeRandomArgsGenerator(
 	LocalDateTime::plus
 )
 
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 class ZonedDateTimeRandomArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
 	from: ZonedDateTime,

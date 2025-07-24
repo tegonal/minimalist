@@ -66,4 +66,5 @@ fun throwUnsupportedArgsGenerator(argsGenerator: ArgsGenerator<*>): Nothing {
  */
 fun throwDontKnowHowToConvertToArgsGenerator(notAnArgsGenerator: Any?): Nothing {
 	val representation = notAnArgsGenerator?.let { it::class.qualifiedName } ?: "null"
-	throw UnsupportedOperationException("don't know how to convert $representation into an ArgsGenerator (note that you cannot mix generators and raw values), please open a feature request: ${FEATURE_REQUEST_URL}&title=Convert%20${representation}%20to%20ArgsGenerator")}
+	throw UnsupportedOperationException("don't know how to convert $representation into an ArgsGenerator (note that you cannot mix generators and raw values), please open a feature request: ${FEATURE_REQUEST_URL}&title=Convert%20${representation}%20to%20ArgsGenerator")
+}
