@@ -21,7 +21,6 @@ fun dontModifyNotice(place: String) =
 
 val numOfArgs = 10
 
-
 val generate: TaskProvider<Task> = tasks.register("generate") {
 
 	val dontModifyNotice =
@@ -56,19 +55,16 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 		val argsComponents = createStringBuilder(mainPackageName)
 
 		fun wrapIntoRepresentationIfFirst(num: Int) = if (num == 1) "?.let { r -> Representation(r) }" else ""
-		fun tupleType(arity: Int) = when (arity) {
-			2 -> "Pair"
-			3 -> "Triple"
-			else -> "Tuple$arity"
-		}
 
 		fun tupleTypeWithTypeArgs(arity: Int, tArgs: String) = when (arity) {
 			1 -> tArgs
-			else -> "${tupleType(arity)}<$tArgs>"
+			else -> "Tuple$arity<$tArgs>"
 		}
 
 		fun StringBuilder.importTupleTypes() =
 			append("import ch.tutteli.kbox.append\n")
+				.append("import ch.tutteli.kbox.Tuple2\n")
+				.append("import ch.tutteli.kbox.Tuple3\n")
 				.append("import ch.tutteli.kbox.Tuple4\n")
 				.append("import ch.tutteli.kbox.Tuple5\n")
 				.append("import ch.tutteli.kbox.Tuple6\n")
@@ -416,7 +412,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 								"""
 								|/**
 								| * Combines the [component1] [$className] with ${if (upperNumber < 3) "the [component2] [$otherClassName]" else "all other [$otherClassName] from left to right"}
-								| * resulting in a [$className] which generates [${tupleType(upperNumber)}].
+								| * resulting in a [$className] which generates [${"Tuple$upperNumber"}].
 								|${
 									if (className == "OrderedArgsGenerator") {
 										"""
@@ -428,11 +424,11 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 								}
 								| * @since 2.0.0
 								| */
-								|fun <$typeArgs> ${tupleType(upperNumber)}<
+								|fun <$typeArgs> ${"Tuple$upperNumber"}<
 								|	$className<A1>,
 								|	$argsGenerators
 								|>.combineAll(): $className<${tupleTypeWithTypeArgs(upperNumber, typeArgs)}> =
-								|	component1().combine(component2(), ::Pair)$combine3ToX
+								|	component1().combine(component2(), ::Tuple2)$combine3ToX
 								|
 								""".trimMargin()
 							)
@@ -514,7 +510,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 						"""
 						|/**
 						| * Combines `this` [${className}] with the given [other] [${className}] transforming the values
-						| * into a [${tupleType(upperNumberPlus1)}].
+						| * into a [${"Tuple$upperNumberPlus1"}].
 						| *
 						| * The resulting [OrderedArgsGenerator] generates
 						| * [this.size][OrderedArgsGenerator.size] * [other.size][OrderedArgsGenerator.size] values before repeating.
@@ -522,7 +518,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 						| * @param other The other [${className}] which generates values of type [A$upperNumberPlus1].
 						| *
 						| * @return The resulting [${className}] which generates values of type [${
-							tupleType(upperNumberPlus1)
+							"Tuple$upperNumberPlus1"
 						}].
 						| *
 						| * @since 2.0.0
@@ -531,7 +527,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 						|fun <$typeArgsPlus1> ${className}<$tupleX>.combine(
 						|	other: ${className}<A$upperNumberPlus1>
 						|): ${className}<$tupleXPlus1> = this.combine(other${
-							if (upperNumber == 1) ", ::Pair)"
+							if (upperNumber == 1) ", ::Tuple2)"
 							else """) { args, otherArg ->
 								|	args.append(otherArg)
 								|}""".trimMargin()
@@ -550,7 +546,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					| * @param other The other [${className}] which generates values of type [A$upperNumberPlus1].
 					| *
 					| * @return The resulting [${className}] which generates values of type [${
-							tupleType(upperNumberPlus1)
+							"Tuple$upperNumberPlus1"
 						}].
 					| *
 					| * @since 2.0.0
@@ -559,7 +555,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					|fun <$typeArgsPlus1> ${className}<$tupleX>.combine(
 					|	other: RandomArgsGenerator<A$upperNumberPlus1>
 					|): ${className}<$tupleXPlus1> = this.combine(other${
-							if (upperNumber == 1) ", ::Pair)"
+							if (upperNumber == 1) ", ::Tuple2)"
 							else """) { args, otherArg ->
 							|	args.append(otherArg)
 							|}""".trimMargin()

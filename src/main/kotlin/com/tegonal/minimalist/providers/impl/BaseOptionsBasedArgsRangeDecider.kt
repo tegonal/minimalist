@@ -1,5 +1,6 @@
 package com.tegonal.minimalist.providers.impl
 
+import ch.tutteli.kbox.letIf
 import com.tegonal.minimalist.config.ArgsRangeOptions
 import com.tegonal.minimalist.config.MinimalistConfig
 import com.tegonal.minimalist.config._components
@@ -70,14 +71,4 @@ abstract class BaseOptionsBasedArgsRangeDecider : ArgsRangeDecider {
 	private fun maybeGeneratorSize(argsGenerator: ArgsGenerator<*>): Int? =
 		(argsGenerator as? SemiOrderedArgsGenerator<*>)?.size
 
-}
-
-
-@OptIn(ExperimentalContracts::class)
-private inline fun <T> T.letIf(predicate: Boolean, block: (T) -> T): T {
-	contract {
-		callsInPlace(block, InvocationKind.AT_MOST_ONCE)
-		//TODO add predicate holds in block once we use Kotlin 2.2.20
-	}
-	return if (predicate) this.let(block) else this
 }
