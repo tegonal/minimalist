@@ -1,3 +1,4 @@
+import ch.tutteli.kbox.Tuple
 import ch.tutteli.kbox.append
 import ch.tutteli.kbox.joinToString as joinToStringAndLast
 
@@ -31,6 +32,12 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 
 	doFirst {
 		val packageDir = File(generationFolder.asPath + "/" + mainPackageNameAsPath)
+		fun StringBuilder.writeToFile(fileName: String) {
+			val file = packageDir.resolve(fileName)
+			file.parentFile.mkdirs()
+			file.writeText(this.toString())
+		}
+
 
 		val argsInterface = createStringBuilder(mainPackageName)
 			.append(
@@ -73,11 +80,11 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 				.append("import ch.tutteli.kbox.Tuple9\n")
 
 		val semiOrderedArgsLikeGeneratorCombine = listOf(
-			"orderedArgsGeneratorCombineGenerated" to "OrderedArgsGenerator",
-			"semiOrderedArgsGeneratorCombineGenerated" to "SemiOrderedArgsGenerator"
+			Tuple("orderedCombineGenerated", "OrderedCombineKt", "OrderedArgsGenerator"),
+			Tuple("semiOrderedCombineGenerated", "SemiOrderedCombineKt", "SemiOrderedArgsGenerator")
 		).map {
 			it.append(
-				StringBuilder("@file:JvmName(\"${it.second}CombineKt\")\n@file:JvmMultifileClass\n")
+				StringBuilder("@file:JvmName(\"${it.second}\")\n@file:JvmMultifileClass\n")
 					.append(dontModifyNotice)
 					.append("package ").append(mainPackageName).append(".generators").append("\n\n")
 					.importTupleTypes()
@@ -85,12 +92,12 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 			)
 		}
 
-		val randomArgsLikeGeneratorCombine = listOf(
-			"randomArgsGeneratorCombineGenerated" to "RandomArgsGenerator",
-			"semiOrderedWithRandomArgsGeneratorCombine" to "SemiOrderedArgsGenerator"
+		val arbCombine = listOf(
+			Tuple("arbCombineGenerated", "ArbCombineKt", "ArbArgsGenerator"),
+			Tuple("semiOrderedWithArbCombine", "SemiOrderedCombineKt", "SemiOrderedArgsGenerator")
 		).map {
 			it.append(
-				StringBuilder("@file:JvmName(\"${it.second}CombineKt\")\n@file:JvmMultifileClass\n")
+				StringBuilder("@file:JvmName(\"${it.second}\")\n@file:JvmMultifileClass\n")
 					.append(dontModifyNotice)
 					.append("package ").append(mainPackageName).append(".generators").append("\n\n")
 					.importTupleTypes()
@@ -401,7 +408,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					val combine3ToX = (if (upperNumber > 3) "\n\t\t" else "") +
 						(3..upperNumber).joinToString("\n\t\t") { ".combine(component$it()) { args, a$it -> args.append(a$it) }" }
 					semiOrderedArgsLikeGeneratorCombine
-						.forEach { (_, className, sb) ->
+						.forEach { (_, _, className, sb) ->
 							val otherClassName = if (className == "OrderedArgsGenerator") className else "ArgsGenerator"
 							val argsGenerators = (2..upperNumber).joinToString(",\n\t") { "$otherClassName<A$it>" }
 
@@ -437,12 +444,10 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 			}
 
 			argsInterfaces.append("}\n")
-			val argsFile = packageDir.resolve("Args$upperNumber.kt")
-			argsFile.writeText(argsInterfaces.toString())
+			argsInterfaces.writeToFile("Args$upperNumber.kt")
 
 			defaultArgs.append("}\n")
-			val defaultArgsFile = packageDir.resolve("impl/DefaultArgs$upperNumber.kt")
-			defaultArgsFile.writeText(defaultArgs.toString())
+			defaultArgs.writeToFile("impl/DefaultArgs$upperNumber.kt")
 
 			val parameters = numbers.joinToString(",\n\t\t\t") { "a$it: A$it" }
 			val representationParameters = numbers.joinToString(",\n\t\t\t") {
@@ -505,7 +510,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 				val tupleX = tupleTypeWithTypeArgs(upperNumber, typeArgs)
 				val tupleXPlus1 = tupleTypeWithTypeArgs(upperNumberPlus1, typeArgsPlus1)
 
-				semiOrderedArgsLikeGeneratorCombine.forEach { (_, className, sb) ->
+				semiOrderedArgsLikeGeneratorCombine.forEach { (_, _, className, sb) ->
 					sb.append(
 						"""
 						|/**
@@ -536,7 +541,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					).appendLine()
 				}
 
-				randomArgsLikeGeneratorCombine.forEach { (_, className, sb) ->
+				arbCombine.forEach { (_, _, className, sb) ->
 
 					sb.append(
 						"""
@@ -553,7 +558,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					| */
 					|@JvmName("combineToTuple${upperNumberPlus1}")
 					|fun <$typeArgsPlus1> ${className}<$tupleX>.combine(
-					|	other: RandomArgsGenerator<A$upperNumberPlus1>
+					|	other: ArbArgsGenerator<A$upperNumberPlus1>
 					|): ${className}<$tupleXPlus1> = this.combine(other${
 							if (upperNumber == 1) ", ::Tuple2)"
 							else """) { args, otherArg ->
@@ -573,20 +578,15 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 			""".trimMargin()
 		)
 
-		val argsInterfaceFile = packageDir.resolve("Args.kt")
-		argsInterfaceFile.writeText(argsInterface.toString())
+		argsInterface.writeToFile("Args.kt")
+		argsComponents.writeToFile("argsComponents.kt")
 
-		val argsComponentFile = packageDir.resolve("argsComponents.kt")
-		argsComponentFile.writeText(argsComponents.toString())
-
-		semiOrderedArgsLikeGeneratorCombine.forEach { (fileName, _, sb) ->
-			val file = packageDir.resolve("generators/$fileName.kt")
-			file.writeText(sb.toString())
+		semiOrderedArgsLikeGeneratorCombine.forEach { (fileName,_, _, sb) ->
+			sb.writeToFile("generators/$fileName.kt")
 		}
 
-		randomArgsLikeGeneratorCombine.forEach { (fileName, _, sb) ->
-			val file = packageDir.resolve("generators/$fileName.kt")
-			file.writeText(sb.toString())
+		arbCombine.forEach { (fileName, _, _, sb) ->
+			sb.writeToFile("generators/$fileName.kt")
 		}
 	}
 }
@@ -673,6 +673,11 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 		).appendLine()
 
 		val packageDir = File(generationTestFolder.asPath + "/" + mainPackageNameAsPath)
+		fun StringBuilder.writeToFile(fileName: String) {
+			val file = packageDir.resolve(fileName)
+			file.parentFile.mkdirs()
+			file.writeText(this.toString())
+		}
 
 		fun wrapIntoRepresentationIfFirst(arg: String, num: Int) = if (num == 1) "Representation($arg)" else arg
 
@@ -708,8 +713,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 					""".trimMargin()
 				).appendLine()
 			}
-			val argsExpectationsFile = packageDir.resolve("atrium/args${upperNumber}Expectations.kt")
-			argsExpectationsFile.writeText(argsExpectations.toString())
+			argsExpectations.writeToFile("atrium/args${upperNumber}Expectations.kt")
 
 			if (upperNumber > 1) {
 				val dropTest = createStringBuilder("$mainPackageName.arguments.drop")
@@ -759,8 +763,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 				}
 
 				dropTest.append("}")
-				val dropTestFile = packageDir.resolve("arguments/drop/Args${upperNumber}DropTest.kt")
-				dropTestFile.writeText(dropTest.toString())
+				dropTest.writeToFile("arguments/drop/Args${upperNumber}DropTest.kt")
 
 				val withArgTest = createStringBuilder("$mainPackageName.arguments.withArg")
 					.appendTest("Args${upperNumber}WithArgTest")
@@ -922,12 +925,10 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 				}
 
 				withArgTest.append("}")
-				val withArgTestFile = packageDir.resolve("arguments/withArg/Args${upperNumber}WithArgTest.kt")
-				withArgTestFile.writeText(withArgTest.toString())
+				withArgTest.writeToFile("arguments/withArg/Args${upperNumber}WithArgTest.kt")
 
 				mapArgTest.append("}")
-				val mapArgTestFile = packageDir.resolve("arguments/mapArg/Args${upperNumber}MapArgTest.kt")
-				mapArgTestFile.writeText(mapArgTest.toString())
+				mapArgTest.writeToFile("arguments/mapArg/Args${upperNumber}MapArgTest.kt")
 			}
 
 			val argumentsTest = createStringBuilder("$mainPackageName.arguments.annotation")
@@ -1002,8 +1003,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 				""".trimMargin()
 			).appendLine()
 			argumentsTest.append("}")
-			val argumentsTestFile = packageDir.resolve("arguments/annotation/Args${upperNumber}ArgumentsTest.kt")
-			argumentsTestFile.writeText(argumentsTest.toString())
+			argumentsTest.writeToFile("arguments/annotation/Args${upperNumber}ArgumentsTest.kt")
 
 			if (upperNumber < numOfArgs) {
 				val appendTest = createStringBuilder("${mainPackageName}.arguments.append")
@@ -1059,8 +1059,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 
 
 				appendTest.append("}")
-				val appendTestFile = packageDir.resolve("arguments/append/Args${upperNumber}AppendTest.kt")
-				appendTestFile.writeText(appendTest.toString())
+				appendTest.writeToFile("arguments/append/Args${upperNumber}AppendTest.kt")
 			}
 
 			val argsComponentTest = createStringBuilder("$mainPackageName.arguments.components")
@@ -1093,9 +1092,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 			}
 
 			argsComponentTest.append("}")
-			val argsComponentTestFile =
-				packageDir.resolve("arguments/components/Args${upperNumber}ComponentsTest.kt")
-			argsComponentTestFile.writeText(argsComponentTest.toString())
+			argsComponentTest.writeToFile("arguments/components/Args${upperNumber}ComponentsTest.kt")
 		}
 	}
 }
@@ -1149,6 +1146,11 @@ val generateTestJava: TaskProvider<Task> = tasks.register("generateTestJava") {
 		).appendLine()
 
 		val packageDir = File(generationTestFolderJava.asPath + "/" + mainPackageNameAsPath + "/java")
+		fun StringBuilder.writeToFile(fileName: String) {
+			val file = packageDir.resolve(fileName)
+			file.parentFile.mkdirs()
+			file.writeText(this.toString())
+		}
 
 		fun wrapIntoRepresentationIfFirst(arg: String, num: Int) = if (num == 1) "new Representation($arg)" else arg
 
@@ -1205,9 +1207,7 @@ val generateTestJava: TaskProvider<Task> = tasks.register("generateTestJava") {
 				}
 
 				dropTest.append("}")
-				val dropTestFile = packageDir.resolve("arguments/drop/Args${upperNumber}DropTest.java")
-				dropTestFile.writeText(dropTest.toString())
-
+				dropTest.writeToFile("arguments/drop/Args${upperNumber}DropTest.java")
 
 				val withArgTest = createStringBuilder("$packageName.arguments.withArg;")
 					.appendTest("Args${upperNumber}WithArgTest")
@@ -1369,12 +1369,10 @@ val generateTestJava: TaskProvider<Task> = tasks.register("generateTestJava") {
 				}
 
 				withArgTest.append("}")
-				val withArgTestFile = packageDir.resolve("arguments/withArg/Args${upperNumber}WithArgTest.java")
-				withArgTestFile.writeText(withArgTest.toString())
+				withArgTest.writeToFile("arguments/withArg/Args${upperNumber}WithArgTest.java")
 
 				mapArgTest.append("}")
-				val mapArgTestFile = packageDir.resolve("arguments/mapArg/Args${upperNumber}MapArgTest.java")
-				mapArgTestFile.writeText(mapArgTest.toString())
+				mapArgTest.writeToFile("arguments/mapArg/Args${upperNumber}MapArgTest.java")
 			}
 			val argumentsTest = createStringBuilder("$packageName.arguments.annotation;")
 				.appendTest("Args${upperNumber}ArgumentsTest")
@@ -1489,8 +1487,7 @@ val generateTestJava: TaskProvider<Task> = tasks.register("generateTestJava") {
 				""".trimMargin()
 			).appendLine()
 			argumentsTest.append("}")
-			val argumentsTestFile = packageDir.resolve("arguments/annotation/Args${upperNumber}ArgumentsTest.java")
-			argumentsTestFile.writeText(argumentsTest.toString())
+			argumentsTest.writeToFile("arguments/annotation/Args${upperNumber}ArgumentsTest.java")
 
 			if (upperNumber < numOfArgs) {
 				val appendTest = createStringBuilder("${packageName}.arguments.append;")
@@ -1543,10 +1540,8 @@ val generateTestJava: TaskProvider<Task> = tasks.register("generateTestJava") {
 
 
 				appendTest.append("}")
-				val appendTestFile = packageDir.resolve("arguments/append/Args${upperNumber}AppendTest.java")
-				appendTestFile.writeText(appendTest.toString())
+				appendTest.writeToFile("arguments/append/Args${upperNumber}AppendTest.java")
 			}
-
 		}
 	}
 }
@@ -1556,4 +1551,9 @@ tasks.register("generateAll") {
 	dependsOn(generate)
 	dependsOn(generateTest)
 	dependsOn(generateTestJava)
+}
+
+private fun StringBuilder.writeToFile(file: File) {
+	file.parentFile.mkdirs()
+	file.writeText(this.toString())
 }

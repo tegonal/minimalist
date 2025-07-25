@@ -3,7 +3,7 @@ package com.tegonal.minimalist.providers.impl
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.build
 import com.tegonal.minimalist.generators.ArgsGenerator
-import com.tegonal.minimalist.generators.RandomArgsGenerator
+import com.tegonal.minimalist.generators.ArbArgsGenerator
 import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
 import com.tegonal.minimalist.generators.impl.throwUnsupportedArgsGenerator
 import com.tegonal.minimalist.providers.AnnotationData
@@ -26,7 +26,7 @@ class DefaultArgsGeneratorToArgumentsConverter : ArgsGeneratorToArgumentsConvert
 	): Sequence<Arguments> {
 		val argsRange = decideArgsRange(annotationData, argsGenerator)
 		val sequenceOfList = when (argsGenerator) {
-			is RandomArgsGenerator<List<*>> -> argsGenerator.generate().take(argsRange.take)
+			is ArbArgsGenerator<List<*>> -> argsGenerator.generate().take(argsRange.take)
 			is SemiOrderedArgsGenerator<List<*>> -> argsGenerator.generate(argsRange.offset).take(argsRange.take)
 			else -> throwUnsupportedArgsGenerator(argsGenerator)
 		}

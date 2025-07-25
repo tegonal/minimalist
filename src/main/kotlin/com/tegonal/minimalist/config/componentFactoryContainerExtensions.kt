@@ -4,9 +4,9 @@ import com.tegonal.minimalist.config.impl.DefaultComponentFactoryContainer
 import com.tegonal.minimalist.config.impl.KotlinRandomFactory
 import com.tegonal.minimalist.config.impl.createSingletonVia
 import com.tegonal.minimalist.generators.OrderedExtensionPoint
-import com.tegonal.minimalist.generators.RandomExtensionPoint
+import com.tegonal.minimalist.generators.ArbExtensionPoint
 import com.tegonal.minimalist.generators.impl.DefaultOrderedExtensionPoint
-import com.tegonal.minimalist.generators.impl.DefaultRandomExtensionPoint
+import com.tegonal.minimalist.generators.impl.DefaultArbExtensionPoint
 import com.tegonal.minimalist.providers.AnnotationDataDeducer
 import com.tegonal.minimalist.providers.ArgsGeneratorToArgumentsConverter
 import com.tegonal.minimalist.providers.ArgsRangeDecider
@@ -26,7 +26,7 @@ fun ComponentFactoryContainer.Companion.createBasedOnConfig(config: MinimalistCo
 	ComponentFactoryContainer.create(
 		mapOf(
 			OrderedExtensionPoint::class createSingletonVia { c -> DefaultOrderedExtensionPoint(c) },
-			RandomExtensionPoint::class createSingletonVia { c -> DefaultRandomExtensionPoint(c) },
+			ArbExtensionPoint::class createSingletonVia { c -> DefaultArbExtensionPoint(c) },
 
 			MinimalistConfig::class createSingletonVia { config },
 			GenericToArgsGeneratorConverter::class createSingletonVia { _ ->
@@ -81,7 +81,7 @@ val ComponentFactoryContainer.ordered get() : OrderedExtensionPoint = build<Orde
  *
  * @since 2.0.0
  */
-val ComponentFactoryContainer.random get() : RandomExtensionPoint = build<RandomExtensionPoint>()
+val ComponentFactoryContainer.random get() : ArbExtensionPoint = build<ArbExtensionPoint>()
 
 
 /**

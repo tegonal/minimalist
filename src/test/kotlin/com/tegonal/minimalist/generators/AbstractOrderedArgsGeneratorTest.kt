@@ -17,7 +17,7 @@ abstract class AbstractOrderedArgsGeneratorWithoutAnnotationsTest : AbstractArgs
 	val modifiedOrdered: OrderedExtensionPoint = DefaultOrderedExtensionPoint(customComponentFactoryContainer)
 
 	protected fun <T> canAlwaysTakeTheDesiredAmountTest(factory: () -> OrderedArgsTestFactoryResult<T>) =
-		super.canAlwaysTakeTheDesiredAmountTest(factory) { it.generate(random._components.config.seed) }
+		super.canAlwaysTakeTheDesiredAmountTest(factory) { it.generate(ordered._components.config.seed) }
 
 	protected fun <T> coversAllCasesTest(factory: () -> OrderedArgsTestFactoryResult<T>) =
 		testFactory(factory) { generator, expectedValues, _ ->

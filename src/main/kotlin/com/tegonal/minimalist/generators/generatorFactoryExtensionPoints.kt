@@ -11,11 +11,11 @@ import com.tegonal.minimalist.config.impl.MinimalistConfigViaPropertiesLoader
 interface OrderedExtensionPoint : IsComponentFactoryContainerProvider
 
 /**
- * Extension point for factories which generate [RandomArgsGenerator].
+ * Extension point for factories which generate [ArbArgsGenerator].
  *
  * @since 2.0.0
  */
-interface RandomExtensionPoint : IsComponentFactoryContainerProvider
+interface ArbExtensionPoint : IsComponentFactoryContainerProvider
 
 /**
  * @since 2.0.0
@@ -33,8 +33,8 @@ private val propertiesBasedComponentFactoryContainer: ComponentFactoryContainer 
 val ordered: OrderedExtensionPoint = propertiesBasedComponentFactoryContainer.ordered
 
 /**
- * Access to [RandomArgsGenerator] factory methods like [random].[of][RandomExtensionPoint.of].
+ * Access to [ArbArgsGenerator] factory methods like [arb].[of][ArbExtensionPoint.of].
  *
  * @since 2.0.0
  */
-val random: RandomExtensionPoint = propertiesBasedComponentFactoryContainer.random
+val arb: ArbExtensionPoint = propertiesBasedComponentFactoryContainer.random

@@ -112,12 +112,12 @@ class ArgsGeneratorToArgumentsConverterTest {
 	@ParameterizedTest
 	@ValueSource(ints = [1, 2, 4, 9, 15])
 	fun randomOnly(numOfGenerators: Int) {
-		val firstList = random.fromRange(0 until 10).map { mutableListOf(it) }
+		val firstList = arb.fromRange(0 until 10).map { mutableListOf(it) }
 
 		val combinations = testee.toArguments(
 			requestedAtLeastArgs1000,
 			(1 until numOfGenerators).fold(firstList) { generator, from ->
-				generator.combine(random.fromRange(from * 10 until from * 10 + 10)) { list, num ->
+				generator.combine(arb.fromRange(from * 10 until from * 10 + 10)) { list, num ->
 					list.also { it.add(num) }
 				}
 			}
@@ -151,10 +151,10 @@ class ArgsGeneratorToArgumentsConverterTest {
 	fun randomOnlyDependent() {
 		val now = LocalDate.now()
 		val lastDayOfYear = now.with(TemporalAdjusters.lastDayOfYear())
-		val startDates = random.localDateFromUntil(now, lastDayOfYear)
+		val startDates = arb.localDateFromUntil(now, lastDayOfYear)
 
 		val startAndEndDates = startDates.combineDependent { startDate ->
-			random.localDateFromUntil(startDate, startDate.plusYears(1))
+			arb.localDateFromUntil(startDate, startDate.plusYears(1))
 		}.map { listOf(it) }
 
 		val combinations = testee.toArguments(requestedAtLeastArgs1000, startAndEndDates).toList()
