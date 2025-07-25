@@ -27,7 +27,7 @@ import ch.tutteli.kbox.Tuple9
  */
 @JvmName("combineToTuple2")
 fun <A1, A2> SemiOrderedArgsGenerator<A1>.combine(
-	other: RandomArgsGenerator<A2>
+	other: ArbArgsGenerator<A2>
 ): SemiOrderedArgsGenerator<Tuple2<A1, A2>> = this.combine(other, ::Tuple2)
 
 /**
@@ -41,7 +41,7 @@ fun <A1, A2> SemiOrderedArgsGenerator<A1>.combine(
  */
 @JvmName("combineToTuple3")
 fun <A1, A2, A3> SemiOrderedArgsGenerator<Tuple2<A1, A2>>.combine(
-	other: RandomArgsGenerator<A3>
+	other: ArbArgsGenerator<A3>
 ): SemiOrderedArgsGenerator<Tuple3<A1, A2, A3>> = this.combine(other) { args, otherArg ->
 	args.append(otherArg)
 }
@@ -57,7 +57,7 @@ fun <A1, A2, A3> SemiOrderedArgsGenerator<Tuple2<A1, A2>>.combine(
  */
 @JvmName("combineToTuple4")
 fun <A1, A2, A3, A4> SemiOrderedArgsGenerator<Tuple3<A1, A2, A3>>.combine(
-	other: RandomArgsGenerator<A4>
+	other: ArbArgsGenerator<A4>
 ): SemiOrderedArgsGenerator<Tuple4<A1, A2, A3, A4>> = this.combine(other) { args, otherArg ->
 	args.append(otherArg)
 }
@@ -73,7 +73,7 @@ fun <A1, A2, A3, A4> SemiOrderedArgsGenerator<Tuple3<A1, A2, A3>>.combine(
  */
 @JvmName("combineToTuple5")
 fun <A1, A2, A3, A4, A5> SemiOrderedArgsGenerator<Tuple4<A1, A2, A3, A4>>.combine(
-	other: RandomArgsGenerator<A5>
+	other: ArbArgsGenerator<A5>
 ): SemiOrderedArgsGenerator<Tuple5<A1, A2, A3, A4, A5>> = this.combine(other) { args, otherArg ->
 	args.append(otherArg)
 }
@@ -89,7 +89,7 @@ fun <A1, A2, A3, A4, A5> SemiOrderedArgsGenerator<Tuple4<A1, A2, A3, A4>>.combin
  */
 @JvmName("combineToTuple6")
 fun <A1, A2, A3, A4, A5, A6> SemiOrderedArgsGenerator<Tuple5<A1, A2, A3, A4, A5>>.combine(
-	other: RandomArgsGenerator<A6>
+	other: ArbArgsGenerator<A6>
 ): SemiOrderedArgsGenerator<Tuple6<A1, A2, A3, A4, A5, A6>> = this.combine(other) { args, otherArg ->
 	args.append(otherArg)
 }
@@ -105,7 +105,7 @@ fun <A1, A2, A3, A4, A5, A6> SemiOrderedArgsGenerator<Tuple5<A1, A2, A3, A4, A5>
  */
 @JvmName("combineToTuple7")
 fun <A1, A2, A3, A4, A5, A6, A7> SemiOrderedArgsGenerator<Tuple6<A1, A2, A3, A4, A5, A6>>.combine(
-	other: RandomArgsGenerator<A7>
+	other: ArbArgsGenerator<A7>
 ): SemiOrderedArgsGenerator<Tuple7<A1, A2, A3, A4, A5, A6, A7>> = this.combine(other) { args, otherArg ->
 	args.append(otherArg)
 }
@@ -121,7 +121,7 @@ fun <A1, A2, A3, A4, A5, A6, A7> SemiOrderedArgsGenerator<Tuple6<A1, A2, A3, A4,
  */
 @JvmName("combineToTuple8")
 fun <A1, A2, A3, A4, A5, A6, A7, A8> SemiOrderedArgsGenerator<Tuple7<A1, A2, A3, A4, A5, A6, A7>>.combine(
-	other: RandomArgsGenerator<A8>
+	other: ArbArgsGenerator<A8>
 ): SemiOrderedArgsGenerator<Tuple8<A1, A2, A3, A4, A5, A6, A7, A8>> = this.combine(other) { args, otherArg ->
 	args.append(otherArg)
 }
@@ -137,7 +137,7 @@ fun <A1, A2, A3, A4, A5, A6, A7, A8> SemiOrderedArgsGenerator<Tuple7<A1, A2, A3,
  */
 @JvmName("combineToTuple9")
 fun <A1, A2, A3, A4, A5, A6, A7, A8, A9> SemiOrderedArgsGenerator<Tuple8<A1, A2, A3, A4, A5, A6, A7, A8>>.combine(
-	other: RandomArgsGenerator<A9>
+	other: ArbArgsGenerator<A9>
 ): SemiOrderedArgsGenerator<Tuple9<A1, A2, A3, A4, A5, A6, A7, A8, A9>> = this.combine(other) { args, otherArg ->
 	args.append(otherArg)
 }

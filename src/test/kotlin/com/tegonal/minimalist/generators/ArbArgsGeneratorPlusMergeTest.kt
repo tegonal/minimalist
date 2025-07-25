@@ -6,16 +6,16 @@ import ch.tutteli.kbox.Tuple
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.build
 import com.tegonal.minimalist.providers.ArgsRangeDecider
-import com.tegonal.minimalist.testutils.PseudoRandomArgsGenerator
+import com.tegonal.minimalist.testutils.PseudoArbArgsGenerator
 import com.tegonal.minimalist.testutils.anyToList
 import com.tegonal.minimalist.testutils.getTestValue
 import com.tegonal.minimalist.testutils.withMockedRandom
 import com.tegonal.minimalist.utils.repeatForever
 import kotlin.test.Test
 
-class RandomArgsGeneratorPlusMergeTest : AbstractRandomArgsGeneratorMergeTwoTest() {
+class ArbArgsGeneratorPlusMergeTest : AbstractArbArgsGeneratorMergeTwoTest() {
 
-	override fun createGenerators(): RandomArgsTestFactoryResult<Any> {
+	override fun createGenerators(): ArbArgsTestFactoryResult<Any> {
 		val g1Variants = variants(0)
 		val g2Variants = variants(1)
 
@@ -40,8 +40,8 @@ class RandomArgsGeneratorPlusMergeTest : AbstractRandomArgsGeneratorMergeTwoTest
 		val s1 = sequenceOf(10, 11, 12, 13)
 		val s2 = sequenceOf(20, 21, 22)
 
-		val g1 = PseudoRandomArgsGenerator(s1, random._components.withMockedRandom(ints = (1..100).toList()))
-		val g2 = PseudoRandomArgsGenerator(s2)
+		val g1 = PseudoArbArgsGenerator(s1, arb._components.withMockedRandom(ints = (1..100).toList()))
+		val g2 = PseudoArbArgsGenerator(s2)
 
 		val merged = g1 + g2
 

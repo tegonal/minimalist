@@ -51,21 +51,21 @@ abstract class AbstractOrderedArgsGeneratorCombinerTest {
 
 		@JvmStatic
 		fun numOfIntAndChars() = Tuple(
-			random.intFromUntil(1, 15),
-			random.intFromUntil(1, 7)
+			arb.intFromUntil(1, 15),
+			arb.intFromUntil(1, 7)
 		)
 
 		@JvmStatic
 		fun numOfIntCharsAndStrings() = Tuple(
-			random.intFromUntil(1, 5),
-			random.intFromUntil(1, 7),
-			random.intFromUntil(1, 6)
+			arb.intFromUntil(1, 5),
+			arb.intFromUntil(1, 7),
+			arb.intFromUntil(1, 6)
 		)
 
 		@JvmStatic
-		fun dynamicNumOfGeneratorsAndValues(): RandomArgsGenerator<List<Int>> =
-			random.intFromUntil(3, 7).map { numOfGenerators ->
-				random.intFromUntil(1, 7 - (numOfGenerators / 2)).generate().take(numOfGenerators).toList()
+		fun dynamicNumOfGeneratorsAndValues(): ArbArgsGenerator<List<Int>> =
+			arb.intFromUntil(3, 7).map { numOfGenerators ->
+				arb.intFromUntil(1, 7 - (numOfGenerators / 2)).generate().take(numOfGenerators).toList()
 			}
 	}
 }

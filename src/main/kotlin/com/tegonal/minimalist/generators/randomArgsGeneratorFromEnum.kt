@@ -3,7 +3,7 @@
 package com.tegonal.minimalist.generators
 
 import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.generators.impl.ArrayRandomArgsGenerator
+import com.tegonal.minimalist.generators.impl.ArrayArbArgsGenerator
 
 /**
  * Returns an [OrderedArgsGenerator] for the given Enum of type [E].
@@ -13,5 +13,5 @@ import com.tegonal.minimalist.generators.impl.ArrayRandomArgsGenerator
  *
  * @since 2.0.0
  */
-inline fun <reified E : Enum<E>> RandomExtensionPoint.fromEnum(): RandomArgsGenerator<E> =
-	ArrayRandomArgsGenerator(_components, enumValues<E>())
+inline fun <reified E : Enum<E>> ArbExtensionPoint.fromEnum(): ArbArgsGenerator<E> =
+	ArrayArbArgsGenerator(_components, enumValues<E>())

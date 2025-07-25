@@ -3,87 +3,87 @@
 package com.tegonal.minimalist.generators
 
 import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.generators.impl.ArrayRandomArgsGenerator
-import com.tegonal.minimalist.generators.impl.IntRangeBasedRandomArgsGenerator
+import com.tegonal.minimalist.generators.impl.ArrayArbArgsGenerator
+import com.tegonal.minimalist.generators.impl.IntRangeBasedArbArgsGenerator
 
 /**
- * Returns an [RandomArgsGenerator] based on the given [args].
+ * Returns an [ArbArgsGenerator] based on the given [args].
  *
- * @return an [RandomArgsGenerator] based on the given [args].
+ * @return an [ArbArgsGenerator] based on the given [args].
  * @since 2.0.0
  */
-fun RandomExtensionPoint.fromArray(args: ByteArray): RandomArgsGenerator<Byte> =
-	IntRangeBasedRandomArgsGenerator(_components, 0, args.size) { args[it] }
+fun ArbExtensionPoint.fromArray(args: ByteArray): ArbArgsGenerator<Byte> =
+	IntRangeBasedArbArgsGenerator(_components, 0, args.size) { args[it] }
 
 /**
- * Returns an [RandomArgsGenerator] based on the given [args].
+ * Returns an [ArbArgsGenerator] based on the given [args].
  *
- * @return an [RandomArgsGenerator] based on the given [args].
+ * @return an [ArbArgsGenerator] based on the given [args].
  * @since 2.0.0
  */
-fun RandomExtensionPoint.fromArray(args: CharArray): RandomArgsGenerator<Char> =
-	IntRangeBasedRandomArgsGenerator(_components, 0, args.size) { args[it] }
+fun ArbExtensionPoint.fromArray(args: CharArray): ArbArgsGenerator<Char> =
+	IntRangeBasedArbArgsGenerator(_components, 0, args.size) { args[it] }
 
 
 /**
- * Returns an [RandomArgsGenerator] based on the given [args].
+ * Returns an [ArbArgsGenerator] based on the given [args].
  *
- * @return an [RandomArgsGenerator] based on the given [args].
+ * @return an [ArbArgsGenerator] based on the given [args].
  * @since 2.0.0
  */
-fun RandomExtensionPoint.fromArray(args: ShortArray): RandomArgsGenerator<Short> =
-	IntRangeBasedRandomArgsGenerator(_components, 0, args.size) { args[it] }
+fun ArbExtensionPoint.fromArray(args: ShortArray): ArbArgsGenerator<Short> =
+	IntRangeBasedArbArgsGenerator(_components, 0, args.size) { args[it] }
 
 /**
- * Returns an [RandomArgsGenerator] based on the given [args].
+ * Returns an [ArbArgsGenerator] based on the given [args].
  *
- * @return an [RandomArgsGenerator] based on the given [args].
+ * @return an [ArbArgsGenerator] based on the given [args].
  * @since 2.0.0
  */
-fun RandomExtensionPoint.fromArray(args: IntArray): RandomArgsGenerator<Int> =
-	IntRangeBasedRandomArgsGenerator(_components, 0, args.size) { args[it] }
+fun ArbExtensionPoint.fromArray(args: IntArray): ArbArgsGenerator<Int> =
+	IntRangeBasedArbArgsGenerator(_components, 0, args.size) { args[it] }
 
 /**
- * Returns an [RandomArgsGenerator] based on the given [args].
+ * Returns an [ArbArgsGenerator] based on the given [args].
  *
- * @return an [RandomArgsGenerator] based on the given [args].
+ * @return an [ArbArgsGenerator] based on the given [args].
  * @since 2.0.0
  */
-fun RandomExtensionPoint.fromArray(args: LongArray): RandomArgsGenerator<Long> =
-	IntRangeBasedRandomArgsGenerator(_components, 0, args.size) { args[it] }
+fun ArbExtensionPoint.fromArray(args: LongArray): ArbArgsGenerator<Long> =
+	IntRangeBasedArbArgsGenerator(_components, 0, args.size) { args[it] }
 
 /**
- * Returns an [RandomArgsGenerator] based on the given [args].
+ * Returns an [ArbArgsGenerator] based on the given [args].
  *
- * @return an [RandomArgsGenerator] based on the given [args].
+ * @return an [ArbArgsGenerator] based on the given [args].
  * @since 2.0.0
  */
-fun RandomExtensionPoint.fromArray(args: FloatArray): RandomArgsGenerator<Float> =
-	IntRangeBasedRandomArgsGenerator(_components, 0, args.size) { args[it] }
+fun ArbExtensionPoint.fromArray(args: FloatArray): ArbArgsGenerator<Float> =
+	IntRangeBasedArbArgsGenerator(_components, 0, args.size) { args[it] }
 
 /**
- * Returns an [RandomArgsGenerator] based on the given [args].
+ * Returns an [ArbArgsGenerator] based on the given [args].
  *
- * @return an [RandomArgsGenerator] based on the given [args].
+ * @return an [ArbArgsGenerator] based on the given [args].
  * @since 2.0.0
  */
-fun RandomExtensionPoint.fromArray(args: DoubleArray): RandomArgsGenerator<Double> =
-	IntRangeBasedRandomArgsGenerator(_components, 0, args.size) { args[it] }
+fun ArbExtensionPoint.fromArray(args: DoubleArray): ArbArgsGenerator<Double> =
+	IntRangeBasedArbArgsGenerator(_components, 0, args.size) { args[it] }
 
 /**
- * Returns an [RandomArgsGenerator] based on the given [args].
+ * Returns an [ArbArgsGenerator] based on the given [args].
  *
- * @return an [RandomArgsGenerator] based on the given [args].
+ * @return an [ArbArgsGenerator] based on the given [args].
  * @since 2.0.0
  */
-fun RandomExtensionPoint.fromArray(args: BooleanArray): RandomArgsGenerator<Boolean> =
-	IntRangeBasedRandomArgsGenerator(_components, 0, args.size) { args[it] }
+fun ArbExtensionPoint.fromArray(args: BooleanArray): ArbArgsGenerator<Boolean> =
+	IntRangeBasedArbArgsGenerator(_components, 0, args.size) { args[it] }
 
 /**
- * Returns an [RandomArgsGenerator] based on the given [args].
+ * Returns an [ArbArgsGenerator] based on the given [args].
  *
- * @return an [RandomArgsGenerator] based on the given [args].
+ * @return an [ArbArgsGenerator] based on the given [args].
  * @since 2.0.0
  */
-fun <A1> RandomExtensionPoint.fromArray(args: Array<out A1>): RandomArgsGenerator<A1> =
-	ArrayRandomArgsGenerator(_components, args)
+fun <A1> ArbExtensionPoint.fromArray(args: Array<out A1>): ArbArgsGenerator<A1> =
+	ArrayArbArgsGenerator(_components, args)

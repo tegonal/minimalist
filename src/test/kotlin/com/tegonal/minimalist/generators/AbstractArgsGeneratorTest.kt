@@ -28,7 +28,7 @@ abstract class AbstractArgsGeneratorTest {
 		testResult.mapIndexed { index, (name, generator, expectedValues) ->
 			{
 				describe("[$index] $name") {
-					random.fromRange(1..500).generate().take(10).forEach { take ->
+					arb.fromRange(1..500).generate().take(10).forEach { take ->
 						it("take $take") {
 							givenTestFactory(generator, expectedValues, take)
 						}

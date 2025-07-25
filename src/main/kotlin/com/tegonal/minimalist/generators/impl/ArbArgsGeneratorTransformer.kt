@@ -1,6 +1,6 @@
 package com.tegonal.minimalist.generators.impl
 
-import com.tegonal.minimalist.generators.RandomArgsGenerator
+import com.tegonal.minimalist.generators.ArbArgsGenerator
 import com.tegonal.minimalist.config._components
 
 /**
@@ -9,10 +9,10 @@ import com.tegonal.minimalist.config._components
  *
  * @since 2.0.0
  */
-class RandomArgsGeneratorTransformer<T, R>(
-	private val baseGenerator: RandomArgsGenerator<T>,
+class ArbArgsGeneratorTransformer<T, R>(
+	private val baseGenerator: ArbArgsGenerator<T>,
 	private val transformation: (Sequence<T>) -> Sequence<R>
-) : BaseRandomArgsGenerator<R>(baseGenerator._components) {
+) : BaseArbArgsGenerator<R>(baseGenerator._components) {
 
 	override fun generate(): Sequence<R> = baseGenerator.generate().let(transformation)
 }

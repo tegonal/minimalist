@@ -4,39 +4,39 @@ package com.tegonal.minimalist.generators
 
 import ch.tutteli.kbox.identity
 import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.generators.impl.DoubleRangeRandomArgsGenerator
-import com.tegonal.minimalist.generators.impl.IntRangeRandomArgsGenerator
-import com.tegonal.minimalist.generators.impl.LongRangeRandomArgsGenerator
+import com.tegonal.minimalist.generators.impl.DoubleRangeArbArgsGenerator
+import com.tegonal.minimalist.generators.impl.IntRangeArbArgsGenerator
+import com.tegonal.minimalist.generators.impl.LongRangeArbArgsGenerator
 
 /**
- * Returns an [RandomArgsGenerator] which generates [Int]s ranging [from] (inclusive) to [toExclusive].
+ * Returns an [ArbArgsGenerator] which generates [Int]s ranging [from] (inclusive) to [toExclusive].
  *
- * @return an [RandomArgsGenerator]  which generates [Int]s ranging [from] (inclusive) to [toExclusive].
+ * @return an [ArbArgsGenerator]  which generates [Int]s ranging [from] (inclusive) to [toExclusive].
  * @since 2.0.0
  */
-fun RandomExtensionPoint.intFromUntil(
+fun ArbExtensionPoint.intFromUntil(
 	from: Int,
 	toExclusive: Int,
-): RandomArgsGenerator<Int> = IntRangeRandomArgsGenerator(_components, from, toExclusive, ::identity)
+): ArbArgsGenerator<Int> = IntRangeArbArgsGenerator(_components, from, toExclusive, ::identity)
 
 /**
- * Returns an [RandomArgsGenerator] which generates [Long]s ranging [from] (inclusive) to [toExclusive].
+ * Returns an [ArbArgsGenerator] which generates [Long]s ranging [from] (inclusive) to [toExclusive].
  *
- * @return an [RandomArgsGenerator]  which generates [Long]s ranging [from] (inclusive) to [toExclusive].
+ * @return an [ArbArgsGenerator]  which generates [Long]s ranging [from] (inclusive) to [toExclusive].
  * @since 2.0.0
  */
-fun RandomExtensionPoint.longFromUntil(
+fun ArbExtensionPoint.longFromUntil(
 	from: Long,
 	toExclusive: Long,
-): RandomArgsGenerator<Long> = LongRangeRandomArgsGenerator(_components, from, toExclusive, ::identity)
+): ArbArgsGenerator<Long> = LongRangeArbArgsGenerator(_components, from, toExclusive, ::identity)
 
 /**
- * Returns an [RandomArgsGenerator] which generates [Double]s ranging [from] (inclusive) to [toExclusive].
+ * Returns an [ArbArgsGenerator] which generates [Double]s ranging [from] (inclusive) to [toExclusive].
  *
- * @return an [RandomArgsGenerator]  which generates [Double]s ranging [from] (inclusive) to [toExclusive].
+ * @return an [ArbArgsGenerator]  which generates [Double]s ranging [from] (inclusive) to [toExclusive].
  * @since 2.0.0
  */
-fun RandomExtensionPoint.doubleFromUntil(
+fun ArbExtensionPoint.doubleFromUntil(
 	from: Double,
 	toExclusive: Double,
-): RandomArgsGenerator<Double> = DoubleRangeRandomArgsGenerator(_components, from, toExclusive, ::identity)
+): ArbArgsGenerator<Double> = DoubleRangeArbArgsGenerator(_components, from, toExclusive, ::identity)

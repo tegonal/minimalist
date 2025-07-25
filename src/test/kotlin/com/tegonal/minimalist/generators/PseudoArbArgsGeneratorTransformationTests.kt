@@ -4,12 +4,11 @@ import ch.tutteli.atrium.api.fluent.en_GB.toContainExactlyElementsOf
 import ch.tutteli.atrium.api.verbs.expect
 import com.tegonal.minimalist.Args
 import com.tegonal.minimalist.Args2
-import com.tegonal.minimalist.testutils.PseudoRandomArgsGenerator
-import com.tegonal.minimalist.utils.impl.RepeatingListSequence
+import com.tegonal.minimalist.testutils.PseudoArbArgsGenerator
 import com.tegonal.minimalist.utils.repeatForever
 import kotlin.test.Test
 
-class PseudoRandomArgsGeneratorTransformationTests {
+class PseudoArbArgsGeneratorTransformationTests {
 
 	// Note, this test relies on implementation details and is thus fragile. E.g. it is undefined how two
 	// RandomArgsGenerator are combined, since the result is random the combination is random. We use
@@ -19,7 +18,7 @@ class PseudoRandomArgsGeneratorTransformationTests {
 	fun combine() {
 		val a1s = sequenceOf(1, 2, 3, 4)
 		val a2s = sequenceOf('a', 'b', 'c', 'd')
-		val generator = PseudoRandomArgsGenerator(a1s).combine(PseudoRandomArgsGenerator(a2s))
+		val generator = PseudoArbArgsGenerator(a1s).combine(PseudoArbArgsGenerator(a2s))
 		val expected = a1s.zip(a2s)
 		val oneCombined = expected.take(1).toList()
 		val fourCombined = expected.take(4).toList()
@@ -36,7 +35,7 @@ class PseudoRandomArgsGeneratorTransformationTests {
 		val f: (Int, Char) -> Args2<Int, Char> = { a1, a2 -> Args.of(a1, a2) }
 		val a1s = sequenceOf(1, 2, 3, 4)
 		val a2s = sequenceOf('a', 'b', 'c', 'd')
-		val generator = PseudoRandomArgsGenerator(a1s).combine(PseudoRandomArgsGenerator(a2s), f)
+		val generator = PseudoArbArgsGenerator(a1s).combine(PseudoArbArgsGenerator(a2s), f)
 		val expected = a1s.zip(a2s, f)
 		val oneCombined = expected.take(1).toList()
 		val fourCombined = expected.take(4).toList()
@@ -52,8 +51,8 @@ class PseudoRandomArgsGeneratorTransformationTests {
 	fun combineDependent() {
 		val a1s = sequenceOf(1, 2, 3, 4)
 		val a2s = sequenceOf('a', 'b', 'c', 'd')
-		val generator = PseudoRandomArgsGenerator(a1s).combineDependent { int ->
-            PseudoRandomArgsGenerator(a2s.map { char -> char + int })
+		val generator = PseudoArbArgsGenerator(a1s).combineDependent { int ->
+            PseudoArbArgsGenerator(a2s.map { char -> char + int })
 		}
 
 		// note, we expect 'b' to 'e' for a2 because of an implementation detail, we know that combineDependent just
@@ -75,7 +74,7 @@ class PseudoRandomArgsGeneratorTransformationTests {
 	fun map() {
 		val f: (Int) -> Int = { it + 1 }
 		val a1s = sequenceOf(1, 2, 3, 4)
-		val generator = PseudoRandomArgsGenerator(a1s).map(f)
+		val generator = PseudoArbArgsGenerator(a1s).map(f)
 
 		val expected = a1s.map(f)
 		val take1 = expected.take(1).toList()
@@ -91,7 +90,7 @@ class PseudoRandomArgsGeneratorTransformationTests {
 	@Test
 	fun filter() {
 		val a1s = sequenceOf(1, 2, 3, 4)
-		val generator = PseudoRandomArgsGenerator(a1s).filter { it % 2 == 0 }
+		val generator = PseudoArbArgsGenerator(a1s).filter { it % 2 == 0 }
 
 		val expected = repeatForever((2 until 5 step 2).toList(), 0)
 		expect(generator.generateToList(1)).toContainExactlyElementsOf(expected.take(1).toList())
@@ -104,7 +103,7 @@ class PseudoRandomArgsGeneratorTransformationTests {
 	@Test
 	fun filterNot() {
 		val a1s = sequenceOf(1, 2, 3, 4)
-		val generator = PseudoRandomArgsGenerator(a1s).filterNot { it % 2 == 0 }
+		val generator = PseudoArbArgsGenerator(a1s).filterNot { it % 2 == 0 }
 
 		val expected = repeatForever((1 until 5 step 2).toList(), 0)
 		expect(generator.generateToList(1)).toContainExactlyElementsOf(expected.take(1).toList())
@@ -117,7 +116,7 @@ class PseudoRandomArgsGeneratorTransformationTests {
 	@Test
 	fun transform() {
 		val a1s = sequenceOf(1, 2)
-		val generator = PseudoRandomArgsGenerator(a1s).transform { seq ->
+		val generator = PseudoArbArgsGenerator(a1s).transform { seq ->
 			seq.flatMap { sequenceOf('a' + it, 'A' + it) }
 		}
 
@@ -129,5 +128,5 @@ class PseudoRandomArgsGeneratorTransformationTests {
 		expect(generator.generateToList(5)).toContainExactlyElementsOf(expected.take(5).toList())
 	}
 
-	fun <T> RandomArgsGenerator<T>.generateToList(amount: Int): List<T> = generate().take(amount).toList()
+	fun <T> ArbArgsGenerator<T>.generateToList(amount: Int): List<T> = generate().take(amount).toList()
 }

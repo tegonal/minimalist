@@ -4,12 +4,12 @@ package com.tegonal.minimalist.generators
 
 
 /**
- * Returns an [RandomArgsGenerator] generating [Char]s based on the given [progression].
+ * Returns an [ArbArgsGenerator] generating [Char]s based on the given [progression].
  *
- * @return an [RandomArgsGenerator] based on the given [progression].
+ * @return an [ArbArgsGenerator] based on the given [progression].
  * @since 2.0.0
  */
-fun RandomExtensionPoint.fromProgression(progression: CharProgression): RandomArgsGenerator<Char> =
+fun ArbExtensionPoint.fromProgression(progression: CharProgression): ArbArgsGenerator<Char> =
 	fromList(progression.toList())
 
 
@@ -18,20 +18,20 @@ fun RandomExtensionPoint.fromProgression(progression: CharProgression): RandomAr
 //  require to materialise the progression, I guess something like random.intFromUntil + modulo would be
 //  more efficient
 /**
- * Returns an [RandomArgsGenerator] generating [Int]s based on the given [progression].
+ * Returns an [ArbArgsGenerator] generating [Int]s based on the given [progression].
  *
- * @return an [RandomArgsGenerator] based on the given [progression].
+ * @return an [ArbArgsGenerator] based on the given [progression].
  * @since 2.0.0
  */
-fun RandomExtensionPoint.fromProgression(progression: IntProgression): RandomArgsGenerator<Int> =
+fun ArbExtensionPoint.fromProgression(progression: IntProgression): ArbArgsGenerator<Int> =
 	fromList(progression.toList())
 
 /**
- * Returns an [RandomArgsGenerator] generating [Long]s based on the given [progression].
+ * Returns an [ArbArgsGenerator] generating [Long]s based on the given [progression].
  *
- * @return an [RandomArgsGenerator] based on the given [progression].
+ * @return an [ArbArgsGenerator] based on the given [progression].
  * @since 2.0.0
  */
-fun RandomExtensionPoint.fromProgression(progression: LongProgression): RandomArgsGenerator<Long> =
+fun ArbExtensionPoint.fromProgression(progression: LongProgression): ArbArgsGenerator<Long> =
 	fromList(progression.toList())
 

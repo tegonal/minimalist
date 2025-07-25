@@ -16,12 +16,12 @@ import kotlin.random.Random
  *
  * @since 2.0.0
  */
-class LocalDateRandomArgsGenerator(
+class LocalDateArbArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
 	from: LocalDate,
 	toExclusive: LocalDate,
 	temporalUnit: TemporalUnit = ChronoUnit.DAYS,
-) : TemporalRangeRandomArgsGenerator<LocalDate>(
+) : TemporalRangeArbArgsGenerator<LocalDate>(
 	componentFactoryContainer,
 	from,
 	toExclusive,
@@ -35,12 +35,12 @@ class LocalDateRandomArgsGenerator(
  *
  * @since 2.0.0
  */
-class LocalDateTimeRandomArgsGenerator(
+class LocalDateTimeArbArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
 	from: LocalDateTime,
 	toExclusive: LocalDateTime,
 	temporalUnit: TemporalUnit = ChronoUnit.DAYS,
-) : TemporalRangeRandomArgsGenerator<LocalDateTime>(
+) : TemporalRangeArbArgsGenerator<LocalDateTime>(
 	componentFactoryContainer,
 	from,
 	toExclusive,
@@ -54,12 +54,12 @@ class LocalDateTimeRandomArgsGenerator(
  *
  * @since 2.0.0
  */
-class ZonedDateTimeRandomArgsGenerator(
+class ZonedDateTimeArbArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
 	from: ZonedDateTime,
 	toExclusive: ZonedDateTime,
 	temporalUnit: TemporalUnit = ChronoUnit.DAYS,
-) : TemporalRangeRandomArgsGenerator<ZonedDateTime>(
+) : TemporalRangeArbArgsGenerator<ZonedDateTime>(
 	componentFactoryContainer,
 	from,
 	toExclusive,
@@ -73,13 +73,13 @@ class ZonedDateTimeRandomArgsGenerator(
  *
  * @since 2.0.0
  */
-abstract class TemporalRangeRandomArgsGenerator<T>(
+abstract class TemporalRangeArbArgsGenerator<T>(
 	componentFactoryContainer: ComponentFactoryContainer,
 	from: T,
 	toExclusive: T,
 	private val temporalUnit: TemporalUnit = ChronoUnit.DAYS,
 	private val plusTyped: T.(Long, TemporalUnit) -> T,
-) : RangeBasedRandomArgsGenerator<T, T>(
+) : RangeBasedArbArgsGenerator<T, T>(
 	componentFactoryContainer,
 	from,
 	toExclusive,

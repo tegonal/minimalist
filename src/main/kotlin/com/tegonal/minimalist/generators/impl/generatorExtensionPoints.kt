@@ -3,7 +3,7 @@ package com.tegonal.minimalist.generators.impl
 import com.tegonal.minimalist.config.ComponentFactoryContainer
 import com.tegonal.minimalist.config.ComponentFactoryContainerProvider
 import com.tegonal.minimalist.generators.OrderedExtensionPoint
-import com.tegonal.minimalist.generators.RandomExtensionPoint
+import com.tegonal.minimalist.generators.ArbExtensionPoint
 
 /**
  * !! No backward compatibility guarantees !!
@@ -21,6 +21,6 @@ class DefaultOrderedExtensionPoint(
  *
  * @since 2.0.0
  */
-class DefaultRandomExtensionPoint(
+class DefaultArbExtensionPoint(
 	override val componentFactoryContainer: ComponentFactoryContainer
-) : RandomExtensionPoint, ComponentFactoryContainerProvider
+) : ArbExtensionPoint, ComponentFactoryContainerProvider

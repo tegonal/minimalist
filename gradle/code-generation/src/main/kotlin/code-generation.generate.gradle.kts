@@ -85,9 +85,9 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 			)
 		}
 
-		val randomArgsLikeGeneratorCombine = listOf(
-			"randomArgsGeneratorCombineGenerated" to "RandomArgsGenerator",
-			"semiOrderedWithRandomArgsGeneratorCombine" to "SemiOrderedArgsGenerator"
+		val arbArgsGeneratorArgsLikeGeneratorCombine = listOf(
+			"arbArgsGeneratorArgsGeneratorCombineGenerated" to "ArbArgsGeneratorArgsGenerator",
+			"semiOrderedWithArbArgsGeneratorArgsGeneratorCombine" to "SemiOrderedArgsGenerator"
 		).map {
 			it.append(
 				StringBuilder("@file:JvmName(\"${it.second}CombineKt\")\n@file:JvmMultifileClass\n")
@@ -536,7 +536,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					).appendLine()
 				}
 
-				randomArgsLikeGeneratorCombine.forEach { (_, className, sb) ->
+				arbArgsGeneratorArgsLikeGeneratorCombine.forEach { (_, className, sb) ->
 
 					sb.append(
 						"""
@@ -553,7 +553,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					| */
 					|@JvmName("combineToTuple${upperNumberPlus1}")
 					|fun <$typeArgsPlus1> ${className}<$tupleX>.combine(
-					|	other: RandomArgsGenerator<A$upperNumberPlus1>
+					|	other: ArbArgsGeneratorArgsGenerator<A$upperNumberPlus1>
 					|): ${className}<$tupleXPlus1> = this.combine(other${
 							if (upperNumber == 1) ", ::Tuple2)"
 							else """) { args, otherArg ->
@@ -584,7 +584,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 			file.writeText(sb.toString())
 		}
 
-		randomArgsLikeGeneratorCombine.forEach { (fileName, _, sb) ->
+		arbArgsGeneratorArgsLikeGeneratorCombine.forEach { (fileName, _, sb) ->
 			val file = packageDir.resolve("generators/$fileName.kt")
 			file.writeText(sb.toString())
 		}

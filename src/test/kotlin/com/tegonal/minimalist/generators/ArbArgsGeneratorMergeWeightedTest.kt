@@ -8,23 +8,23 @@ import ch.tutteli.kbox.append
 import ch.tutteli.kbox.toVararg
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.providers.ArgsSource
-import com.tegonal.minimalist.testutils.PseudoRandomArgsGenerator
+import com.tegonal.minimalist.testutils.PseudoArbArgsGenerator
 import com.tegonal.minimalist.testutils.withMockedRandom
 import com.tegonal.minimalist.utils.createMinimalistRandom
 import com.tegonal.minimalist.utils.repeatForever
 import org.junit.jupiter.params.ParameterizedTest
 
-class RandomArgsGeneratorMergeWeightedTest {
+class ArbArgsGeneratorMergeWeightedTest {
 
     @ParameterizedTest
     @ArgsSource("weights")
     fun `check weights are correct`(weights: List<Int>) {
-        val g1 = PseudoRandomArgsGenerator(
+        val g1 = PseudoArbArgsGenerator(
             (0..9).asSequence(),
-            random._components.withMockedRandom(ints = (1..100).toList())
+            arb._components.withMockedRandom(ints = (1..100).toList())
         )
         val (secondWithWeights, othersWithWeights) = weights.drop(1).mapIndexed { index, weight ->
-            weight to PseudoRandomArgsGenerator((0..9).asSequence().map { it + (index + 1) * 10 })
+            weight to PseudoArbArgsGenerator((0..9).asSequence().map { it + (index + 1) * 10 })
         }.toVararg()
 
         val merged = mergeWeighted(weights.first() to g1, secondWithWeights, *othersWithWeights)
@@ -46,9 +46,9 @@ class RandomArgsGeneratorMergeWeightedTest {
     @ParameterizedTest
     @ArgsSource("invalidWeight")
     fun invalidWeights(weight: Int) {
-        val g1 = random.intFromUntil(1, 10)
-        val g2 = random.intFromUntil(20, 30)
-        val g3 = random.intFromUntil(40, 50)
+        val g1 = arb.intFromUntil(1, 10)
+        val g2 = arb.intFromUntil(20, 30)
+        val g3 = arb.intFromUntil(40, 50)
 
         expect {
             mergeWeighted(weight to g1, 50 to g2)
@@ -71,8 +71,8 @@ class RandomArgsGeneratorMergeWeightedTest {
     @ParameterizedTest
     @ArgsSource("invalidTotalWeight2")
     fun `invalid total weights in case of 2`(weight1: Int, weight2: Int) {
-        val g1 = random.intFromUntil(1, 10)
-        val g2 = random.intFromUntil(20, 30)
+        val g1 = arb.intFromUntil(1, 10)
+        val g2 = arb.intFromUntil(20, 30)
 
         expect {
             mergeWeighted(weight1 to g1, weight2 to g2)
@@ -84,9 +84,9 @@ class RandomArgsGeneratorMergeWeightedTest {
     @ParameterizedTest
     @ArgsSource("invalidTotalWeight3")
     fun `invalid total weights in case of 3`(weight1: Int, weight2: Int, weight3: Int) {
-        val g1 = random.intFromUntil(1, 10)
-        val g2 = random.intFromUntil(20, 30)
-        val g3 = random.intFromUntil(40, 50)
+        val g1 = arb.intFromUntil(1, 10)
+        val g2 = arb.intFromUntil(20, 30)
+        val g3 = arb.intFromUntil(40, 50)
 
         expect {
             mergeWeighted(weight1 to g1, weight2 to g2, weight3 to g3)
@@ -98,7 +98,7 @@ class RandomArgsGeneratorMergeWeightedTest {
     companion object {
         @JvmStatic
         fun weights() = createMinimalistRandom().let { minimalistRandom ->
-            random.intFromUntil(1, 10).map { numOfGenerators ->
+            arb.intFromUntil(1, 10).map { numOfGenerators ->
                 mutableListOf<Int>().also { weights ->
                     val cumulativeWeight = (0..numOfGenerators - 1).fold(0) { cumulativeWeight, index ->
                         val remainingWeight = 99 - numOfGenerators + index - cumulativeWeight
@@ -115,33 +115,33 @@ class RandomArgsGeneratorMergeWeightedTest {
         }
 
         @JvmStatic
-        fun invalidWeight() = random.intFromUntil(Int.MIN_VALUE, 1) + random.intFromUntil(100, Int.MAX_VALUE)
+        fun invalidWeight() = arb.intFromUntil(Int.MIN_VALUE, 1) + arb.intFromUntil(100, Int.MAX_VALUE)
 
         @JvmStatic
-        fun invalidTotalWeight2() = random.intFromUntil(1, 98).combineDependent {
-            if (it == 98) random.of(1)
-            else random.intFromUntil(1, 99 - it)
-        } + random.intFromUntil(2, 99).combineDependent {
+        fun invalidTotalWeight2() = arb.intFromUntil(1, 98).combineDependent {
+            if (it == 98) arb.of(1)
+            else arb.intFromUntil(1, 99 - it)
+        } + arb.intFromUntil(2, 99).combineDependent {
             val from = 100 - it + 1
-            if (from == 99) random.of(from) else random.intFromUntil(from, 99)
+            if (from == 99) arb.of(from) else arb.intFromUntil(from, 99)
         }
 
         @JvmStatic
         fun invalidTotalWeight3() = run {
-            random.intFromUntil(1, 97).combineDependent {
-                if (it == 97) random.of(1)
-                else random.intFromUntil(1, 98 - it)
+            arb.intFromUntil(1, 97).combineDependent {
+                if (it == 97) arb.of(1)
+                else arb.intFromUntil(1, 98 - it)
             }.combineDependent({ (a, b) ->
                 val total = a + b
-                if (total == 98) random.of(1)
-                else random.intFromUntil(1, 99 - total)
+                if (total == 98) arb.of(1)
+                else arb.intFromUntil(1, 99 - total)
             }) { p, a3 -> p.append(a3) }
         } + run {
-            random.intFromUntil(1, 99).combineDependent {
-                random.intFromUntil(1, 99)
+            arb.intFromUntil(1, 99).combineDependent {
+                arb.intFromUntil(1, 99)
             }.combineDependent({ (a, b) ->
                 val total = a + b
-                random.intFromUntil(maxOf(1, 100 - total + 1), 99)
+                arb.intFromUntil(maxOf(1, 100 - total + 1), 99)
             }) { p, a3 -> p.append(a3) }
         }
     }

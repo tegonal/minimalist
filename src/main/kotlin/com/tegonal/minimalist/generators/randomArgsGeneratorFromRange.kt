@@ -3,29 +3,29 @@
 package com.tegonal.minimalist.generators
 
 /**
- * Returns an [RandomArgsGenerator] generating [Char]s based on the given [args].
+ * Returns an [ArbArgsGenerator] generating [Char]s based on the given [args].
  *
- * @return an [RandomArgsGenerator] based on the given [args].
+ * @return an [ArbArgsGenerator] based on the given [args].
  * @since 2.0.0
  */
-fun RandomExtensionPoint.fromRange(args: CharRange): RandomArgsGenerator<Char> =
+fun ArbExtensionPoint.fromRange(args: CharRange): ArbArgsGenerator<Char> =
 	fromProgression(args)
 
 /**
- * Returns an [RandomArgsGenerator] generating [Char]s based on the given [args].
+ * Returns an [ArbArgsGenerator] generating [Char]s based on the given [args].
  *
- * @return an [RandomArgsGenerator] based on the given [args].
+ * @return an [ArbArgsGenerator] based on the given [args].
  * @since 2.0.0
  */
-fun RandomExtensionPoint.fromRange(args: IntRange): RandomArgsGenerator<Int> =
+fun ArbExtensionPoint.fromRange(args: IntRange): ArbArgsGenerator<Int> =
 	fromProgression(args)
 
 /**
- * Returns an [RandomArgsGenerator] generating [Char]s based on the given [args].
+ * Returns an [ArbArgsGenerator] generating [Char]s based on the given [args].
  *
- * @return an [RandomArgsGenerator] based on the given [args].
+ * @return an [ArbArgsGenerator] based on the given [args].
  * @since 2.0.0
  */
-fun RandomExtensionPoint.fromRange(args: LongRange): RandomArgsGenerator<Long> =
+fun ArbExtensionPoint.fromRange(args: LongRange): ArbArgsGenerator<Long> =
 	fromProgression(args)
 

@@ -2,14 +2,14 @@ package com.tegonal.minimalist.generators
 
 import ch.tutteli.kbox.Tuple
 
-class RandomArgsGeneratorTransformationTests : AbstractRandomArgsGeneratorTest<Int>() {
+class ArbArgsGeneratorTransformationTests : AbstractArbArgsGeneratorTest<Int>() {
 
 	// see PseudoRandomArgsGeneratorTransformationTests for tests about combine
 
 	override fun createGenerators() =
 		listOf(1, 2, 3, 4).let { l ->
 			val mapFun: (Int) -> Int = { it + 1 }
-			val generator = modifiedRandom.fromList(l)
+			val generator = modifiedArb.fromList(l)
 			sequenceOf(
 				Tuple("map", generator.map(mapFun), l.map(mapFun)),
 				Tuple(

@@ -7,17 +7,18 @@ import com.tegonal.minimalist.providers.ArgsRangeDecider
 import com.tegonal.minimalist.testutils.anyToList
 import com.tegonal.minimalist.testutils.getTestValue
 
-class RandomArgsGeneratorMergeWeightedTwoTest : AbstractRandomArgsGeneratorMergeTwoTest() {
+class ArbArgsGeneratorMergeWeightedThreeTest : AbstractArbArgsGeneratorMergeTwoTest() {
 
-	override fun createGenerators(): RandomArgsTestFactoryResult<Any> {
+	override fun createGenerators(): ArbArgsTestFactoryResult<Any> {
 		val g1Variants = variants(0)
 		val g2Variants = variants(1)
 
 		val combined = g1Variants.combine(g2Variants) { (name1, g1), (name2, g2) ->
+			val l = listOf(888_888, 999_999)
 			Tuple(
-				"$name1, $name2",
-				mergeWeighted(40 to g1, 60 to g2),
-				anyToList(getTestValue(name1, 0)) + anyToList(getTestValue(name2, 1))
+				"$name1, $name2, fromList",
+				mergeWeighted(40 to g1, 50 to g2, 10 to arb.fromList(l)),
+				anyToList(getTestValue(name1, 0)) + anyToList(getTestValue(name2, 1)) + l
 			)
 		}
 
@@ -29,4 +30,3 @@ class RandomArgsGeneratorMergeWeightedTwoTest : AbstractRandomArgsGeneratorMerge
 		return combined.generateAndTake(argsRange)
 	}
 }
-

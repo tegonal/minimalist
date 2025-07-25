@@ -1,7 +1,7 @@
 package com.tegonal.minimalist.generators.impl
 
 import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.generators.RandomArgsGenerator
+import com.tegonal.minimalist.generators.ArbArgsGenerator
 
 /**
  * !! No backward compatibility guarantees !!
@@ -9,15 +9,15 @@ import com.tegonal.minimalist.generators.RandomArgsGenerator
  *
  * @since 2.0.0
  */
-class RandomArgsGeneratorMerger<T>(
-	a1GeneratorWithWeight: Pair<Int, RandomArgsGenerator<T>>,
-	a2GeneratorWithWeight: Pair<Int, RandomArgsGenerator<T>>,
-) : BaseRandomArgsGenerator<T>(
+class ArbArgsGeneratorMerger<T>(
+	a1GeneratorWithWeight: Pair<Int, ArbArgsGenerator<T>>,
+	a2GeneratorWithWeight: Pair<Int, ArbArgsGenerator<T>>,
+) : BaseArbArgsGenerator<T>(
 	// note, we don't (and cannot) check that a1Generator and a2Generator use the same ComponentContainer,
 	// should you run into weird behaviour (such as one generator uses seed X and the other seed Y) then most likely
 	// someone used to different initial factories
 	a1GeneratorWithWeight.second._components,
-), RandomArgsGenerator<T> {
+), ArbArgsGenerator<T> {
 
 	private val a1Generator = a1GeneratorWithWeight.second
 	private val a2Generator = a2GeneratorWithWeight.second
@@ -64,17 +64,17 @@ private fun validateTotalWeights(vararg weights: Int) =
  *
  * @since 2.0.0
  */
-class MultiRandomArgsGeneratorIndexOfMerger<T>(
-	firstGeneratorWithWeight: Pair<Int, RandomArgsGenerator<T>>,
-	secondGeneratorWithWeight: Pair<Int, RandomArgsGenerator<T>>,
-	otherGeneratorsWithWeight: Array<out Pair<Int, RandomArgsGenerator<T>>>,
-) : BaseRandomArgsGenerator<T>(
+class MultiArbArgsGeneratorIndexOfMerger<T>(
+	firstGeneratorWithWeight: Pair<Int, ArbArgsGenerator<T>>,
+	secondGeneratorWithWeight: Pair<Int, ArbArgsGenerator<T>>,
+	otherGeneratorsWithWeight: Array<out Pair<Int, ArbArgsGenerator<T>>>,
+) : BaseArbArgsGenerator<T>(
 	// note, we don't (and cannot) check that a1Generator and a2Generator use the same ComponentContainer,
 	// should you run into weird behaviour (such as one generator uses seed X and the other seed Y) then most likely
 	// someone used to different initial factories
 	firstGeneratorWithWeight.second._components,
-), RandomArgsGenerator<T> {
-	private val generators: Array<RandomArgsGenerator<T>>
+), ArbArgsGenerator<T> {
+	private val generators: Array<ArbArgsGenerator<T>>
 	private val cumulativeWeights: Array<Int>
 
 	init {

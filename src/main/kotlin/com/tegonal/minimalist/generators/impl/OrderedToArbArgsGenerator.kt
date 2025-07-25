@@ -9,7 +9,7 @@ import com.tegonal.minimalist.config._components
  *
  * @since 2.0.0
  */
-class OrderedToRandomArgsGenerator<T>(private val orderedArgsGenerator: OrderedArgsGenerator<T>) :
-	IntRangeBasedRandomArgsGenerator<T>(orderedArgsGenerator._components, 0, orderedArgsGenerator.size, { offset ->
+class OrderedToArbArgsGenerator<T>(private val orderedArgsGenerator: OrderedArgsGenerator<T>) :
+	IntRangeBasedArbArgsGenerator<T>(orderedArgsGenerator._components, 0, orderedArgsGenerator.size, { offset ->
 		orderedArgsGenerator.generate(offset).first()
 	})
