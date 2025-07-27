@@ -35,7 +35,7 @@ class ArgsGeneratorToArgumentsConverterTest {
 
 		val orderedWithRange0To100 = ComponentFactoryContainer.createBasedOnConfig(
 			// neither the config setting...
-			MinimalistConfig().copy(argsRangeOptions = ArgsRangeOptions(atMostArgs = 500))
+			MinimalistConfig().copy { atMostArgs = 500 }
 		).withMockedArgsRange(0, 1000).ordered
 
 		// ... nor the AnnotationData

@@ -22,6 +22,9 @@
 a library which helps you in setting up parameterized tests and prioritise them in case you don't have enough time 
 to execute all of them.
 
+Although it might resemble a property based testing library, its focus is on tests that take longer 
+(integration, e2e and system integration tests) and is more data-driven oriented.
+
 
 ---
 ❗ You are taking a *sneak peek* at the next version. It could be that some features you find on this page are not released yet.  
@@ -31,6 +34,7 @@ Please have a look at the README of the corresponding release/git tag. Latest ve
 
 **Table of Content**
 - [Installation](#installation)
+- [Code Documentation](#code-documentation)
 - [License](#license)
 
 
@@ -48,7 +52,7 @@ dependencies {
 }
 ```
 
-# Documentation
+# Code Documentation
 
 Code documentation can be found on github-pages: <https://tegonal.github.io/minimalist/latest#/kdoc>.
 
@@ -58,3 +62,4 @@ Minimalist is licensed under [European Union Public Licence 1.2](https://joinup.
 
 Minimalist is using
 - [junit-jupiter-params/junit-platform-commons](https://github.com/junit-team/junit5) licensed under [EPL 2.0](https://www.eclipse.org/legal/epl-v20.html)
+- [KBox](https://github.com/robstoll/kbox) licensed under [Apache 2.0](https://opensource.org/licenses/Apache2.0)

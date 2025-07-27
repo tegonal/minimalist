@@ -12,13 +12,13 @@ import com.tegonal.minimalist.providers.ArgsRange
  *
  * @since 2.0.0
  */
-class LevelBasedArgsRangeDecider() : BaseOptionsBasedArgsRangeDecider() {
+class ProfileBasedArgsRangeDecider() : BaseArgsRangeOptionsBasedArgsRangeDecider() {
 
 	override fun decideArgsRange(
-		category: String,
-		level: String,
+		profileName: String,
+		env: String,
 		argsGenerator: ArgsGenerator<*>
 	): ArgsRange = argsGenerator._components.config.let { config ->
-		ArgsRange(offset = config.seed, take = config.categorizedMaxArgsLevels[category][level])
+		ArgsRange(offset = config.seed, take = config.testProfiles.get(profileName, env).atMostArgs)
 	}
 }

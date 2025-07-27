@@ -66,4 +66,4 @@ interface ComponentFactoryContainer {
  *
  * Copied from [Atrium](https://atriumlib.org).
  */
-data class ComponentFactory(val build: (ComponentFactoryContainer) -> Any, val producesSingleton: Boolean)
+class ComponentFactory(val build: (ComponentFactoryContainer) -> Any, val producesSingleton: Boolean)

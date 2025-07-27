@@ -10,6 +10,12 @@ import java.lang.reflect.AnnotatedElement
 import java.lang.reflect.Method
 import kotlin.jvm.optionals.getOrNull
 
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 class DefaultAnnotationDataDeducer : AnnotationDataDeducer {
 
 	override fun deduce(

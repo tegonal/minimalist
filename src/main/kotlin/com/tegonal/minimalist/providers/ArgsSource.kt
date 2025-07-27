@@ -6,6 +6,7 @@ import org.intellij.lang.annotations.Language
 import org.junit.jupiter.params.provider.ArgumentsSource
 import java.lang.annotation.Inherited
 import com.tegonal.minimalist.config.MinimalistConfig
+import com.tegonal.minimalist.config.TestType
 
 /**
  *
@@ -40,6 +41,13 @@ annotation class ArgsSourceLike
 @Inherited
 annotation class ArgsSourceOptions(
 	/**
+	 * Taken into account if non-empty and will take precedence over [MinimalistConfig.defaultProfile].
+	 *
+	 * If you use the predefined [TestType]s as profile names, then use [TestType.ForAnnotation]
+	 */
+	val profile: String = "",
+
+	/**
 	 * Taken into account if > 0 and should influence an [ArgsRangeDecider]'s choice of [ArgsRange.take].
 	 */
 	val atMostArgs: Int = -1,
@@ -48,9 +56,4 @@ annotation class ArgsSourceOptions(
 	 * Taken into account if > 0 and should influence an [ArgsRangeDecider]'s choice of [ArgsRange.take].
 	 */
 	val requestedMinArgs: Int = -1,
-
-	/**
-	 * Taken into account if non-empty and will take precedence over [MinimalistConfig.defaultMaxArgsLevelCategory].
-	 */
-	val category: String = ""
 )

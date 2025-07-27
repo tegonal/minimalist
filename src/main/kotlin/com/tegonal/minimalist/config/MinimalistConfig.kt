@@ -1,15 +1,16 @@
 package com.tegonal.minimalist.config
 
+import com.tegonal.minimalist.config.impl.checkIsNotBlank
 import com.tegonal.minimalist.config.impl.failIfNegative
 import com.tegonal.minimalist.providers.AnnotationData
 import com.tegonal.minimalist.providers.ArgsRangeDecider
-import com.tegonal.minimalist.providers.impl.LevelBasedArgsRangeDecider
+import com.tegonal.minimalist.providers.impl.ProfileBasedArgsRangeDecider
 import kotlin.random.Random
 
 /**
  * @since 2.0.0
  */
-data class MinimalistConfig(
+class MinimalistConfig(
 	val seed: Int = Random.nextInt(0, Int.MAX_VALUE),
 
 	/**
@@ -24,41 +25,79 @@ data class MinimalistConfig(
 	 */
 	val argsRangeOptions: ArgsRangeOptions = ArgsRangeOptions(),
 
-	val activeArgsRangeDecider: String = LevelBasedArgsRangeDecider::class.qualifiedName ?: error(
+	val activeArgsRangeDecider: String = ProfileBasedArgsRangeDecider::class.qualifiedName ?: error(
 		"cannot determine qualified name of LevelBasedArgsRangeDecider "
 	),
 
 	/**
-	 * Defines which category (see [MaxArgsCategory] for predefined categories - you can also define own) is chosen
-	 * in case none is specified via [ArgsRangeOptions.category] (either in [argsRangeOptions] or in
-	 * [AnnotationData.argsRangeOptions])
+	 * Defines which test profile is chosen in case none is specified via [ArgsRangeOptions.profile]
+	 * (either in [argsRangeOptions] or in [AnnotationData.argsRangeOptions]).
+	 *
+	 * The chosen name should be configured in [testProfiles]
 	 */
-	val defaultMaxArgsLevelCategory: String = MaxArgsCategory.Integration.name,
+	val defaultProfile: String = TestType.Integration.name,
 
 	/**
-	 * Defines which level an [ArgsRangeDecider] shall consider.
+	 * Defines on which environment you want to run tests.
 	 */
-	val activeMaxArgsLevel: String = MaxArgsLevel.Local.name,
+	val activeEnv: String = Env.Local.name,
 
 	/**
-	 * Allows to define different categories (of tests) with different associated [MaxArgsLevels]
+	 * Allows to define different profiles with different associated [TestConfig] per env.
+	 *
+	 * You can use the predefined [TestType] as profile names and [Env] as environment name but
+	 * [TestProfiles] works on [String]s in the end, you can also choose your own names.
+	 *
 	 */
-	val categorizedMaxArgsLevels: CategorizedMaxArgsLevels = CategorizedMaxArgsLevels.create(
-		MaxArgsCategory.Unit to
-			MaxArgsLevels.create(
-				MaxArgsLevel.Local to 500,
-				MaxArgsLevel.PR to 1000,
-				MaxArgsLevel.Main to 2000,
-				MaxArgsLevel.Nightly to 5000,
-				MaxArgsLevel.Release to 3000,
+	val testProfiles: TestProfiles = TestProfiles.create(
+		TestType.Unit to
+			listOf(
+				Env.Local to TestConfig(atMostArgs = 100),
+				Env.PR to TestConfig(atMostArgs = 300),
+				Env.Main to TestConfig(atMostArgs = 500),
+				// we don't expect that Unit tests are run as part of a deployment
+				// Environment.DeployTest to 1000,
+				// Environment.DeployInt to 1500,
+				Env.NightlyTest to TestConfig(atMostArgs = 2000),
+				Env.NightlyInt to TestConfig(atMostArgs = 4000),
+				Env.HotfixPR to TestConfig(atMostArgs = 600),
+				Env.Hotfix to TestConfig(atMostArgs = 1000),
 			),
-		MaxArgsCategory.Integration to
-			MaxArgsLevels.create(
-				MaxArgsLevel.Local to 3,
-				MaxArgsLevel.PR to 10,
-				MaxArgsLevel.Main to 50,
-				MaxArgsLevel.Nightly to 150,
-				MaxArgsLevel.Release to 75,
+		TestType.Integration to
+			listOf(
+				Env.Local to TestConfig(atMostArgs = 5),
+				Env.PR to TestConfig(atMostArgs = 10),
+				Env.Main to TestConfig(atMostArgs = 30),
+				Env.DeployTest to TestConfig(atMostArgs = 60),
+				Env.DeployInt to TestConfig(atMostArgs = 80),
+				Env.NightlyTest to TestConfig(atMostArgs = 150),
+				Env.NightlyInt to TestConfig(atMostArgs = 200),
+				Env.HotfixPR to TestConfig(atMostArgs = 50),
+				Env.Hotfix to TestConfig(atMostArgs = 100),
+			),
+		TestType.E2E to
+			listOf(
+				Env.Local to TestConfig(atMostArgs = 3),
+				Env.PR to TestConfig(atMostArgs = 7),
+				Env.Main to TestConfig(atMostArgs = 10),
+				Env.DeployTest to TestConfig(atMostArgs = 20),
+				Env.DeployInt to TestConfig(atMostArgs = 30),
+				Env.NightlyTest to TestConfig(atMostArgs = 50),
+				Env.NightlyInt to TestConfig(atMostArgs = 60),
+				Env.HotfixPR to TestConfig(atMostArgs = 15),
+				Env.Hotfix to TestConfig(atMostArgs = 50),
+			),
+		TestType.SystemIntegration to
+			listOf(
+				Env.Local to TestConfig(atMostArgs = 3),
+				Env.PR to TestConfig(atMostArgs = 5),
+				Env.Main to TestConfig(atMostArgs = 7),
+				Env.DeployTest to TestConfig(atMostArgs = 10),
+				Env.DeployInt to TestConfig(atMostArgs = 15),
+				Env.NightlyTest to TestConfig(atMostArgs = 40),
+				Env.NightlyInt to TestConfig(atMostArgs = 50),
+				Env.HotfixPR to TestConfig(atMostArgs = 10),
+				Env.Hotfix to TestConfig(atMostArgs = 20),
 			),
 	),
 ) {
@@ -66,28 +105,33 @@ data class MinimalistConfig(
 		failIfNegative(seed, "seed")
 		offsetToDecidedOffset?.also { failIfNegative(it, "offsetToDecidedOffset") }
 
-		val defaultMaxArgsLevels = categorizedMaxArgsLevels.find(defaultMaxArgsLevelCategory) ?: error(
-			"Your specified defaultMaxArgsLevelCategory ($defaultMaxArgsLevelCategory) does not exists, existing categories: ${
-				categorizedMaxArgsLevels.categories().joinToString(",")
+		checkIsNotBlank(activeArgsRangeDecider, "activeArgsRangeDecider")
+		checkIsNotBlank(defaultProfile, "defaultProfile")
+		checkIsNotBlank(activeEnv, "activeEnv")
+
+		check(defaultProfile in testProfiles) {
+			"Your specified defaultProfile ($defaultProfile) does not exists, existing names: ${
+				testProfiles.profileNames().joinToString(",")
 			}"
-		)
-		check(activeMaxArgsLevel in defaultMaxArgsLevels) {
-			"Your specified activeMaxArgsLevel (${activeMaxArgsLevel}) is not defined in MaxArgsLevels (existing levels: ${
-				defaultMaxArgsLevels.levels().joinToString(", ")
-			})"
 		}
+		testProfiles.find(defaultProfile, activeEnv) ?: error(
+			"Your specified activeEnv (${activeEnv}) is not defined in profile $defaultProfile (existing envs): ${
+				testProfiles.envs(defaultProfile).joinToString(", ")
+			})"
+		)
 	}
 
-	fun toBuilder(): MinimalistConfigBuilder = MinimalistConfigBuilder(
-		seed = seed,
-		offsetToDecidedOffset = offsetToDecidedOffset,
-		atMostArgs = argsRangeOptions.atMostArgs,
-		atLeastArgs = argsRangeOptions.requestedMinArgs,
-		activeArgsRangeDecider = activeArgsRangeDecider,
-		activeMaxArgsLevel = activeMaxArgsLevel,
-		defaultMaxArgsLevelCategory = defaultMaxArgsLevelCategory,
-		categoryToMaxArgsLevel = categorizedMaxArgsLevels.toHashMap()
-	)
+	fun copy(configure: MinimalistConfigBuilder.() -> Unit): MinimalistConfig =
+		MinimalistConfigBuilder(
+			seed = seed,
+			offsetToDecidedOffset = offsetToDecidedOffset,
+			atMostArgs = argsRangeOptions.atMostArgs,
+			requestedMinArgs = argsRangeOptions.requestedMinArgs,
+			activeArgsRangeDecider = activeArgsRangeDecider,
+			activeEnv = activeEnv,
+			defaultProfile = defaultProfile,
+			testProfiles = testProfiles.toHashMap()
+		).apply(configure).build()
 }
 
 /**
@@ -97,22 +141,20 @@ class MinimalistConfigBuilder(
 	var seed: Int,
 	var offsetToDecidedOffset: Int?,
 	var atMostArgs: Int?,
-	var atLeastArgs: Int?,
+	var requestedMinArgs: Int?,
 	var activeArgsRangeDecider: String,
-	var activeMaxArgsLevel: String,
-	var defaultMaxArgsLevelCategory: String,
-	var categoryToMaxArgsLevel: HashMap<String, HashMap<String, Int>>
+	var activeEnv: String,
+	var defaultProfile: String,
+	var testProfiles: HashMap<String, HashMap<String, TestConfig>>
 ) {
 	fun build(): MinimalistConfig = MinimalistConfig(
 		seed = seed,
 		offsetToDecidedOffset = offsetToDecidedOffset,
-		argsRangeOptions = ArgsRangeOptions(requestedMinArgs = atLeastArgs, atMostArgs = atMostArgs),
+		argsRangeOptions = ArgsRangeOptions(requestedMinArgs = requestedMinArgs, atMostArgs = atMostArgs),
 		activeArgsRangeDecider = activeArgsRangeDecider,
-		activeMaxArgsLevel = activeMaxArgsLevel,
-		defaultMaxArgsLevelCategory = defaultMaxArgsLevelCategory,
-		categorizedMaxArgsLevels = CategorizedMaxArgsLevels.create(
-			categoryToMaxArgsLevel.entries.associate { (category, levels) -> category to MaxArgsLevels.create(levels) }
-		)
+		activeEnv = activeEnv,
+		defaultProfile = defaultProfile,
+		testProfiles = TestProfiles.create(testProfiles)
 	)
 }
 
@@ -123,13 +165,4 @@ class MinimalistConfigBuilder(
  */
 interface RequiresConfig {
 	var config: MinimalistConfig
-}
-
-/**
- * Predefined category names for [MinimalistConfig.categorizedMaxArgsLevels]
- *
- * @since 2.0.0
- */
-enum class MaxArgsCategory {
-	Unit, Integration
 }
