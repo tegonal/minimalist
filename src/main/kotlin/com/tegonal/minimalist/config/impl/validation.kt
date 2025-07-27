@@ -2,6 +2,16 @@ package com.tegonal.minimalist.config.impl
 
 import ch.tutteli.kbox.failIf
 
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
+fun String.toPositiveIntOrErrorNotValid(convertTo: String): Int =
+	toIntOrErrorNotValid(convertTo).also {
+		checkIsPositive(it, convertTo)
+	}
 
 /**
  * !! No backward compatibility guarantees !!
@@ -29,6 +39,15 @@ fun checkIsPositive(value: Int, description: String) =
  */
 fun failIfNegative(value: Int, description: String) =
 	failIf(value < 0) { "$value is not a valid $description, has to be greater than or equal to 0" }
+
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
+fun checkIsNotBlank(value: String, description: String) =
+	check(value.isNotBlank()) { "$description was blank (was $value)" }
 
 /**
  * !! No backward compatibility guarantees !!

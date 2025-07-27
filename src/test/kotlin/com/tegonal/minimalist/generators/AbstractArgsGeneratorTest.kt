@@ -13,7 +13,7 @@ typealias ArgsTestFactoryResult<T, ArgsGeneratorT> = Sequence<Triple<String, Arg
 
 abstract class AbstractArgsGeneratorTest {
 	protected val customComponentFactoryContainer =
-		ComponentFactoryContainer.createBasedOnConfig(ordered._components.config.copy(seed = 1))
+		ComponentFactoryContainer.createBasedOnConfig(ordered._components.config.copy { seed = 1 })
 
 	protected fun <T, ArgsGeneratorT : ArgsGenerator<T>, TestResultT : ArgsTestFactoryResult<T, ArgsGeneratorT>> usesGivenComponentContainerFactoryTest(
 		factory: () -> TestResultT

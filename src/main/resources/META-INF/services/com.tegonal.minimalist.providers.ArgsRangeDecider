@@ -1,1 +1,1 @@
-com.tegonal.minimalist.providers.impl.LevelBasedArgsRangeDecider
+com.tegonal.minimalist.providers.impl.ProfileBasedArgsRangeDecider

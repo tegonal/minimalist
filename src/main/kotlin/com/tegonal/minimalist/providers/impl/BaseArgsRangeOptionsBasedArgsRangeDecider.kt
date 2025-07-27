@@ -9,37 +9,46 @@ import com.tegonal.minimalist.generators.ArgsGenerator
 import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
 import com.tegonal.minimalist.providers.ArgsRange
 import com.tegonal.minimalist.providers.ArgsRangeDecider
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.InvocationKind
-import kotlin.contracts.contract
 
 /**
+ * Not really a good name, but hard to come up with a good one.
+ *
+ * This class is responsible to get an [com.tegonal.minimalist.providers.ArgsRange] from a subclass based on a given profile, env and ArgsGenerator
+ * and then restrict it based on [ArgsRangeOptions] and [ArgsGenerator].
+ *
+ *
  * !! No backward compatibility guarantees !!
  * Reuse at your own risk
  *
  * @since 2.0.0
  */
-abstract class BaseOptionsBasedArgsRangeDecider : ArgsRangeDecider {
+abstract class BaseArgsRangeOptionsBasedArgsRangeDecider : ArgsRangeDecider {
 
 	final override fun decide(argsGenerator: ArgsGenerator<*>, argsRangeOptions: ArgsRangeOptions?): ArgsRange {
 		val config = argsGenerator._components.config
-		val category = config.argsRangeOptions.category
-			?: argsRangeOptions?.category
-			?: config.defaultMaxArgsLevelCategory
+		val category = config.argsRangeOptions.profile
+			?: argsRangeOptions?.profile
+			?: config.defaultProfile
 
-		return decideArgsRange(category, config.activeMaxArgsLevel, argsGenerator)
+		return decideArgsRange(category, config.activeEnv, argsGenerator)
 			.restrictBasedOnConfigAndArgsRangeOptions(config, argsRangeOptions, argsGenerator)
 
 	}
 
+	/**
+	 * Returns the [ArgsRange] solely based on the given [profileName], [env] and [argsGenerator].
+	 *
+	 * Restricting the choice based on given [ArgsRangeOptions] or [MinimalistConfig.argsRangeOptions] is the
+	 * responsibility of [BaseArgsRangeOptionsBasedArgsRangeDecider].
+	 */
 	protected abstract fun decideArgsRange(
-		category: String,
-		level: String,
+		profileName: String,
+		env: String,
 		argsGenerator: ArgsGenerator<*>
 	): ArgsRange
 
 
-	fun ArgsRange.restrictBasedOnConfigAndArgsRangeOptions(
+	private fun ArgsRange.restrictBasedOnConfigAndArgsRangeOptions(
 		config: MinimalistConfig,
 		argsRangeOptions: ArgsRangeOptions?,
 		argsGenerator: ArgsGenerator<*>
