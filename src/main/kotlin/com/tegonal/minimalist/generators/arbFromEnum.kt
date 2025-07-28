@@ -1,5 +1,3 @@
-@file:Suppress("UnusedReceiverParameter")
-
 package com.tegonal.minimalist.generators
 
 import com.tegonal.minimalist.config._components

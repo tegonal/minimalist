@@ -1,5 +1,3 @@
-@file:Suppress("UnusedReceiverParameter")
-
 package com.tegonal.minimalist.generators
 
 import ch.tutteli.kbox.identity
