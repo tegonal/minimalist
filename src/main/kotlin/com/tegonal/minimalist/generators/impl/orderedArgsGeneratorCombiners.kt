@@ -19,7 +19,7 @@ class OrderedArgsGeneratorCombiner<A1, A2, R>(
 	// should you run into weird behaviour (such as one generator uses seed X and the other seed Y) then most likely
 	// someone used to different initial factories
 	a1Generator._components,
-	a1Generator.size * a2Generator.size
+	a1Generator.size.toLong() * a2Generator.size.toLong()
 ), OrderedArgsGenerator<R> {
 
 	override fun generateAfterChecks(offset: Int): Sequence<R> =
@@ -41,7 +41,7 @@ class SemiOrderedArgsGeneratorCombiner<A1, A2, R>(
 	// should you run into weird behaviour (such as one generator uses seed X and the other seed Y) then most likely
 	// someone used to different initial factories
 	a1Generator._components,
-	a1Generator.size * a2Generator.size
+	a1Generator.size.toLong() * a2Generator.size.toLong()
 ) {
 
 	override fun generateAfterChecks(offset: Int): Sequence<R> =
@@ -87,10 +87,14 @@ private fun <A1, A2, R> combine(
 	return object : Sequence<R> {
 		override fun iterator(): Iterator<R> = object : Iterator<R> {
 			private var chunkIndex = chunkOffset
-			private var a1Iterator = a1Generator.generate(firstChunkOffset + if (a1IsSmaller) chunkOffset else 0).iterator()
-			private var a2Iterator = a2Generator.generate(firstChunkOffset + if (a1IsSmaller) 0 else chunkOffset).iterator()
 
-			// in the first chunk we might have an offset and if so will produce less values
+			private var a1Iterator =
+				a1Generator.generate(firstChunkOffset + if (a1IsSmaller) chunkOffset else 0).iterator()
+
+			private var a2Iterator =
+				a2Generator.generate(firstChunkOffset + if (a1IsSmaller) 0 else chunkOffset).iterator()
+
+			// in the first chunk we might have an offset and if so will produce fewer values
 			private var count = firstChunkOffset
 
 			override fun hasNext(): Boolean = true
