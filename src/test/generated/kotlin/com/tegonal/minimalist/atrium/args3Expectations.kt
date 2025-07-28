@@ -4,7 +4,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 @file:Suppress("UnusedImport")
 
-package com.tegonal.minimalist.atrium
+package com.tegonal.minimalist.testutils.atrium
 
 import ch.tutteli.atrium.creating.Expect
 import ch.tutteli.atrium.api.fluent.en_GB.*
