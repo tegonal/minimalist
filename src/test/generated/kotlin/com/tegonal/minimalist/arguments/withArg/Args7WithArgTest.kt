@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Named
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import com.tegonal.minimalist.*
-import com.tegonal.minimalist.atrium.*
+import com.tegonal.minimalist.testutils.atrium.*
 import java.math.BigInteger
 import java.time.LocalDate
 
