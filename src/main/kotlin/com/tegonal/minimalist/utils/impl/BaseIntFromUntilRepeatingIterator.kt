@@ -27,7 +27,7 @@ package com.tegonal.minimalist.utils.impl
  *
  * @since 2.0.0
  */
-abstract class BaseRepeatingIterator<T>(
+abstract class BaseIntFromUntilRepeatingIterator<T>(
 	private val startIndex: Int,
 	private val endIndexExclusive: Int,
 	offset: Int = 0,

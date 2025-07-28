@@ -86,6 +86,6 @@ abstract class TemporalFromUntilArbArgsGenerator<T>(
 	::identity
 ) where T : Temporal, T : Comparable<T> {
 	private val diffInLong = temporalUnit.between(this.from, this.toExclusive)
-	final override fun nextRandom(random: Random): T =
+	final override fun nextElementInRange(random: Random): T =
 		from.plusTyped(random.nextLong(0, diffInLong), temporalUnit)
 }

@@ -11,7 +11,7 @@ class RepeatingArraySequence<T>(
 	private val offset: Int
 ) : Sequence<T> {
 
-	override fun iterator(): Iterator<T> = object : BaseRepeatingIterator<T>(0, values.size, offset) {
+	override fun iterator(): Iterator<T> = object : BaseIntFromUntilRepeatingIterator<T>(0, values.size, offset) {
 		override fun getElementAt(index: Int): T = values[index]
 	}
 }
