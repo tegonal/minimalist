@@ -10,6 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest
 class ArbArgsGeneratorNumericRangeTest : AbstractArbArgsGeneratorTest<Any>() {
 
 	override fun createGenerators() = sequenceOf(
+		// we skip testing int(), long(), double()
 		Tuple("intFromUntil", modifiedArb.intFromUntil(1, 5), listOf(1, 2, 3, 4, 5)),
 		Tuple("longFromUntil", modifiedArb.longFromUntil(1L, 3L), listOf(1L, 2L, 3L)),
 		// we cannot test doubleFromUntil as the result range is infinite, see test below

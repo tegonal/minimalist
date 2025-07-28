@@ -79,13 +79,13 @@ abstract class TemporalFromUntilArbArgsGenerator<T>(
 	toExclusive: T,
 	private val temporalUnit: TemporalUnit = ChronoUnit.DAYS,
 	private val plusTyped: T.(Long, TemporalUnit) -> T,
-) : RangeBasedArbArgsGenerator<T, T>(
+) : OpenEndRangeBasedArbArgsGenerator<T, T>(
 	componentFactoryContainer,
 	from,
 	toExclusive,
 	::identity
 ) where T : Temporal, T : Comparable<T> {
 	private val diffInLong = temporalUnit.between(this.from, this.toExclusive)
-	final override fun nextRandom(random: Random): T =
+	final override fun nextElementInRange(random: Random): T =
 		from.plusTyped(random.nextLong(0, diffInLong), temporalUnit)
 }

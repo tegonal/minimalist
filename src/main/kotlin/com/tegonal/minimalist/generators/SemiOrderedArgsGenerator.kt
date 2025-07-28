@@ -1,10 +1,5 @@
 package com.tegonal.minimalist.generators
 
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.config.build
-import com.tegonal.minimalist.providers.ArgsRange
-import com.tegonal.minimalist.providers.ArgsRangeDecider
-
 /**
  * Represents an [ArgsGenerator] which provides the method [generate] where some part of [T] is always in the
  * same order and a finite number before repeating and another part of [T] is undefined (could be ordered and finite,
@@ -30,21 +25,3 @@ interface SemiOrderedArgsGenerator<out T> : ArgsGenerator<T> {
 	 */
 	fun generate(offset: Int = 0): Sequence<T>
 }
-
-
-/**
- * Returns a finite sequence of values influenced by the given [ArgsRange] which the configured [ArgsRangeDecider] will
- * decide on.
- *
- * @since 2.0.0
- */
-fun <T> SemiOrderedArgsGenerator<T>.generateAndTakeBasedOnDecider(): Sequence<T> =
-	_components.build<ArgsRangeDecider>().decide(this).let(::generateAndTake)
-
-/**
- * Returns a finite sequence of values influenced by the given [ArgsRange].
- *
- * @since 2.0.0
- */
-fun <T> SemiOrderedArgsGenerator<T>.generateAndTake(argsRange: ArgsRange): Sequence<T> =
-	generate(argsRange.offset).take(argsRange.take)

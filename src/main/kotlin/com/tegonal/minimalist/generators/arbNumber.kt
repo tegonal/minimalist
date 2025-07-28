@@ -2,9 +2,39 @@ package com.tegonal.minimalist.generators
 
 import ch.tutteli.kbox.identity
 import com.tegonal.minimalist.config._components
+import com.tegonal.minimalist.generators.impl.ArbDoubleArgsGenerator
+import com.tegonal.minimalist.generators.impl.ArbIntArgsGenerator
+import com.tegonal.minimalist.generators.impl.ArbLongArgsGenerator
 import com.tegonal.minimalist.generators.impl.DoubleFromUntilArbArgsGenerator
 import com.tegonal.minimalist.generators.impl.IntFromUntilArbArgsGenerator
 import com.tegonal.minimalist.generators.impl.LongFromUntilArbArgsGenerator
+
+/**
+ * Returns an [ArbArgsGenerator] which generates [Int]s ranging from
+ * [Int.MIN_VALUE] (inclusive) to [Int.MAX_VALUE] (inclusive).
+ *
+ * @since 2.0.0
+ */
+fun ArbExtensionPoint.int(): ArbArgsGenerator<Int> =
+	ArbIntArgsGenerator(_components)
+
+/**
+ * Returns an [ArbArgsGenerator] which generates [Int]s ranging from
+ * [Long.MIN_VALUE] (inclusive) to [Long.MAX_VALUE] (inclusive).
+ *
+ * @since 2.0.0
+ */
+fun ArbExtensionPoint.long(): ArbArgsGenerator<Long> =
+	ArbLongArgsGenerator(_components)
+
+/**
+ * Returns an [ArbArgsGenerator] which generates [Int]s ranging from
+ * [Double.MIN_VALUE] (inclusive) to [Double.MAX_VALUE] (inclusive).
+ *
+ * @since 2.0.0
+ */
+fun ArbExtensionPoint.double(): ArbArgsGenerator<Double> =
+	ArbDoubleArgsGenerator(_components)
 
 /**
  * Returns an [ArbArgsGenerator] which generates [Int]s ranging [from] (inclusive) to [toExclusive].

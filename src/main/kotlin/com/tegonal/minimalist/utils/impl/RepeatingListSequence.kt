@@ -12,7 +12,7 @@ class RepeatingListSequence<T>(
 ) : Sequence<T> {
 
 	override fun iterator(): Iterator<T> {
-		return object : BaseRepeatingIterator<T>(0, values.size, offset) {
+		return object : BaseIntFromUntilRepeatingIterator<T>(0, values.size, offset) {
 			override fun getElementAt(index: Int): T = values[index]
 		}
 	}
