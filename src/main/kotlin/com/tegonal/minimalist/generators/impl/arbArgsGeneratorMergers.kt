@@ -1,6 +1,7 @@
 package com.tegonal.minimalist.generators.impl
 
 import com.tegonal.minimalist.config._components
+import com.tegonal.minimalist.config.impl.checkIsPositive
 import com.tegonal.minimalist.generators.ArbArgsGenerator
 
 /**
@@ -22,12 +23,11 @@ class ArbArgsGeneratorMerger<T>(
 	private val a1Generator = a1GeneratorWithWeight.second
 	private val a2Generator = a2GeneratorWithWeight.second
 	private val a1Weight = a1GeneratorWithWeight.first
+	private val totalWeightPlus1 = Math.addExact(Math.addExact(a1Weight, a2GeneratorWithWeight.first), 1)
 
 	init {
-		val a2Weight = a2GeneratorWithWeight.first
-		validateWeight(a1Weight)
-		validateWeight(a2Weight)
-		validateTotalWeights(a1Weight, a2Weight)
+		checkIsPositive(a1Weight, "(1.) weight")
+		checkIsPositive(a2GeneratorWithWeight.first, "(2.) weight")
 	}
 
 	override fun generate(): Sequence<T> = createMinimalistRandom().let { minimalistRandom ->
@@ -38,7 +38,7 @@ class ArbArgsGeneratorMerger<T>(
 
 				override fun hasNext(): Boolean = true
 				override fun next(): T {
-					val r = minimalistRandom.nextInt(1, 101)
+					val r = minimalistRandom.nextInt(1, totalWeightPlus1)
 					return if (r <= a1Weight) a1Iterator.next()
 					else a2Iterator.next()
 				}
@@ -46,17 +46,6 @@ class ArbArgsGeneratorMerger<T>(
 		}
 	}
 }
-
-private fun validateWeight(weight: Int) = require(weight >= 1 && weight <= 99) {
-	"weight is from 1 to 99 (percentage), given $weight"
-}
-
-private fun validateTotalWeights(vararg weights: Int) =
-	weights.sum().let { totalWeight ->
-		require(totalWeight == 100) {
-			"weights must add up to 100, given $totalWeight (${weights.joinToString(", ")})"
-		}
-	}
 
 /**
  * !! No backward compatibility guarantees !!
@@ -76,14 +65,16 @@ class MultiArbArgsGeneratorIndexOfMerger<T>(
 ), ArbArgsGenerator<T> {
 	private val generators: Array<ArbArgsGenerator<T>>
 	private val cumulativeWeights: Array<Int>
+	private val totalWeightPlus1: Int
 
 	init {
 		val firstWeight = firstGeneratorWithWeight.first
 		val secondWeight = secondGeneratorWithWeight.first
-		validateWeight(firstWeight)
-		validateWeight(secondWeight)
-		otherGeneratorsWithWeight.forEach { validateWeight(it.first) }
-		validateTotalWeights(firstWeight, secondWeight, *otherGeneratorsWithWeight.map { it.first }.toIntArray())
+		checkIsPositive(firstWeight, "(1.) weight")
+		checkIsPositive(secondWeight, "(2.) weight")
+		otherGeneratorsWithWeight.forEachIndexed { index, it ->
+			checkIsPositive(it.first) { "(${index + 3}.) weight" }
+		}
 
 		val totalGenerators = otherGeneratorsWithWeight.size + 2
 		generators = Array(totalGenerators) { index ->
@@ -96,15 +87,17 @@ class MultiArbArgsGeneratorIndexOfMerger<T>(
 
 		var acc = 0
 		cumulativeWeights = Array(totalGenerators) { index ->
-			run {
-				acc + when (index) {
+			Math.addExact(
+				acc,
+				when (index) {
 					0 -> firstWeight
 					1 -> secondWeight
 					else -> otherGeneratorsWithWeight[index - 2].first
 				}
-			}.also { acc = it }
+			).also { acc = it }
 		}
 
+		totalWeightPlus1 = Math.addExact(acc, 1)
 	}
 
 	override fun generate(): Sequence<T> = createMinimalistRandom().let { minimalistRandom ->
@@ -114,7 +107,7 @@ class MultiArbArgsGeneratorIndexOfMerger<T>(
 
 				override fun hasNext(): Boolean = true
 				override fun next(): T {
-					val r = minimalistRandom.nextInt(1, 101)
+					val r = minimalistRandom.nextInt(1, totalWeightPlus1)
 					val index = cumulativeWeights.indexOfFirst { it >= r }
 					return iterators[index].next()
 				}
