@@ -14,7 +14,7 @@ open class IntFromUntilArbArgsGenerator<T>(
     from: Int,
     toExclusive: Int,
     argsProvider: (index: Int) -> T
-) : RangeBasedArbArgsGenerator<Int, T>(componentFactoryContainer, from, toExclusive, argsProvider) {
+) : OpenEndRangeBasedArbArgsGenerator<Int, T>(componentFactoryContainer, from, toExclusive, argsProvider) {
 
     final override fun nextRandom(random: Random): Int = random.nextInt(from, toExclusive)
 }
@@ -30,7 +30,7 @@ class LongFromUntilArbArgsGenerator<T>(
 	from: Long,
 	toExclusive: Long,
 	argsProvider: (Long) -> T
-) : RangeBasedArbArgsGenerator<Long, T>(componentFactoryContainer, from, toExclusive, argsProvider) {
+) : OpenEndRangeBasedArbArgsGenerator<Long, T>(componentFactoryContainer, from, toExclusive, argsProvider) {
 	override fun nextRandom(random: Random): Long = random.nextLong(from, toExclusive)
 }
 
@@ -45,6 +45,6 @@ class DoubleFromUntilArbArgsGenerator<T>(
 	from: Double,
 	toExclusive: Double,
 	argsProvider: (Double) -> T
-) : RangeBasedArbArgsGenerator<Double, T>(componentFactoryContainer, from, toExclusive, argsProvider) {
+) : OpenEndRangeBasedArbArgsGenerator<Double, T>(componentFactoryContainer, from, toExclusive, argsProvider) {
 	override fun nextRandom(random: Random): Double = random.nextDouble(from, toExclusive)
 }

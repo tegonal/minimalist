@@ -10,7 +10,7 @@ import kotlin.random.Random
  *
  * @since 2.0.0
  */
-abstract class RangeBasedArbArgsGenerator<E : Comparable<E>, T>(
+abstract class OpenEndRangeBasedArbArgsGenerator<E : Comparable<E>, T>(
 	componentFactoryContainer: ComponentFactoryContainer,
 	protected val from: E,
 	protected val toExclusive: E,

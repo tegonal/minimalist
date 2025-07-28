@@ -79,7 +79,7 @@ abstract class TemporalFromUntilArbArgsGenerator<T>(
 	toExclusive: T,
 	private val temporalUnit: TemporalUnit = ChronoUnit.DAYS,
 	private val plusTyped: T.(Long, TemporalUnit) -> T,
-) : RangeBasedArbArgsGenerator<T, T>(
+) : OpenEndRangeBasedArbArgsGenerator<T, T>(
 	componentFactoryContainer,
 	from,
 	toExclusive,
