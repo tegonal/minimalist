@@ -5,7 +5,7 @@ import com.tegonal.minimalist.generators.OrderedArgsGenerator
 import com.tegonal.minimalist.utils.impl.RepeatingRandomAccessSequence
 
 /**
- * Represents a base class for [OrderedArgsGenerator] which provide fast random access.
+ * Represents a class for [OrderedArgsGenerator] which provide fast random access.
  *
  * !! No backward compatibility guarantees !!
  * Reuse at your own risk

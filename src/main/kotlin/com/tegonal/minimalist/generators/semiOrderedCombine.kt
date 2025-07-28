@@ -3,7 +3,7 @@
 package com.tegonal.minimalist.generators
 
 import com.tegonal.minimalist.generators.impl.SemiOrderedArgsGeneratorCombiner
-import com.tegonal.minimalist.generators.impl.SemiOrderedArgsWithRandomArgsGeneratorCombiner
+import com.tegonal.minimalist.generators.impl.SemiOrderedWithArbArgsGeneratorCombiner
 import com.tegonal.minimalist.generators.impl.throwUnsupportedArgsGenerator
 
 /**
@@ -45,7 +45,7 @@ fun <A1, A2, R> SemiOrderedArgsGenerator<A1>.combine(
 fun <A1, A2, R> SemiOrderedArgsGenerator<A1>.combine(
 	other: ArbArgsGenerator<A2>,
 	transform: (A1, A2) -> R
-): SemiOrderedArgsGenerator<R> = SemiOrderedArgsWithRandomArgsGeneratorCombiner(this, other, transform)
+): SemiOrderedArgsGenerator<R> = SemiOrderedWithArbArgsGeneratorCombiner(this, other, transform)
 
 
 /**
