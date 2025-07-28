@@ -2,7 +2,8 @@ package com.tegonal.minimalist.config
 
 import com.tegonal.minimalist.config.impl.checkIsNotBlank
 import com.tegonal.minimalist.config.impl.failIfNegative
-import com.tegonal.minimalist.providers.AnnotationData
+import com.tegonal.minimalist.generators.ArgsGenerator
+import com.tegonal.minimalist.providers.ArgsRange
 import com.tegonal.minimalist.providers.ArgsRangeDecider
 import com.tegonal.minimalist.providers.impl.ProfileBasedArgsRangeDecider
 import kotlin.random.Random
@@ -11,34 +12,69 @@ import kotlin.random.Random
  * @since 2.0.0
  */
 class MinimalistConfig(
+	/**
+	 * The seed which Minimalist uses internally for [Random].
+	 * Needs to be between `0` and [Int.MAX_VALUE].
+	 *
+	 * Minimalist outputs the used seed when the [MinimalistConfig] is loaded.
+	 *
+	 * 🔍 Fix it to a previously used seed if you want to re-run the same arguments.
+	 *
+	 * Note, you are not allowed to fix a seed via minimalist.properties (which is usually committed), use
+	 * minimalist.local.properties instead (which is usually on the git ignore list).
+	 */
 	val seed: Int = Random.nextInt(0, Int.MAX_VALUE),
 
 	/**
-	 * Set to a value if you want to test a particular case (maybe together with [ArgsRangeOptions.atMostArgs] = 1)
+	 * Influences an [ArgsRangeDecider]'s choice of [ArgsRange.offset], i.e. allows to skip certain test cases.
+	 *
+	 * 🔍 Typically used with a fixed [seed] (i.e. during debugging). In such cases you might want to set [atMostArgs]
+	 * as well to restrict [ArgsRange.take].
+	 *
+	 * Note, you are not allowed to fix a seed via minimalist.properties (which is usually committed), use
+	 * minimalist.local.properties instead (which is usually on the git ignore list).
 	 */
 	val offsetToDecidedOffset: Int? = null,
 
 	/**
-	 * Set to a value if you want to test a particular case (most likely together with [offsetToDecidedOffset]).
+	 * Influences an [ArgsRangeDecider]'s choice of [ArgsRange.take], signaling that it should be at least
+	 * the specified amount, unless the [ArgsGenerator] repeats values beforehand.
 	 *
-	 * This is meant to take precedence over an [ArgsRangeDecider] (but depends on the implementation of the [ArgsRangeDecider])
+	 * 🔍 Typically used during local development to force more arguments without the need to change profiles.
+	 *
+	 * Note, you are not allowed to fix a seed via minimalist.properties (which is usually committed), use
+	 * minimalist.local.properties instead (which is usually on the git ignore list).
 	 */
-	val argsRangeOptions: ArgsRangeOptions = ArgsRangeOptions(),
+	val requestedMinArgs: Int? = null,
 
+	/**
+	 * Should influence an [ArgsRangeDecider]'s choice of [ArgsRange.take], signaling that it should not be greater
+	 * than the specified amount.
+	 *
+	 * 🔍 Typically used with a fixed [seed] and [offsetToDecidedOffset] (i.e. during debugging)
+	 * to restrict [ArgsRange.take].
+	 *
+	 * Note, you are not allowed to fix a seed via minimalist.properties (which is usually committed), use
+	 * minimalist.local.properties instead (which is usually on the git ignore list).
+	 */
+	val atMostArgs: Int? = null,
+
+	/**
+	 * Defines which [ArgsRangeDecider] shall be used.
+	 */
 	val activeArgsRangeDecider: String = ProfileBasedArgsRangeDecider::class.qualifiedName ?: error(
-		"cannot determine qualified name of LevelBasedArgsRangeDecider "
+		"cannot determine qualified name of ProfileBasedArgsRangeDecider "
 	),
 
 	/**
-	 * Defines which test profile is chosen in case none is specified via [ArgsRangeOptions.profile]
-	 * (either in [argsRangeOptions] or in [AnnotationData.argsRangeOptions]).
-	 *
-	 * The chosen name should be configured in [testProfiles]
+	 * Defines which test profile is chosen in case none is specified via [ArgsRangeOptions.profile].
+	 * The chosen name needs to be configured in [testProfiles].
 	 */
 	val defaultProfile: String = TestType.Integration.name,
 
 	/**
 	 * Defines on which environment you want to run tests.
+	 * The chosen name needs to be configured in [testProfiles].
 	 */
 	val activeEnv: String = Env.Local.name,
 
@@ -110,7 +146,7 @@ class MinimalistConfig(
 		checkIsNotBlank(activeEnv, "activeEnv")
 
 		check(defaultProfile in testProfiles) {
-			"Your specified defaultProfile ($defaultProfile) does not exists, existing names: ${
+			"Your specified defaultProfile ($defaultProfile) does not exists in testProfiles, existing names: ${
 				testProfiles.profileNames().joinToString(",")
 			}"
 		}
@@ -125,8 +161,8 @@ class MinimalistConfig(
 		MinimalistConfigBuilder(
 			seed = seed,
 			offsetToDecidedOffset = offsetToDecidedOffset,
-			atMostArgs = argsRangeOptions.atMostArgs,
-			requestedMinArgs = argsRangeOptions.requestedMinArgs,
+			atMostArgs = atMostArgs,
+			requestedMinArgs = requestedMinArgs,
 			activeArgsRangeDecider = activeArgsRangeDecider,
 			activeEnv = activeEnv,
 			defaultProfile = defaultProfile,
@@ -150,7 +186,8 @@ class MinimalistConfigBuilder(
 	fun build(): MinimalistConfig = MinimalistConfig(
 		seed = seed,
 		offsetToDecidedOffset = offsetToDecidedOffset,
-		argsRangeOptions = ArgsRangeOptions(requestedMinArgs = requestedMinArgs, atMostArgs = atMostArgs),
+		requestedMinArgs = requestedMinArgs,
+		atMostArgs = atMostArgs,
 		activeArgsRangeDecider = activeArgsRangeDecider,
 		activeEnv = activeEnv,
 		defaultProfile = defaultProfile,

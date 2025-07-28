@@ -17,7 +17,16 @@ class MinimalistConfigViaPropertiesLoader {
 			.run {
 				mergeWithPropertiesInResource("/minimalist.properties", parser).also {
 					check(it.seed == initialConfig.seed) {
-						"You are not allowed to modify the seed via minimalist.properties use minimalist.local.properties to fix a seed"
+						errorMessageNotAllowedToModify("seed")
+					}
+					check(it.offsetToDecidedOffset == initialConfig.offsetToDecidedOffset) {
+						errorMessageNotAllowedToModify("offsetToDecidedOffset")
+					}
+					check(it.requestedMinArgs == initialConfig.requestedMinArgs) {
+						errorMessageNotAllowedToModify("requestedMinArgs")
+					}
+					check(it.atMostArgs == initialConfig.atMostArgs) {
+						errorMessageNotAllowedToModify("atMostArgs")
 					}
 				}
 			}.run { mergeWithPropertiesInResource("/minimalist.local.properties", parser) }
@@ -35,6 +44,9 @@ class MinimalistConfigViaPropertiesLoader {
 				// would be simpler if they could just set the DateTime in errorAboutFixedSeedAt
 			}
 	}
+
+	private fun errorMessageNotAllowedToModify(what: String) =
+		"You are not allowed to modify $what via minimalist.properties use minimalist.local.properties to fix a seed"
 
 	private fun MinimalistConfig.mergeWithPropertiesInResource(
 		propertiesFile: String,
