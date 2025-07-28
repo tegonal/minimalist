@@ -10,12 +10,12 @@ import com.tegonal.minimalist.config._components
  *
  * @since 2.0.0
  */
-class SemiOrderedArgsWithRandomArgsGeneratorCombiner<A1, A2, R>(
-	private val orderedArgsGenerator: SemiOrderedArgsGenerator<A1>,
+class SemiOrderedWithArbArgsGeneratorCombiner<A1, A2, R>(
+	private val semiOrderedArgsGenerator: SemiOrderedArgsGenerator<A1>,
 	private val arbArgsGenerator: ArbArgsGenerator<A2>,
 	private val transform: (A1, A2) -> R
-) : BaseSemiOrderedArgsGenerator<R>(orderedArgsGenerator._components, orderedArgsGenerator.size) {
+) : BaseSemiOrderedArgsGenerator<R>(semiOrderedArgsGenerator._components, semiOrderedArgsGenerator.size) {
 
 	override fun generateAfterChecks(offset: Int): Sequence<R> =
-		zipForever(orderedArgsGenerator.generate(offset), arbArgsGenerator.generate(), transform)
+		zipForever(semiOrderedArgsGenerator.generate(offset), arbArgsGenerator.generate(), transform)
 }

@@ -25,9 +25,9 @@ fun <T, R> SemiOrderedArgsGenerator<T>.map(transform: (T) -> R): SemiOrderedArgs
 @Deprecated(
 	""""
 		Materialising means fixing the undefined/random part of an SemiOrderedArgsGenerator.
-		Normally you don't want to turn an SemiOrderedArgsGenerator into an OrderedArgsGenerator as you basically
+		Normally you do not want to turn an SemiOrderedArgsGenerator into an OrderedArgsGenerator as you basically
 		loose the randomness you added in the first place.
-		If you still want to do this, then use:" +
+		If you still want to do this, then use:
 
 		let { g -> g.generate().take(g.size) }.filter(predicate).toList().let(ordered::fromList)
 	""",
@@ -41,9 +41,9 @@ fun <T> SemiOrderedArgsGenerator<T>.filterMaterialised(@Suppress("UNUSED_PARAMET
 @Deprecated(
 	""""
 		Materialising means fixing the undefined/random part of an SemiOrderedArgsGenerator.
-		Normally you don't want to turn an SemiOrderedArgsGenerator into an OrderedArgsGenerator as you basically
+		Normally you do not want to turn an SemiOrderedArgsGenerator into an OrderedArgsGenerator as you basically
 		loose the randomness you added in the first place.
-		If you still want to do this, then use:" +
+		If you still want to do this, then use:
 
 		let { g -> g.generate().take(g.size) }.let(transform).toList().let(ordered::fromList)
 	""",
