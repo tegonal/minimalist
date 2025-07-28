@@ -1,9 +1,9 @@
 package com.tegonal.minimalist.generators
 
 import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.generators.impl.LocalDateArbArgsGenerator
-import com.tegonal.minimalist.generators.impl.LocalDateTimeArbArgsGenerator
-import com.tegonal.minimalist.generators.impl.ZonedDateTimeArbArgsGenerator
+import com.tegonal.minimalist.generators.impl.LocalDateFromUntilArbArgsGenerator
+import com.tegonal.minimalist.generators.impl.LocalDateTimeFromUntilArbArgsGenerator
+import com.tegonal.minimalist.generators.impl.ZonedDateTimeFromUntilArbArgsGenerator
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZonedDateTime
@@ -21,7 +21,7 @@ fun ArbExtensionPoint.localDateFromUntil(
 	from: LocalDate,
 	toExclusive: LocalDate,
 	temporalUnit: TemporalUnit = ChronoUnit.DAYS,
-): ArbArgsGenerator<LocalDate> = LocalDateArbArgsGenerator(_components, from, toExclusive, temporalUnit)
+): ArbArgsGenerator<LocalDate> = LocalDateFromUntilArbArgsGenerator(_components, from, toExclusive, temporalUnit)
 
 /**
  * Returns an [ArbArgsGenerator] which generates [LocalDateTime]s ranging [from] (inclusive) to [toExclusive]
@@ -34,7 +34,7 @@ fun ArbExtensionPoint.localDateTimeFromUntil(
 	from: LocalDateTime,
 	toExclusive: LocalDateTime,
 	temporalUnit: TemporalUnit,
-): ArbArgsGenerator<LocalDateTime> = LocalDateTimeArbArgsGenerator(_components, from, toExclusive, temporalUnit)
+): ArbArgsGenerator<LocalDateTime> = LocalDateTimeFromUntilArbArgsGenerator(_components, from, toExclusive, temporalUnit)
 
 /**
  * Returns an [ArbArgsGenerator] which generates [ZonedDateTime]s ranging [from] (inclusive) to [toExclusive]
@@ -47,4 +47,4 @@ fun ArbExtensionPoint.zonedDateTimeFromUntil(
 	from: ZonedDateTime,
 	toExclusive: ZonedDateTime,
 	temporalUnit: TemporalUnit,
-): ArbArgsGenerator<ZonedDateTime> = ZonedDateTimeArbArgsGenerator(_components, from, toExclusive, temporalUnit)
+): ArbArgsGenerator<ZonedDateTime> = ZonedDateTimeFromUntilArbArgsGenerator(_components, from, toExclusive, temporalUnit)

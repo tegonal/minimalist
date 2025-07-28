@@ -16,12 +16,12 @@ import kotlin.random.Random
  *
  * @since 2.0.0
  */
-class LocalDateArbArgsGenerator(
+class LocalDateFromUntilArbArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
 	from: LocalDate,
 	toExclusive: LocalDate,
 	temporalUnit: TemporalUnit = ChronoUnit.DAYS,
-) : TemporalRangeArbArgsGenerator<LocalDate>(
+) : TemporalFromUntilArbArgsGenerator<LocalDate>(
 	componentFactoryContainer,
 	from,
 	toExclusive,
@@ -35,12 +35,12 @@ class LocalDateArbArgsGenerator(
  *
  * @since 2.0.0
  */
-class LocalDateTimeArbArgsGenerator(
+class LocalDateTimeFromUntilArbArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
 	from: LocalDateTime,
 	toExclusive: LocalDateTime,
 	temporalUnit: TemporalUnit = ChronoUnit.DAYS,
-) : TemporalRangeArbArgsGenerator<LocalDateTime>(
+) : TemporalFromUntilArbArgsGenerator<LocalDateTime>(
 	componentFactoryContainer,
 	from,
 	toExclusive,
@@ -54,12 +54,12 @@ class LocalDateTimeArbArgsGenerator(
  *
  * @since 2.0.0
  */
-class ZonedDateTimeArbArgsGenerator(
+class ZonedDateTimeFromUntilArbArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
 	from: ZonedDateTime,
 	toExclusive: ZonedDateTime,
 	temporalUnit: TemporalUnit = ChronoUnit.DAYS,
-) : TemporalRangeArbArgsGenerator<ZonedDateTime>(
+) : TemporalFromUntilArbArgsGenerator<ZonedDateTime>(
 	componentFactoryContainer,
 	from,
 	toExclusive,
@@ -73,7 +73,7 @@ class ZonedDateTimeArbArgsGenerator(
  *
  * @since 2.0.0
  */
-abstract class TemporalRangeArbArgsGenerator<T>(
+abstract class TemporalFromUntilArbArgsGenerator<T>(
 	componentFactoryContainer: ComponentFactoryContainer,
 	from: T,
 	toExclusive: T,
