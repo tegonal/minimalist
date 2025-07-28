@@ -26,11 +26,9 @@ abstract class BaseArgsRangeOptionsBasedArgsRangeDecider : ArgsRangeDecider {
 
 	final override fun decide(argsGenerator: ArgsGenerator<*>, argsRangeOptions: ArgsRangeOptions?): ArgsRange {
 		val config = argsGenerator._components.config
-		val category = config.argsRangeOptions.profile
-			?: argsRangeOptions?.profile
-			?: config.defaultProfile
+		val profile = argsRangeOptions?.profile ?: config.defaultProfile
 
-		return decideArgsRange(category, config.activeEnv, argsGenerator)
+		return decideArgsRange(profile, config.activeEnv, argsGenerator)
 			.restrictBasedOnConfigAndArgsRangeOptions(config, argsRangeOptions, argsGenerator)
 
 	}
@@ -38,7 +36,7 @@ abstract class BaseArgsRangeOptionsBasedArgsRangeDecider : ArgsRangeDecider {
 	/**
 	 * Returns the [ArgsRange] solely based on the given [profileName], [env] and [argsGenerator].
 	 *
-	 * Restricting the choice based on given [ArgsRangeOptions] or [MinimalistConfig.argsRangeOptions] is the
+	 * Restricting the choice based on given [ArgsRangeOptions] and [MinimalistConfig] is the
 	 * responsibility of [BaseArgsRangeOptionsBasedArgsRangeDecider].
 	 */
 	protected abstract fun decideArgsRange(
@@ -56,8 +54,8 @@ abstract class BaseArgsRangeOptionsBasedArgsRangeDecider : ArgsRangeDecider {
 		run {
 			config.offsetToDecidedOffset?.let { this.copy(offset = this.offset + it) } ?: this
 		}.let { argsRange ->
-			val atMostArgs = config.argsRangeOptions.atMostArgs ?: argsRangeOptions?.atMostArgs
-			val requestedMinArgs = config.argsRangeOptions.requestedMinArgs ?: argsRangeOptions?.requestedMinArgs
+			val atMostArgs = config.atMostArgs ?: argsRangeOptions?.atMostArgs
+			val requestedMinArgs = config.requestedMinArgs ?: argsRangeOptions?.requestedMinArgs
 			val generatorSize = maybeGeneratorSize(argsGenerator)
 
 			val newTake = argsRange.take.letIf(atMostArgs != null) {
