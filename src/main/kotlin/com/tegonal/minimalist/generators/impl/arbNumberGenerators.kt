@@ -1,6 +1,7 @@
 package com.tegonal.minimalist.generators.impl
 
 import com.tegonal.minimalist.config.ComponentFactoryContainer
+import com.tegonal.minimalist.generators.ArbArgsGenerator
 import kotlin.random.Random
 
 /**
@@ -42,7 +43,6 @@ class ArbDoubleArgsGenerator(
 	override fun Random.nextElement(): Double = nextDouble()
 }
 
-
 /**
  * !! No backward compatibility guarantees !!
  * Reuse at your own risk
@@ -53,11 +53,34 @@ open class IntFromUntilArbArgsGenerator<T>(
 	componentFactoryContainer: ComponentFactoryContainer,
 	from: Int,
 	toExclusive: Int,
-	argsProvider: (index: Int) -> T
+	argsProvider: (Int) -> T
 ) : OpenEndRangeBasedArbArgsGenerator<Int, T>(componentFactoryContainer, from, toExclusive, argsProvider) {
 
 	final override fun nextElementInRange(random: Random): Int = random.nextInt(from, toExclusive)
 }
+
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
+@Suppress("FunctionName")
+fun <T> IntFromToArbArgsGenerator(
+	componentFactoryContainer: ComponentFactoryContainer,
+	from: Int,
+	toInclusive: Int,
+	argsProvider: (Int) -> T
+): ArbArgsGenerator<T> =
+	//TODO 2.1.0 bench what is faster, this approach or if we would use mergeWeighted
+	if (toInclusive == Int.MAX_VALUE) {
+		LongFromUntilArbArgsGenerator(
+			componentFactoryContainer,
+			from.toLong(),
+			toInclusive.toLong() + 1
+		) { argsProvider(it.toInt()) }
+	} else IntFromUntilArbArgsGenerator(componentFactoryContainer, from, toInclusive + 1, argsProvider)
+
 
 /**
  * !! No backward compatibility guarantees !!
