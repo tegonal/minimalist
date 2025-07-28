@@ -37,6 +37,15 @@ fun checkIsPositive(value: Int, description: String) =
  *
  * @since 2.0.0
  */
+fun checkIsPositive(value: Long, description: String) =
+	check(value > 0) { "$value is not a valid $description, has to be greater than 0" }
+
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 fun failIfNegative(value: Int, description: String) =
 	failIf(value < 0) { "$value is not a valid $description, has to be greater than or equal to 0" }
 

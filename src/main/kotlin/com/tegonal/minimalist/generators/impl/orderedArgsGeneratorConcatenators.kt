@@ -18,7 +18,7 @@ class OrderedArgsGeneratorConcatenator<T>(
 	// should you run into weird behaviour (such as one generator uses seed X and the other seed Y) then most likely
 	// someone used to different initial factories
 	a1Generator._components,
-	a1Generator.size + a2Generator.size
+	a1Generator.size.toLong() + a2Generator.size.toLong()
 ), OrderedArgsGenerator<T> {
 
 	override fun generateAfterChecks(offset: Int): Sequence<T> =
@@ -39,7 +39,7 @@ class SemiOrderedArgsGeneratorConcatenator<T>(
 	// should you run into weird behaviour (such as one generator uses seed X and the other seed Y) then most likely
 	// someone used to different initial factories
 	a1Generator._components,
-	a1Generator.size + a2Generator.size
+	a1Generator.size.toLong() + a2Generator.size.toLong()
 ) {
 
 	override fun generateAfterChecks(offset: Int): Sequence<T> =
