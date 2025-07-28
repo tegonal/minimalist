@@ -2,9 +2,9 @@ package com.tegonal.minimalist.generators
 
 import ch.tutteli.kbox.identity
 import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.generators.impl.DoubleRangeArbArgsGenerator
-import com.tegonal.minimalist.generators.impl.IntRangeArbArgsGenerator
-import com.tegonal.minimalist.generators.impl.LongRangeArbArgsGenerator
+import com.tegonal.minimalist.generators.impl.DoubleFromUntilArbArgsGenerator
+import com.tegonal.minimalist.generators.impl.IntFromUntilArbArgsGenerator
+import com.tegonal.minimalist.generators.impl.LongFromUntilArbArgsGenerator
 
 /**
  * Returns an [ArbArgsGenerator] which generates [Int]s ranging [from] (inclusive) to [toExclusive].
@@ -15,7 +15,7 @@ import com.tegonal.minimalist.generators.impl.LongRangeArbArgsGenerator
 fun ArbExtensionPoint.intFromUntil(
 	from: Int,
 	toExclusive: Int,
-): ArbArgsGenerator<Int> = IntRangeArbArgsGenerator(_components, from, toExclusive, ::identity)
+): ArbArgsGenerator<Int> = IntFromUntilArbArgsGenerator(_components, from, toExclusive, ::identity)
 
 /**
  * Returns an [ArbArgsGenerator] which generates [Long]s ranging [from] (inclusive) to [toExclusive].
@@ -26,7 +26,7 @@ fun ArbExtensionPoint.intFromUntil(
 fun ArbExtensionPoint.longFromUntil(
 	from: Long,
 	toExclusive: Long,
-): ArbArgsGenerator<Long> = LongRangeArbArgsGenerator(_components, from, toExclusive, ::identity)
+): ArbArgsGenerator<Long> = LongFromUntilArbArgsGenerator(_components, from, toExclusive, ::identity)
 
 /**
  * Returns an [ArbArgsGenerator] which generates [Double]s ranging [from] (inclusive) to [toExclusive].
@@ -37,4 +37,4 @@ fun ArbExtensionPoint.longFromUntil(
 fun ArbExtensionPoint.doubleFromUntil(
 	from: Double,
 	toExclusive: Double,
-): ArbArgsGenerator<Double> = DoubleRangeArbArgsGenerator(_components, from, toExclusive, ::identity)
+): ArbArgsGenerator<Double> = DoubleFromUntilArbArgsGenerator(_components, from, toExclusive, ::identity)

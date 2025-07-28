@@ -2,7 +2,7 @@ package com.tegonal.minimalist.generators
 
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.generators.impl.ArrayArbArgsGenerator
-import com.tegonal.minimalist.generators.impl.IntRangeBasedArbArgsGenerator
+import com.tegonal.minimalist.generators.impl.IntFromUntilArbArgsGenerator
 
 /**
  * Returns an [ArbArgsGenerator] based on the given [args].
@@ -11,7 +11,7 @@ import com.tegonal.minimalist.generators.impl.IntRangeBasedArbArgsGenerator
  * @since 2.0.0
  */
 fun ArbExtensionPoint.fromArray(args: ByteArray): ArbArgsGenerator<Byte> =
-	IntRangeBasedArbArgsGenerator(_components, 0, args.size) { args[it] }
+	IntFromUntilArbArgsGenerator(_components, 0, args.size) { args[it] }
 
 /**
  * Returns an [ArbArgsGenerator] based on the given [args].
@@ -20,7 +20,7 @@ fun ArbExtensionPoint.fromArray(args: ByteArray): ArbArgsGenerator<Byte> =
  * @since 2.0.0
  */
 fun ArbExtensionPoint.fromArray(args: CharArray): ArbArgsGenerator<Char> =
-	IntRangeBasedArbArgsGenerator(_components, 0, args.size) { args[it] }
+	IntFromUntilArbArgsGenerator(_components, 0, args.size) { args[it] }
 
 
 /**
@@ -30,7 +30,7 @@ fun ArbExtensionPoint.fromArray(args: CharArray): ArbArgsGenerator<Char> =
  * @since 2.0.0
  */
 fun ArbExtensionPoint.fromArray(args: ShortArray): ArbArgsGenerator<Short> =
-	IntRangeBasedArbArgsGenerator(_components, 0, args.size) { args[it] }
+	IntFromUntilArbArgsGenerator(_components, 0, args.size) { args[it] }
 
 /**
  * Returns an [ArbArgsGenerator] based on the given [args].
@@ -39,7 +39,7 @@ fun ArbExtensionPoint.fromArray(args: ShortArray): ArbArgsGenerator<Short> =
  * @since 2.0.0
  */
 fun ArbExtensionPoint.fromArray(args: IntArray): ArbArgsGenerator<Int> =
-	IntRangeBasedArbArgsGenerator(_components, 0, args.size) { args[it] }
+	IntFromUntilArbArgsGenerator(_components, 0, args.size) { args[it] }
 
 /**
  * Returns an [ArbArgsGenerator] based on the given [args].
@@ -48,7 +48,7 @@ fun ArbExtensionPoint.fromArray(args: IntArray): ArbArgsGenerator<Int> =
  * @since 2.0.0
  */
 fun ArbExtensionPoint.fromArray(args: LongArray): ArbArgsGenerator<Long> =
-	IntRangeBasedArbArgsGenerator(_components, 0, args.size) { args[it] }
+	IntFromUntilArbArgsGenerator(_components, 0, args.size) { args[it] }
 
 /**
  * Returns an [ArbArgsGenerator] based on the given [args].
@@ -57,7 +57,7 @@ fun ArbExtensionPoint.fromArray(args: LongArray): ArbArgsGenerator<Long> =
  * @since 2.0.0
  */
 fun ArbExtensionPoint.fromArray(args: FloatArray): ArbArgsGenerator<Float> =
-	IntRangeBasedArbArgsGenerator(_components, 0, args.size) { args[it] }
+	IntFromUntilArbArgsGenerator(_components, 0, args.size) { args[it] }
 
 /**
  * Returns an [ArbArgsGenerator] based on the given [args].
@@ -66,7 +66,7 @@ fun ArbExtensionPoint.fromArray(args: FloatArray): ArbArgsGenerator<Float> =
  * @since 2.0.0
  */
 fun ArbExtensionPoint.fromArray(args: DoubleArray): ArbArgsGenerator<Double> =
-	IntRangeBasedArbArgsGenerator(_components, 0, args.size) { args[it] }
+	IntFromUntilArbArgsGenerator(_components, 0, args.size) { args[it] }
 
 /**
  * Returns an [ArbArgsGenerator] based on the given [args].
@@ -75,7 +75,7 @@ fun ArbExtensionPoint.fromArray(args: DoubleArray): ArbArgsGenerator<Double> =
  * @since 2.0.0
  */
 fun ArbExtensionPoint.fromArray(args: BooleanArray): ArbArgsGenerator<Boolean> =
-	IntRangeBasedArbArgsGenerator(_components, 0, args.size) { args[it] }
+	IntFromUntilArbArgsGenerator(_components, 0, args.size) { args[it] }
 
 /**
  * Returns an [ArbArgsGenerator] based on the given [args].
