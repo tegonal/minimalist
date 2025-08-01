@@ -81,7 +81,7 @@ val ComponentFactoryContainer.ordered get() : OrderedExtensionPoint = build<Orde
  *
  * @since 2.0.0
  */
-val ComponentFactoryContainer.random get() : ArbExtensionPoint = build<ArbExtensionPoint>()
+val ComponentFactoryContainer.arb get() : ArbExtensionPoint = build<ArbExtensionPoint>()
 
 
 /**

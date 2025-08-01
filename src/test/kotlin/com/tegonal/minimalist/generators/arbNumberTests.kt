@@ -7,13 +7,17 @@ import ch.tutteli.kbox.Tuple
 import com.tegonal.minimalist.providers.ArgsSource
 import org.junit.jupiter.params.ParameterizedTest
 
-class ArbArgsGeneratorNumericRangeTest : AbstractArbArgsGeneratorTest<Any>() {
+class ArbNumberTest : AbstractArbArgsGeneratorTest<Any>() {
 
 	override fun createGenerators() = sequenceOf(
 		// we skip testing int(), long(), double()
-		Tuple("intFromUntil", modifiedArb.intFromUntil(1, 5), listOf(1, 2, 3, 4, 5)),
-		Tuple("longFromUntil", modifiedArb.longFromUntil(1L, 3L), listOf(1L, 2L, 3L)),
+
+		Tuple("intFromUntil", modifiedArb.intFromUntil(1, 5), listOf(1, 2, 3, 4)),
+		Tuple("longFromUntil", modifiedArb.longFromUntil(1L, 3L), listOf(1L, 2L)),
 		// we cannot test doubleFromUntil as the result range is infinite, see test below
+
+		Tuple("intFromTo", modifiedArb.intFromTo(1, 5), listOf(1, 2, 3, 4, 5)),
+		Tuple("longFromTo", modifiedArb.longFromTo(1, 5), listOf(1L, 2L, 3L, 4L, 5L)),
 	)
 }
 
@@ -31,7 +35,7 @@ class DoubleFromUntilTest {
 	companion object {
 		@JvmStatic
 		fun fromUntils() = arb.intFromUntil(Int.MIN_VALUE, Int.MAX_VALUE - 1).combineDependent {
-			arb.intFromUntil(it + 1, Int.MAX_VALUE)
+			arb.intFromTo(it + 1, Int.MAX_VALUE)
 		}
 	}
 }

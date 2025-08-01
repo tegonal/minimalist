@@ -17,7 +17,7 @@ import org.junit.jupiter.params.ParameterizedTest
 class ArbMergeWeightedTest {
 
 	@ParameterizedTest
-	@ArgsSource("weights")
+	@ArgsSource("weightsInTotalAlways100")
 	fun `check weights are correct`(weights: List<Int>) {
 		val g1 = PseudoArbArgsGenerator(
 			(0..9).asSequence(),
@@ -52,37 +52,37 @@ class ArbMergeWeightedTest {
 
 		expect {
 			mergeWeighted(weight to g1, 50 to g2)
-		}.toThrow<IllegalArgumentException> {
-			messageToContain("weight is from 1 to 99 (percentage), given $weight")
+		}.toThrow<IllegalStateException> {
+			messageToContain("$weight is not a valid (1.) weight, has to be greater than 0")
 		}
 		expect {
 			mergeWeighted(50 to g1, weight to g2)
-		}.toThrow<IllegalArgumentException> {
-			messageToContain("weight is from 1 to 99 (percentage), given $weight")
+		}.toThrow<IllegalStateException> {
+			messageToContain("$weight is not a valid (2.) weight, has to be greater than 0")
 		}
 
 		expect {
 			mergeWeighted(10 to g1, 50 to g2, weight to g3)
-		}.toThrow<IllegalArgumentException> {
-			messageToContain("weight is from 1 to 99 (percentage), given $weight")
+		}.toThrow<IllegalStateException> {
+			messageToContain("$weight is not a valid (3.) weight, has to be greater than 0")
 		}
 	}
 
 	@ParameterizedTest
-	@ArgsSource("invalidTotalWeight2")
+	@ArgsSource("twoWeightsInTotalIntMaxOrMore")
 	fun `invalid total weights in case of 2`(weight1: Int, weight2: Int) {
 		val g1 = arb.intFromUntil(1, 10)
 		val g2 = arb.intFromUntil(20, 30)
 
 		expect {
 			mergeWeighted(weight1 to g1, weight2 to g2)
-		}.toThrow<IllegalArgumentException> {
-			messageToContain("weights must add up to 100, given ${weight1 + weight2}")
+		}.toThrow<ArithmeticException> {
+			messageToContain("integer overflow")
 		}
 	}
 
 	@ParameterizedTest
-	@ArgsSource("invalidTotalWeight3")
+	@ArgsSource("threeWeightsInTotalIntMaxOrMore")
 	fun `invalid total weights in case of 3`(weight1: Int, weight2: Int, weight3: Int) {
 		val g1 = arb.intFromUntil(1, 10)
 		val g2 = arb.intFromUntil(20, 30)
@@ -90,14 +90,14 @@ class ArbMergeWeightedTest {
 
 		expect {
 			mergeWeighted(weight1 to g1, weight2 to g2, weight3 to g3)
-		}.toThrow<IllegalArgumentException> {
-			messageToContain("weights must add up to 100, given ${weight1 + weight2 + weight3}")
+		}.toThrow<ArithmeticException> {
+			messageToContain("integer overflow")
 		}
 	}
 
 	companion object {
 		@JvmStatic
-		fun weights() = createMinimalistRandom().let { minimalistRandom ->
+		fun weightsInTotalAlways100() = createMinimalistRandom().let { minimalistRandom ->
 			arb.intFromUntil(1, 10).map { numOfGenerators ->
 				mutableListOf<Int>().also { weights ->
 					val cumulativeWeight = (0..numOfGenerators - 1).fold(0) { cumulativeWeight, index ->
@@ -106,50 +106,31 @@ class ArbMergeWeightedTest {
 						weights.add(weight)
 						cumulativeWeight + weight
 					}
-					check(cumulativeWeight < 100) {
-						"wrong test-setup, cumulativeWeight was $cumulativeWeight"
-					}
 					weights.add(100 - cumulativeWeight)
 				}
 			}
 		}
 
 		@JvmStatic
-		fun invalidWeight() = arb.intFromUntil(Int.MIN_VALUE, 1) + arb.intFromUntil(100, Int.MAX_VALUE)
+		fun invalidWeight() =
+			//TODO 2.1.0 introduce the concept of edge cases, here we would like to be sure that 0 is invalid as well
+			arb.intFromTo(Int.MIN_VALUE, 0)
 
 		@JvmStatic
-		fun invalidTotalWeight2() = run {
-			val lessThan100 = arb.intFromUntil(1, 98).combineDependent {
-				if (it == 98) arb.of(1)
-				else arb.intFromUntil(1, 99 - it)
+		fun twoWeightsInTotalIntMaxOrMore() =
+			arb.intFromUntil(1, Int.MAX_VALUE).combineDependent {
+				arb.intFromTo(Int.MAX_VALUE - it, Int.MAX_VALUE)
 			}
-			val moreThan100 = arb.intFromUntil(2, 99).combineDependent {
-				val from = 100 - it + 1
-				if (from == 99) arb.of(from) else arb.intFromUntil(from, 99)
-			}
-			lessThan100 + moreThan100
-		}
+
 
 		@JvmStatic
-		fun invalidTotalWeight3() = run {
-			val lessThan100 = arb.intFromUntil(1, 97).combineDependent {
-				if (it == 97) arb.of(1)
-				else arb.intFromUntil(1, 98 - it)
+		fun threeWeightsInTotalIntMaxOrMore() =
+			arb.intFromUntil(1, Int.MAX_VALUE).combineDependent {
+				arb.intFromUntil(1, Int.MAX_VALUE)
 			}.combineDependent({ (a, b) ->
-				val total = a + b
-				if (total == 98) arb.of(1)
-				else arb.intFromUntil(1, 99 - total)
+				val total = a.toLong() + b.toLong()
+				if (total > Int.MAX_VALUE) arb.intFromUntil(1, Int.MAX_VALUE)
+				else arb.intFromTo(Int.MAX_VALUE - total.toInt(), Int.MAX_VALUE)
 			}) { p, a3 -> p.append(a3) }
-
-			val moreThan100 = arb.intFromUntil(1, 99).combineDependent {
-				arb.intFromUntil(1, 99)
-			}.combineDependent({ (a, b) ->
-				val total = a + b
-				if (total == 2) arb.of(99)
-				else arb.intFromUntil(maxOf(1, 100 - total + 1), 99)
-			}) { p, a3 -> p.append(a3) }
-
-			lessThan100 + moreThan100
-		}
 	}
 }

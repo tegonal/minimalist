@@ -37,4 +37,4 @@ val ordered: OrderedExtensionPoint = propertiesBasedComponentFactoryContainer.or
  *
  * @since 2.0.0
  */
-val arb: ArbExtensionPoint = propertiesBasedComponentFactoryContainer.random
+val arb: ArbExtensionPoint = propertiesBasedComponentFactoryContainer.arb
