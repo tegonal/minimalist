@@ -24,6 +24,5 @@ fun ArbExtensionPoint.fromRange(range: IntRange): ArbArgsGenerator<Int> =
  * @return an [ArbArgsGenerator] based on the given [args].
  * @since 2.0.0
  */
-fun ArbExtensionPoint.fromRange(args: LongRange): ArbArgsGenerator<Long> =
-	fromProgression(args)
-
+fun ArbExtensionPoint.fromRange(range: LongRange): ArbArgsGenerator<Long> =
+	longFromTo(range.start, range.endInclusive)

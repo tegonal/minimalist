@@ -17,6 +17,7 @@ class ArbNumberTest : AbstractArbArgsGeneratorTest<Any>() {
 		// we cannot test doubleFromUntil as the result range is infinite, see test below
 
 		Tuple("intFromTo", modifiedArb.intFromTo(1, 5), listOf(1, 2, 3, 4, 5)),
+		Tuple("longFromTo", modifiedArb.longFromTo(1, 5), listOf(1L, 2L, 3L, 4L, 5L)),
 	)
 }
 

@@ -8,6 +8,6 @@ fun createOrderedWithCustomConfig(customConfig: MinimalistConfig): OrderedExtens
 	ComponentFactoryContainer.createBasedOnConfig(customConfig).ordered
 
 fun createArbWithCustomConfig(customConfig: MinimalistConfig): ArbExtensionPoint =
-	ComponentFactoryContainer.createBasedOnConfig(customConfig).random
+	ComponentFactoryContainer.createBasedOnConfig(customConfig).arb
 
 val orderedWithSeed0 = createOrderedWithCustomConfig(MinimalistConfig().copy { seed = 0 })

@@ -1,13 +1,13 @@
 package com.tegonal.minimalist.generators
 
 import ch.tutteli.atrium.testfactories.TestFactory
-import com.tegonal.minimalist.config.random
+import com.tegonal.minimalist.config.arb
 
 typealias ArbArgsTestFactoryResult<T> = ArgsTestFactoryResult<T, ArbArgsGenerator<T>>
 
 abstract class AbstractArbArgsGeneratorWithoutAnnotationsTest : AbstractArgsGeneratorTest() {
 
-	val modifiedArb: ArbExtensionPoint = customComponentFactoryContainer.random
+	val modifiedArb: ArbExtensionPoint = customComponentFactoryContainer.arb
 }
 
 abstract class AbstractArbArgsGeneratorTest<T>() : AbstractArbArgsGeneratorWithoutAnnotationsTest() {

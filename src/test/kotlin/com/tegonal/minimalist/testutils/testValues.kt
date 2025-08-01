@@ -21,6 +21,8 @@ private val testValues: Map<String, List<Any>> = mapOf(
 	"fromLongProgression" to listOf(160L..170L step 3, 190L downTo 171L step 5),
 	"intFromUntil" to listOf(200..205, 206 .. 210),
 	"longFromUntil" to listOf(211L..213L, 214L .. 219L),
+	"intFromTo" to listOf(220..224, 225 .. 228),
+	"longFromTo" to listOf(230L..233L, 234L .. 238L),
 )
 
 fun getTestValue(key: String, index: Int) = (testValues[key]!!).let { it[index] }

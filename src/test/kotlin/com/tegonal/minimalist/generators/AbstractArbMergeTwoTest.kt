@@ -36,6 +36,16 @@ abstract class AbstractArbMergeTwoTest : AbstractArbArgsGeneratorTest<Any>() {
 				it to (getTestValue(it, index) as LongRange).let { range ->
 					modifiedArb.longFromUntil(range.start, range.endInclusive + 1)
 				}
-			}
+			},
+			"intFromTo".let {
+				it to (getTestValue(it, index) as IntRange).let { range ->
+					modifiedArb.intFromTo(range.start, range.endInclusive)
+				}
+			},
+			"longFromTo".let {
+				it to (getTestValue(it, index) as LongRange).let { range ->
+					modifiedArb.longFromTo(range.start, range.endInclusive)
+				}
+			},
 		)
 }
