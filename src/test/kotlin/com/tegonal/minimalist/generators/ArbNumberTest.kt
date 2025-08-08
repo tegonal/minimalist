@@ -10,6 +10,7 @@ import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.arb
 import com.tegonal.minimalist.providers.ArgsSource
 import com.tegonal.minimalist.testutils.withMockedRandom
+import com.tegonal.minimalist.utils.BigInt
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 
@@ -20,10 +21,20 @@ class ArbNumberTest : AbstractArbArgsGeneratorTest<Any>() {
 
 		Tuple("intFromUntil", modifiedArb.intFromUntil(1, 5), listOf(1, 2, 3, 4)),
 		Tuple("longFromUntil", modifiedArb.longFromUntil(1L, 3L), listOf(1L, 2L)),
+		Tuple(
+			"bigIntFromUntil",
+			modifiedArb.bigIntFromUntil(BigInt.ONE, BigInt.valueOf(3L)),
+			listOf(BigInt.ONE, BigInt.TWO)
+		),
 		// we cannot test doubleFromUntil as the result range is infinite, see test below
 
 		Tuple("intFromTo", modifiedArb.intFromTo(1, 5), listOf(1, 2, 3, 4, 5)),
 		Tuple("longFromTo", modifiedArb.longFromTo(1, 5), listOf(1L, 2L, 3L, 4L, 5L)),
+		Tuple(
+			"bigIntFromTo",
+			modifiedArb.bigIntFromTo(BigInt.ONE, BigInt.valueOf(3L)),
+			listOf(BigInt.ONE, BigInt.TWO, BigInt.valueOf(3))
+		),
 	)
 
 	@Test

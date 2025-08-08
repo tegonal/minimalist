@@ -6,6 +6,7 @@ import com.tegonal.minimalist.generators.ArbArgsGenerator
 import com.tegonal.minimalist.generators.map
 import com.tegonal.minimalist.generators.mergeWeighted
 import com.tegonal.minimalist.generators.of
+import com.tegonal.minimalist.utils.nextBigInt
 import java.math.BigInteger
 import kotlin.random.Random
 
@@ -189,4 +190,27 @@ open class DoubleFromUntilArbArgsGenerator<T>(
 	argsProvider
 ) {
 	final override fun nextElementInRange(random: Random): Double = random.nextDouble(from, toExclusive)
+}
+
+
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
+open class BigIntFromUntilArbArgsGenerator<T>(
+	componentFactoryContainer: ComponentFactoryContainer,
+	seedBaseOffset: Int,
+	from: BigInteger,
+	toExclusive: BigInteger,
+	argsProvider: (BigInteger) -> T
+) : OpenEndRangeBasedArbArgsGenerator<BigInteger, T>(
+	componentFactoryContainer,
+	seedBaseOffset,
+	from,
+	toExclusive,
+	argsProvider
+) {
+	final override fun nextElementInRange(random: Random): BigInteger = random.nextBigInt(from, toExclusive)
 }

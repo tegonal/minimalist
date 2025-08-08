@@ -3,7 +3,6 @@ package com.tegonal.minimalist.generators.impl
 import com.tegonal.minimalist.config.ComponentFactoryContainer
 import com.tegonal.minimalist.config.ComponentFactoryContainerProvider
 import com.tegonal.minimalist.config.arb
-import com.tegonal.minimalist.config.impl.failIfNegative
 import com.tegonal.minimalist.config.ordered
 import com.tegonal.minimalist.generators.ArbExtensionPoint
 import com.tegonal.minimalist.generators.OrderedExtensionPoint

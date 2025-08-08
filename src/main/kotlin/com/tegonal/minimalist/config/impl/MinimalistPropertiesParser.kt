@@ -4,6 +4,8 @@ import com.tegonal.minimalist.config.MinimalistConfig
 import com.tegonal.minimalist.config.MinimalistConfigBuilder
 import com.tegonal.minimalist.config.TestConfig
 import com.tegonal.minimalist.utils.impl.FEATURE_REQUEST_URL
+import com.tegonal.minimalist.utils.impl.toIntOrErrorNotValid
+import com.tegonal.minimalist.utils.impl.toPositiveIntOrErrorNotValid
 import java.util.Properties
 
 /**

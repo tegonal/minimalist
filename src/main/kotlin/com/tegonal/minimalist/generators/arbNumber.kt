@@ -5,11 +5,13 @@ import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.generators.impl.ArbDoubleArgsGenerator
 import com.tegonal.minimalist.generators.impl.ArbIntArgsGenerator
 import com.tegonal.minimalist.generators.impl.ArbLongArgsGenerator
+import com.tegonal.minimalist.generators.impl.BigIntFromUntilArbArgsGenerator
 import com.tegonal.minimalist.generators.impl.DoubleFromUntilArbArgsGenerator
 import com.tegonal.minimalist.generators.impl.IntFromToArbArgsGenerator
 import com.tegonal.minimalist.generators.impl.IntFromUntilArbArgsGenerator
 import com.tegonal.minimalist.generators.impl.LongFromToArbArgsGenerator
 import com.tegonal.minimalist.generators.impl.LongFromUntilArbArgsGenerator
+import com.tegonal.minimalist.utils.BigInt
 
 /**
  * Returns an [ArbArgsGenerator] which generates [Int]s ranging from
@@ -88,6 +90,18 @@ fun ArbExtensionPoint.doubleFromUntil(
 	DoubleFromUntilArbArgsGenerator(_components, seedBaseOffset, from, toExclusive, ::identity)
 
 /**
+ * Returns an [ArbArgsGenerator] which generates [BigInt]s ranging [from] (inclusive) to [toExclusive].
+ *
+ * @since 2.0.0
+ */
+fun ArbExtensionPoint.bigIntFromUntil(
+	from: BigInt,
+	toExclusive: BigInt
+): ArbArgsGenerator<BigInt> =
+	BigIntFromUntilArbArgsGenerator(_components, seedBaseOffset, from, toExclusive, ::identity)
+
+
+/**
  * Returns an [ArbArgsGenerator] which generates [Int]s ranging [from] (inclusive) to [toInclusive].
  *
  * @since 2.0.0
@@ -108,3 +122,12 @@ fun ArbExtensionPoint.longFromTo(
 	toInclusive: Long,
 ): ArbArgsGenerator<Long> = LongFromToArbArgsGenerator(_components, seedBaseOffset, from, toInclusive, ::identity)
 
+/**
+ * Returns an [ArbArgsGenerator] which generates [BigInt]s ranging [from] (inclusive) to [toInclusive].
+ *
+ * @since 2.0.0
+ */
+fun ArbExtensionPoint.bigIntFromTo(
+	from: BigInt,
+	toInclusive: BigInt,
+): ArbArgsGenerator<BigInt> = bigIntFromUntil(from, toInclusive + BigInt.ONE)
