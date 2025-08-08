@@ -21,6 +21,7 @@ class ArbMergeWeightedTest {
 	fun `check weights are correct`(weights: List<Int>) {
 		val g1 = PseudoArbArgsGenerator(
 			(0..9).asSequence(),
+			seedBaseOffset = 0,
 			arb._components.withMockedRandom(ints = (1..100).toList())
 		)
 		val (secondWithWeights, othersWithWeights) = weights.drop(1).mapIndexed { index, weight ->

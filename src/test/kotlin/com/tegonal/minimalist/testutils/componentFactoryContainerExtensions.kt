@@ -1,5 +1,6 @@
 package com.tegonal.minimalist.testutils
 
+import ch.tutteli.kbox.Tuple3
 import com.tegonal.minimalist.config.ArgsRangeOptions
 import com.tegonal.minimalist.config.ComponentFactoryContainer
 import com.tegonal.minimalist.config.RandomFactory
@@ -17,6 +18,15 @@ fun ComponentFactoryContainer.withMockedRandom(
 	this.merge(
 		ComponentFactoryContainer.create(
 			mapOf(RandomFactory::class createSingletonVia { MockedRandomFactory(ints, longs, doubles) })
+		)
+	)
+
+fun ComponentFactoryContainer.withMockedRandom(
+	seedToTriple: (Int) -> Tuple3<List<Int>, List<Long>, List<Double>>
+): ComponentFactoryContainer =
+	this.merge(
+		ComponentFactoryContainer.create(
+			mapOf(RandomFactory::class createSingletonVia { MockedRandomBasedOnSeedFactory(seedToTriple) })
 		)
 	)
 

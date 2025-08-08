@@ -96,4 +96,4 @@ fun <T> Sequence<T>.takeRandomly(amount: Int): Sequence<T> {
  *
  * @since 2.0.0
  */
-fun createMinimalistRandom(): Random = ordered._components.createMinimalistRandom()
+fun createMinimalistRandom(): Random = ordered._components.createMinimalistRandom(seedOffset = 0)

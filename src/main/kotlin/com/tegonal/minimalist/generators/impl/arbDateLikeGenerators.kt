@@ -18,11 +18,13 @@ import kotlin.random.Random
  */
 class LocalDateFromUntilArbArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
+	seedBaseOffset: Int,
 	from: LocalDate,
 	toExclusive: LocalDate,
 	temporalUnit: TemporalUnit = ChronoUnit.DAYS,
 ) : TemporalFromUntilArbArgsGenerator<LocalDate>(
 	componentFactoryContainer,
+	seedBaseOffset,
 	from,
 	toExclusive,
 	temporalUnit,
@@ -37,11 +39,13 @@ class LocalDateFromUntilArbArgsGenerator(
  */
 class LocalDateTimeFromUntilArbArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
+	seedBaseOffset: Int,
 	from: LocalDateTime,
 	toExclusive: LocalDateTime,
 	temporalUnit: TemporalUnit = ChronoUnit.DAYS,
 ) : TemporalFromUntilArbArgsGenerator<LocalDateTime>(
 	componentFactoryContainer,
+	seedBaseOffset,
 	from,
 	toExclusive,
 	temporalUnit,
@@ -56,11 +60,13 @@ class LocalDateTimeFromUntilArbArgsGenerator(
  */
 class ZonedDateTimeFromUntilArbArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
+	seedBaseOffset: Int,
 	from: ZonedDateTime,
 	toExclusive: ZonedDateTime,
 	temporalUnit: TemporalUnit = ChronoUnit.DAYS,
 ) : TemporalFromUntilArbArgsGenerator<ZonedDateTime>(
 	componentFactoryContainer,
+	seedBaseOffset,
 	from,
 	toExclusive,
 	temporalUnit,
@@ -75,12 +81,14 @@ class ZonedDateTimeFromUntilArbArgsGenerator(
  */
 abstract class TemporalFromUntilArbArgsGenerator<T>(
 	componentFactoryContainer: ComponentFactoryContainer,
+	seedBaseOffset: Int,
 	from: T,
 	toExclusive: T,
 	private val temporalUnit: TemporalUnit = ChronoUnit.DAYS,
 	private val plusTyped: T.(Long, TemporalUnit) -> T,
 ) : OpenEndRangeBasedArbArgsGenerator<T, T>(
 	componentFactoryContainer,
+	seedBaseOffset,
 	from,
 	toExclusive,
 	::identity

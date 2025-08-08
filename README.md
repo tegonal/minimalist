@@ -14,43 +14,48 @@
 -->
 <!-- for release end -->
 
-
-
 # Minimalist
 
-![Minimalist](https://raw.githubusercontent.com/tegonal/minimalist/main/.idea/icon.png) M like Minimalist, 
-a library which helps you in setting up parameterized tests and prioritise them in case you don't have enough time 
+![Minimalist](https://raw.githubusercontent.com/tegonal/minimalist/main/.idea/icon.png) M like Minimalist,
+a library which helps you in setting up parameterized tests and prioritise them in case you don't have enough time
 to execute all of them.
 
-Although it might resemble a property based testing library, its focus is on tests that take longer 
+Although it might resemble a property based testing library, its focus is on tests that take longer
 (integration, e2e and system integration tests) and is more data-driven oriented.
 
 
 ---
-❗ You are taking a *sneak peek* at the next version. It could be that some features you find on this page are not released yet.  
-Please have a look at the README of the corresponding release/git tag. Latest version: [README of v1.1.0](https://github.com/tegonal/minimalist/tree/main/README.md).
+❗ You are taking a *sneak peek* at the next version. It could be that some features you find on this page are not
+released yet.  
+Please have a look at the README of the corresponding release/git tag. Latest
+version: [README of v1.1.0](https://github.com/tegonal/minimalist/tree/main/README.md).
 
 ---
 
 **Table of Content**
+
 - [Installation](#installation)
 - [Code Documentation](#code-documentation)
 - [License](#license)
-
 
 # Installation
 
 Minimalist is published to maven central.
 
 *build.gradle.kts*:
+
 ```kotlin
 repositories {
-    mavenCentral()
+	mavenCentral()
 }
 dependencies {
-    testImplementation("com.tegonal.minimalist:minimalist:1.1.0")
+	testImplementation("com.tegonal.minimalist:minimalist:1.1.0")
 }
 ```
+
+Minimum requirements:
+- Kotlin: 1.9
+- JDK: 11
 
 # Code Documentation
 
@@ -58,8 +63,13 @@ Code documentation can be found on github-pages: <https://tegonal.github.io/mini
 
 # License
 
-Minimalist is licensed under [European Union Public Licence 1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12).
+Minimalist is licensed
+under [European Union Public Licence 1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12).
 
 Minimalist is using
-- [junit-jupiter-params/junit-platform-commons](https://github.com/junit-team/junit5) licensed under [EPL 2.0](https://www.eclipse.org/legal/epl-v20.html)
+
+- [junit-jupiter-params/junit-platform-commons](https://github.com/junit-team/junit5) licensed
+  under [EPL 2.0](https://www.eclipse.org/legal/epl-v20.html)
 - [KBox](https://github.com/robstoll/kbox) licensed under [Apache 2.0](https://opensource.org/licenses/Apache2.0)
+- Copied some classes and interfaces from [Atrium](https://atriumlib.org) licensed
+  under [EUPL 1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12).

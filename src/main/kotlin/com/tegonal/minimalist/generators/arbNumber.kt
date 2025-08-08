@@ -18,7 +18,7 @@ import com.tegonal.minimalist.generators.impl.LongFromUntilArbArgsGenerator
  * @since 2.0.0
  */
 fun ArbExtensionPoint.int(): ArbArgsGenerator<Int> =
-	ArbIntArgsGenerator(_components)
+	ArbIntArgsGenerator(_components, seedBaseOffset)
 
 /**
  * Returns an [ArbArgsGenerator] which generates [Int]s ranging from
@@ -27,7 +27,7 @@ fun ArbExtensionPoint.int(): ArbArgsGenerator<Int> =
  * @since 2.0.0
  */
 fun ArbExtensionPoint.long(): ArbArgsGenerator<Long> =
-	ArbLongArgsGenerator(_components)
+	ArbLongArgsGenerator(_components, seedBaseOffset)
 
 /**
  * Returns an [ArbArgsGenerator] which generates [Int]s ranging from
@@ -36,7 +36,25 @@ fun ArbExtensionPoint.long(): ArbArgsGenerator<Long> =
  * @since 2.0.0
  */
 fun ArbExtensionPoint.double(): ArbArgsGenerator<Double> =
-	ArbDoubleArgsGenerator(_components)
+	ArbDoubleArgsGenerator(_components, seedBaseOffset)
+
+/**
+ * Returns an [ArbArgsGenerator] which generates [Int]s ranging from
+ * 1 (inclusive) to [Int.MAX_VALUE] (inclusive).
+ *
+ * @since 2.0.0
+ */
+fun ArbExtensionPoint.intPositive(): ArbArgsGenerator<Int> =
+	intFromTo(1, Int.MAX_VALUE)
+
+/**
+ * Returns an [ArbArgsGenerator] which generates [Long]s ranging from
+ * 1 (inclusive) to [Long.MAX_VALUE] (inclusive).
+ *
+ * @since 2.0.0
+ */
+fun ArbExtensionPoint.longPositive(): ArbArgsGenerator<Long> =
+	longFromTo(1, Long.MAX_VALUE)
 
 /**
  * Returns an [ArbArgsGenerator] which generates [Int]s ranging [from] (inclusive) to [toExclusive].
@@ -46,7 +64,7 @@ fun ArbExtensionPoint.double(): ArbArgsGenerator<Double> =
 fun ArbExtensionPoint.intFromUntil(
 	from: Int,
 	toExclusive: Int,
-): ArbArgsGenerator<Int> = IntFromUntilArbArgsGenerator(_components, from, toExclusive, ::identity)
+): ArbArgsGenerator<Int> = IntFromUntilArbArgsGenerator(_components, seedBaseOffset, from, toExclusive, ::identity)
 
 /**
  * Returns an [ArbArgsGenerator] which generates [Long]s ranging [from] (inclusive) to [toExclusive].
@@ -56,7 +74,7 @@ fun ArbExtensionPoint.intFromUntil(
 fun ArbExtensionPoint.longFromUntil(
 	from: Long,
 	toExclusive: Long,
-): ArbArgsGenerator<Long> = LongFromUntilArbArgsGenerator(_components, from, toExclusive, ::identity)
+): ArbArgsGenerator<Long> = LongFromUntilArbArgsGenerator(_components, seedBaseOffset, from, toExclusive, ::identity)
 
 /**
  * Returns an [ArbArgsGenerator] which generates [Double]s ranging [from] (inclusive) to [toExclusive].
@@ -66,7 +84,8 @@ fun ArbExtensionPoint.longFromUntil(
 fun ArbExtensionPoint.doubleFromUntil(
 	from: Double,
 	toExclusive: Double,
-): ArbArgsGenerator<Double> = DoubleFromUntilArbArgsGenerator(_components, from, toExclusive, ::identity)
+): ArbArgsGenerator<Double> =
+	DoubleFromUntilArbArgsGenerator(_components, seedBaseOffset, from, toExclusive, ::identity)
 
 /**
  * Returns an [ArbArgsGenerator] which generates [Int]s ranging [from] (inclusive) to [toInclusive].
@@ -76,15 +95,16 @@ fun ArbExtensionPoint.doubleFromUntil(
 fun ArbExtensionPoint.intFromTo(
 	from: Int,
 	toInclusive: Int,
-): ArbArgsGenerator<Int> = IntFromToArbArgsGenerator(_components, from, toInclusive, ::identity)
+): ArbArgsGenerator<Int> = IntFromToArbArgsGenerator(_components, seedBaseOffset, from, toInclusive, ::identity)
 
 
 /**
- * Returns an [ArbArgsGenerator] which generates [Int]s ranging [from] (inclusive) to [toInclusive].
+ * Returns an [ArbArgsGenerator] which generates [Long]s ranging [from] (inclusive) to [toInclusive].
  *
  * @since 2.0.0
  */
 fun ArbExtensionPoint.longFromTo(
 	from: Long,
 	toInclusive: Long,
-): ArbArgsGenerator<Long> = LongFromToArbArgsGenerator(_components, from, toInclusive, ::identity)
+): ArbArgsGenerator<Long> = LongFromToArbArgsGenerator(_components, seedBaseOffset, from, toInclusive, ::identity)
+

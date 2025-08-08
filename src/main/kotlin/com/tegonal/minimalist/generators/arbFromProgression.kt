@@ -15,7 +15,9 @@ import kotlin.math.abs
  * @since 2.0.0
  */
 fun ArbExtensionPoint.fromProgression(progression: CharProgression): ArbArgsGenerator<Char> =
-	fromList(progression.toList())
+	fromProgression(
+		IntProgression.fromClosedRange(progression.first.code, progression.last.code, progression.step)
+	).map { it.toChar() }
 
 /**
  * Returns an [ArbArgsGenerator] generating [Int]s based on the given [progression].
@@ -39,8 +41,12 @@ fun ArbExtensionPoint.fromProgression(progression: IntProgression): ArbArgsGener
 			// or should be decreased to y
 			if (numberOfSteps < 50) fromList(progression.toList())
 			else if (numberOfSteps >= Int.MAX_VALUE) {
-				LongFromToArbArgsGenerator(_components, 0, numberOfSteps) { (start + it * stepAbs).toInt() }
-			} else IntFromToArbArgsGenerator(_components, 0, numberOfSteps.toInt()) { start + it * stepAbs }
+				LongFromToArbArgsGenerator(_components, seedBaseOffset, 0, numberOfSteps) {
+					(start + it * stepAbs).toInt()
+				}
+			} else IntFromToArbArgsGenerator(_components, seedBaseOffset, 0, numberOfSteps.toInt()) {
+				start + it * stepAbs
+			}
 		}
 	}
 
@@ -70,8 +76,12 @@ fun ArbExtensionPoint.fromProgression(progression: LongProgression): ArbArgsGene
 				val longMaxAsBigInt = BigInteger.valueOf(Long.MAX_VALUE)
 				if (numberOfSteps >= longMaxAsBigInt) {
 					val minus = longMaxAsBigInt.subtract(numberOfSteps).add(BigInteger.ONE).toLong()
-					LongFromUntilArbArgsGenerator(_components, minus, Long.MAX_VALUE) { start + (it - minus) * stepAbs }
-				} else LongFromToArbArgsGenerator(_components, 0, numberOfSteps.toLong()) { start + it * stepAbs }
+					LongFromUntilArbArgsGenerator(_components, seedBaseOffset, minus, Long.MAX_VALUE) {
+						start + (it - minus) * stepAbs
+					}
+				} else LongFromToArbArgsGenerator(_components, seedBaseOffset, 0, numberOfSteps.toLong()) {
+					start + it * stepAbs
+				}
 			}
 		}
 	}

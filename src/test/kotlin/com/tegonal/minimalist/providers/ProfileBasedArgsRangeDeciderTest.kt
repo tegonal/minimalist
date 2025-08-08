@@ -1,6 +1,7 @@
 package com.tegonal.minimalist.providers
 
 import ch.tutteli.atrium.api.fluent.en_GB.feature
+import ch.tutteli.atrium.api.fluent.en_GB.notToThrow
 import ch.tutteli.atrium.api.fluent.en_GB.toEqual
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
@@ -11,12 +12,20 @@ import com.tegonal.minimalist.config.MinimalistConfig
 import com.tegonal.minimalist.config.TestConfig
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.config
+import com.tegonal.minimalist.generators.arb
 import com.tegonal.minimalist.generators.fromEnum
+import com.tegonal.minimalist.generators.fromList
 import com.tegonal.minimalist.generators.fromRange
+import com.tegonal.minimalist.generators.generateAndTakeBasedOnDecider
+import com.tegonal.minimalist.generators.impl.DefaultArbExtensionPoint
+import com.tegonal.minimalist.generators.int
+import com.tegonal.minimalist.generators.of
 import com.tegonal.minimalist.generators.ordered
 import com.tegonal.minimalist.providers.impl.ProfileBasedArgsRangeDecider
 import com.tegonal.minimalist.testutils.createOrderedWithCustomConfig
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
+import kotlin.math.absoluteValue
 
 @ArgsSourceOptions(profile = TestType.ForAnnotation.Unit)
 class ProfileBasedArgsRangeDeciderTest {
@@ -63,7 +72,7 @@ class ProfileBasedArgsRangeDeciderTest {
 		val argsRange = ProfileBasedArgsRangeDecider().decide(argsGenerator)
 
 		expect(argsRange) {
-			feature(ArgsRange::offset).toEqual(config.seed)
+			feature(ArgsRange::offset).toEqual(config.seed.absoluteValue)
 			feature(ArgsRange::take).toEqual(
 				minOf(
 					argsGeneratorSize,
@@ -71,6 +80,33 @@ class ProfileBasedArgsRangeDeciderTest {
 				)
 			)
 		}
+	}
+
+	@Test
+	fun canCopeWithALargeSeedOffset() {
+		expect {
+			DefaultArbExtensionPoint(arb._components, Int.MAX_VALUE).arb.int().generateAndTakeBasedOnDecider().count()
+		}.notToThrow()
+	}
+
+	@Test
+	fun canCopeWithALargeOffsetToDecidedOffset() {
+		expect {
+			val ordered = createOrderedWithCustomConfig(
+				ordered._components.config.copy { offsetToDecidedOffset = Int.MAX_VALUE }
+			).ordered
+			ordered.of(1, 2, 3, 4).generateAndTakeBasedOnDecider().count()
+		}.notToThrow()
+	}
+
+	@Test
+	fun canCopeWithALargeSeed() {
+		expect {
+			val ordered = createOrderedWithCustomConfig(
+				ordered._components.config.copy { seed = Int.MAX_VALUE }
+			).ordered
+			ordered.of(1, 2, 3, 4).generateAndTakeBasedOnDecider().count()
+		}.notToThrow()
 	}
 
 	//TODO 2.0.0

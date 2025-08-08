@@ -21,6 +21,7 @@ buildParameters {
 	group("kotlin") {
         string("version") {
             fromEnvironment()
+			//TODO 2.0.0 check if there is any reason why we cannot use Kotlin 1.6
             defaultValue.set(KotlinVersion.KOTLIN_1_9.version)
             description.set("kotlin version used for apiVersion and languageVersion")
         }

@@ -16,8 +16,9 @@ import kotlin.random.Random
  * @since 2.0.0
  */
 class ArbIntArgsGenerator(
-	componentFactoryContainer: ComponentFactoryContainer
-) : RandomBasedArbArgsGenerator<Int>(componentFactoryContainer) {
+	componentFactoryContainer: ComponentFactoryContainer,
+	seedBaseOffset: Int,
+) : RandomBasedArbArgsGenerator<Int>(componentFactoryContainer, seedBaseOffset) {
 
 	override fun Random.nextElement(): Int = nextInt()
 }
@@ -29,8 +30,9 @@ class ArbIntArgsGenerator(
  * @since 2.0.0
  */
 class ArbLongArgsGenerator(
-	componentFactoryContainer: ComponentFactoryContainer
-) : RandomBasedArbArgsGenerator<Long>(componentFactoryContainer) {
+	componentFactoryContainer: ComponentFactoryContainer,
+	seedBaseOffset: Int,
+) : RandomBasedArbArgsGenerator<Long>(componentFactoryContainer, seedBaseOffset) {
 
 	override fun Random.nextElement(): Long = nextLong()
 }
@@ -42,8 +44,9 @@ class ArbLongArgsGenerator(
  * @since 2.0.0
  */
 class ArbDoubleArgsGenerator(
-	componentFactoryContainer: ComponentFactoryContainer
-) : RandomBasedArbArgsGenerator<Double>(componentFactoryContainer) {
+	componentFactoryContainer: ComponentFactoryContainer,
+	seedBaseOffset: Int,
+) : RandomBasedArbArgsGenerator<Double>(componentFactoryContainer, seedBaseOffset) {
 
 	override fun Random.nextElement(): Double = nextDouble()
 }
@@ -56,10 +59,19 @@ class ArbDoubleArgsGenerator(
  */
 open class IntFromUntilArbArgsGenerator<T>(
 	componentFactoryContainer: ComponentFactoryContainer,
+	seedBaseOffset: Int,
 	from: Int,
 	toExclusive: Int,
+	//TODO 2.0.0 don't provide an argsProvider, one can use a map on the ArgsGenerator instead
+	// (same same for other generators where we use ::identity for the default case)
 	argsProvider: (Int) -> T
-) : OpenEndRangeBasedArbArgsGenerator<Int, T>(componentFactoryContainer, from, toExclusive, argsProvider) {
+) : OpenEndRangeBasedArbArgsGenerator<Int, T>(
+	componentFactoryContainer,
+	seedBaseOffset,
+	from,
+	toExclusive,
+	argsProvider
+) {
 
 	final override fun nextElementInRange(random: Random): Int = random.nextInt(from, toExclusive)
 }
@@ -73,22 +85,24 @@ open class IntFromUntilArbArgsGenerator<T>(
 @Suppress("FunctionName")
 fun <T> IntFromToArbArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
+	seedBaseOffset: Int,
 	from: Int,
 	toInclusive: Int,
 	argsProvider: (Int) -> T
 ): ArbArgsGenerator<T> =
 	if (toInclusive == Int.MAX_VALUE) {
-		if (from == Int.MIN_VALUE) ArbIntArgsGenerator(componentFactoryContainer).map(argsProvider)
+		if (from == Int.MIN_VALUE) ArbIntArgsGenerator(componentFactoryContainer, seedBaseOffset).map(argsProvider)
 		else {
 			//TODO 2.1.0 bench what is faster, this approach or if we would use mergeWeighted or recalculate the range and use
 			// a mapping function
 			LongFromUntilArbArgsGenerator(
 				componentFactoryContainer,
+				seedBaseOffset,
 				from.toLong(),
 				toInclusive.toLong() + 1
 			) { argsProvider(it.toInt()) }
 		}
-	} else IntFromUntilArbArgsGenerator(componentFactoryContainer, from, toInclusive + 1, argsProvider)
+	} else IntFromUntilArbArgsGenerator(componentFactoryContainer, seedBaseOffset, from, toInclusive + 1, argsProvider)
 
 
 /**
@@ -100,13 +114,14 @@ fun <T> IntFromToArbArgsGenerator(
 @Suppress("FunctionName")
 fun <T> LongFromToArbArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
+	seedBaseOffset: Int,
 	from: Long,
 	toInclusive: Long,
 	argsProvider: (Long) -> T
 ): ArbArgsGenerator<T> =
 	if (toInclusive == Long.MAX_VALUE) {
 		if (from == Long.MIN_VALUE) {
-			ArbLongArgsGenerator(componentFactoryContainer).map(argsProvider)
+			ArbLongArgsGenerator(componentFactoryContainer, seedBaseOffset).map(argsProvider)
 		} else {
 			val diff: BigInteger = BigInteger.valueOf(toInclusive).subtract(BigInteger.valueOf(from))
 
@@ -120,15 +135,16 @@ fun <T> LongFromToArbArgsGenerator(
 
 			mergeWeighted(
 				1 to componentFactoryContainer.arb.of(argsProvider(Long.MAX_VALUE)),
-				weight - 2 to LongFromUntilArbArgsGenerator(
+				weight to LongFromUntilArbArgsGenerator(
 					componentFactoryContainer,
+					seedBaseOffset,
 					from,
 					toInclusive,
 					argsProvider
 				)
 			)
 		}
-	} else LongFromUntilArbArgsGenerator(componentFactoryContainer, from, toInclusive + 1, argsProvider)
+	} else LongFromUntilArbArgsGenerator(componentFactoryContainer, seedBaseOffset, from, toInclusive + 1, argsProvider)
 
 
 /**
@@ -139,10 +155,17 @@ fun <T> LongFromToArbArgsGenerator(
  */
 open class LongFromUntilArbArgsGenerator<T>(
 	componentFactoryContainer: ComponentFactoryContainer,
+	seedBaseOffset: Int,
 	from: Long,
 	toExclusive: Long,
 	argsProvider: (Long) -> T
-) : OpenEndRangeBasedArbArgsGenerator<Long, T>(componentFactoryContainer, from, toExclusive, argsProvider) {
+) : OpenEndRangeBasedArbArgsGenerator<Long, T>(
+	componentFactoryContainer,
+	seedBaseOffset,
+	from,
+	toExclusive,
+	argsProvider
+) {
 	final override fun nextElementInRange(random: Random): Long = random.nextLong(from, toExclusive)
 }
 
@@ -154,9 +177,16 @@ open class LongFromUntilArbArgsGenerator<T>(
  */
 open class DoubleFromUntilArbArgsGenerator<T>(
 	componentFactoryContainer: ComponentFactoryContainer,
+	seedBaseOffset: Int,
 	from: Double,
 	toExclusive: Double,
 	argsProvider: (Double) -> T
-) : OpenEndRangeBasedArbArgsGenerator<Double, T>(componentFactoryContainer, from, toExclusive, argsProvider) {
+) : OpenEndRangeBasedArbArgsGenerator<Double, T>(
+	componentFactoryContainer,
+	seedBaseOffset,
+	from,
+	toExclusive,
+	argsProvider
+) {
 	final override fun nextElementInRange(random: Random): Double = random.nextDouble(from, toExclusive)
 }

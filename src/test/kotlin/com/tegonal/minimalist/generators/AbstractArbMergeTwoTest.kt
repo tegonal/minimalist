@@ -7,7 +7,7 @@ import com.tegonal.minimalist.testutils.getTestValue
 abstract class AbstractArbMergeTwoTest : AbstractArbArgsGeneratorTest<Any>() {
 
 	@Suppress("UNCHECKED_CAST")
-	fun variants(index: Int) =
+	fun variants(modifiedArb: ArbExtensionPoint, index: Int) =
 		ordered.of(
 			"of".let { it to modifiedArb.of(*getTestValue(it, index) as Array<Int>) },
 			"fromList".let { it to modifiedArb.fromList(getTestValue(it, index) as List<Any>) },
@@ -27,6 +27,7 @@ abstract class AbstractArbMergeTwoTest : AbstractArbArgsGeneratorTest<Any>() {
 			"fromCharProgression".let { it to modifiedArb.fromProgression(getTestValue(it, index) as CharProgression) },
 			"fromIntProgression".let { it to modifiedArb.fromProgression(getTestValue(it, index) as IntProgression) },
 			"fromLongProgression".let { it to modifiedArb.fromProgression(getTestValue(it, index) as LongProgression) },
+			// we don't include, int, long, double, intPositive, longPositive as their ranges are too big
 			"intFromUntil".let {
 				it to (getTestValue(it, index) as IntRange).let { range ->
 					modifiedArb.intFromUntil(range.start, range.endInclusive + 1)

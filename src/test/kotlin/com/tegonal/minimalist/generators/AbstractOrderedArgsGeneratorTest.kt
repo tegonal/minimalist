@@ -9,6 +9,7 @@ import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.config
 import com.tegonal.minimalist.generators.impl.DefaultOrderedExtensionPoint
 import com.tegonal.minimalist.utils.createMinimalistRandom
+import kotlin.math.absoluteValue
 
 typealias OrderedArgsTestFactoryResult<T> = ArgsTestFactoryResult<T, SemiOrderedArgsGenerator<T>>
 
@@ -17,7 +18,7 @@ abstract class AbstractOrderedArgsGeneratorWithoutAnnotationsTest : AbstractArgs
 	val modifiedOrdered: OrderedExtensionPoint = DefaultOrderedExtensionPoint(customComponentFactoryContainer)
 
 	protected fun <T> canAlwaysTakeTheDesiredAmountTest(factory: () -> OrderedArgsTestFactoryResult<T>) =
-		super.canAlwaysTakeTheDesiredAmountTest(factory) { it.generate(ordered._components.config.seed) }
+		super.canAlwaysTakeTheDesiredAmountTest(factory) { it.generate(ordered._components.config.seed.absoluteValue) }
 
 	protected fun <T> coversAllCasesTest(factory: () -> OrderedArgsTestFactoryResult<T>) =
 		testFactory(factory) { generator, expectedValues, _ ->

@@ -4,18 +4,32 @@ import com.tegonal.minimalist.config.*
 import com.tegonal.minimalist.config.impl.MinimalistConfigViaPropertiesLoader
 
 /**
+ *
+ * @since 2.0.0
+ */
+interface GeneratorExtensionPoint : IsComponentFactoryContainerProvider {
+	val arb: ArbExtensionPoint
+	val ordered: OrderedExtensionPoint
+}
+
+/**
  * Extension point for factories which generate [OrderedArgsGenerator].
  *
  * @since 2.0.0
  */
-interface OrderedExtensionPoint : IsComponentFactoryContainerProvider
+interface OrderedExtensionPoint : GeneratorExtensionPoint
 
 /**
  * Extension point for factories which generate [ArbArgsGenerator].
  *
  * @since 2.0.0
  */
-interface ArbExtensionPoint : IsComponentFactoryContainerProvider
+interface ArbExtensionPoint : GeneratorExtensionPoint {
+	/**
+	 * Shall be used by [ArbArgsGenerator] as [CoreArbArgsGenerator.seedBaseOffset].
+	 */
+	val seedBaseOffset: Int
+}
 
 /**
  * @since 2.0.0

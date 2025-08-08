@@ -1,5 +1,6 @@
 @file:JvmName("RandomArgsGeneratorCombineKt")
 @file:JvmMultifileClass
+
 package com.tegonal.minimalist.generators
 
 /**
@@ -20,8 +21,8 @@ package com.tegonal.minimalist.generators
 fun <A1, A2, R> ArbArgsGenerator<A1>.combine(
 	other: ArbArgsGenerator<A2>,
 	transform: (A1, A2) -> R
-): ArbArgsGenerator<R> = this.transform { it.zip(other.generate(), transform) }
-
+): ArbArgsGenerator<R> =
+	this.transform { seq, seedOffset -> seq.zip(other.generate(this._core.seedBaseOffset + 1 + seedOffset), transform) }
 
 /**
  * Creates for each generated value of type [A1] by `this` [ArbArgsGenerator] another [ArbArgsGenerator] with the
@@ -39,7 +40,7 @@ fun <A1, A2, R> ArbArgsGenerator<A1>.combine(
  */
 //TODO 2.1.0 provide a way to take more than 1 value from otherFactory
 fun <A1, A2> ArbArgsGenerator<A1>.combineDependent(
-	otherFactory: (A1) -> ArbArgsGenerator<A2>
+	otherFactory: ArbExtensionPoint.(A1) -> ArbArgsGenerator<A2>
 ): ArbArgsGenerator<Pair<A1, A2>> = combineDependent(otherFactory, ::Pair)
 
 /**
@@ -62,6 +63,14 @@ fun <A1, A2> ArbArgsGenerator<A1>.combineDependent(
  * @since 2.0.0
  */
 fun <A1, A2, R> ArbArgsGenerator<A1>.combineDependent(
-	otherFactory: (A1) -> ArbArgsGenerator<A2>,
+	otherFactory: ArbExtensionPoint.(A1) -> ArbArgsGenerator<A2>,
 	transform: (A1, A2) -> R
-): ArbArgsGenerator<R> = this.map { transform(it, otherFactory(it).generate().first()) }
+): ArbArgsGenerator<R> =
+	this.mapIndexed { index, it, seedOffset ->
+		transform(
+			it,
+			//TODO 2.1.0 introduce ArbArgsGenerator.generateOne, this way ArbArgsGenerators can provide a more efficient
+			// way it they like, (instead of creating a sequence and then using first() and then drop the sequence)
+			this._core.arb.otherFactory(it).generate(index + seedOffset).first()
+		)
+	}

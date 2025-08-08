@@ -1,5 +1,7 @@
 package com.tegonal.minimalist.generators
 
+import com.tegonal.minimalist.config._components
+import com.tegonal.minimalist.config.arb
 import com.tegonal.minimalist.generators.impl.MultiArbArgsGeneratorIndexOfMerger
 import com.tegonal.minimalist.generators.impl.ArbArgsGeneratorMerger
 
@@ -17,7 +19,7 @@ import com.tegonal.minimalist.generators.impl.ArbArgsGeneratorMerger
  * @since 2.0.0
  */
 operator fun <T> ArbArgsGenerator<T>.plus(
-    other: ArbArgsGenerator<T>,
+	other: ArbArgsGenerator<T>,
 ): ArbArgsGenerator<T> = ArbArgsGeneratorMerger(50 to this, 50 to other)
 
 /**
@@ -42,13 +44,16 @@ operator fun <T> ArbArgsGenerator<T>.plus(
  * @since 2.0.0
  */
 fun <T> mergeWeighted(
-    first: Pair<Int, ArbArgsGenerator<T>>,
-    second: Pair<Int, ArbArgsGenerator<T>>,
-    vararg others: Pair<Int, ArbArgsGenerator<T>>,
-): ArbArgsGenerator<T> =
-	if (others.isEmpty()) ArbArgsGeneratorMerger(first, second)
-	else {
+	//TODO 2.0.0 should we use Long for weights?
+	first: Pair<Int, ArbArgsGenerator<T>>,
+	second: Pair<Int, ArbArgsGenerator<T>>,
+	vararg others: Pair<Int, ArbArgsGenerator<T>>,
+): ArbArgsGenerator<T> {
+	return if (others.isEmpty()) {
+		ArbArgsGeneratorMerger(first, second)
+	} else {
 		// TODO 2.1.0 we could use a binary search instead of indexOf starting from ~20 elements (would need to
 		//  be benchmarked). I think most of the time there are <= 10 weights and thus indexOf performs better
 		MultiArbArgsGeneratorIndexOfMerger(first, second, others)
 	}
+}

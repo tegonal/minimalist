@@ -21,7 +21,8 @@ fun ArbExtensionPoint.localDateFromUntil(
 	from: LocalDate,
 	toExclusive: LocalDate,
 	temporalUnit: TemporalUnit = ChronoUnit.DAYS,
-): ArbArgsGenerator<LocalDate> = LocalDateFromUntilArbArgsGenerator(_components, from, toExclusive, temporalUnit)
+): ArbArgsGenerator<LocalDate> =
+	LocalDateFromUntilArbArgsGenerator(_components, seedBaseOffset, from, toExclusive, temporalUnit)
 
 /**
  * Returns an [ArbArgsGenerator] which generates [LocalDateTime]s ranging [from] (inclusive) to [toExclusive]
@@ -34,7 +35,8 @@ fun ArbExtensionPoint.localDateTimeFromUntil(
 	from: LocalDateTime,
 	toExclusive: LocalDateTime,
 	temporalUnit: TemporalUnit,
-): ArbArgsGenerator<LocalDateTime> = LocalDateTimeFromUntilArbArgsGenerator(_components, from, toExclusive, temporalUnit)
+): ArbArgsGenerator<LocalDateTime> =
+	LocalDateTimeFromUntilArbArgsGenerator(_components, seedBaseOffset, from, toExclusive, temporalUnit)
 
 /**
  * Returns an [ArbArgsGenerator] which generates [ZonedDateTime]s ranging [from] (inclusive) to [toExclusive]
@@ -47,4 +49,5 @@ fun ArbExtensionPoint.zonedDateTimeFromUntil(
 	from: ZonedDateTime,
 	toExclusive: ZonedDateTime,
 	temporalUnit: TemporalUnit,
-): ArbArgsGenerator<ZonedDateTime> = ZonedDateTimeFromUntilArbArgsGenerator(_components, from, toExclusive, temporalUnit)
+): ArbArgsGenerator<ZonedDateTime> =
+	ZonedDateTimeFromUntilArbArgsGenerator(_components, seedBaseOffset, from, toExclusive, temporalUnit)

@@ -12,4 +12,4 @@ import com.tegonal.minimalist.generators.impl.ArrayArbArgsGenerator
  * @since 2.0.0
  */
 inline fun <reified E : Enum<E>> ArbExtensionPoint.fromEnum(): ArbArgsGenerator<E> =
-	ArrayArbArgsGenerator(_components, enumValues<E>())
+	ArrayArbArgsGenerator(_components, seedBaseOffset, enumValues<E>())

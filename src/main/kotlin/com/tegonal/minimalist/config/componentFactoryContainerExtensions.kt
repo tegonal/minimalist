@@ -3,10 +3,10 @@ package com.tegonal.minimalist.config
 import com.tegonal.minimalist.config.impl.DefaultComponentFactoryContainer
 import com.tegonal.minimalist.config.impl.KotlinRandomFactory
 import com.tegonal.minimalist.config.impl.createSingletonVia
-import com.tegonal.minimalist.generators.OrderedExtensionPoint
 import com.tegonal.minimalist.generators.ArbExtensionPoint
-import com.tegonal.minimalist.generators.impl.DefaultOrderedExtensionPoint
+import com.tegonal.minimalist.generators.OrderedExtensionPoint
 import com.tegonal.minimalist.generators.impl.DefaultArbExtensionPoint
+import com.tegonal.minimalist.generators.impl.DefaultOrderedExtensionPoint
 import com.tegonal.minimalist.providers.AnnotationDataDeducer
 import com.tegonal.minimalist.providers.ArgsGeneratorToArgumentsConverter
 import com.tegonal.minimalist.providers.ArgsRangeDecider
@@ -25,9 +25,6 @@ import kotlin.reflect.KClass
 fun ComponentFactoryContainer.Companion.createBasedOnConfig(config: MinimalistConfig): ComponentFactoryContainer =
 	ComponentFactoryContainer.create(
 		mapOf(
-			OrderedExtensionPoint::class createSingletonVia { c -> DefaultOrderedExtensionPoint(c) },
-			ArbExtensionPoint::class createSingletonVia { c -> DefaultArbExtensionPoint(c) },
-
 			MinimalistConfig::class createSingletonVia { config },
 			GenericToArgsGeneratorConverter::class createSingletonVia { _ ->
 				DefaultGenericToArgsGeneratorConverter()
@@ -57,7 +54,7 @@ fun ComponentFactoryContainer.Companion.createBasedOnConfig(config: MinimalistCo
 fun ComponentFactoryContainer.Companion.create(
 	components: Map<KClass<*>, ComponentFactory>,
 	chainedComponents: Map<KClass<*>, Sequence<ComponentFactory>> = emptyMap()
-) = DefaultComponentFactoryContainer(components, chainedComponents)
+) = DefaultComponentFactoryContainer.create(components, chainedComponents)
 
 /**
  *
@@ -69,19 +66,22 @@ val ComponentFactoryContainer.config: MinimalistConfig get() = build<MinimalistC
  *
  * @since 2.0.0
  */
-fun ComponentFactoryContainer.createMinimalistRandom(): Random = build<RandomFactory>().create(config.seed)
+fun ComponentFactoryContainer.createMinimalistRandom(seedOffset: Int): Random =
+	build<RandomFactory>().create(config.seed + seedOffset).also { random ->
+		config.offsetToDecidedOffset?.also { repeat(it) { random.nextInt() } }
+	}
 
 /**
  *
  * @since 2.0.0
  */
-val ComponentFactoryContainer.ordered get() : OrderedExtensionPoint = build<OrderedExtensionPoint>()
+val ComponentFactoryContainer.ordered get() : OrderedExtensionPoint = DefaultOrderedExtensionPoint(this)
 
 /**
  *
  * @since 2.0.0
  */
-val ComponentFactoryContainer.arb get() : ArbExtensionPoint = build<ArbExtensionPoint>()
+val ComponentFactoryContainer.arb get() : ArbExtensionPoint = DefaultArbExtensionPoint(this, seedBaseOffset = 0)
 
 
 /**

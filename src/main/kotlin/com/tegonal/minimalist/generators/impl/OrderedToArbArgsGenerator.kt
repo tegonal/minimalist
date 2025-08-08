@@ -10,6 +10,10 @@ import com.tegonal.minimalist.config._components
  * @since 2.0.0
  */
 class OrderedToArbArgsGenerator<T>(private val orderedArgsGenerator: OrderedArgsGenerator<T>) :
-	IntFromUntilArbArgsGenerator<T>(orderedArgsGenerator._components, 0, orderedArgsGenerator.size, { offset ->
-		orderedArgsGenerator.generate(offset).first()
-	})
+	IntFromUntilArbArgsGenerator<T>(
+		orderedArgsGenerator._components,
+		seedBaseOffset = 0,
+		from = 0,
+		toExclusive = orderedArgsGenerator.size,
+		{ offset -> orderedArgsGenerator.generate(offset).first() }
+	)

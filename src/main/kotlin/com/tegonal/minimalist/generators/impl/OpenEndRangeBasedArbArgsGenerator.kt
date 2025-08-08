@@ -11,10 +11,11 @@ import kotlin.random.Random
  */
 abstract class OpenEndRangeBasedArbArgsGenerator<E : Comparable<E>, T>(
 	componentFactoryContainer: ComponentFactoryContainer,
+	seedBaseOffset: Int,
 	protected val from: E,
 	protected val toExclusive: E,
 	private val argsProvider: (E) -> T
-) : RandomBasedArbArgsGenerator<T>(componentFactoryContainer) {
+) : RandomBasedArbArgsGenerator<T>(componentFactoryContainer, seedBaseOffset) {
 	init {
 		require(from < toExclusive) {
 			"from ($from) needs to be less than toExclusive ($toExclusive)"

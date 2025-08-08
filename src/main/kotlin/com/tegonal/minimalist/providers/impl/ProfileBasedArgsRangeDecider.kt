@@ -4,6 +4,7 @@ import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.config
 import com.tegonal.minimalist.generators.ArgsGenerator
 import com.tegonal.minimalist.providers.ArgsRange
+import kotlin.math.absoluteValue
 
 
 /**
@@ -19,6 +20,9 @@ class ProfileBasedArgsRangeDecider() : BaseArgsRangeOptionsBasedArgsRangeDecider
 		env: String,
 		argsGenerator: ArgsGenerator<*>
 	): ArgsRange = argsGenerator._components.config.let { config ->
-		ArgsRange(offset = config.seed, take = config.testProfiles.get(profileName, env).atMostArgs)
+		ArgsRange(
+			offset = config.seed.absoluteValue,
+			take = config.testProfiles.get(profileName, env).atMostArgs
+		)
 	}
 }
