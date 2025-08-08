@@ -20,6 +20,6 @@ fun ArbExtensionPoint.char(): ArbArgsGenerator<Char> =
 fun ArbExtensionPoint.charFromTo(from: Char, toInclusive: Char): ArbArgsGenerator<Char> {
 	// I guess it is not worth to introduce an UShortFromUntil but in case we should because we want to generate UShort
 	// then we could re-use it here in case toInclusive != Char, would use less memory
-	return IntFromUntilArbArgsGenerator(_components, from.code, toInclusive.code + 1) { it.toChar() }
+	return IntFromUntilArbArgsGenerator(_components, seedBaseOffset, from.code, toInclusive.code + 1) { it.toChar() }
 }
 

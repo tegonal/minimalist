@@ -3,6 +3,8 @@ package com.tegonal.minimalist.providers
 import com.tegonal.minimalist.config.ArgsRangeOptions
 import com.tegonal.minimalist.generators.ArgsGenerator
 import com.tegonal.minimalist.config.MinimalistConfig
+import com.tegonal.minimalist.config.impl.checkIsPositive
+import com.tegonal.minimalist.config.impl.failIfNegative
 
 /**
  * Responsible to decide what range of arguments should be generated for a given [ArgsGenerator].
@@ -23,4 +25,9 @@ interface ArgsRangeDecider {
  *
  * @since 2.0.0
  */
-data class ArgsRange(val offset: Int, val take: Int)
+data class ArgsRange(val offset: Int, val take: Int) {
+	init {
+		failIfNegative(offset, "offset")
+		checkIsPositive(take, "take")
+	}
+}

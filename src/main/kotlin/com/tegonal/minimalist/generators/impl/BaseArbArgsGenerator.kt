@@ -1,7 +1,7 @@
 package com.tegonal.minimalist.generators.impl
 
 import com.tegonal.minimalist.config.*
-import com.tegonal.minimalist.generators.ArbArgsGenerator
+import com.tegonal.minimalist.generators.CoreArbArgsGenerator
 import kotlin.random.Random
 
 /**
@@ -12,8 +12,16 @@ import kotlin.random.Random
  */
 abstract class BaseArbArgsGenerator<T>(
 	override val componentFactoryContainer: ComponentFactoryContainer,
-) : ArbArgsGenerator<T>, ComponentFactoryContainerProvider {
+	override val seedBaseOffset: Int
+) : CoreArbArgsGenerator<T>, ComponentFactoryContainerProvider {
+
+	constructor(arbGenerator: CoreArbArgsGenerator<*>) : this(
+		arbGenerator.componentFactoryContainer,
+		arbGenerator.seedBaseOffset
+	)
+
 	protected val config get(): MinimalistConfig = componentFactoryContainer.config
 
-	protected fun createMinimalistRandom(): Random = componentFactoryContainer.createMinimalistRandom()
+	protected fun createMinimalistRandom(seedOffset: Int): Random =
+		componentFactoryContainer.createMinimalistRandom(seedBaseOffset + seedOffset)
 }

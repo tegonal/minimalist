@@ -82,7 +82,7 @@ internal abstract class DefaultComponentFactoryContainer : ComponentFactoryConta
 	}
 
 	companion object {
-		operator fun invoke(
+		fun create(
 			components: Map<KClass<*>, ComponentFactory>,
 			chainedComponents: Map<KClass<*>, Sequence<ComponentFactory>>
 		): ComponentFactoryContainer =

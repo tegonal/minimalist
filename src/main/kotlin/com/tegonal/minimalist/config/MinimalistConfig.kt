@@ -14,7 +14,6 @@ import kotlin.random.Random
 class MinimalistConfig(
 	/**
 	 * The seed which Minimalist uses internally for [Random].
-	 * Needs to be between `0` and [Int.MAX_VALUE].
 	 *
 	 * Minimalist outputs the used seed when the [MinimalistConfig] is loaded.
 	 *
@@ -23,7 +22,7 @@ class MinimalistConfig(
 	 * Note, you are not allowed to fix a seed via minimalist.properties (which is usually committed), use
 	 * minimalist.local.properties instead (which is usually on the git ignore list).
 	 */
-	val seed: Int = Random.nextInt(0, Int.MAX_VALUE),
+	val seed: Int = Random.nextInt(),
 
 	/**
 	 * Influences an [ArgsRangeDecider]'s choice of [ArgsRange.offset], i.e. allows to skip certain test cases.
@@ -138,7 +137,6 @@ class MinimalistConfig(
 	),
 ) {
 	init {
-		failIfNegative(seed, "seed")
 		offsetToDecidedOffset?.also { failIfNegative(it, "offsetToDecidedOffset") }
 
 		checkIsNotBlank(activeArgsRangeDecider, "activeArgsRangeDecider")

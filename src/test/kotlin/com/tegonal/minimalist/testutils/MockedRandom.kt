@@ -1,5 +1,6 @@
 package com.tegonal.minimalist.testutils
 
+import ch.tutteli.kbox.Tuple3
 import com.tegonal.minimalist.config.RandomFactory
 import kotlin.random.Random
 
@@ -8,6 +9,12 @@ class MockedRandom(
 	private val longIterator: Iterator<Long>,
 	private val doubleIterator: Iterator<Double>,
 ) : Random() {
+	constructor(
+		ints: List<Int> = emptyList(),
+		longs: List<Long> = emptyList(),
+		doubles: List<Double> = emptyList()
+	) : this(ints.iterator(), longs.iterator(), doubles.iterator())
+
 	override fun nextBits(bitCount: Int): Int = nextInt().takeUpperBits(32)
 
 	private fun Int.takeUpperBits(bitCount: Int): Int =
@@ -31,6 +38,16 @@ class MockedRandomFactory(
 	private val doubles: List<Double> = emptyList()
 ) : RandomFactory {
 
-	override fun create(seed: Int): Random =
-		MockedRandom(ints.iterator(), longs.iterator(), doubles.iterator())
+	override fun create(seed: Int): Random = MockedRandom(ints, longs, doubles)
 }
+
+class MockedRandomBasedOnSeedFactory(
+	private val seedToTriple: (Int) -> Tuple3<List<Int>, List<Long>, List<Double>>
+) : RandomFactory {
+
+	override fun create(seed: Int): Random =
+		seedToTriple(seed).let { (ints, longs, doubles) ->
+			MockedRandom(ints, longs, doubles)
+		}
+}
+

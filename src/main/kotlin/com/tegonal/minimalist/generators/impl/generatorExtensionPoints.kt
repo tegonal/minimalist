@@ -2,8 +2,11 @@ package com.tegonal.minimalist.generators.impl
 
 import com.tegonal.minimalist.config.ComponentFactoryContainer
 import com.tegonal.minimalist.config.ComponentFactoryContainerProvider
-import com.tegonal.minimalist.generators.OrderedExtensionPoint
+import com.tegonal.minimalist.config.arb
+import com.tegonal.minimalist.config.impl.failIfNegative
+import com.tegonal.minimalist.config.ordered
 import com.tegonal.minimalist.generators.ArbExtensionPoint
+import com.tegonal.minimalist.generators.OrderedExtensionPoint
 
 /**
  * !! No backward compatibility guarantees !!
@@ -13,7 +16,10 @@ import com.tegonal.minimalist.generators.ArbExtensionPoint
  */
 class DefaultOrderedExtensionPoint(
 	override val componentFactoryContainer: ComponentFactoryContainer
-) : OrderedExtensionPoint, ComponentFactoryContainerProvider
+) : OrderedExtensionPoint, ComponentFactoryContainerProvider {
+	override val arb: ArbExtensionPoint get() = componentFactoryContainer.arb
+	override val ordered: OrderedExtensionPoint get() = componentFactoryContainer.ordered
+}
 
 /**
  * !! No backward compatibility guarantees !!
@@ -22,5 +28,10 @@ class DefaultOrderedExtensionPoint(
  * @since 2.0.0
  */
 class DefaultArbExtensionPoint(
-	override val componentFactoryContainer: ComponentFactoryContainer
-) : ArbExtensionPoint, ComponentFactoryContainerProvider
+	override val componentFactoryContainer: ComponentFactoryContainer,
+	override val seedBaseOffset: Int,
+) : ArbExtensionPoint, ComponentFactoryContainerProvider {
+
+	override val arb: ArbExtensionPoint get() = DefaultArbExtensionPoint(componentFactoryContainer, seedBaseOffset + 1)
+	override val ordered: OrderedExtensionPoint get() = componentFactoryContainer.ordered
+}

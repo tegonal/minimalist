@@ -1,8 +1,8 @@
 package com.tegonal.minimalist.generators.impl
 
-import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.impl.checkIsPositive
 import com.tegonal.minimalist.generators.ArbArgsGenerator
+import com.tegonal.minimalist.generators._core
 
 /**
  * !! No backward compatibility guarantees !!
@@ -17,7 +17,7 @@ class ArbArgsGeneratorMerger<T>(
 	// note, we don't (and cannot) check that a1Generator and a2Generator use the same ComponentContainer,
 	// should you run into weird behaviour (such as one generator uses seed X and the other seed Y) then most likely
 	// someone used to different initial factories
-	a1GeneratorWithWeight.second._components,
+	a1GeneratorWithWeight.second._core,
 ), ArbArgsGenerator<T> {
 
 	private val a1Generator = a1GeneratorWithWeight.second
@@ -30,11 +30,11 @@ class ArbArgsGeneratorMerger<T>(
 		checkIsPositive(a2GeneratorWithWeight.first, "(2.) weight")
 	}
 
-	override fun generate(): Sequence<T> = createMinimalistRandom().let { minimalistRandom ->
+	override fun generate(seedOffset: Int): Sequence<T> = createMinimalistRandom(seedOffset).let { minimalistRandom ->
 		object : Sequence<T> {
 			override fun iterator(): Iterator<T> = object : Iterator<T> {
-				private val a1Iterator = a1Generator.generate().iterator()
-				private val a2Iterator = a2Generator.generate().iterator()
+				private val a1Iterator = a1Generator.generate(seedOffset).iterator()
+				private val a2Iterator = a2Generator.generate(seedOffset).iterator()
 
 				override fun hasNext(): Boolean = true
 				override fun next(): T {
@@ -61,7 +61,7 @@ class MultiArbArgsGeneratorIndexOfMerger<T>(
 	// note, we don't (and cannot) check that a1Generator and a2Generator use the same ComponentContainer,
 	// should you run into weird behaviour (such as one generator uses seed X and the other seed Y) then most likely
 	// someone used to different initial factories
-	firstGeneratorWithWeight.second._components,
+	firstGeneratorWithWeight.second._core,
 ), ArbArgsGenerator<T> {
 	private val generators: Array<ArbArgsGenerator<T>>
 	private val cumulativeWeights: Array<Int>
@@ -100,10 +100,10 @@ class MultiArbArgsGeneratorIndexOfMerger<T>(
 		totalWeightPlus1 = Math.addExact(acc, 1)
 	}
 
-	override fun generate(): Sequence<T> = createMinimalistRandom().let { minimalistRandom ->
+	override fun generate(seedOffset: Int): Sequence<T> = createMinimalistRandom(seedOffset).let { minimalistRandom ->
 		object : Sequence<T> {
 			override fun iterator(): Iterator<T> = object : Iterator<T> {
-				private val iterators = Array(generators.size) { generators[it].generate().iterator() }
+				private val iterators = Array(generators.size) { generators[it].generate(seedOffset).iterator() }
 
 				override fun hasNext(): Boolean = true
 				override fun next(): T {

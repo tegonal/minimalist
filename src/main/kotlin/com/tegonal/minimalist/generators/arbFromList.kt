@@ -11,4 +11,4 @@ import com.tegonal.minimalist.generators.impl.ListArbArgsGenerator
  */
 @JvmName("fromValueList")
 fun <T> ArbExtensionPoint.fromList(args: List<T>): ArbArgsGenerator<T> =
-	ListArbArgsGenerator(_components, args)
+	ListArbArgsGenerator(_components, seedBaseOffset, args)

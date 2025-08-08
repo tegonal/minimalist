@@ -11,8 +11,9 @@ import com.tegonal.minimalist.utils.repeatForever
  */
 class PseudoArbArgsGenerator<T>(
 	private val sequence: Sequence<T>,
-	componentFactoryContainer: ComponentFactoryContainer = arb._components
-) : BaseArbArgsGenerator<T>(componentFactoryContainer) {
+	seedBaseOffset: Int = 0,
+	componentFactoryContainer: ComponentFactoryContainer = arb._components,
+) : BaseArbArgsGenerator<T>(componentFactoryContainer, seedBaseOffset) {
 
-	override fun generate(): Sequence<T> = repeatForever().flatMap { sequence }
+	override fun generate(seedOffset: Int): Sequence<T> = repeatForever().flatMap { sequence }.drop(seedOffset)
 }

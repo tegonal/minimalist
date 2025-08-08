@@ -10,5 +10,6 @@ import com.tegonal.minimalist.config.ComponentFactoryContainer
  */
 class ArrayArbArgsGenerator<T>(
 	componentFactoryContainer: ComponentFactoryContainer,
+	seedBaseOffset: Int,
 	arr: Array<out T>
-) : IntFromUntilArbArgsGenerator<T>(componentFactoryContainer, 0, arr.size, { arr[it] })
+) : IntFromUntilArbArgsGenerator<T>(componentFactoryContainer, seedBaseOffset, from = 0, arr.size, { arr[it] })

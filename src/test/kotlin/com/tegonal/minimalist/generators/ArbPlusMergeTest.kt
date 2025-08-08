@@ -15,9 +15,9 @@ import kotlin.test.Test
 
 class ArbPlusMergeTest : AbstractArbMergeTwoTest() {
 
-	override fun createGenerators(): ArbArgsTestFactoryResult<Any> {
-		val g1Variants = variants(0)
-		val g2Variants = variants(1)
+	override fun createGenerators(modifiedArb: ArbExtensionPoint): ArbArgsTestFactoryResult<Any> {
+		val g1Variants = variants(modifiedArb, 0)
+		val g2Variants = variants(modifiedArb, 1)
 
 		val combined = g1Variants.combine(g2Variants) { (name1, g1), (name2, g2) ->
 			Tuple(
@@ -40,7 +40,11 @@ class ArbPlusMergeTest : AbstractArbMergeTwoTest() {
 		val s1 = sequenceOf(10, 11, 12, 13)
 		val s2 = sequenceOf(20, 21, 22)
 
-		val g1 = PseudoArbArgsGenerator(s1, arb._components.withMockedRandom(ints = (1..100).toList()))
+		val g1 = PseudoArbArgsGenerator(
+			s1,
+			seedBaseOffset = 0,
+			arb._components.withMockedRandom(ints = (1..100).toList())
+		)
 		val g2 = PseudoArbArgsGenerator(s2)
 
 		val merged = g1 + g2

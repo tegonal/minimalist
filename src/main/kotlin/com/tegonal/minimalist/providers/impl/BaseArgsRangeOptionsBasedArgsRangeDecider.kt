@@ -9,6 +9,7 @@ import com.tegonal.minimalist.generators.ArgsGenerator
 import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
 import com.tegonal.minimalist.providers.ArgsRange
 import com.tegonal.minimalist.providers.ArgsRangeDecider
+import kotlin.math.absoluteValue
 
 /**
  * Not really a good name, but hard to come up with a good one.
@@ -52,7 +53,7 @@ abstract class BaseArgsRangeOptionsBasedArgsRangeDecider : ArgsRangeDecider {
 		argsGenerator: ArgsGenerator<*>
 	): ArgsRange =
 		run {
-			config.offsetToDecidedOffset?.let { this.copy(offset = this.offset + it) } ?: this
+			config.offsetToDecidedOffset?.let { this.copy(offset = (this.offset + it).absoluteValue) } ?: this
 		}.let { argsRange ->
 			val atMostArgs = config.atMostArgs ?: argsRangeOptions?.atMostArgs
 			val requestedMinArgs = config.requestedMinArgs ?: argsRangeOptions?.requestedMinArgs

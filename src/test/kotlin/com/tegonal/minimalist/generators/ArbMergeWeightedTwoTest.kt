@@ -9,9 +9,9 @@ import com.tegonal.minimalist.testutils.getTestValue
 
 class ArbMergeWeightedTwoTest : AbstractArbMergeTwoTest() {
 
-	override fun createGenerators(): ArbArgsTestFactoryResult<Any> {
-		val g1Variants = variants(0)
-		val g2Variants = variants(1)
+	override fun createGenerators(modifiedArb: ArbExtensionPoint): ArbArgsTestFactoryResult<Any> {
+		val g1Variants = variants(modifiedArb, 0)
+		val g2Variants = variants(modifiedArb, 1)
 
 		val combined = g1Variants.combine(g2Variants) { (name1, g1), (name2, g2) ->
 			Tuple(

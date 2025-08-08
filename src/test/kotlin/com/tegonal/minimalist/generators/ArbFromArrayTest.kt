@@ -4,7 +4,7 @@ import ch.tutteli.kbox.Tuple
 
 class ArbFromArrayTest : AbstractArbArgsGeneratorTest<Any>() {
 
-	override fun createGenerators() = sequenceOf(
+	override fun createGenerators(modifiedArb: ArbExtensionPoint) = sequenceOf(
 		byteArrayOf(1, 2, 3).let { Tuple("fromByteArray", modifiedArb.fromArray(it), it.toList()) },
 		charArrayOf('a', 'b', 'c').let { Tuple("fromCharArray", modifiedArb.fromArray(it), it.toList()) },
 		shortArrayOf(1, 2, 3).let { Tuple("fromShortArray", modifiedArb.fromArray(it), it.toList()) },
