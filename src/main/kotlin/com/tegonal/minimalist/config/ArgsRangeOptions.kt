@@ -1,8 +1,8 @@
 package com.tegonal.minimalist.config
 
 import ch.tutteli.kbox.failIf
-import com.tegonal.minimalist.config.impl.checkIsNotBlank
-import com.tegonal.minimalist.config.impl.checkIsPositive
+import com.tegonal.minimalist.utils.impl.checkIsNotBlank
+import com.tegonal.minimalist.utils.impl.checkIsPositive
 import com.tegonal.minimalist.providers.ArgsRangeDecider
 import com.tegonal.minimalist.providers.ArgsRange
 import com.tegonal.minimalist.generators.ArgsGenerator
@@ -28,6 +28,7 @@ class ArgsRangeOptions(
 	 * Should influence an [ArgsRangeDecider]'s choice of [ArgsRange.take], signaling that it should not be greater
 	 * than the specified amount.
 	 */
+	//TODO 2.0.0 reconsider to name it maxArgs again, fits better with requestedMinArgs.
 	val atMostArgs: Int? = null,
 ) {
 	init {

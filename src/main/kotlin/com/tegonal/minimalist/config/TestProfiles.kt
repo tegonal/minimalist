@@ -1,8 +1,8 @@
 package com.tegonal.minimalist.config
 
 import ch.tutteli.kbox.mapFirst
-import com.tegonal.minimalist.config.impl.checkIsNotBlank
-import com.tegonal.minimalist.config.impl.checkNoDuplicates
+import com.tegonal.minimalist.utils.impl.checkIsNotBlank
+import com.tegonal.minimalist.utils.impl.checkNoDuplicates
 
 /**
  * @since 2.0.0

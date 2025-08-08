@@ -1,7 +1,7 @@
 package com.tegonal.minimalist.config
 
-import com.tegonal.minimalist.config.impl.checkIsNotBlank
-import com.tegonal.minimalist.config.impl.failIfNegative
+import com.tegonal.minimalist.utils.impl.checkIsNotBlank
+import com.tegonal.minimalist.utils.impl.failIfNegative
 import com.tegonal.minimalist.generators.ArgsGenerator
 import com.tegonal.minimalist.providers.ArgsRange
 import com.tegonal.minimalist.providers.ArgsRangeDecider

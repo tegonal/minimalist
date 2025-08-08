@@ -2,7 +2,7 @@ package com.tegonal.minimalist.generators.impl
 
 import com.tegonal.minimalist.config.ComponentFactoryContainer
 import com.tegonal.minimalist.config.ComponentFactoryContainerProvider
-import com.tegonal.minimalist.config.impl.checkIsPositive
+import com.tegonal.minimalist.utils.impl.checkIsPositive
 import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
 
 /**
