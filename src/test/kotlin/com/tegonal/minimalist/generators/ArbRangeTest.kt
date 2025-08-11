@@ -53,7 +53,6 @@ class ArbRangeTest : AbstractArbArgsGeneratorTest<Any>() {
 		)
 	}
 
-
 	@ParameterizedTest
 	@ArgsSource("intSafeMinMaxAndMinSize")
 	fun createIntMaxInIntDomain(minInclusive: Int, maxInclusive: Int, minSize: Int) {
