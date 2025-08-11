@@ -76,6 +76,8 @@ nexusPublishing {
 
 jmh {
 	profilers = listOf("gc")
+	// run ./gradlew jmh -Pjmh.include=... to run a specific bench
+	// transform the txt to csv via ./scripts/jmh-txt-to-csv.sh
 	includes.set(project.findProperty("jmh.include")?.let { listOf(it.toString()) } ?: emptyList())
 }
 

@@ -54,18 +54,18 @@ class ArbMergeWeightedTest {
 		expect {
 			mergeWeighted(weight to g1, 50 to g2)
 		}.toThrow<IllegalStateException> {
-			messageToContain("$weight is not a valid (1.) weight, has to be greater than 0")
+			messageToContain("$weight is not a valid (1.) weight, must be greater than 0")
 		}
 		expect {
 			mergeWeighted(50 to g1, weight to g2)
 		}.toThrow<IllegalStateException> {
-			messageToContain("$weight is not a valid (2.) weight, has to be greater than 0")
+			messageToContain("$weight is not a valid (2.) weight, must be greater than 0")
 		}
 
 		expect {
 			mergeWeighted(10 to g1, 50 to g2, weight to g3)
 		}.toThrow<IllegalStateException> {
-			messageToContain("$weight is not a valid (3.) weight, has to be greater than 0")
+			messageToContain("$weight is not a valid (3.) weight, must be greater than 0")
 		}
 	}
 

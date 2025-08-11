@@ -1,9 +1,7 @@
 package com.tegonal.minimalist.generators
 
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.config.arb
-import com.tegonal.minimalist.generators.impl.MultiArbArgsGeneratorIndexOfMerger
 import com.tegonal.minimalist.generators.impl.ArbArgsGeneratorMerger
+import com.tegonal.minimalist.generators.impl.MultiArbArgsGeneratorIndexOfMerger
 
 /**
  * Merges `this` [ArbArgsGenerator] with the given [other] [ArbArgsGenerator] resulting in a [ArbArgsGenerator]
@@ -18,6 +16,9 @@ import com.tegonal.minimalist.generators.impl.ArbArgsGeneratorMerger
  *
  * @since 2.0.0
  */
+//TODO 2.0.0 maybe better not introduce + for 2.0.0: arb.of(1) + arb.intFromUntil(1,10)
+// makes it look like we first generate 1 and then a random int from 1 until 10. + resembles to much concatenation and
+// of course concatenating two infinite streams doesn't make sense. Better just provide mergeWeighted
 operator fun <T> ArbArgsGenerator<T>.plus(
 	other: ArbArgsGenerator<T>,
 ): ArbArgsGenerator<T> = ArbArgsGeneratorMerger(50 to this, 50 to other)
