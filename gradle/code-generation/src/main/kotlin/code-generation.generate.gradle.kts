@@ -105,6 +105,12 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 			)
 		}
 
+		val arbCombineDependent = StringBuilder("@file:JvmName(\"ArbCombineKt\")\n@file:JvmMultifileClass\n")
+			.append(dontModifyNotice)
+			.append("package ").append(mainPackageName).append(".generators").append("\n\n")
+			.importTupleTypes()
+			.appendLine()
+
 
 		(1..numOfArgs).forEach { upperNumber ->
 			val numbers = (1..upperNumber).toList()
@@ -542,32 +548,56 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 				}
 
 				arbCombine.forEach { (_, _, className, sb) ->
-
 					sb.append(
 						"""
-					|/**
-					| * Combines `this` [${className}] with the given [other] [${className}].
-					| *
-					| * @param other The other [${className}] which generates values of type [A$upperNumberPlus1].
-					| *
-					| * @return The resulting [${className}] which generates values of type [${
+						|/**
+						| * Combines `this` [${className}] with the given [other] [ArbArgsGenerator].
+						| *
+						| * @param other The other [ArbArgsGenerator] which generates values of type [A$upperNumberPlus1].
+						| *
+						| * @return The resulting [${className}] which generates values of type [${
 							"Tuple$upperNumberPlus1"
 						}].
-					| *
-					| * @since 2.0.0
-					| */
-					|@JvmName("combineToTuple${upperNumberPlus1}")
-					|fun <$typeArgsPlus1> ${className}<$tupleX>.combine(
-					|	other: ArbArgsGenerator<A$upperNumberPlus1>
-					|): ${className}<$tupleXPlus1> = this.combine(other${
+						| *
+						| * @since 2.0.0
+						| */
+						|@JvmName("combineToTuple${upperNumberPlus1}")
+						|fun <$typeArgsPlus1> ${className}<$tupleX>.combine(
+						|	other: ArbArgsGenerator<A$upperNumberPlus1>
+						|): ${className}<$tupleXPlus1> = this.combine(other${
 							if (upperNumber == 1) ", ::Tuple2)"
 							else """) { args, otherArg ->
-							|	args.append(otherArg)
-							|}""".trimMargin()
+								 |	args.append(otherArg)
+								 |}""".trimMargin()
 						}
-					|""".trimMargin()
+						|""".trimMargin()
 					).appendLine()
 				}
+
+				arbCombineDependent.append(
+					"""
+					|/**
+ 					| * Creates for each generated value of type [Tuple$upperNumber] by `this` [ArbArgsGenerator] another [ArbArgsGenerator] with the
+ 					| * help of the given [otherFactory] where the other generator generates values of type [A$upperNumberPlus1] and then combines the value
+ 					| * of `this` [ArbArgsGenerator] with one value of the other [ArbArgsGenerator].
+ 					| *
+ 					| * @param otherFactory Builds another [ArbArgsGenerator] based on a given value of type [Tuple$upperNumber].
+ 					| *
+ 					| * @return The resulting [ArbArgsGenerator] which generates values of type [${"Tuple$upperNumberPlus1"}].
+ 					| *
+ 					| * @since 2.0.0
+ 					| */
+					|@JvmName("combineDependentToTuple${upperNumberPlus1}")
+					|fun <$typeArgsPlus1> ArbArgsGenerator<$tupleX>.combineDependent(
+					|	otherFactory: ArbExtensionPoint.($tupleX) -> ArbArgsGenerator<A$upperNumberPlus1>
+					|): ArbArgsGenerator<$tupleXPlus1> = this.combineDependent(otherFactory${
+						if (upperNumber == 1) ", ::Tuple2)"
+						else """) { args, otherArg ->
+							 |	args.append(otherArg)
+							 |}""".trimMargin()
+					}
+					|""".trimMargin()
+				)
 			}
 		}
 
@@ -581,13 +611,15 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 		argsInterface.writeToFile("Args.kt")
 		argsComponents.writeToFile("argsComponents.kt")
 
-		semiOrderedArgsLikeGeneratorCombine.forEach { (fileName,_, _, sb) ->
+		semiOrderedArgsLikeGeneratorCombine.forEach { (fileName, _, _, sb) ->
 			sb.writeToFile("generators/$fileName.kt")
 		}
 
 		arbCombine.forEach { (fileName, _, _, sb) ->
 			sb.writeToFile("generators/$fileName.kt")
 		}
+
+		arbCombineDependent.writeToFile("generators/arbCombineDependentGenerated.kt")
 	}
 }
 generationFolder.builtBy(generate)

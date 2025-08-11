@@ -17,9 +17,9 @@ import ch.tutteli.kbox.Tuple8
 import ch.tutteli.kbox.Tuple9
 
 /**
- * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [SemiOrderedArgsGenerator].
+ * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [ArbArgsGenerator].
  *
- * @param other The other [SemiOrderedArgsGenerator] which generates values of type [A2].
+ * @param other The other [ArbArgsGenerator] which generates values of type [A2].
  *
  * @return The resulting [SemiOrderedArgsGenerator] which generates values of type [Tuple2].
  *
@@ -31,9 +31,9 @@ fun <A1, A2> SemiOrderedArgsGenerator<A1>.combine(
 ): SemiOrderedArgsGenerator<Tuple2<A1, A2>> = this.combine(other, ::Tuple2)
 
 /**
- * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [SemiOrderedArgsGenerator].
+ * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [ArbArgsGenerator].
  *
- * @param other The other [SemiOrderedArgsGenerator] which generates values of type [A3].
+ * @param other The other [ArbArgsGenerator] which generates values of type [A3].
  *
  * @return The resulting [SemiOrderedArgsGenerator] which generates values of type [Tuple3].
  *
@@ -47,9 +47,9 @@ fun <A1, A2, A3> SemiOrderedArgsGenerator<Tuple2<A1, A2>>.combine(
 }
 
 /**
- * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [SemiOrderedArgsGenerator].
+ * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [ArbArgsGenerator].
  *
- * @param other The other [SemiOrderedArgsGenerator] which generates values of type [A4].
+ * @param other The other [ArbArgsGenerator] which generates values of type [A4].
  *
  * @return The resulting [SemiOrderedArgsGenerator] which generates values of type [Tuple4].
  *
@@ -63,9 +63,9 @@ fun <A1, A2, A3, A4> SemiOrderedArgsGenerator<Tuple3<A1, A2, A3>>.combine(
 }
 
 /**
- * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [SemiOrderedArgsGenerator].
+ * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [ArbArgsGenerator].
  *
- * @param other The other [SemiOrderedArgsGenerator] which generates values of type [A5].
+ * @param other The other [ArbArgsGenerator] which generates values of type [A5].
  *
  * @return The resulting [SemiOrderedArgsGenerator] which generates values of type [Tuple5].
  *
@@ -79,9 +79,9 @@ fun <A1, A2, A3, A4, A5> SemiOrderedArgsGenerator<Tuple4<A1, A2, A3, A4>>.combin
 }
 
 /**
- * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [SemiOrderedArgsGenerator].
+ * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [ArbArgsGenerator].
  *
- * @param other The other [SemiOrderedArgsGenerator] which generates values of type [A6].
+ * @param other The other [ArbArgsGenerator] which generates values of type [A6].
  *
  * @return The resulting [SemiOrderedArgsGenerator] which generates values of type [Tuple6].
  *
@@ -95,9 +95,9 @@ fun <A1, A2, A3, A4, A5, A6> SemiOrderedArgsGenerator<Tuple5<A1, A2, A3, A4, A5>
 }
 
 /**
- * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [SemiOrderedArgsGenerator].
+ * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [ArbArgsGenerator].
  *
- * @param other The other [SemiOrderedArgsGenerator] which generates values of type [A7].
+ * @param other The other [ArbArgsGenerator] which generates values of type [A7].
  *
  * @return The resulting [SemiOrderedArgsGenerator] which generates values of type [Tuple7].
  *
@@ -111,9 +111,9 @@ fun <A1, A2, A3, A4, A5, A6, A7> SemiOrderedArgsGenerator<Tuple6<A1, A2, A3, A4,
 }
 
 /**
- * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [SemiOrderedArgsGenerator].
+ * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [ArbArgsGenerator].
  *
- * @param other The other [SemiOrderedArgsGenerator] which generates values of type [A8].
+ * @param other The other [ArbArgsGenerator] which generates values of type [A8].
  *
  * @return The resulting [SemiOrderedArgsGenerator] which generates values of type [Tuple8].
  *
@@ -127,9 +127,9 @@ fun <A1, A2, A3, A4, A5, A6, A7, A8> SemiOrderedArgsGenerator<Tuple7<A1, A2, A3,
 }
 
 /**
- * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [SemiOrderedArgsGenerator].
+ * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [ArbArgsGenerator].
  *
- * @param other The other [SemiOrderedArgsGenerator] which generates values of type [A9].
+ * @param other The other [ArbArgsGenerator] which generates values of type [A9].
  *
  * @return The resulting [SemiOrderedArgsGenerator] which generates values of type [Tuple9].
  *
