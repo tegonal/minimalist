@@ -39,7 +39,7 @@ fun checkIsPositive(value: Int, description: String) =
  * @since 2.0.0
  */
 fun checkIsPositive(value: Int, description: () -> String) =
-	check(value > 0) { "$value is not a valid ${description()}, has to be greater than 0" }
+	check(value > 0) { "$value is not a valid ${description()}, must be greater than 0" }
 
 /**
  * !! No backward compatibility guarantees !!
@@ -67,7 +67,7 @@ fun checkIsPositive(value: BigInt, description: String) =
  */
 @Suppress("NOTHING_TO_INLINE")
 private inline fun <NumberT : Comparable<NumberT>> checkIsPositive(value: NumberT, zero: NumberT, description: String) {
-	check(value > zero) { "$value is not a valid $description, has to be greater than 0" }
+	check(value > zero) { "$value is not a valid $description, must be greater than 0" }
 }
 
 /**
@@ -84,9 +84,17 @@ fun failIfNegative(value: Int, description: String) = failIfNegative(value, 0, d
  *
  * @since 2.0.0
  */
+fun failIfNegative(value: Long, description: String) = failIfNegative(value, 0, description)
+
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 @Suppress("NOTHING_TO_INLINE")
 private inline fun <NumberT : Comparable<NumberT>> failIfNegative(value: NumberT, zero: NumberT, description: String) =
-	failIf(value < zero) { "$value is not a valid $description, has to be greater than or equal to $zero" }
+	failIf(value < zero) { "$value is not a valid $description, must be be greater than or equal to $zero" }
 
 
 /**
@@ -116,3 +124,14 @@ fun <T> checkNoDuplicates(list: List<T>, errMsg: (duplicates: Set<T>) -> String)
 		errMsg(duplicates)
 	}
 }
+
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
+fun <E : Comparable<E>> requireFromLessThanToExclusive(from: E, toExclusive: E) =
+	require(from < toExclusive) {
+		"from ($from) must be be less than toExclusive ($toExclusive)"
+	}

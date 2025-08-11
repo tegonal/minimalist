@@ -73,17 +73,36 @@ class ArbNumberTest : AbstractArbArgsGeneratorTest<Any>() {
 	}
 
 	@ParameterizedTest
+	@ArgsSource("intRangeMinSize2")
+	fun intFromUntil(from: Int, until: Int) {
+		arb.intFromUntil(from, until).generateAndTake(3).forEach {
+			expect(it).toBeGreaterThanOrEqualTo(from).toBeLessThan(until)
+		}
+	}
+	@ParameterizedTest
+	@ArgsSource("longRangeMinSize2")
+	fun longFromUntil(from: Long, until: Long) {
+		arb.longFromUntil(from, until).generateAndTake(3).forEach {
+			expect(it).toBeGreaterThanOrEqualTo(from).toBeLessThan(until)
+		}
+	}
+
+	@ParameterizedTest
 	@ArgsSource("fromUntils")
 	fun doubleFromUntil(from: Double, until: Double) {
-		arb.doubleFromUntil(from, until).generateAndTakeBasedOnDecider().forEach {
+		arb.doubleFromUntil(from, until).generateAndTake(3).forEach {
 			expect(it).toBeGreaterThanOrEqualTo(from).toBeLessThan(until)
 		}
 	}
 
 	companion object {
 		@JvmStatic
-		fun fromUntils() = arb.intFromUntil(Int.MIN_VALUE, Int.MAX_VALUE - 1).combineDependent {
-			arb.intFromTo(it + 1, Int.MAX_VALUE)
-		}
+		fun intRangeMinSize2() = arb.intRange(minSize = 2).map { it.start to it.last }
+
+		@JvmStatic
+		fun longRangeMinSize2() = arb.longRange(minSize = 2).map { it.start to it.last }
+
+		@JvmStatic
+		fun fromUntils() = longRangeMinSize2()
 	}
 }

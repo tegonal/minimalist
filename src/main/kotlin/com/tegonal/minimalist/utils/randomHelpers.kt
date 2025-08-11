@@ -5,6 +5,7 @@ import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.createMinimalistRandom
 import com.tegonal.minimalist.utils.impl.checkIsPositive
 import com.tegonal.minimalist.generators.ordered
+import com.tegonal.minimalist.utils.impl.requireFromLessThanToExclusive
 import java.math.BigInteger
 import kotlin.random.Random
 import kotlin.random.asJavaRandom
@@ -110,7 +111,7 @@ typealias BigInt = BigInteger
  * @since 2.0.0
  */
 fun Random.nextBigInt(from: BigInt, toExclusive: BigInt): BigInt {
-	require(from < toExclusive) { "from ($from) has to be less than toExclusive ($toExclusive)" }
+	requireFromLessThanToExclusive(from, toExclusive)
 	val range = toExclusive - from
 	val result = nextBigInt(range)
 	return result + from

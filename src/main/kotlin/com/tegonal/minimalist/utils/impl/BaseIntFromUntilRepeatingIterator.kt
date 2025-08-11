@@ -9,11 +9,11 @@ package com.tegonal.minimalist.utils.impl
  * Reuse at your own risk
  *
  * @param startIndex The inclusive lower bound of the range (in case [offset] = 0 also the starting number) --
- *   has to be less than [endIndexExclusive] and greater than or equal to 0.
+ *   must be less than [endIndexExclusive] and greater than or equal to 0.
  *
  * @param endIndexExclusive The non-inclusive upper bound of the range. Put differently. the number which is no longer
  *   included in the range, i.e. if the current number + [step] is greater than [endIndexExclusive] then the next number
- *   is [startIndex] again -- has to be greater than [startIndex].
+ *   is [startIndex] again -- must be greater than [startIndex].
  *
  * @param offset Influences from which number the range starts where it defines an offset to the [startIndex] of the
  *   range in terms of [step]s, taking [endIndexExclusive] and the infinite character of this iterator into account.

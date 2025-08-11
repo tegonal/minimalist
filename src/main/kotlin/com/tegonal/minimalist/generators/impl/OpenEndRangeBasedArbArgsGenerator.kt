@@ -1,6 +1,7 @@
 package com.tegonal.minimalist.generators.impl
 
 import com.tegonal.minimalist.config.ComponentFactoryContainer
+import com.tegonal.minimalist.utils.impl.requireFromLessThanToExclusive
 import kotlin.random.Random
 
 /**
@@ -17,9 +18,7 @@ abstract class OpenEndRangeBasedArbArgsGenerator<E : Comparable<E>, T>(
 	private val argsProvider: (E) -> T
 ) : RandomBasedArbArgsGenerator<T>(componentFactoryContainer, seedBaseOffset) {
 	init {
-		require(from < toExclusive) {
-			"from ($from) needs to be less than toExclusive ($toExclusive)"
-		}
+		requireFromLessThanToExclusive(from, toExclusive)
 	}
 
 	final override fun Random.nextElement(): T =
