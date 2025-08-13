@@ -108,7 +108,7 @@ public class Args8AppendTest {
 		);
 		var secondArgs = Args.of(
 			(byte) 2,
-			BigInteger.valueOf(3),
+			3.toBigInt(),
 			new Representation("rep 1"),
 			"rep 2"
 		);

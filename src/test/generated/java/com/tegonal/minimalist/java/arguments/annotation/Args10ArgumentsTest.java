@@ -50,7 +50,7 @@ public class Args10ArgumentsTest {
 			LocalDate.now(),
 			(short) 1,
 			(byte) 2,
-			BigInteger.valueOf(3)
+			3.toBigInt()
 		);
 		new Pipe<>(expect(args.get()))
 			.pipe((it) -> asList(it))
@@ -84,7 +84,7 @@ public class Args10ArgumentsTest {
 			LocalDate.now(),
 			(short) 1,
 			(byte) 2,
-			BigInteger.valueOf(3),
+			3.toBigInt(),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -276,7 +276,7 @@ public class Args10ArgumentsTest {
 			LocalDate.now(),
 			(short) 1,
 			(byte) 2,
-			BigInteger.valueOf(3),
+			3.toBigInt(),
 			(Representation) null,
 			(String) null,
 			(String) null,
@@ -331,10 +331,10 @@ public class Args10ArgumentsTest {
 		new Pipe<>(expect(a7)).pipe(it -> toEqual(it, LocalDate.now()));
 		new Pipe<>(expect(a8)).pipe(it -> toEqual(it, (short) 1));
 		new Pipe<>(expect(a9)).pipe(it -> toEqual(it, (byte) 2));
-		new Pipe<>(expect(a10)).pipe(it -> toEqual(it, BigInteger.valueOf(3)));
+		new Pipe<>(expect(a10)).pipe(it -> toEqual(it, 3.toBigInt()));
 	}
 
 	static List<Args> args() {
-		return List.of(Args.of(1, 2L, 3F, 4.0, 'c', "string", LocalDate.now(), (short) 1, (byte) 2, BigInteger.valueOf(3)));
+		return List.of(Args.of(1, 2L, 3F, 4.0, 'c', "string", LocalDate.now(), (short) 1, (byte) 2, 3.toBigInt()));
 	}
 }

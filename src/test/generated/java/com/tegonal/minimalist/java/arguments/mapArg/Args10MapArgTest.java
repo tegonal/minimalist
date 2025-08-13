@@ -50,7 +50,7 @@ public class Args10MapArgTest {
 			List.of(LocalDate.now()),
 			List.of((short) 1),
 			List.of((byte) 2),
-			List.of(BigInteger.valueOf(3)),
+			List.of(3.toBigInt()),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -75,7 +75,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), List.of(LocalDate.now()));
 			toEqual(getA8(e), List.of((short) 1));
 			toEqual(getA9(e), List.of((byte) 2));
-			toEqual(getA10(e), List.of(BigInteger.valueOf(3)));
+			toEqual(getA10(e), List.of(3.toBigInt()));
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -126,7 +126,7 @@ public class Args10MapArgTest {
 			List.of(LocalDate.now()),
 			List.of((short) 1),
 			List.of((byte) 2),
-			List.of(BigInteger.valueOf(3)),
+			List.of(3.toBigInt()),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -151,7 +151,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), List.of(LocalDate.now()));
 			toEqual(getA8(e), List.of((short) 1));
 			toEqual(getA9(e), List.of((byte) 2));
-			toEqual(getA10(e), List.of(BigInteger.valueOf(3)));
+			toEqual(getA10(e), List.of(3.toBigInt()));
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -202,7 +202,7 @@ public class Args10MapArgTest {
 			List.of(LocalDate.now()),
 			List.of((short) 1),
 			List.of((byte) 2),
-			List.of(BigInteger.valueOf(3)),
+			List.of(3.toBigInt()),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -227,7 +227,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), List.of(LocalDate.now()));
 			toEqual(getA8(e), List.of((short) 1));
 			toEqual(getA9(e), List.of((byte) 2));
-			toEqual(getA10(e), List.of(BigInteger.valueOf(3)));
+			toEqual(getA10(e), List.of(3.toBigInt()));
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -278,7 +278,7 @@ public class Args10MapArgTest {
 			List.of(LocalDate.now()),
 			List.of((short) 1),
 			List.of((byte) 2),
-			List.of(BigInteger.valueOf(3)),
+			List.of(3.toBigInt()),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -303,7 +303,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), List.of(LocalDate.now()));
 			toEqual(getA8(e), List.of((short) 1));
 			toEqual(getA9(e), List.of((byte) 2));
-			toEqual(getA10(e), List.of(BigInteger.valueOf(3)));
+			toEqual(getA10(e), List.of(3.toBigInt()));
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -354,7 +354,7 @@ public class Args10MapArgTest {
 			List.of(LocalDate.now()),
 			List.of((short) 1),
 			List.of((byte) 2),
-			List.of(BigInteger.valueOf(3)),
+			List.of(3.toBigInt()),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -379,7 +379,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), List.of(LocalDate.now()));
 			toEqual(getA8(e), List.of((short) 1));
 			toEqual(getA9(e), List.of((byte) 2));
-			toEqual(getA10(e), List.of(BigInteger.valueOf(3)));
+			toEqual(getA10(e), List.of(3.toBigInt()));
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -430,7 +430,7 @@ public class Args10MapArgTest {
 			List.of(LocalDate.now()),
 			List.of((short) 1),
 			List.of((byte) 2),
-			List.of(BigInteger.valueOf(3)),
+			List.of(3.toBigInt()),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -455,7 +455,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), List.of(LocalDate.now()));
 			toEqual(getA8(e), List.of((short) 1));
 			toEqual(getA9(e), List.of((byte) 2));
-			toEqual(getA10(e), List.of(BigInteger.valueOf(3)));
+			toEqual(getA10(e), List.of(3.toBigInt()));
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -506,7 +506,7 @@ public class Args10MapArgTest {
 			List.of(LocalDate.now()),
 			List.of((short) 1),
 			List.of((byte) 2),
-			List.of(BigInteger.valueOf(3)),
+			List.of(3.toBigInt()),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -531,7 +531,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), List.of(LocalDate.now()));
 			toEqual(getA8(e), List.of((short) 1));
 			toEqual(getA9(e), List.of((byte) 2));
-			toEqual(getA10(e), List.of(BigInteger.valueOf(3)));
+			toEqual(getA10(e), List.of(3.toBigInt()));
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -582,7 +582,7 @@ public class Args10MapArgTest {
 			List.of(LocalDate.now()),
 			List.of((short) 1),
 			List.of((byte) 2),
-			List.of(BigInteger.valueOf(3)),
+			List.of(3.toBigInt()),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -607,7 +607,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), List.of(LocalDate.now()));
 			toEqual(getA8(e), List.of((short) 1));
 			toEqual(getA9(e), List.of((byte) 2));
-			toEqual(getA10(e), List.of(BigInteger.valueOf(3)));
+			toEqual(getA10(e), List.of(3.toBigInt()));
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -658,7 +658,7 @@ public class Args10MapArgTest {
 			List.of(LocalDate.now()),
 			List.of((short) 1),
 			List.of((byte) 2),
-			List.of(BigInteger.valueOf(3)),
+			List.of(3.toBigInt()),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -683,7 +683,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), List.of(LocalDate.now()));
 			toEqual(getA8(e), List.of((short) 1));
 			toEqual(getA9(e), List.of((byte) 2));
-			toEqual(getA10(e), List.of(BigInteger.valueOf(3)));
+			toEqual(getA10(e), List.of(3.toBigInt()));
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -734,7 +734,7 @@ public class Args10MapArgTest {
 			List.of(LocalDate.now()),
 			List.of((short) 1),
 			List.of((byte) 2),
-			List.of(BigInteger.valueOf(3)),
+			List.of(3.toBigInt()),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -759,7 +759,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), List.of(LocalDate.now()));
 			toEqual(getA8(e), List.of((short) 1));
 			toEqual(getA9(e), List.of((byte) 2));
-			toEqual(getA10(e), List.of(BigInteger.valueOf(3)));
+			toEqual(getA10(e), List.of(3.toBigInt()));
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -810,7 +810,7 @@ public class Args10MapArgTest {
 			List.of(LocalDate.now()),
 			List.of((short) 1),
 			List.of((byte) 2),
-			List.of(BigInteger.valueOf(3)),
+			List.of(3.toBigInt()),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -835,7 +835,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), List.of(LocalDate.now()));
 			toEqual(getA8(e), List.of((short) 1));
 			toEqual(getA9(e), List.of((byte) 2));
-			toEqual(getA10(e), List.of(BigInteger.valueOf(3)));
+			toEqual(getA10(e), List.of(3.toBigInt()));
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -886,7 +886,7 @@ public class Args10MapArgTest {
 			List.of(LocalDate.now()),
 			List.of((short) 1),
 			List.of((byte) 2),
-			List.of(BigInteger.valueOf(3)),
+			List.of(3.toBigInt()),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -911,7 +911,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), List.of(LocalDate.now()));
 			toEqual(getA8(e), List.of((short) 1));
 			toEqual(getA9(e), List.of((byte) 2));
-			toEqual(getA10(e), List.of(BigInteger.valueOf(3)));
+			toEqual(getA10(e), List.of(3.toBigInt()));
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -962,7 +962,7 @@ public class Args10MapArgTest {
 			List.of(LocalDate.now()),
 			List.of((short) 1),
 			List.of((byte) 2),
-			List.of(BigInteger.valueOf(3)),
+			List.of(3.toBigInt()),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -987,7 +987,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), List.of(LocalDate.now()));
 			toEqual(getA8(e), List.of((short) 1));
 			toEqual(getA9(e), List.of((byte) 2));
-			toEqual(getA10(e), List.of(BigInteger.valueOf(3)));
+			toEqual(getA10(e), List.of(3.toBigInt()));
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -1038,7 +1038,7 @@ public class Args10MapArgTest {
 			List.of(LocalDate.now()),
 			List.of((short) 1),
 			List.of((byte) 2),
-			List.of(BigInteger.valueOf(3)),
+			List.of(3.toBigInt()),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -1063,7 +1063,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), List.of(LocalDate.now()));
 			toEqual(getA8(e), List.of((short) 1));
 			toEqual(getA9(e), List.of((byte) 2));
-			toEqual(getA10(e), List.of(BigInteger.valueOf(3)));
+			toEqual(getA10(e), List.of(3.toBigInt()));
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -1114,7 +1114,7 @@ public class Args10MapArgTest {
 			List.of(LocalDate.now()),
 			List.of((short) 1),
 			List.of((byte) 2),
-			List.of(BigInteger.valueOf(3)),
+			List.of(3.toBigInt()),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -1139,7 +1139,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), List.of(LocalDate.now()));
 			toEqual(getA8(e), List.of((short) 1));
 			toEqual(getA9(e), List.of((byte) 2));
-			toEqual(getA10(e), List.of(BigInteger.valueOf(3)));
+			toEqual(getA10(e), List.of(3.toBigInt()));
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -1190,7 +1190,7 @@ public class Args10MapArgTest {
 			List.of(LocalDate.now()),
 			List.of((short) 1),
 			List.of((byte) 2),
-			List.of(BigInteger.valueOf(3)),
+			List.of(3.toBigInt()),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -1215,7 +1215,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), List.of(LocalDate.now()));
 			toEqual(getA8(e), List.of((short) 1));
 			toEqual(getA9(e), List.of((byte) 2));
-			toEqual(getA10(e), List.of(BigInteger.valueOf(3)));
+			toEqual(getA10(e), List.of(3.toBigInt()));
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -1266,7 +1266,7 @@ public class Args10MapArgTest {
 			List.of(LocalDate.now()),
 			List.of((short) 1),
 			List.of((byte) 2),
-			List.of(BigInteger.valueOf(3)),
+			List.of(3.toBigInt()),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -1291,7 +1291,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), List.of(LocalDate.now()));
 			toEqual(getA8(e), List.of((short) 1));
 			toEqual(getA9(e), List.of((byte) 2));
-			toEqual(getA10(e), List.of(BigInteger.valueOf(3)));
+			toEqual(getA10(e), List.of(3.toBigInt()));
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -1342,7 +1342,7 @@ public class Args10MapArgTest {
 			List.of(LocalDate.now()),
 			List.of((short) 1),
 			List.of((byte) 2),
-			List.of(BigInteger.valueOf(3)),
+			List.of(3.toBigInt()),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -1367,7 +1367,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), List.of(LocalDate.now()));
 			toEqual(getA8(e), List.of((short) 1));
 			toEqual(getA9(e), List.of((byte) 2));
-			toEqual(getA10(e), List.of(BigInteger.valueOf(3)));
+			toEqual(getA10(e), List.of(3.toBigInt()));
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -1418,7 +1418,7 @@ public class Args10MapArgTest {
 			List.of(LocalDate.now()),
 			List.of((short) 1),
 			List.of((byte) 2),
-			List.of(BigInteger.valueOf(3)),
+			List.of(3.toBigInt()),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -1443,7 +1443,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), List.of(LocalDate.now()));
 			toEqual(getA8(e), List.of((short) 1));
 			toEqual(getA9(e), List.of((byte) 2));
-			toEqual(getA10(e), List.of(BigInteger.valueOf(3)));
+			toEqual(getA10(e), List.of(3.toBigInt()));
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -1467,7 +1467,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), args.getA7());
 			toEqual(getA8(e), args.getA8());
 			toEqual(getA9(e), args.getA9());
-			toEqual(getA10(e), BigInteger.valueOf(3));
+			toEqual(getA10(e), 3.toBigInt());
 			toEqual(getRepresentation1(e), args.getRepresentation1());
 			toEqual(getRepresentation2(e), args.getRepresentation2());
 			toEqual(getRepresentation3(e), args.getRepresentation3());
@@ -1494,7 +1494,7 @@ public class Args10MapArgTest {
 			List.of(LocalDate.now()),
 			List.of((short) 1),
 			List.of((byte) 2),
-			List.of(BigInteger.valueOf(3)),
+			List.of(3.toBigInt()),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -1519,7 +1519,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), List.of(LocalDate.now()));
 			toEqual(getA8(e), List.of((short) 1));
 			toEqual(getA9(e), List.of((byte) 2));
-			toEqual(getA10(e), List.of(BigInteger.valueOf(3)));
+			toEqual(getA10(e), List.of(3.toBigInt()));
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -1543,7 +1543,7 @@ public class Args10MapArgTest {
 			toEqual(getA7(e), args.getA7());
 			toEqual(getA8(e), args.getA8());
 			toEqual(getA9(e), args.getA9());
-			toEqual(getA10(e), BigInteger.valueOf(3));
+			toEqual(getA10(e), 3.toBigInt());
 			toEqual(getRepresentation1(e), args.getRepresentation1());
 			toEqual(getRepresentation2(e), args.getRepresentation2());
 			toEqual(getRepresentation3(e), args.getRepresentation3());

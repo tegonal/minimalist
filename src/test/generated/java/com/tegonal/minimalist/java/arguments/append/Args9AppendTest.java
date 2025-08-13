@@ -61,7 +61,7 @@ public class Args9AppendTest {
 			"rep 9"
 		);
 		var secondArgs = Args.of(
-			BigInteger.valueOf(3),
+			3.toBigInt(),
 			new Representation("rep 1")
 		);
 		var argsResult = firstArgs.append(secondArgs);

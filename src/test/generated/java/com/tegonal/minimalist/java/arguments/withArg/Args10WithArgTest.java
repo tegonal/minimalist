@@ -50,7 +50,7 @@ public class Args10WithArgTest {
 			LocalDate.now(),
 			(short) 1,
 			(byte) 2,
-			BigInteger.valueOf(3),
+			3.toBigInt(),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -75,7 +75,7 @@ public class Args10WithArgTest {
 			toEqual(getA7(e), LocalDate.now());
 			toEqual(getA8(e), (short) 1);
 			toEqual(getA9(e), (byte) 2);
-			toEqual(getA10(e), BigInteger.valueOf(3));
+			toEqual(getA10(e), 3.toBigInt());
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -126,7 +126,7 @@ public class Args10WithArgTest {
 			LocalDate.now(),
 			(short) 1,
 			(byte) 2,
-			BigInteger.valueOf(3),
+			3.toBigInt(),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -151,7 +151,7 @@ public class Args10WithArgTest {
 			toEqual(getA7(e), LocalDate.now());
 			toEqual(getA8(e), (short) 1);
 			toEqual(getA9(e), (byte) 2);
-			toEqual(getA10(e), BigInteger.valueOf(3));
+			toEqual(getA10(e), 3.toBigInt());
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -202,7 +202,7 @@ public class Args10WithArgTest {
 			LocalDate.now(),
 			(short) 1,
 			(byte) 2,
-			BigInteger.valueOf(3),
+			3.toBigInt(),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -227,7 +227,7 @@ public class Args10WithArgTest {
 			toEqual(getA7(e), LocalDate.now());
 			toEqual(getA8(e), (short) 1);
 			toEqual(getA9(e), (byte) 2);
-			toEqual(getA10(e), BigInteger.valueOf(3));
+			toEqual(getA10(e), 3.toBigInt());
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -278,7 +278,7 @@ public class Args10WithArgTest {
 			LocalDate.now(),
 			(short) 1,
 			(byte) 2,
-			BigInteger.valueOf(3),
+			3.toBigInt(),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -303,7 +303,7 @@ public class Args10WithArgTest {
 			toEqual(getA7(e), LocalDate.now());
 			toEqual(getA8(e), (short) 1);
 			toEqual(getA9(e), (byte) 2);
-			toEqual(getA10(e), BigInteger.valueOf(3));
+			toEqual(getA10(e), 3.toBigInt());
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -354,7 +354,7 @@ public class Args10WithArgTest {
 			LocalDate.now(),
 			(short) 1,
 			(byte) 2,
-			BigInteger.valueOf(3),
+			3.toBigInt(),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -379,7 +379,7 @@ public class Args10WithArgTest {
 			toEqual(getA7(e), LocalDate.now());
 			toEqual(getA8(e), (short) 1);
 			toEqual(getA9(e), (byte) 2);
-			toEqual(getA10(e), BigInteger.valueOf(3));
+			toEqual(getA10(e), 3.toBigInt());
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -430,7 +430,7 @@ public class Args10WithArgTest {
 			LocalDate.now(),
 			(short) 1,
 			(byte) 2,
-			BigInteger.valueOf(3),
+			3.toBigInt(),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -455,7 +455,7 @@ public class Args10WithArgTest {
 			toEqual(getA7(e), LocalDate.now());
 			toEqual(getA8(e), (short) 1);
 			toEqual(getA9(e), (byte) 2);
-			toEqual(getA10(e), BigInteger.valueOf(3));
+			toEqual(getA10(e), 3.toBigInt());
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -506,7 +506,7 @@ public class Args10WithArgTest {
 			LocalDate.now(),
 			(short) 1,
 			(byte) 2,
-			BigInteger.valueOf(3),
+			3.toBigInt(),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -531,7 +531,7 @@ public class Args10WithArgTest {
 			toEqual(getA7(e), LocalDate.now());
 			toEqual(getA8(e), (short) 1);
 			toEqual(getA9(e), (byte) 2);
-			toEqual(getA10(e), BigInteger.valueOf(3));
+			toEqual(getA10(e), 3.toBigInt());
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -582,7 +582,7 @@ public class Args10WithArgTest {
 			LocalDate.now(),
 			(short) 1,
 			(byte) 2,
-			BigInteger.valueOf(3),
+			3.toBigInt(),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -607,7 +607,7 @@ public class Args10WithArgTest {
 			toEqual(getA7(e), LocalDate.now());
 			toEqual(getA8(e), (short) 1);
 			toEqual(getA9(e), (byte) 2);
-			toEqual(getA10(e), BigInteger.valueOf(3));
+			toEqual(getA10(e), 3.toBigInt());
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -658,7 +658,7 @@ public class Args10WithArgTest {
 			LocalDate.now(),
 			(short) 1,
 			(byte) 2,
-			BigInteger.valueOf(3),
+			3.toBigInt(),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -683,7 +683,7 @@ public class Args10WithArgTest {
 			toEqual(getA7(e), LocalDate.now());
 			toEqual(getA8(e), (short) 1);
 			toEqual(getA9(e), (byte) 2);
-			toEqual(getA10(e), BigInteger.valueOf(3));
+			toEqual(getA10(e), 3.toBigInt());
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -734,7 +734,7 @@ public class Args10WithArgTest {
 			LocalDate.now(),
 			(short) 1,
 			(byte) 2,
-			BigInteger.valueOf(3),
+			3.toBigInt(),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3",
@@ -746,7 +746,7 @@ public class Args10WithArgTest {
 			"rep 9",
 			"rep 10"
 		);
-		var argsResult = args.withArg10(BigInteger.valueOf(4), "new rep");
+		var argsResult = args.withArg10(4.toBigInt(), "new rep");
 
 		// no changes to args
 		expect(args, e -> {
@@ -759,7 +759,7 @@ public class Args10WithArgTest {
 			toEqual(getA7(e), LocalDate.now());
 			toEqual(getA8(e), (short) 1);
 			toEqual(getA9(e), (byte) 2);
-			toEqual(getA10(e), BigInteger.valueOf(3));
+			toEqual(getA10(e), 3.toBigInt());
 			toEqual(getRepresentation1(e), "rep 1");
 			toEqual(getRepresentation2(e), "rep 2");
 			toEqual(getRepresentation3(e), "rep 3");
@@ -783,7 +783,7 @@ public class Args10WithArgTest {
 			toEqual(getA7(e), args.getA7());
 			toEqual(getA8(e), args.getA8());
 			toEqual(getA9(e), args.getA9());
-			toEqual(getA10(e), BigInteger.valueOf(4));
+			toEqual(getA10(e), 4.toBigInt());
 			toEqual(getRepresentation1(e), args.getRepresentation1());
 			toEqual(getRepresentation2(e), args.getRepresentation2());
 			toEqual(getRepresentation3(e), args.getRepresentation3());

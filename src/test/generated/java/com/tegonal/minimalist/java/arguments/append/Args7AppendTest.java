@@ -151,7 +151,7 @@ public class Args7AppendTest {
 		var secondArgs = Args.of(
 			(short) 1,
 			(byte) 2,
-			BigInteger.valueOf(3),
+			3.toBigInt(),
 			new Representation("rep 1"),
 			"rep 2",
 			"rep 3"
