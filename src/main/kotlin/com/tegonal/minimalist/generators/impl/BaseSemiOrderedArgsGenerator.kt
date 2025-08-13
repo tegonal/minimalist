@@ -2,8 +2,10 @@ package com.tegonal.minimalist.generators.impl
 
 import com.tegonal.minimalist.config.ComponentFactoryContainer
 import com.tegonal.minimalist.config.ComponentFactoryContainerProvider
+import com.tegonal.minimalist.generators.OrderedArgsGenerator
 import com.tegonal.minimalist.utils.impl.checkIsPositive
 import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
+import com.tegonal.minimalist.utils.BigInt
 
 /**
  * !! No backward compatibility guarantees !!
@@ -18,10 +20,20 @@ abstract class BaseSemiOrderedArgsGenerator<T>(
 
 	constructor(componentFactoryContainer: ComponentFactoryContainer, size: Long) : this(
 		componentFactoryContainer,
-		Unit.run {
-			checkIsPositive(size, "size")
-			if (size < Int.MAX_VALUE) size.toInt()
-			else error("Cannot convert the size $size to Int")
+		size.toInt().also {
+			check(it.toLong() == size) {
+				// toInt() overflowed
+				"${OrderedArgsGenerator::class.simpleName}.${OrderedArgsGenerator<*>::size.name} only supports Int, the given size ($size) is bigger"
+			}
+		}
+	)
+
+	constructor(componentFactoryContainer: ComponentFactoryContainer, size: BigInt) : this(
+		componentFactoryContainer,
+		size.toInt().also {
+			check(size.bitLength() <= 31) {
+				"${OrderedArgsGenerator::class.simpleName}.${OrderedArgsGenerator<*>::size.name} only supports Int, the given size ($size) is bigger"
+			}
 		}
 	)
 

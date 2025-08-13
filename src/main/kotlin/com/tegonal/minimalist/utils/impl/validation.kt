@@ -135,3 +135,68 @@ fun <E : Comparable<E>> requireFromLessThanToExclusive(from: E, toExclusive: E) 
 	require(from < toExclusive) {
 		"from ($from) must be be less than toExclusive ($toExclusive)"
 	}
+
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
+fun checkRangeNumbers(
+	from: Int,
+	toExclusive: Int,
+	offset: Int,
+	step: Int
+) = checkRangeNumbers(from, toExclusive, offset, step, zero = 0)
+
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
+fun checkRangeNumbers(
+	from: Long,
+	toExclusive: Long,
+	offset: Long,
+	step: Long
+) = checkRangeNumbers(from, toExclusive, offset, step, zero = 0)
+
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
+fun checkRangeNumbers(
+	from: BigInt,
+	toExclusive: BigInt,
+	offset: BigInt,
+	step: BigInt
+) = checkRangeNumbers(from, toExclusive, offset, step, zero = BigInt.ZERO)
+
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
+@Suppress("NOTHING_TO_INLINE")
+private inline fun <NumberT> checkRangeNumbers(
+	from: NumberT,
+	toExclusive: NumberT,
+	offset: NumberT,
+	step: NumberT,
+	zero: NumberT
+) where NumberT : Number, NumberT : Comparable<NumberT> {
+	check(from < toExclusive) {
+		// we know, we expose an internal name to the user
+		"RepeatingIterator only supports that startIndex ($from) is less than endIndexExclusive ($toExclusive) - feel free to open a feature request ${FEATURE_REQUEST_URL}&title=RepeatingIterator%20downwards"
+	}
+	check(step > zero) {
+		"RepeatingIterator only supports a positive step (given $step) - feel free to open a feature request ${FEATURE_REQUEST_URL}&title=RepeatingIterator%20downwards"
+	}
+	check(offset >= zero) {
+		"RepeatingIterator only supports an offset greater than or equal to 0 (given $offset)"
+	}
+}

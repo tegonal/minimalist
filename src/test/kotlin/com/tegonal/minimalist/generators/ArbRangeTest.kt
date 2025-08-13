@@ -8,10 +8,8 @@ import com.tegonal.minimalist.generators.impl.createIntDomainBasedClosedRangeArb
 import com.tegonal.minimalist.generators.impl.possibleMaxSizeSafeInIntDomain
 import com.tegonal.minimalist.generators.impl.possibleMaxSizeSafeInLongDomain
 import com.tegonal.minimalist.providers.ArgsSource
-import com.tegonal.minimalist.utils.BigInt
+import com.tegonal.minimalist.utils.toBigInt
 import org.junit.jupiter.params.ParameterizedTest
-import kotlin.math.min
-import kotlin.test.Test
 
 class ArbRangeTest : AbstractArbArgsGeneratorTest<Any>() {
 
@@ -173,7 +171,7 @@ class ArbRangeTest : AbstractArbArgsGeneratorTest<Any>() {
 			}.combineDependent {
 				arb.longFromUntil(
 					1,
-					(BigInt.valueOf(it.second) - BigInt.valueOf(it.first)).min(BigInt.valueOf(Long.MAX_VALUE)).toLong()
+					(it.second.toBigInt() - it.first.toBigInt()).min(Long.MAX_VALUE.toBigInt()).toLong()
 				)
 			}
 	}

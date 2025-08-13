@@ -56,7 +56,7 @@ fun <T> Array<T>.pickRandomly(): T =
  */
 fun <T> Iterable<T>.takeRandomly(amount: Int): List<T> {
 	// TODO 2.1.0 we could implement an optimisation for big take in case of List -> use BitSet, see code in jmh dir
-	// TODO 2.1.0 introduce `shuffled` as supplement to `random`
+	// TODO 2.1.0 introduce `shuffled` as supplement to `arb`?
 	return asSequence().takeRandomly(amount).toList()
 }
 
@@ -110,6 +110,18 @@ typealias BigInt = BigInteger
 /**
  * @since 2.0.0
  */
+@Suppress("NOTHING_TO_INLINE")
+inline fun Int.toBigInt() = this.toBigInteger()
+
+/**
+ * @since 2.0.0
+ */
+@Suppress("NOTHING_TO_INLINE")
+inline fun Long.toBigInt() = this.toBigInteger()
+
+/**
+ * @since 2.0.0
+ */
 fun Random.nextBigInt(from: BigInt, toExclusive: BigInt): BigInt {
 	requireFromLessThanToExclusive(from, toExclusive)
 	val range = toExclusive - from
@@ -124,8 +136,8 @@ fun Random.nextBigInt(toExclusive: BigInt): BigInt {
 	checkIsPositive(toExclusive, "toExclusive")
 	val bitLength = toExclusive.bitLength()
 	when {
-		bitLength <= 31 -> return BigInt.valueOf(nextInt(toExclusive.toInt()).toLong())
-		bitLength <= 63 -> return BigInt.valueOf(nextLong(toExclusive.toLong()))
+		bitLength <= 31 -> return nextInt(toExclusive.toInt()).toBigInt()
+		bitLength <= 63 -> return nextLong(toExclusive.toLong()).toBigInt()
 		else -> {
 			val javaRandom = this.asJavaRandom()
 			var count = 0

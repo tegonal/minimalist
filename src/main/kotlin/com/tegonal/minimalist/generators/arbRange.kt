@@ -3,7 +3,7 @@ package com.tegonal.minimalist.generators
 import com.tegonal.minimalist.generators.impl.createClosedRangeArbGenerator
 import com.tegonal.minimalist.generators.impl.createIntDomainBasedClosedRangeArbGenerator
 import com.tegonal.minimalist.generators.impl.possibleMaxSizeSafeInIntDomain
-import com.tegonal.minimalist.utils.BigInt
+import com.tegonal.minimalist.utils.toBigInt
 
 /**
  * Returns an [ArbArgsGenerator] which generates [IntRange]s ranging from a lower bound [minInclusive] to
@@ -35,7 +35,7 @@ fun ArbExtensionPoint.charRange(
 		minInclusive = minInclusive.code.toLong(),
 		maxInclusive = maxInclusive.code.toLong(),
 		minSize = minSize.toLong(),
-		maxSize = maxSize?.let { BigInt.valueOf(it.toLong()) }
+		maxSize = maxSize?.toBigInt()
 	) { start, toInclusive ->
 		start.toInt().toChar()..toInclusive.toInt().toChar()
 	}
@@ -73,7 +73,7 @@ fun ArbExtensionPoint.intRange(
 			minInclusive = minInclusive.toLong(),
 			maxInclusive = maxInclusive.toLong(),
 			minSize = minSize.toLong(),
-			maxSize = maxSize?.let { BigInt.valueOf(it.toLong()) }
+			maxSize = maxSize?.toBigInt()
 		) { start, toInclusive ->
 			start.toInt()..toInclusive.toInt()
 		}
@@ -99,6 +99,6 @@ fun ArbExtensionPoint.longRange(
 	minInclusive = minInclusive,
 	maxInclusive = maxInclusive,
 	minSize = minSize,
-	maxSize = maxSize?.let { BigInt.valueOf(it) },
+	maxSize = maxSize?.toBigInt(),
 	factory = ::LongRange
 )

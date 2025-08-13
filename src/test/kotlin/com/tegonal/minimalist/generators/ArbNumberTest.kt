@@ -11,6 +11,7 @@ import com.tegonal.minimalist.config.arb
 import com.tegonal.minimalist.providers.ArgsSource
 import com.tegonal.minimalist.testutils.withMockedRandom
 import com.tegonal.minimalist.utils.BigInt
+import com.tegonal.minimalist.utils.toBigInt
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 
@@ -23,7 +24,7 @@ class ArbNumberTest : AbstractArbArgsGeneratorTest<Any>() {
 		Tuple("longFromUntil", modifiedArb.longFromUntil(1L, 3L), listOf(1L, 2L)),
 		Tuple(
 			"bigIntFromUntil",
-			modifiedArb.bigIntFromUntil(BigInt.ONE, BigInt.valueOf(3L)),
+			modifiedArb.bigIntFromUntil(BigInt.ONE, 3L.toBigInt()),
 			listOf(BigInt.ONE, BigInt.TWO)
 		),
 		// we cannot test doubleFromUntil as the result range is infinite, see test below
@@ -32,8 +33,8 @@ class ArbNumberTest : AbstractArbArgsGeneratorTest<Any>() {
 		Tuple("longFromTo", modifiedArb.longFromTo(1, 5), listOf(1L, 2L, 3L, 4L, 5L)),
 		Tuple(
 			"bigIntFromTo",
-			modifiedArb.bigIntFromTo(BigInt.ONE, BigInt.valueOf(3L)),
-			listOf(BigInt.ONE, BigInt.TWO, BigInt.valueOf(3))
+			modifiedArb.bigIntFromTo(BigInt.ONE, 3L.toBigInt()),
+			listOf(BigInt.ONE, BigInt.TWO, 3.toBigInt())
 		),
 	)
 
@@ -73,14 +74,15 @@ class ArbNumberTest : AbstractArbArgsGeneratorTest<Any>() {
 	}
 
 	@ParameterizedTest
-	@ArgsSource("intRangeMinSize2")
+	@ArgsSource("arbIntBoundsMinSize2")
 	fun intFromUntil(from: Int, until: Int) {
 		arb.intFromUntil(from, until).generateAndTake(3).forEach {
 			expect(it).toBeGreaterThanOrEqualTo(from).toBeLessThan(until)
 		}
 	}
+
 	@ParameterizedTest
-	@ArgsSource("longRangeMinSize2")
+	@ArgsSource("arbLongBoundsMinSize2")
 	fun longFromUntil(from: Long, until: Long) {
 		arb.longFromUntil(from, until).generateAndTake(3).forEach {
 			expect(it).toBeGreaterThanOrEqualTo(from).toBeLessThan(until)
@@ -88,21 +90,10 @@ class ArbNumberTest : AbstractArbArgsGeneratorTest<Any>() {
 	}
 
 	@ParameterizedTest
-	@ArgsSource("fromUntils")
+	@ArgsSource("arbLongBoundsMinSize2")
 	fun doubleFromUntil(from: Double, until: Double) {
 		arb.doubleFromUntil(from, until).generateAndTake(3).forEach {
 			expect(it).toBeGreaterThanOrEqualTo(from).toBeLessThan(until)
 		}
-	}
-
-	companion object {
-		@JvmStatic
-		fun intRangeMinSize2() = arb.intRange(minSize = 2).map { it.start to it.last }
-
-		@JvmStatic
-		fun longRangeMinSize2() = arb.longRange(minSize = 2).map { it.start to it.last }
-
-		@JvmStatic
-		fun fromUntils() = longRangeMinSize2()
 	}
 }

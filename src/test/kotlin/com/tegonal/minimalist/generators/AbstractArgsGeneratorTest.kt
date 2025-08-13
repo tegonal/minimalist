@@ -10,12 +10,13 @@ import com.tegonal.minimalist.config.ComponentFactoryContainer
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.config
 import com.tegonal.minimalist.config.createBasedOnConfig
+import com.tegonal.minimalist.testutils.BaseTest
 
 typealias ArgsTestFactoryResult<T, ArgsGeneratorT> = Sequence<Triple<String, ArgsGeneratorT, List<T>>>
 
 const val maxTakeInCanAlwaysTakeTheDesiredAmountTest = 200
 
-abstract class AbstractArgsGeneratorTest {
+abstract class AbstractArgsGeneratorTest: BaseTest() {
 	protected val customComponentFactoryContainer =
 		ComponentFactoryContainer.createBasedOnConfig(ordered._components.config)
 

@@ -1,12 +1,11 @@
 package com.tegonal.minimalist.generators.impl
 
 import com.tegonal.minimalist.config.ComponentFactoryContainer
-import com.tegonal.minimalist.config.arb
 import com.tegonal.minimalist.generators.ArbArgsGenerator
 import com.tegonal.minimalist.generators.map
-import com.tegonal.minimalist.generators.mergeWeighted
-import com.tegonal.minimalist.generators.of
+import com.tegonal.minimalist.utils.BigInt
 import com.tegonal.minimalist.utils.nextBigInt
+import com.tegonal.minimalist.utils.toBigInt
 import java.math.BigInteger
 import kotlin.random.Random
 
@@ -94,8 +93,7 @@ fun <T> IntFromToArbArgsGenerator(
 	if (toInclusive == Int.MAX_VALUE) {
 		if (from == Int.MIN_VALUE) ArbIntArgsGenerator(componentFactoryContainer, seedBaseOffset).map(argsProvider)
 		else {
-			//TODO 2.1.0 bench what is faster, this approach or if we would use mergeWeighted or recalculate the range and use
-			// a mapping function
+			//TODO 2.1.0 bench what is better (speed vs. memory), this approach or if we would swift the range
 			LongFromUntilArbArgsGenerator(
 				componentFactoryContainer,
 				seedBaseOffset,
@@ -124,26 +122,14 @@ fun <T> LongFromToArbArgsGenerator(
 		if (from == Long.MIN_VALUE) {
 			ArbLongArgsGenerator(componentFactoryContainer, seedBaseOffset).map(argsProvider)
 		} else {
-			val diff: BigInteger = BigInteger.valueOf(toInclusive).subtract(BigInteger.valueOf(from))
-
-			// mergeWeighted fails if sum of weight is Int.MAX_VALUE or more, since we use weight 1 for Long.MAX_VALUE
-			// we cannot use more than intMaxMinus2, That's not very accurate in terms of uniform distribution but for
-			// simplicity reasons and the fact that Int.MAX_VALUE is an edge case, it probably doesn't hurt if it
-			// appears more often, than specified.
-			// TODO 2.1.0 reconsider once we introduce the concept of edge cases
-			val intMaxMinus2 = Int.MAX_VALUE - 2
-			val weight = if (diff < BigInteger.valueOf(intMaxMinus2.toLong())) diff.toInt() else intMaxMinus2
-
-			mergeWeighted(
-				1 to componentFactoryContainer.arb.of(argsProvider(Long.MAX_VALUE)),
-				weight to LongFromUntilArbArgsGenerator(
-					componentFactoryContainer,
-					seedBaseOffset,
-					from,
-					toInclusive,
-					argsProvider
-				)
-			)
+			BigIntFromUntilArbArgsGenerator(
+				componentFactoryContainer,
+				seedBaseOffset,
+				from.toBigInt(),
+				toInclusive.toBigInt() + BigInt.ONE
+			) {
+				argsProvider(it.toLong())
+			}
 		}
 	} else LongFromUntilArbArgsGenerator(componentFactoryContainer, seedBaseOffset, from, toInclusive + 1, argsProvider)
 
@@ -192,7 +178,6 @@ open class DoubleFromUntilArbArgsGenerator<T>(
 	final override fun nextElementInRange(random: Random): Double = random.nextDouble(from, toExclusive)
 }
 
-
 /**
  * !! No backward compatibility guarantees !!
  * Reuse at your own risk
@@ -214,3 +199,24 @@ open class BigIntFromUntilArbArgsGenerator<T>(
 ) {
 	final override fun nextElementInRange(random: Random): BigInteger = random.nextBigInt(from, toExclusive)
 }
+
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
+@Suppress("FunctionName")
+fun <T> BigIntFromToArbArgsGenerator(
+	componentFactoryContainer: ComponentFactoryContainer,
+	seedBaseOffset: Int,
+	from: BigInteger,
+	toInclusive: BigInteger,
+	argsProvider: (BigInteger) -> T
+): ArbArgsGenerator<T> = BigIntFromUntilArbArgsGenerator(
+	componentFactoryContainer,
+	seedBaseOffset,
+	from,
+	toInclusive + BigInt.ONE,
+	argsProvider
+)

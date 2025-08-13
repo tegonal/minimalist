@@ -7,10 +7,11 @@ package com.tegonal.minimalist.generators
  * @since 2.0.0
  */
 fun OrderedExtensionPoint.fromProgression(progression: CharProgression): OrderedArgsGenerator<Char> =
-	fromList(progression.toList())
+	if (progression.step > 0)
+		intFromTo(progression.first.code, progression.last.code, progression.step).map { it.toChar() }
+	//TODO 2.1.0 no longer needed once we support minus steps in the iterator
+	else fromList(progression.toList())
 
-// TODO 2.1.0 we could probably come up with a more efficient version which does not require to materialise the
-//  progression (I guess will make a difference for big progressions)
 /**
  * Returns an [OrderedArgsGenerator] generating [Int]s based on the given [progression].
  *
@@ -18,7 +19,9 @@ fun OrderedExtensionPoint.fromProgression(progression: CharProgression): Ordered
  * @since 2.0.0
  */
 fun OrderedExtensionPoint.fromProgression(progression: IntProgression): OrderedArgsGenerator<Int> =
-	fromList(progression.toList())
+	if (progression.step > 0) intFromTo(progression.first, progression.last, progression.step)
+	//TODO 2.1.0 no longer needed once we support minus steps in the iterator
+	else fromList(progression.toList())
 
 /**
  * Returns an [OrderedArgsGenerator] generating [Long]s based on the given [progression].
@@ -27,5 +30,7 @@ fun OrderedExtensionPoint.fromProgression(progression: IntProgression): OrderedA
  * @since 2.0.0
  */
 fun OrderedExtensionPoint.fromProgression(progression: LongProgression): OrderedArgsGenerator<Long> =
-	fromList(progression.toList())
+	if (progression.step > 0) longFromTo(progression.first, progression.last, progression.step)
+	//TODO 2.1.0 no longer needed once we support minus steps in the iterator
+	else fromList(progression.toList())
 

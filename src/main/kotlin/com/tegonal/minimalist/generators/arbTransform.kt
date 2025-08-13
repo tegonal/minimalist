@@ -45,7 +45,7 @@ fun <T, R> ArbArgsGenerator<T>.map(transform: (T) -> R): ArbArgsGenerator<R> =
  * @since 2.0.0
  */
 fun <T, R> ArbArgsGenerator<T>.mapIndexed(transform: (index: Int, T) -> R): ArbArgsGenerator<R> =
-	mapIndexed { index, it, seedOffset -> transform(index, it) }
+	mapIndexed { index, it, _ -> transform(index, it) }
 
 /**
  * Maps the values `this` [ArbArgsGenerator] generates together with an index to type [R] with the help of the
@@ -69,7 +69,14 @@ fun <T, R> ArbArgsGenerator<T>.mapIndexed(transform: (index: Int, T, seedOffset:
 		if (offset == null) {
 			seq.mapIndexed { index, it -> transform(index, it, seedOffset) }
 		} else {
-			seq.mapIndexed { index, it -> transform(index + offset, it, seedOffset) }
+			seq.mapIndexed { index, it ->
+				transform(
+					// expected that this overflows in the worst case
+					index + offset,
+					it,
+					seedOffset
+				)
+			}
 		}
 	}
 

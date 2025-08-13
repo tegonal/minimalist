@@ -10,7 +10,7 @@ class RandomBigIntTest {
 	@Test
 	fun checkRejectionSampling() {
 		val r = Random
-		val toExclusive = BigInt.valueOf(Long.MAX_VALUE) + BigInt.ONE
+		val toExclusive = Long.MAX_VALUE.toBigInt() + BigInt.ONE
 		repeat(10) {
 			expect(r.nextBigInt(toExclusive)).toBeLessThan(toExclusive)
 		}
