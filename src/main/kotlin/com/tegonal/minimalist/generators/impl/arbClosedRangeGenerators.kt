@@ -4,6 +4,7 @@ import ch.tutteli.kbox.takeIf
 import com.tegonal.minimalist.generators.*
 import com.tegonal.minimalist.utils.BigInt
 import com.tegonal.minimalist.utils.impl.checkIsPositive
+import com.tegonal.minimalist.utils.toBigInt
 import java.math.BigInteger
 
 fun <T> ArbExtensionPoint.createIntDomainBasedClosedRangeArbGenerator(
@@ -34,7 +35,7 @@ private fun <T> ArbExtensionPoint.internalCreateIntDomainBasedClosedRangeArbGene
 		minInclusive = minInclusive.toLong(),
 		maxInclusive = maxInclusive.toLong(),
 		minSize = minSize.toLong(),
-		maxSize = maxSize?.let { BigInt.valueOf(it.toLong()) }
+		maxSize = maxSize?.toBigInt()
 	)
 	check(possibleMaxSize.toLong() <= possibleMaxSizeSafeInIntDomain) {
 		"only use createIntDomainBasedClosedRangeArbGenerator if you are sure that possibleMaxSize is less than or equal to $possibleMaxSizeSafeInIntDomain (was $possibleMaxSize)"
@@ -120,7 +121,11 @@ fun <T> ArbExtensionPoint.internalCreateClosedRangeArbGenerator(
 				(effectiveMaxSizeI < possibleMaxSizeI || minSize > 1) && run {
 					val effectiveMaxSizeL = effectiveMaxSizeI.toLong()
 					val possibleMaxSizeL = possibleMaxSizeI.toLong()
-					((effectiveMaxSizeL - minSize + 1) * (((possibleMaxSizeL - minSize + 1) + (possibleMaxSizeL - effectiveMaxSizeL + 1))) <= Int.MAX_VALUE)
+					val maxPrefixSum = (effectiveMaxSizeL - minSize + 1) *
+						(((possibleMaxSizeL - minSize + 1) + (possibleMaxSizeL - effectiveMaxSizeL + 1)))
+
+					// faster than checking prefixSum <= Int.MAX_VALUE.toLong()
+					maxPrefixSum == maxPrefixSum.toInt().toLong()
 				}
 			}
 		) {
@@ -157,9 +162,9 @@ fun <T> ArbExtensionPoint.internalCreateClosedRangeArbGenerator(
 			val effectiveMaxSizeL = effectiveMaxSize.toLong()
 			takeIf(possibleMaxSizeL < possibleMaxSizeSafeInLongDomain || run {
 				(effectiveMaxSizeL < possibleMaxSizeL || minSize > 1) && run {
-					val maxPrefixSum = BigInt.valueOf(effectiveMaxSizeL - minSize + 1) * run {
-						BigInt.valueOf(possibleMaxSizeL - minSize + 1) +
-								BigInt.valueOf(possibleMaxSizeL - effectiveMaxSizeL + 1)
+					val maxPrefixSum = (effectiveMaxSizeL - minSize + 1).toBigInt() * run {
+						(possibleMaxSizeL - minSize + 1).toBigInt() +
+							(possibleMaxSizeL - effectiveMaxSizeL + 1).toBigInt()
 					}
 					maxPrefixSum.bitLength() <= 63
 				}
@@ -173,9 +178,9 @@ fun <T> ArbExtensionPoint.internalCreateClosedRangeArbGenerator(
 				)
 			}
 		} ?: arbClosedRangeBigIntBased(
-			minInclusive = BigInt.valueOf(minInclusive),
+			minInclusive = minInclusive.toBigInt(),
 			possibleMaxSize = possibleMaxSize,
-			minSize = BigInt.valueOf(minSize),
+			minSize = minSize.toBigInt(),
 			maxSize = effectiveMaxSize
 		) { a, b -> factory(a.toLong(), b.toLong()) }
 	}
@@ -190,7 +195,7 @@ private fun validateNumbersAndReturnEffectiveAndPossibleMaxSize(
 	checkIsPositive(minSize, "minSize")
 	maxSize?.also {
 		checkIsPositive(maxSize, "maxSize")
-		check(BigInt.valueOf(minSize) <= maxSize) {
+		check(minSize.toBigInt() <= maxSize) {
 			"minSize ($minSize) must be less than or equal to maxSize ($maxSize)"
 		}
 	}
@@ -199,7 +204,7 @@ private fun validateNumbersAndReturnEffectiveAndPossibleMaxSize(
 		"minInclusive ($minInclusive) must be less than or equal to maxInclusive ($maxInclusive) - minSize ($minSize) + 1 which is $maxInclusiveMinusMinSizePlusOne"
 	}
 
-	val possibleMaxSize = BigInt.valueOf(maxInclusive) - BigInt.valueOf(minInclusive) + BigInt.ONE
+	val possibleMaxSize = maxInclusive.toBigInt() - minInclusive.toBigInt() + BigInt.ONE
 	val effectiveMaxSize = when {
 		maxSize == null -> possibleMaxSize
 		maxSize <= possibleMaxSize -> maxSize

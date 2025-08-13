@@ -3,9 +3,10 @@ package com.tegonal.minimalist.generators
 import ch.tutteli.atrium.api.fluent.en_GB.*
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
+import com.tegonal.minimalist.testutils.BaseTest
 import com.tegonal.minimalist.testutils.atrium.size
 
-abstract class AbstractOrderedCombinerTest {
+abstract class AbstractOrderedCombinerTest : BaseTest() {
 
 	@OptIn(ExperimentalWithOptions::class)
 	protected fun validateGeneration(

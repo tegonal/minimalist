@@ -7,12 +7,7 @@ package com.tegonal.minimalist.utils.impl
  * @since 2.0.0
  */
 class RepeatingRandomAccessSequence<T>(
-	private val size: Int,
-	private val offset: Int,
-	private val elementAt: (Int) -> T
-) : Sequence<T> {
-
-	override fun iterator(): Iterator<T> = object : BaseIntFromUntilRepeatingIterator<T>(0, size, offset) {
-		override fun getElementAt(index: Int): T = elementAt(index)
-	}
-}
+	size: Int,
+	offset: Int,
+	elementAt: (Int) -> T
+) : IntRepeatingSequence<T>(0, size, offset, elementAt)

@@ -111,7 +111,6 @@ fun ArbExtensionPoint.intFromTo(
 	toInclusive: Int,
 ): ArbArgsGenerator<Int> = IntFromToArbArgsGenerator(_components, seedBaseOffset, from, toInclusive, ::identity)
 
-
 /**
  * Returns an [ArbArgsGenerator] which generates [Long]s ranging [from] (inclusive) to [toInclusive].
  *

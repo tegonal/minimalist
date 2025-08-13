@@ -2,10 +2,11 @@ package com.tegonal.minimalist.generators
 
 import ch.tutteli.kbox.Tuple
 import com.tegonal.minimalist.config._components
+import com.tegonal.minimalist.generators.impl.BigIntFromToArbArgsGenerator
 import com.tegonal.minimalist.generators.impl.IntFromToArbArgsGenerator
 import com.tegonal.minimalist.generators.impl.LongFromToArbArgsGenerator
-import com.tegonal.minimalist.generators.impl.LongFromUntilArbArgsGenerator
-import java.math.BigInteger
+import com.tegonal.minimalist.utils.BigInt
+import com.tegonal.minimalist.utils.toBigInt
 import kotlin.math.abs
 
 /**
@@ -35,17 +36,23 @@ fun ArbExtensionPoint.fromProgression(progression: IntProgression): ArbArgsGener
 				else Tuple(progression.last, progression.first)
 			val stepAbs = abs(step)
 			val numberOfSteps = (endInclusive.toLong() - start) / stepAbs + 1
+			val numberOfStepsI = numberOfSteps.toInt()
 
 			//TODO 2.1.0 bench at what point it makes sense to calculate it, I just guess that for small progressions
 			// storing it in a list is more efficient and memory is neglectable. But maybe this can be increased to x
 			// or should be decreased to y
 			if (numberOfSteps < 50) fromList(progression.toList())
-			else if (numberOfSteps >= Int.MAX_VALUE) {
-				LongFromToArbArgsGenerator(_components, seedBaseOffset, 0, numberOfSteps) {
-					(start + it * stepAbs).toInt()
+			else {
+				// check that toInt() did not overflow
+				if (numberOfSteps == numberOfStepsI.toLong()) {
+					IntFromToArbArgsGenerator(_components, seedBaseOffset, 0, numberOfStepsI) {
+						start + it * stepAbs
+					}
+				} else {
+					LongFromToArbArgsGenerator(_components, seedBaseOffset, 0, numberOfSteps) {
+						(start + it * stepAbs).toInt()
+					}
 				}
-			} else IntFromToArbArgsGenerator(_components, seedBaseOffset, 0, numberOfSteps.toInt()) {
-				start + it * stepAbs
 			}
 		}
 	}
@@ -65,22 +72,22 @@ fun ArbExtensionPoint.fromProgression(progression: LongProgression): ArbArgsGene
 				if (step > 0) Tuple(progression.first, progression.last)
 				else Tuple(progression.last, progression.first)
 			val stepAbs = abs(step)
-			val diff = BigInteger.valueOf(endInclusive).subtract(BigInteger.valueOf(start))
-			val numberOfSteps = diff.divide(BigInteger.valueOf(stepAbs)).add(BigInteger.ONE)
+			val diff = endInclusive.toBigInt() - start.toBigInt()
+			val numberOfSteps = diff / stepAbs.toBigInt() + BigInt.ONE
 
 			//TODO 2.1.0 bench at what point it makes sense to calculate it, I just guess that for small progressions,
 			// storing it in a list is more efficient and memory is neglectable. But maybe this can be increased to x
 			// or should be decreased to y
-			if (numberOfSteps < BigInteger.valueOf(50)) fromList(progression.toList())
+			if (numberOfSteps < 50.toBigInt()) fromList(progression.toList())
 			else {
-				val longMaxAsBigInt = BigInteger.valueOf(Long.MAX_VALUE)
-				if (numberOfSteps >= longMaxAsBigInt) {
-					val minus = longMaxAsBigInt.subtract(numberOfSteps).add(BigInteger.ONE).toLong()
-					LongFromUntilArbArgsGenerator(_components, seedBaseOffset, minus, Long.MAX_VALUE) {
-						start + (it - minus) * stepAbs
+				if (numberOfSteps.bitLength() <= 63) {
+					LongFromToArbArgsGenerator(_components, seedBaseOffset, 0, numberOfSteps.toLong()) {
+						start + it * stepAbs
 					}
-				} else LongFromToArbArgsGenerator(_components, seedBaseOffset, 0, numberOfSteps.toLong()) {
-					start + it * stepAbs
+				} else {
+					BigIntFromToArbArgsGenerator(_components, seedBaseOffset, BigInt.ZERO, numberOfSteps) {
+						start + it.toLong() * stepAbs
+					}
 				}
 			}
 		}

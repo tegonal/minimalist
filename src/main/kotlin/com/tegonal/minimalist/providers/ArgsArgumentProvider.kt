@@ -53,7 +53,7 @@ class ArgsArgumentProvider : ArgumentsProvider {
 		}
 
 		failIf(annotations.isEmpty()) {
-			"It looks like you forgot to annotate your ArgSource annotation with ArgsSourceLike, at least couldn't find an annotation on ${testMethod.name} which itself is annotated with ArgsSourceLike"
+			"It looks like you forgot to annotate your ArgsSource annotation with ArgsSourceLike, at least couldn't find an annotation on ${testMethod.name} which itself is annotated with ArgsSourceLike"
 		}
 		val annotation = annotations.singleOrNull()
 			?: error("For now we don't support to provide more than one ArgsSourceLike annotation, please open a feature request: $FEATURE_REQUEST_URL&title=annotate%20with%20multiple%20ArgsSourceLike")
