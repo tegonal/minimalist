@@ -1,6 +1,8 @@
 package com.tegonal.minimalist.generators
 
-import ch.tutteli.atrium.api.fluent.en_GB.*
+import ch.tutteli.atrium.api.fluent.en_GB.toBeTheInstance
+import ch.tutteli.atrium.api.fluent.en_GB.toContain
+import ch.tutteli.atrium.api.fluent.en_GB.toEqual
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.atrium.testfactories.TestFactoryBuilder
 import ch.tutteli.kbox.toVararg
@@ -8,16 +10,14 @@ import com.tegonal.minimalist.config.ComponentFactoryContainer
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.config
 import com.tegonal.minimalist.config.createBasedOnConfig
-import kotlin.random.Random
-import kotlin.random.nextInt
 
 typealias ArgsTestFactoryResult<T, ArgsGeneratorT> = Sequence<Triple<String, ArgsGeneratorT, List<T>>>
 
+const val maxTakeInCanAlwaysTakeTheDesiredAmountTest = 200
+
 abstract class AbstractArgsGeneratorTest {
 	protected val customComponentFactoryContainer =
-		ComponentFactoryContainer.createBasedOnConfig(ordered._components.config.copy {
-			seed = Random.nextInt(0, Int.MAX_VALUE)
-		})
+		ComponentFactoryContainer.createBasedOnConfig(ordered._components.config)
 
 	protected fun <T, ArgsGeneratorT : ArgsGenerator<T>, TestResultT : ArgsTestFactoryResult<T, ArgsGeneratorT>> usesGivenComponentContainerFactoryTest(
 		factory: () -> TestResultT
@@ -32,7 +32,7 @@ abstract class AbstractArgsGeneratorTest {
 		testResult.mapIndexed { index, (name, generator, expectedValues) ->
 			{
 				describe("[$index] $name") {
-					arb.intFromTo(1, 500).generate().take(10).forEach { take ->
+					arb.intFromTo(1, maxTakeInCanAlwaysTakeTheDesiredAmountTest).generate().take(10).forEach { take ->
 						it("take $take") {
 							givenTestFactory(generator, expectedValues, take)
 						}

@@ -21,12 +21,7 @@ class ArbMergeWeightedTwoTest : AbstractArbMergeTwoTest() {
 			)
 		}
 
-		// we use a modifiedOrdered in AbstractOrderedArgsGeneratorWithoutAnnotationsTest because we want to test that
-		// the ComponentContainer is passed correctly from generator to generator. But that also means that if we would
-		// use the components from it, that seed is always 1. That's not what we want, hence we use the "normal"
-		// MinimalistConfig and its defined seed and components
-		val argsRange = ordered._components.build<ArgsRangeDecider>().decide(combined)
-		return combined.generateAndTake(argsRange)
+		return combined.generateAndTakeBasedOnDecider()
 	}
 }
 

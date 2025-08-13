@@ -64,8 +64,8 @@ abstract class AbstractOrderedCombinerTest {
 
 		@JvmStatic
 		fun dynamicNumOfGeneratorsAndValues(): ArbArgsGenerator<List<Int>> =
-			arb.intFromUntil(3, 7).map { numOfGenerators ->
-				arb.intFromUntil(1, 7 - (numOfGenerators / 2)).generate().take(numOfGenerators).toList()
-			}
+			arb.intFromUntil(3, 7).combineDependent({ numOfGenerators ->
+				arb.intFromUntil(1, 7 - (numOfGenerators / 2)).chunked(numOfGenerators)
+			}) { _, list -> list }
 	}
 }

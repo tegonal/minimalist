@@ -62,8 +62,8 @@ private fun <T> concatenate(
 	val countA1 = if (isOffsetSmallerThanA1Size) offsetInRange else 0
 	val countA2 = if (isOffsetSmallerThanA1Size) 0 else offsetInRange - a1Size
 
-	return object : Sequence<T> {
-		override fun iterator(): Iterator<T> = object : Iterator<T> {
+	return Sequence {
+		object : Iterator<T> {
 			var a1Iterator = a1Generator.generate(countA1).iterator()
 			var a2Iterator = a2Generator.generate(countA2).iterator()
 			var isA1IteratorInUse = isOffsetSmallerThanA1Size
