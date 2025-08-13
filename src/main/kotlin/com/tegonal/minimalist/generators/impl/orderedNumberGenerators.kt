@@ -2,10 +2,11 @@ package com.tegonal.minimalist.generators.impl
 
 import com.tegonal.minimalist.config.ComponentFactoryContainer
 import com.tegonal.minimalist.generators.OrderedArgsGenerator
+import com.tegonal.minimalist.generators.map
 import com.tegonal.minimalist.utils.BigInt
-import com.tegonal.minimalist.utils.impl.BigIntRepeatingSequence
-import com.tegonal.minimalist.utils.impl.IntRepeatingSequence
-import com.tegonal.minimalist.utils.impl.LongRepeatingSequence
+import com.tegonal.minimalist.utils.impl.BaseBigIntFromUntilRepeatingIterator
+import com.tegonal.minimalist.utils.impl.BaseIntFromUntilRepeatingIterator
+import com.tegonal.minimalist.utils.impl.BaseLongFromUntilRepeatingIterator
 import com.tegonal.minimalist.utils.impl.checkRangeNumbers
 import com.tegonal.minimalist.utils.toBigInt
 
@@ -15,13 +16,12 @@ import com.tegonal.minimalist.utils.toBigInt
  *
  * @since 2.0.0
  */
-class IntFromUntilOrderedArgsGenerator<T>(
+class IntFromUntilOrderedArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
 	private val from: Int,
 	private val toExclusive: Int,
 	private val step: Int,
-	private val argsProvider: (Int) -> T
-) : BaseSemiOrderedArgsGenerator<T>(
+) : BaseSemiOrderedArgsGenerator<Int>(
 	componentFactoryContainer,
 	run {
 		// we first check the numbers before calculating the size as the size would be wrong
@@ -30,16 +30,13 @@ class IntFromUntilOrderedArgsGenerator<T>(
 		// range size could be bigger than Int.MAX_VALUE, hence we use toLong
 		calculatedRangeSizeToArgsGeneratorSize(from.toLong(), toExclusive.toLong(), step.toLong())
 	}
-), OrderedArgsGenerator<T> {
+), OrderedArgsGenerator<Int> {
 
-	override fun generateAfterChecks(offset: Int): Sequence<T> =
-		IntRepeatingSequence(
-			from = from,
-			toExclusive = toExclusive,
-			offset = offset,
-			step = step,
-			argsProvider = argsProvider
-		)
+	override fun generateAfterChecks(offset: Int): Sequence<Int> = Sequence {
+		object : BaseIntFromUntilRepeatingIterator<Int>(from, toExclusive, offset = offset, step = step) {
+			override fun getElementAt(index: Int): Int = index
+		}
+	}
 }
 
 /**
@@ -48,13 +45,12 @@ class IntFromUntilOrderedArgsGenerator<T>(
  *
  * @since 2.0.0
  */
-class LongFromUntilOrderedArgsGenerator<T>(
+class LongFromUntilOrderedArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
 	private val from: Long,
 	private val toExclusive: Long,
 	private val step: Long,
-	private val argsProvider: (Long) -> T
-) : BaseSemiOrderedArgsGenerator<T>(
+) : BaseSemiOrderedArgsGenerator<Long>(
 	componentFactoryContainer,
 	run {
 		// we first check the numbers before calculating the size as the size would be wrong
@@ -63,16 +59,13 @@ class LongFromUntilOrderedArgsGenerator<T>(
 		// range size could be bigger than Int.MAX_VALUE, hence we use toBigInt
 		calculatedRangeSizeToArgsGeneratorSize(from.toBigInt(), toExclusive.toBigInt(), step.toBigInt())
 	}
-), OrderedArgsGenerator<T> {
+), OrderedArgsGenerator<Long> {
 
-	override fun generateAfterChecks(offset: Int): Sequence<T> =
-		LongRepeatingSequence(
-			from = from,
-			toInclusive = toExclusive,
-			offset = offset.toLong(),
-			step = step,
-			argsProvider = argsProvider
-		)
+	override fun generateAfterChecks(offset: Int): Sequence<Long> = Sequence {
+		object : BaseLongFromUntilRepeatingIterator<Long>(from, toExclusive, offset = offset.toLong(), step = step) {
+			override fun getElementAt(index: Long): Long = index
+		}
+	}
 }
 
 /**
@@ -81,13 +74,12 @@ class LongFromUntilOrderedArgsGenerator<T>(
  *
  * @since 2.0.0
  */
-class BigIntFromUntilOrderedArgsGenerator<T>(
+class BigIntFromUntilOrderedArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
 	private val from: BigInt,
 	private val toExclusive: BigInt,
 	private val step: BigInt,
-	private val argsProvider: (BigInt) -> T
-) : BaseSemiOrderedArgsGenerator<T>(
+) : BaseSemiOrderedArgsGenerator<BigInt>(
 	componentFactoryContainer,
 	run {
 		// we first check the numbers before calculating the size as the size would be wrong
@@ -95,16 +87,17 @@ class BigIntFromUntilOrderedArgsGenerator<T>(
 		checkRangeNumbers(from, toExclusive, offset = BigInt.ZERO, step = step)
 		calculatedRangeSizeToArgsGeneratorSize(from, toExclusive, step)
 	}
-), OrderedArgsGenerator<T> {
+), OrderedArgsGenerator<BigInt> {
 
-	override fun generateAfterChecks(offset: Int): Sequence<T> =
-		BigIntRepeatingSequence(
-			from = from,
-			toInclusive = toExclusive,
+	override fun generateAfterChecks(offset: Int): Sequence<BigInt> = Sequence {
+		object : BaseBigIntFromUntilRepeatingIterator<BigInt>(
+			from, toExclusive,
 			offset = offset.toBigInt(),
-			step = step,
-			argsProvider = argsProvider
-		)
+			step = step
+		) {
+			override fun getElementAt(index: BigInt): BigInt = index
+		}
+	}
 }
 
 
@@ -152,13 +145,12 @@ private inline fun <NumberT> calculatedRangeSizeToArgsGeneratorSize(
  * @since 2.0.0
  */
 @Suppress("FunctionName")
-fun <T> IntFromToOrderedArgsGenerator(
+fun IntFromToOrderedArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
 	from: Int,
 	toInclusive: Int,
 	step: Int,
-	argsProvider: (Int) -> T
-): OrderedArgsGenerator<T> =
+): OrderedArgsGenerator<Int> =
 	if (toInclusive == Int.MAX_VALUE) {
 		//TODO 2.1.0 bench what is better (speed vs. memory), this approach or if we would swift the range if possible?
 		LongFromUntilOrderedArgsGenerator(
@@ -166,10 +158,8 @@ fun <T> IntFromToOrderedArgsGenerator(
 			from.toLong(),
 			toInclusive.toLong() + 1,
 			step.toLong()
-		) {
-			argsProvider(it.toInt())
-		}
-	} else IntFromUntilOrderedArgsGenerator(componentFactoryContainer, from, toInclusive + 1, step, argsProvider)
+		).map { it.toInt() }
+	} else IntFromUntilOrderedArgsGenerator(componentFactoryContainer, from, toInclusive + 1, step)
 
 /**
  * !! No backward compatibility guarantees !!
@@ -178,13 +168,12 @@ fun <T> IntFromToOrderedArgsGenerator(
  * @since 2.0.0
  */
 @Suppress("FunctionName")
-fun <T> LongFromToOrderedArgsGenerator(
+fun LongFromToOrderedArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
 	from: Long,
 	toInclusive: Long,
 	step: Long,
-	argsProvider: (Long) -> T
-): OrderedArgsGenerator<T> =
+): OrderedArgsGenerator<Long> =
 	if (toInclusive == Long.MAX_VALUE) {
 		//TODO 2.1.0 bench what is better (speed vs. memory), this approach or if we would swift the range
 		BigIntFromUntilOrderedArgsGenerator(
@@ -192,7 +181,5 @@ fun <T> LongFromToOrderedArgsGenerator(
 			from.toBigInt(),
 			toInclusive.toBigInt() + BigInt.ONE,
 			step.toBigInt()
-		) {
-			argsProvider(it.toLong())
-		}
-	} else LongFromUntilOrderedArgsGenerator(componentFactoryContainer, from, toInclusive + 1, step, argsProvider)
+		).map { it.toLong() }
+	} else LongFromUntilOrderedArgsGenerator(componentFactoryContainer, from, toInclusive + 1, step)

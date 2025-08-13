@@ -1,6 +1,7 @@
 package com.tegonal.minimalist.generators
 
-import com.tegonal.minimalist.generators.impl.OrderedToArbArgsGenerator
+import com.tegonal.minimalist.config._components
+import com.tegonal.minimalist.generators.impl.IntFromUntilArbArgsGenerator
 
 /**
  * Turns `this` [OrderedArgsGenerator] into a [ArbArgsGenerator].
@@ -12,7 +13,12 @@ import com.tegonal.minimalist.generators.impl.OrderedToArbArgsGenerator
  * @since 2.0.0
  */
 fun <T> OrderedArgsGenerator<T>.toRandomArgsGenerator(): ArbArgsGenerator<T> =
-	OrderedToArbArgsGenerator(this)
+	IntFromUntilArbArgsGenerator(
+		_components,
+		seedBaseOffset = 0,
+		from = 0,
+		toExclusive = size
+	).map { offset -> generate(offset).first() }
 
 
 /**

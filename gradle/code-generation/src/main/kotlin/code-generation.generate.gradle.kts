@@ -664,7 +664,7 @@ val argValuesJava = argValues.map {
 	when (it) {
 		"1.toShort()" -> "(short) 1"
 		"2.toByte()" -> "(byte) 2"
-		"3.toBigInteger()" -> "3.toBigInt()"
+		"3.toBigInteger()" -> "BigInteger.valueOf(3)"
 		else -> it
 	}
 }
@@ -672,7 +672,7 @@ val argValues2Java = argValues2.map {
 	when (it) {
 		"2.toShort()" -> "(short) 2"
 		"3.toByte()" -> "(byte) 3"
-		"4.toBigInteger()" -> "4.toBigInt()"
+		"4.toBigInteger()" -> "BigInteger.valueOf(4)"
 		else -> it
 	}
 }

@@ -57,23 +57,14 @@ class ArbDoubleArgsGenerator(
  *
  * @since 2.0.0
  */
-open class IntFromUntilArbArgsGenerator<T>(
+class IntFromUntilArbArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
 	seedBaseOffset: Int,
 	from: Int,
-	toExclusive: Int,
-	//TODO 2.0.0 don't provide an argsProvider, one can use a map on the ArgsGenerator instead
-	// (same same for other generators where we use ::identity for the default case)
-	argsProvider: (Int) -> T
-) : OpenEndRangeBasedArbArgsGenerator<Int, T>(
-	componentFactoryContainer,
-	seedBaseOffset,
-	from,
-	toExclusive,
-	argsProvider
-) {
+	toExclusive: Int
+) : OpenEndRangeBasedArbArgsGenerator<Int>(componentFactoryContainer, seedBaseOffset, from, toExclusive) {
 
-	final override fun nextElementInRange(random: Random): Int = random.nextInt(from, toExclusive)
+	override fun nextElementInRange(random: Random): Int = random.nextInt(from, toExclusive)
 }
 
 /**
@@ -83,15 +74,14 @@ open class IntFromUntilArbArgsGenerator<T>(
  * @since 2.0.0
  */
 @Suppress("FunctionName")
-fun <T> IntFromToArbArgsGenerator(
+fun IntFromToArbArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
 	seedBaseOffset: Int,
 	from: Int,
 	toInclusive: Int,
-	argsProvider: (Int) -> T
-): ArbArgsGenerator<T> =
+): ArbArgsGenerator<Int> =
 	if (toInclusive == Int.MAX_VALUE) {
-		if (from == Int.MIN_VALUE) ArbIntArgsGenerator(componentFactoryContainer, seedBaseOffset).map(argsProvider)
+		if (from == Int.MIN_VALUE) ArbIntArgsGenerator(componentFactoryContainer, seedBaseOffset)
 		else {
 			//TODO 2.1.0 bench what is better (speed vs. memory), this approach or if we would swift the range
 			LongFromUntilArbArgsGenerator(
@@ -99,9 +89,9 @@ fun <T> IntFromToArbArgsGenerator(
 				seedBaseOffset,
 				from.toLong(),
 				toInclusive.toLong() + 1
-			) { argsProvider(it.toInt()) }
+			).map { it.toInt() }
 		}
-	} else IntFromUntilArbArgsGenerator(componentFactoryContainer, seedBaseOffset, from, toInclusive + 1, argsProvider)
+	} else IntFromUntilArbArgsGenerator(componentFactoryContainer, seedBaseOffset, from, toInclusive + 1)
 
 
 /**
@@ -111,27 +101,24 @@ fun <T> IntFromToArbArgsGenerator(
  * @since 2.0.0
  */
 @Suppress("FunctionName")
-fun <T> LongFromToArbArgsGenerator(
+fun LongFromToArbArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
 	seedBaseOffset: Int,
 	from: Long,
 	toInclusive: Long,
-	argsProvider: (Long) -> T
-): ArbArgsGenerator<T> =
+): ArbArgsGenerator<Long> =
 	if (toInclusive == Long.MAX_VALUE) {
 		if (from == Long.MIN_VALUE) {
-			ArbLongArgsGenerator(componentFactoryContainer, seedBaseOffset).map(argsProvider)
+			ArbLongArgsGenerator(componentFactoryContainer, seedBaseOffset)
 		} else {
 			BigIntFromUntilArbArgsGenerator(
 				componentFactoryContainer,
 				seedBaseOffset,
 				from.toBigInt(),
 				toInclusive.toBigInt() + BigInt.ONE
-			) {
-				argsProvider(it.toLong())
-			}
+			).map { it.toLong() }
 		}
-	} else LongFromUntilArbArgsGenerator(componentFactoryContainer, seedBaseOffset, from, toInclusive + 1, argsProvider)
+	} else LongFromUntilArbArgsGenerator(componentFactoryContainer, seedBaseOffset, from, toInclusive + 1)
 
 
 /**
@@ -140,20 +127,13 @@ fun <T> LongFromToArbArgsGenerator(
  *
  * @since 2.0.0
  */
-open class LongFromUntilArbArgsGenerator<T>(
+class LongFromUntilArbArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
 	seedBaseOffset: Int,
 	from: Long,
 	toExclusive: Long,
-	argsProvider: (Long) -> T
-) : OpenEndRangeBasedArbArgsGenerator<Long, T>(
-	componentFactoryContainer,
-	seedBaseOffset,
-	from,
-	toExclusive,
-	argsProvider
-) {
-	final override fun nextElementInRange(random: Random): Long = random.nextLong(from, toExclusive)
+) : OpenEndRangeBasedArbArgsGenerator<Long>(componentFactoryContainer, seedBaseOffset, from, toExclusive) {
+	override fun nextElementInRange(random: Random): Long = random.nextLong(from, toExclusive)
 }
 
 /**
@@ -162,20 +142,13 @@ open class LongFromUntilArbArgsGenerator<T>(
  *
  * @since 2.0.0
  */
-open class DoubleFromUntilArbArgsGenerator<T>(
+class DoubleFromUntilArbArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
 	seedBaseOffset: Int,
 	from: Double,
 	toExclusive: Double,
-	argsProvider: (Double) -> T
-) : OpenEndRangeBasedArbArgsGenerator<Double, T>(
-	componentFactoryContainer,
-	seedBaseOffset,
-	from,
-	toExclusive,
-	argsProvider
-) {
-	final override fun nextElementInRange(random: Random): Double = random.nextDouble(from, toExclusive)
+) : OpenEndRangeBasedArbArgsGenerator<Double>(componentFactoryContainer, seedBaseOffset, from, toExclusive) {
+	override fun nextElementInRange(random: Random): Double = random.nextDouble(from, toExclusive)
 }
 
 /**
@@ -184,20 +157,13 @@ open class DoubleFromUntilArbArgsGenerator<T>(
  *
  * @since 2.0.0
  */
-open class BigIntFromUntilArbArgsGenerator<T>(
+class BigIntFromUntilArbArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
 	seedBaseOffset: Int,
-	from: BigInteger,
-	toExclusive: BigInteger,
-	argsProvider: (BigInteger) -> T
-) : OpenEndRangeBasedArbArgsGenerator<BigInteger, T>(
-	componentFactoryContainer,
-	seedBaseOffset,
-	from,
-	toExclusive,
-	argsProvider
-) {
-	final override fun nextElementInRange(random: Random): BigInteger = random.nextBigInt(from, toExclusive)
+	from: BigInt,
+	toExclusive: BigInt,
+) : OpenEndRangeBasedArbArgsGenerator<BigInt>(componentFactoryContainer, seedBaseOffset, from, toExclusive) {
+	override fun nextElementInRange(random: Random): BigInt = random.nextBigInt(from, toExclusive)
 }
 
 /**
@@ -207,16 +173,14 @@ open class BigIntFromUntilArbArgsGenerator<T>(
  * @since 2.0.0
  */
 @Suppress("FunctionName")
-fun <T> BigIntFromToArbArgsGenerator(
+fun BigIntFromToArbArgsGenerator(
 	componentFactoryContainer: ComponentFactoryContainer,
 	seedBaseOffset: Int,
-	from: BigInteger,
-	toInclusive: BigInteger,
-	argsProvider: (BigInteger) -> T
-): ArbArgsGenerator<T> = BigIntFromUntilArbArgsGenerator(
+	from: BigInt,
+	toInclusive: BigInt,
+): ArbArgsGenerator<BigInt> = BigIntFromUntilArbArgsGenerator(
 	componentFactoryContainer,
 	seedBaseOffset,
 	from,
 	toInclusive + BigInt.ONE,
-	argsProvider
 )

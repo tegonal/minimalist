@@ -1,8 +1,5 @@
 package com.tegonal.minimalist.generators
 
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.generators.impl.ArrayArbArgsGenerator
-
 /**
  * Returns an [ArbArgsGenerator] based on the given [args].
  *
@@ -11,4 +8,4 @@ import com.tegonal.minimalist.generators.impl.ArrayArbArgsGenerator
  */
 fun <T> ArbExtensionPoint.of(vararg args: T): ArbArgsGenerator<T> =
 	//TODO 2.1.0 introduce a ConstantArbArgsGenerator in case of just one element?
-	ArrayArbArgsGenerator(_components, seedBaseOffset, args)
+	fromArray(args)
