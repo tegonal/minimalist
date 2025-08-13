@@ -84,8 +84,8 @@ private fun <A1, A2, R> combine(
 	// ... within that chunk we might need to fast-forward elements to reach the desired offset
 	val firstChunkOffset = offset % maxSize
 
-	return object : Sequence<R> {
-		override fun iterator(): Iterator<R> = object : Iterator<R> {
+	return Sequence {
+		object : Iterator<R> {
 			private var chunkIndex = chunkOffset
 
 			private var a1Iterator =

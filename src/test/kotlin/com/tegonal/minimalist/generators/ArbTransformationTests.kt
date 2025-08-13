@@ -1,17 +1,8 @@
 package com.tegonal.minimalist.generators
 
-import ch.tutteli.atrium.api.fluent.en_GB.toEqual
-import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.config.arb
-import com.tegonal.minimalist.config.config
-import com.tegonal.minimalist.providers.ArgsSource
-import com.tegonal.minimalist.testutils.createArbWithCustomConfig
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.params.ParameterizedTest
 
-class ArbTransformationTests : AbstractArbArgsGeneratorTest<Int>() {
+class ArbTransformationTests : AbstractArbArgsGeneratorTest<Any>() {
 
 	// see PseudoRandomArgsGeneratorTransformationTests for tests about combine
 
@@ -21,7 +12,13 @@ class ArbTransformationTests : AbstractArbArgsGeneratorTest<Int>() {
 			val generator = modifiedArb.fromList(l)
 			sequenceOf(
 				Tuple("map", generator.map(mapFun), l.map(mapFun)),
-				Tuple("mapIndexed", generator.mapIndexed { _, it -> mapFun(it) }, l.map(mapFun)),
+				Tuple(
+					"mapIndexed",
+					generator.mapIndexed { index, it -> index to mapFun(it) },
+					(0..maxTakeInCanAlwaysTakeTheDesiredAmountTest).flatMap { index ->
+						l.map { index to mapFun(it) }
+					}
+				),
 				Tuple(
 					"filter", generator.filter { it % 2 == 0 },
 					listOf(2, 4)
@@ -29,6 +26,10 @@ class ArbTransformationTests : AbstractArbArgsGeneratorTest<Int>() {
 				Tuple(
 					"filterNot", generator.filterNot { it % 2 == 0 },
 					listOf(1, 3)
+				),
+				Tuple(
+					"chunked", generator.chunked(2),
+					(1..4).flatMap { first -> (1..4).map { second -> listOf(first, second) } }
 				),
 				Tuple(
 					"transformMaterialised - flatMap",

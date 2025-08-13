@@ -31,8 +31,8 @@ class ArbArgsGeneratorMerger<T>(
 	}
 
 	override fun generate(seedOffset: Int): Sequence<T> = createMinimalistRandom(seedOffset).let { minimalistRandom ->
-		object : Sequence<T> {
-			override fun iterator(): Iterator<T> = object : Iterator<T> {
+		Sequence {
+			object : Iterator<T> {
 				private val a1Iterator = a1Generator.generate(seedOffset).iterator()
 				private val a2Iterator = a2Generator.generate(seedOffset).iterator()
 
@@ -101,8 +101,8 @@ class MultiArbArgsGeneratorIndexOfMerger<T>(
 	}
 
 	override fun generate(seedOffset: Int): Sequence<T> = createMinimalistRandom(seedOffset).let { minimalistRandom ->
-		object : Sequence<T> {
-			override fun iterator(): Iterator<T> = object : Iterator<T> {
+		Sequence {
+			object : Iterator<T> {
 				private val iterators = Array(generators.size) { generators[it].generate(seedOffset).iterator() }
 
 				override fun hasNext(): Boolean = true
