@@ -1,7 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// automatically generated, don't modify here but in:
-// gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts => generate
-// --------------------------------------------------------------------------------------------------------------------
 package com.tegonal.minimalist.generators
 
 import com.tegonal.minimalist.config.MinimalistConfig
@@ -161,7 +157,7 @@ fun <T> ArbArgsGenerator<T>.chunked(size: Int): ArbArgsGenerator<List<T>> =
  * @since 2.0.0
  */
 fun <T, R> ArbArgsGenerator<T>.transform(transform: (Sequence<T>) -> Sequence<R>): ArbArgsGenerator<R> =
-	transform { seq, seedOffset -> transform(seq) }
+	transform { seq, _ -> transform(seq) }
 
 
 /**

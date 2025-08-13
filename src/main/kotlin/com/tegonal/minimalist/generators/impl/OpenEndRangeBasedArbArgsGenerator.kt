@@ -10,21 +10,18 @@ import kotlin.random.Random
  *
  * @since 2.0.0
  */
-abstract class OpenEndRangeBasedArbArgsGenerator<E : Comparable<E>, T>(
+abstract class OpenEndRangeBasedArbArgsGenerator<T : Comparable<T>>(
 	componentFactoryContainer: ComponentFactoryContainer,
 	seedBaseOffset: Int,
-	protected val from: E,
-	protected val toExclusive: E,
-	private val argsProvider: (E) -> T
+	protected val from: T,
+	protected val toExclusive: T,
 ) : RandomBasedArbArgsGenerator<T>(componentFactoryContainer, seedBaseOffset) {
 	init {
 		requireFromLessThanToExclusive(from, toExclusive)
 	}
 
-	final override fun Random.nextElement(): T =
-		argsProvider(nextElementInRange(this))
+	final override fun Random.nextElement(): T = nextElementInRange(this)
 
-	protected abstract fun nextElementInRange(random: Random): E
-
+	protected abstract fun nextElementInRange(random: Random): T
 }
 

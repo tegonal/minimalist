@@ -1,6 +1,5 @@
 package com.tegonal.minimalist.generators.impl
 
-import ch.tutteli.kbox.identity
 import com.tegonal.minimalist.config.ComponentFactoryContainer
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -86,12 +85,11 @@ abstract class TemporalFromUntilArbArgsGenerator<T>(
 	toExclusive: T,
 	private val temporalUnit: TemporalUnit = ChronoUnit.DAYS,
 	private val plusTyped: T.(Long, TemporalUnit) -> T,
-) : OpenEndRangeBasedArbArgsGenerator<T, T>(
+) : OpenEndRangeBasedArbArgsGenerator<T>(
 	componentFactoryContainer,
 	seedBaseOffset,
 	from,
 	toExclusive,
-	::identity
 ) where T : Temporal, T : Comparable<T> {
 	private val diffInLong = temporalUnit.between(this.from, this.toExclusive)
 	final override fun nextElementInRange(random: Random): T =
