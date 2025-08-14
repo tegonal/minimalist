@@ -97,6 +97,7 @@ class MinimalistConfig(
 				Env.NightlyInt to TestConfig(atMostArgs = 4000),
 				Env.HotfixPR to TestConfig(atMostArgs = 600),
 				Env.Hotfix to TestConfig(atMostArgs = 1000),
+				Env.Release to TestConfig(atMostArgs = 1000),
 			),
 		TestType.Integration to
 			listOf(
@@ -109,6 +110,7 @@ class MinimalistConfig(
 				Env.NightlyInt to TestConfig(atMostArgs = 200),
 				Env.HotfixPR to TestConfig(atMostArgs = 50),
 				Env.Hotfix to TestConfig(atMostArgs = 100),
+				Env.Release to TestConfig(atMostArgs = 100),
 			),
 		TestType.E2E to
 			listOf(
@@ -121,6 +123,7 @@ class MinimalistConfig(
 				Env.NightlyInt to TestConfig(atMostArgs = 60),
 				Env.HotfixPR to TestConfig(atMostArgs = 15),
 				Env.Hotfix to TestConfig(atMostArgs = 50),
+				Env.Release to TestConfig(atMostArgs = 50),
 			),
 		TestType.SystemIntegration to
 			listOf(
@@ -132,7 +135,7 @@ class MinimalistConfig(
 				Env.NightlyTest to TestConfig(atMostArgs = 40),
 				Env.NightlyInt to TestConfig(atMostArgs = 50),
 				Env.HotfixPR to TestConfig(atMostArgs = 10),
-				Env.Hotfix to TestConfig(atMostArgs = 20),
+				Env.Release to TestConfig(atMostArgs = 20),
 			),
 	),
 ) {

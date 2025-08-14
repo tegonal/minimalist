@@ -5,22 +5,9 @@ import ch.tutteli.atrium.api.fluent.en_GB.notToThrow
 import ch.tutteli.atrium.api.fluent.en_GB.toEqual
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.config.TestProfiles
-import com.tegonal.minimalist.config.TestType
-import com.tegonal.minimalist.config.Env
-import com.tegonal.minimalist.config.MinimalistConfig
-import com.tegonal.minimalist.config.TestConfig
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.config.config
-import com.tegonal.minimalist.generators.arb
-import com.tegonal.minimalist.generators.fromEnum
-import com.tegonal.minimalist.generators.fromList
-import com.tegonal.minimalist.generators.fromRange
-import com.tegonal.minimalist.generators.generateAndTakeBasedOnDecider
+import com.tegonal.minimalist.config.*
+import com.tegonal.minimalist.generators.*
 import com.tegonal.minimalist.generators.impl.DefaultArbExtensionPoint
-import com.tegonal.minimalist.generators.int
-import com.tegonal.minimalist.generators.of
-import com.tegonal.minimalist.generators.ordered
 import com.tegonal.minimalist.providers.impl.ProfileBasedArgsRangeDecider
 import com.tegonal.minimalist.testutils.createOrderedWithCustomConfig
 import org.junit.jupiter.api.Test
@@ -44,6 +31,7 @@ class ProfileBasedArgsRangeDeciderTest {
 						Env.NightlyInt -> 10
 						Env.HotfixPR -> 4
 						Env.Hotfix -> 6
+						Env.Release -> 6
 					}
 				)
 			}

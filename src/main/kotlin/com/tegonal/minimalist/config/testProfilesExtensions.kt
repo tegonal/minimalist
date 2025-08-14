@@ -58,12 +58,12 @@ enum class Env {
 	Main,
 
 	/**
-	 * Running tests as part of a deployment to the Test staging environment.
+	 * Running tests as part of a deployment to the Test staging environment, by convention on `the` test branch.
 	 */
 	DeployTest,
 
 	/**
-	 * Running tests as part of a deployment to the Int staging environment.
+	 * Running tests as part of a deployment to the Int staging environment, by convention on the `int`  branch.
 	 */
 	DeployInt,
 
@@ -78,14 +78,19 @@ enum class Env {
 	NightlyInt,
 
 	/**
-	 * Running tests in a PR pipeline which shall be merged to a hotfix branch
+	 * Running tests in a PR pipeline which shall be merged to a hotfix/ branch
 	 */
 	HotfixPR,
 
 	/**
-	 * Running tests once a PR is merged back to a hotfix branch.
+	 * Running tests once a PR is merged back to a hotfix/ branch.
 	 */
 	Hotfix,
+
+	/**
+	 * Running tests on a release/ branch.
+	 */
+	Release
 	;
 }
 

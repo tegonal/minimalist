@@ -10,5 +10,5 @@ class ArbFromProgressionTest : AbstractArbArgsGeneratorTest<Any>() {
 		Tuple("fromLongProgression", modifiedArb.fromProgression(1L..3L step 1), listOf(1L, 2L, 3L)),
 	)
 
-	//TODO 2.0.0 add tests which cover the case that numberOfSteps is out of range
+	//TODO 2.0.0 add tests which cover the case that numberOfSteps is out of Int/Long range (i.e. would overflow)
 }
