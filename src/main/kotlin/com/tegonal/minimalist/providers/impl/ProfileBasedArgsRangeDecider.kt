@@ -22,7 +22,7 @@ class ProfileBasedArgsRangeDecider() : BaseArgsRangeOptionsBasedArgsRangeDecider
 	): ArgsRange = argsGenerator._components.config.let { config ->
 		ArgsRange(
 			offset = config.seed.absoluteValue,
-			take = config.testProfiles.get(profileName, env).atMostArgs
+			take = config.testProfiles.get(profileName, env).maxArgs
 		)
 	}
 }

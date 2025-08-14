@@ -195,9 +195,6 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 
 				if (upperNumber > 1) {
 
-					//TODO 2.0.0 move out of ArgsX again? we only do this for the Java api, maybe we are never going to
-					// use it in java, also, we could introduce sub-interface in Java which provide those but leave them
-					// out for Kotlin.
 					argsInterfaces.append(
 						"""
 						|	/**

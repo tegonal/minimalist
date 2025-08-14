@@ -27,7 +27,7 @@ class MinimalistConfig(
 	/**
 	 * Influences an [ArgsRangeDecider]'s choice of [ArgsRange.offset], i.e. allows to skip certain test cases.
 	 *
-	 * 🔍 Typically used with a fixed [seed] (i.e. during debugging). In such cases you might want to set [atMostArgs]
+	 * 🔍 Typically used with a fixed [seed] (i.e. during debugging). In such cases you might want to set [maxArgs]
 	 * as well to restrict [ArgsRange.take].
 	 *
 	 * Note, you are not allowed to fix a seed via minimalist.properties (which is usually committed), use
@@ -56,7 +56,7 @@ class MinimalistConfig(
 	 * Note, you are not allowed to fix a seed via minimalist.properties (which is usually committed), use
 	 * minimalist.local.properties instead (which is usually on the git ignore list).
 	 */
-	val atMostArgs: Int? = null,
+	val maxArgs: Int? = null,
 
 	/**
 	 * Defines which [ArgsRangeDecider] shall be used.
@@ -87,55 +87,55 @@ class MinimalistConfig(
 	val testProfiles: TestProfiles = TestProfiles.create(
 		TestType.Unit to
 			listOf(
-				Env.Local to TestConfig(atMostArgs = 100),
-				Env.PR to TestConfig(atMostArgs = 300),
-				Env.Main to TestConfig(atMostArgs = 500),
+				Env.Local to TestConfig(maxArgs = 100),
+				Env.PR to TestConfig(maxArgs = 300),
+				Env.Main to TestConfig(maxArgs = 500),
 				// we don't expect that Unit tests are run as part of a deployment
 				// Environment.DeployTest to 1000,
 				// Environment.DeployInt to 1500,
-				Env.NightlyTest to TestConfig(atMostArgs = 2000),
-				Env.NightlyInt to TestConfig(atMostArgs = 4000),
-				Env.HotfixPR to TestConfig(atMostArgs = 600),
-				Env.Hotfix to TestConfig(atMostArgs = 1000),
-				Env.Release to TestConfig(atMostArgs = 1000),
+				Env.NightlyTest to TestConfig(maxArgs = 2000),
+				Env.NightlyInt to TestConfig(maxArgs = 4000),
+				Env.HotfixPR to TestConfig(maxArgs = 600),
+				Env.Hotfix to TestConfig(maxArgs = 1000),
+				Env.Release to TestConfig(maxArgs = 1000),
 			),
 		TestType.Integration to
 			listOf(
-				Env.Local to TestConfig(atMostArgs = 5),
-				Env.PR to TestConfig(atMostArgs = 10),
-				Env.Main to TestConfig(atMostArgs = 30),
-				Env.DeployTest to TestConfig(atMostArgs = 60),
-				Env.DeployInt to TestConfig(atMostArgs = 80),
-				Env.NightlyTest to TestConfig(atMostArgs = 150),
-				Env.NightlyInt to TestConfig(atMostArgs = 200),
-				Env.HotfixPR to TestConfig(atMostArgs = 50),
-				Env.Hotfix to TestConfig(atMostArgs = 100),
-				Env.Release to TestConfig(atMostArgs = 100),
+				Env.Local to TestConfig(maxArgs = 5),
+				Env.PR to TestConfig(maxArgs = 10),
+				Env.Main to TestConfig(maxArgs = 30),
+				Env.DeployTest to TestConfig(maxArgs = 60),
+				Env.DeployInt to TestConfig(maxArgs = 80),
+				Env.NightlyTest to TestConfig(maxArgs = 150),
+				Env.NightlyInt to TestConfig(maxArgs = 200),
+				Env.HotfixPR to TestConfig(maxArgs = 50),
+				Env.Hotfix to TestConfig(maxArgs = 100),
+				Env.Release to TestConfig(maxArgs = 100),
 			),
 		TestType.E2E to
 			listOf(
-				Env.Local to TestConfig(atMostArgs = 3),
-				Env.PR to TestConfig(atMostArgs = 7),
-				Env.Main to TestConfig(atMostArgs = 10),
-				Env.DeployTest to TestConfig(atMostArgs = 20),
-				Env.DeployInt to TestConfig(atMostArgs = 30),
-				Env.NightlyTest to TestConfig(atMostArgs = 50),
-				Env.NightlyInt to TestConfig(atMostArgs = 60),
-				Env.HotfixPR to TestConfig(atMostArgs = 15),
-				Env.Hotfix to TestConfig(atMostArgs = 50),
-				Env.Release to TestConfig(atMostArgs = 50),
+				Env.Local to TestConfig(maxArgs = 3),
+				Env.PR to TestConfig(maxArgs = 7),
+				Env.Main to TestConfig(maxArgs = 10),
+				Env.DeployTest to TestConfig(maxArgs = 20),
+				Env.DeployInt to TestConfig(maxArgs = 30),
+				Env.NightlyTest to TestConfig(maxArgs = 50),
+				Env.NightlyInt to TestConfig(maxArgs = 60),
+				Env.HotfixPR to TestConfig(maxArgs = 15),
+				Env.Hotfix to TestConfig(maxArgs = 50),
+				Env.Release to TestConfig(maxArgs = 50),
 			),
 		TestType.SystemIntegration to
 			listOf(
-				Env.Local to TestConfig(atMostArgs = 3),
-				Env.PR to TestConfig(atMostArgs = 5),
-				Env.Main to TestConfig(atMostArgs = 7),
-				Env.DeployTest to TestConfig(atMostArgs = 10),
-				Env.DeployInt to TestConfig(atMostArgs = 15),
-				Env.NightlyTest to TestConfig(atMostArgs = 40),
-				Env.NightlyInt to TestConfig(atMostArgs = 50),
-				Env.HotfixPR to TestConfig(atMostArgs = 10),
-				Env.Release to TestConfig(atMostArgs = 20),
+				Env.Local to TestConfig(maxArgs = 3),
+				Env.PR to TestConfig(maxArgs = 5),
+				Env.Main to TestConfig(maxArgs = 7),
+				Env.DeployTest to TestConfig(maxArgs = 10),
+				Env.DeployInt to TestConfig(maxArgs = 15),
+				Env.NightlyTest to TestConfig(maxArgs = 40),
+				Env.NightlyInt to TestConfig(maxArgs = 50),
+				Env.HotfixPR to TestConfig(maxArgs = 10),
+				Env.Release to TestConfig(maxArgs = 20),
 			),
 	),
 ) {
@@ -162,7 +162,7 @@ class MinimalistConfig(
 		MinimalistConfigBuilder(
 			seed = seed,
 			offsetToDecidedOffset = offsetToDecidedOffset,
-			atMostArgs = atMostArgs,
+			maxArgs = maxArgs,
 			requestedMinArgs = requestedMinArgs,
 			activeArgsRangeDecider = activeArgsRangeDecider,
 			activeEnv = activeEnv,
@@ -177,7 +177,7 @@ class MinimalistConfig(
 class MinimalistConfigBuilder(
 	var seed: Int,
 	var offsetToDecidedOffset: Int?,
-	var atMostArgs: Int?,
+	var maxArgs: Int?,
 	var requestedMinArgs: Int?,
 	var activeArgsRangeDecider: String,
 	var activeEnv: String,
@@ -188,7 +188,7 @@ class MinimalistConfigBuilder(
 		seed = seed,
 		offsetToDecidedOffset = offsetToDecidedOffset,
 		requestedMinArgs = requestedMinArgs,
-		atMostArgs = atMostArgs,
+		maxArgs = maxArgs,
 		activeArgsRangeDecider = activeArgsRangeDecider,
 		activeEnv = activeEnv,
 		defaultProfile = defaultProfile,

@@ -55,15 +55,15 @@ abstract class BaseArgsRangeOptionsBasedArgsRangeDecider : ArgsRangeDecider {
 		run {
 			config.offsetToDecidedOffset?.let { this.copy(offset = (this.offset + it).absoluteValue) } ?: this
 		}.let { argsRange ->
-			val atMostArgs = config.atMostArgs ?: argsRangeOptions?.atMostArgs
+			val maxArgs = config.maxArgs ?: argsRangeOptions?.maxArgs
 			val requestedMinArgs = config.requestedMinArgs ?: argsRangeOptions?.requestedMinArgs
 			val generatorSize = maybeGeneratorSize(argsGenerator)
 
-			val newTake = argsRange.take.letIf(atMostArgs != null) {
-				minOf(atMostArgs!!, it)
+			val newTake = argsRange.take.letIf(maxArgs != null) {
+				minOf(maxArgs!!, it)
 			}.letIf(requestedMinArgs != null) {
-				// it could be that requestedMinArgs > atMostArgs in case requestedMinArgs was defined in config and
-				// atMostArgs in argsRangeOptions. This is because config has precedence over argsRangeOptions.
+				// it could be that requestedMinArgs > maxArgs in case requestedMinArgs was defined in config and
+				// maxArgs in argsRangeOptions. This is because config has precedence over argsRangeOptions.
 				maxOf(requestedMinArgs!!, it)
 			}.letIf(generatorSize != null) {
 				// no need to take more as we would start to repeat values, i.e. even if config defines requestedMinArgs

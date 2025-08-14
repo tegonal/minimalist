@@ -50,7 +50,7 @@ annotation class ArgsSourceOptions(
 	/**
 	 * Taken into account if > 0 and should influence an [ArgsRangeDecider]'s choice of [ArgsRange.take].
 	 */
-	val atMostArgs: Int = -1,
+	val maxArgs: Int = -1,
 
 	/**
 	 * Taken into account if > 0 and should influence an [ArgsRangeDecider]'s choice of [ArgsRange.take].
