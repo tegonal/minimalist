@@ -28,16 +28,15 @@ class ArgsRangeOptions(
 	 * Should influence an [ArgsRangeDecider]'s choice of [ArgsRange.take], signaling that it should not be greater
 	 * than the specified amount.
 	 */
-	//TODO 2.0.0 reconsider to name it maxArgs again, fits better with requestedMinArgs.
-	val atMostArgs: Int? = null,
+	val maxArgs: Int? = null,
 ) {
 	init {
 		profile?.also { checkIsNotBlank(it, "profile") }
 
 		requestedMinArgs?.also { checkIsPositive(it, "atLeastArgs") }
-		atMostArgs?.also { checkIsPositive(it, "atMostArgs") }
-		failIf(requestedMinArgs != null && atMostArgs != null && requestedMinArgs < atMostArgs) {
-			"atLeastArgs ($requestedMinArgs) must to be less than atMostArgs ($atMostArgs)"
+		maxArgs?.also { checkIsPositive(it, "maxArgs") }
+		failIf(requestedMinArgs != null && maxArgs != null && requestedMinArgs < maxArgs) {
+			"requestedMinArgs ($requestedMinArgs) must to be less than maxArgs ($maxArgs)"
 		}
 	}
 }
@@ -49,6 +48,6 @@ fun ArgsRangeOptions.merge(other: ArgsRangeOptions): ArgsRangeOptions {
 	return ArgsRangeOptions(
 		profile = other.profile ?: this.profile,
 		requestedMinArgs = other.requestedMinArgs ?: this.requestedMinArgs,
-		atMostArgs = other.atMostArgs ?: this.atMostArgs,
+		maxArgs = other.maxArgs ?: this.maxArgs,
 	)
 }

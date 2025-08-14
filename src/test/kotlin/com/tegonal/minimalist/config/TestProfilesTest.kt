@@ -13,16 +13,16 @@ class TestProfilesTest {
 		expect {
 			TestProfiles.create(
 				TestType.Unit to listOf(
-					Env.Local to TestConfig(atMostArgs = 2),
+					Env.Local to TestConfig(maxArgs = 2),
 				),
 				TestType.Integration to listOf(
-					Env.Local to TestConfig(atMostArgs = 2),
+					Env.Local to TestConfig(maxArgs = 2),
 				),
 				TestType.Integration to listOf(
-					Env.Local to TestConfig(atMostArgs = 2),
+					Env.Local to TestConfig(maxArgs = 2),
 				),
 				TestType.E2E to listOf(
-					Env.Local to TestConfig(atMostArgs = 2),
+					Env.Local to TestConfig(maxArgs = 2),
 				)
 			)
 		}.toThrow<IllegalStateException> {
@@ -35,17 +35,17 @@ class TestProfilesTest {
 		expect {
 			TestProfiles.create(
 				TestType.Unit to listOf(
-					Env.Local to TestConfig(atMostArgs = 1),
-					Env.PR to TestConfig(atMostArgs = 2),
-					Env.PR to TestConfig(atMostArgs = 3),
-					Env.Local to TestConfig(atMostArgs = 1),
+					Env.Local to TestConfig(maxArgs = 1),
+					Env.PR to TestConfig(maxArgs = 2),
+					Env.PR to TestConfig(maxArgs = 3),
+					Env.Local to TestConfig(maxArgs = 1),
 				),
 				TestType.Integration to listOf(
-					Env.Local to TestConfig(atMostArgs = 1),
-					Env.PR to TestConfig(atMostArgs = 2),
-					Env.NightlyTest to TestConfig(atMostArgs = 3),
-					Env.PR to TestConfig(atMostArgs = 4),
-					Env.Local to TestConfig(atMostArgs = 4),
+					Env.Local to TestConfig(maxArgs = 1),
+					Env.PR to TestConfig(maxArgs = 2),
+					Env.NightlyTest to TestConfig(maxArgs = 3),
+					Env.PR to TestConfig(maxArgs = 4),
+					Env.Local to TestConfig(maxArgs = 4),
 				)
 			)
 		}.toThrow<IllegalStateException> {

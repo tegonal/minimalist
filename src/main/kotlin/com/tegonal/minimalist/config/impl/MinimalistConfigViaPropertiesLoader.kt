@@ -28,8 +28,8 @@ class MinimalistConfigViaPropertiesLoader {
 					check(it.requestedMinArgs == initialConfig.requestedMinArgs) {
 						errorMessageNotAllowedToModify("requestedMinArgs")
 					}
-					check(it.atMostArgs == initialConfig.atMostArgs) {
-						errorMessageNotAllowedToModify("atMostArgs")
+					check(it.maxArgs == initialConfig.maxArgs) {
+						errorMessageNotAllowedToModify("maxArgs")
 					}
 				}
 			}

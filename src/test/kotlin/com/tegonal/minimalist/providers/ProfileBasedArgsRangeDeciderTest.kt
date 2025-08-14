@@ -21,7 +21,7 @@ class ProfileBasedArgsRangeDeciderTest {
 		TestType.entries.associate { testType ->
 			testType.name to Env.entries.associate {
 				it.name to TestConfig(
-					atMostArgs = when (it) {
+					maxArgs = when (it) {
 						Env.Local -> 2
 						Env.PR -> 3
 						Env.Main -> 5
@@ -64,7 +64,7 @@ class ProfileBasedArgsRangeDeciderTest {
 			feature(ArgsRange::take).toEqual(
 				minOf(
 					argsGeneratorSize,
-					ownTestProfiles.get(profile.name, env.name).atMostArgs
+					ownTestProfiles.get(profile.name, env.name).maxArgs
 				)
 			)
 		}

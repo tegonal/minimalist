@@ -35,11 +35,11 @@ class ArgsGeneratorToArgumentsConverterTest {
 
 		val orderedWithRange0To100 = ComponentFactoryContainer.createBasedOnConfig(
 			// neither the config setting...
-			MinimalistConfig().copy { atMostArgs = 500 }
+			MinimalistConfig().copy { maxArgs = 500 }
 		).withMockedArgsRange(0, 1000).ordered
 
 		// ... nor the AnnotationData
-		val maxArgs100 = AnnotationData("dummy", argsRangeOptions = ArgsRangeOptions(atMostArgs = 100))
+		val maxArgs100 = AnnotationData("dummy", argsRangeOptions = ArgsRangeOptions(maxArgs = 100))
 		val combinations = testee.toArguments(
 			maxArgs100, orderedWithRange0To100.of(1, 2, 3).map { listOf(it) }
 		).map { it.get().asList() }.toList()

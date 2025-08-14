@@ -25,7 +25,7 @@ class MinimalistPropertiesParser {
 				key == "seed" -> seed = value.toIntOrErrorNotValid(key)
 				key == "offsetToDecidedOffset" -> offsetToDecidedOffset = value.toIntOrErrorNotValid(key)
 
-				key == "atMostArgs" -> atMostArgs = value.toIntOrErrorNotValid(key)
+				key == "maxArgs" -> maxArgs = value.toIntOrErrorNotValid(key)
 				key == "requestedMinArgs" -> requestedMinArgs = value.toIntOrErrorNotValid(key)
 				key == "activeArgsRangeDecider" -> activeArgsRangeDecider = value
 				key == "activeEnv" -> activeEnv = value
@@ -65,7 +65,7 @@ class MinimalistPropertiesParser {
 				else error("don't know how to interpret $value for $key")
 			} else {
 				val testConfig = when (remainingAfterProfile.substringAfter("$env.")) {
-					"atMostArgs" -> TestConfig(atMostArgs = value.toPositiveIntOrErrorNotValid(key))
+					"maxArgs" -> TestConfig(maxArgs = value.toPositiveIntOrErrorNotValid(key))
 					else -> throwUnknownProperty(key, value)
 				}
 				testConfigsPerEnv.put(env, testConfig)
