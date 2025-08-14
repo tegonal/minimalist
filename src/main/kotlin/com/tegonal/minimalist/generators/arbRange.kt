@@ -1,10 +1,5 @@
 package com.tegonal.minimalist.generators
 
-import com.tegonal.minimalist.generators.impl.createClosedRangeArbGenerator
-import com.tegonal.minimalist.generators.impl.createIntDomainBasedClosedRangeArbGenerator
-import com.tegonal.minimalist.generators.impl.possibleMaxSizeSafeInIntDomain
-import com.tegonal.minimalist.utils.toBigInt
-
 /**
  * Returns an [ArbArgsGenerator] which generates [IntRange]s ranging from a lower bound [minInclusive] to
  * an upper bound [maxInclusive] respecting the given [minSize] as well as [maxSize] if defined.
@@ -20,26 +15,9 @@ fun ArbExtensionPoint.charRange(
 	maxInclusive: Char = Char.MAX_VALUE,
 	minSize: Int = 0,
 	maxSize: Int? = null,
-): ArbArgsGenerator<CharRange> = if (minInclusive != Char.MIN_VALUE || maxInclusive != Char.MAX_VALUE) {
-	// less than 65'535 elements, we can use the Int domain based implementation
-	createIntDomainBasedClosedRangeArbGenerator(
-		minInclusive = minInclusive.code,
-		maxInclusive = maxInclusive.code,
-		minSize = minSize,
-		maxSize = maxSize
-	) { from, toExclusive ->
-		from.toChar()..toExclusive.toChar()
-	}
-} else {
-	createClosedRangeArbGenerator(
-		minInclusive = minInclusive.code.toLong(),
-		maxInclusive = maxInclusive.code.toLong(),
-		minSize = minSize.toLong(),
-		maxSize = maxSize?.toBigInt()
-	) { start, toInclusive ->
-		start.toInt().toChar()..toInclusive.toInt().toChar()
-	}
-}
+): ArbArgsGenerator<CharRange> = boundsGeneratorTakingMinSize0IntoAccount(
+	minInclusive, maxInclusive, minSize, maxSize, ::charBoundsBased, ::CharRange, zero = 0, one = 1
+)
 
 /**
  * Returns an [ArbArgsGenerator] which generates [IntRange]s ranging from a lower bound [minInclusive] to
@@ -56,29 +34,9 @@ fun ArbExtensionPoint.intRange(
 	maxInclusive: Int = Int.MAX_VALUE,
 	minSize: Int = 0,
 	maxSize: Int? = null,
-): ArbArgsGenerator<IntRange> {
-	val possibleMaxSize = maxInclusive.toLong() - minInclusive + 1
-	// it is beneficial if we can stay in the int domain (memory wise), hence this check here (tiny bit slower if not but we guess in
-	// most cases the requirements don't require large ranges)
-	return if (possibleMaxSize <= possibleMaxSizeSafeInIntDomain) {
-		createIntDomainBasedClosedRangeArbGenerator(
-			minInclusive = minInclusive,
-			maxInclusive = maxInclusive,
-			minSize = minSize,
-			maxSize = maxSize,
-			factory = ::IntRange
-		)
-	} else {
-		createClosedRangeArbGenerator(
-			minInclusive = minInclusive.toLong(),
-			maxInclusive = maxInclusive.toLong(),
-			minSize = minSize.toLong(),
-			maxSize = maxSize?.toBigInt()
-		) { start, toInclusive ->
-			start.toInt()..toInclusive.toInt()
-		}
-	}
-}
+): ArbArgsGenerator<IntRange> = boundsGeneratorTakingMinSize0IntoAccount(
+	minInclusive, maxInclusive, minSize, maxSize, ::intBoundsBased, ::IntRange, zero = 0, one = 1
+)
 
 /**
  * Returns an [ArbArgsGenerator] which generates [LongRange]s ranging from a lower bound [minInclusive] to
@@ -95,10 +53,36 @@ fun ArbExtensionPoint.longRange(
 	maxInclusive: Long = Long.MAX_VALUE,
 	minSize: Long = 0,
 	maxSize: Long? = null,
-): ArbArgsGenerator<LongRange> = createClosedRangeArbGenerator(
-	minInclusive = minInclusive,
-	maxInclusive = maxInclusive,
-	minSize = minSize,
-	maxSize = maxSize?.toBigInt(),
-	factory = ::LongRange
+): ArbArgsGenerator<LongRange> = boundsGeneratorTakingMinSize0IntoAccount(
+	minInclusive, maxInclusive, minSize, maxSize, ::longBoundsBased, ::LongRange, zero = 0, one = 1
 )
+
+private fun <T, E, NumberT> ArbExtensionPoint.boundsGeneratorTakingMinSize0IntoAccount(
+	minInclusive: T,
+	maxInclusive: T,
+	minSize: NumberT,
+	maxSize: NumberT?,
+	boundGenerator: (T, T, NumberT, NumberT?, (T, T) -> E) -> ArbArgsGenerator<E>,
+	factory: (T, T) -> E,
+	zero: NumberT,
+	one: NumberT
+): ArbArgsGenerator<E> where NumberT : Number, NumberT : Comparable<NumberT> {
+	val arbRange = boundGenerator(minInclusive, maxInclusive, if (minSize == zero) one else minSize, maxSize, factory)
+	return includeEmptyRangeIfMinSizeIs0(minInclusive, maxInclusive, minSize, arbRange, factory, zero)
+}
+
+private fun <T, E, NumberT> ArbExtensionPoint.includeEmptyRangeIfMinSizeIs0(
+	minInclusive: T,
+	maxInclusive: T,
+	minSize: NumberT,
+	arbRange: ArbArgsGenerator<E>,
+	factory: (T, T) -> E,
+	zero: NumberT
+): ArbArgsGenerator<E> = if (minSize == zero) {
+	mergeWeighted(
+		// TODO 2.1.0 make this configurable once we introduce the concept of edge cases, for now we generate an
+		// empty range in 5% of the cases
+		5 to arb.of(factory(maxInclusive, minInclusive)),
+		95 to arbRange
+	)
+} else arbRange

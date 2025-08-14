@@ -98,7 +98,7 @@ class ProfileBasedArgsRangeDeciderTest {
 	}
 
 	//TODO 2.0.0
-	// check that config argsRangeOptions and passed argsRangeOptions are taken into consideration as expected
+	// check that config requestedMinArgs/maxArgs and passed argsRangeOptions are taken into consideration as expected
 
 	companion object {
 

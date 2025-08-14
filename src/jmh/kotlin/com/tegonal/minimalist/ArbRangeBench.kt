@@ -1,7 +1,7 @@
 package com.tegonal.minimalist
 
 import com.tegonal.minimalist.generators.arb
-import com.tegonal.minimalist.generators.impl.createClosedRangeArbGenerator
+import com.tegonal.minimalist.generators.impl.createBoundsArbGenerator
 import com.tegonal.minimalist.generators.intRange
 import org.openjdk.jmh.annotations.*
 import java.util.concurrent.TimeUnit
@@ -48,7 +48,7 @@ open class ArbRangeBench {
 
 	@Benchmark
 	fun intRangeWithoutCheck() =
-		arb.createClosedRangeArbGenerator(
+		arb.createBoundsArbGenerator(
 			minInclusive = minInclusive.toLong(),
 			maxInclusive = maxInclusive.toLong(),
 			minSize = 1L,

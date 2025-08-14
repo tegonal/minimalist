@@ -40,8 +40,8 @@ abstract class AbstractArbArgsGeneratorWithoutAnnotationsTest : AbstractArgsGene
 
 abstract class AbstractArbArgsGeneratorTest<T>() : AbstractArbArgsGeneratorWithoutAnnotationsTest() {
 
-	//TODO 2.0.0 pass modifiedArb via parameter and add a test case where we use a mocked Random so that we can be sure
-	// it yields all values -- makes sense to introduce ArbSizeAware or the like now?
+	//TODO 2.1.0 add a test case where we use a mocked Random so that we can be sure
+	// it yields all values in case of an ArbSizeAware or the like
 	abstract fun createGenerators(modifiedArb: ArbExtensionPoint): ArbArgsTestFactoryResult<T>
 
 	@TestFactory
