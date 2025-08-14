@@ -7,29 +7,12 @@ import com.tegonal.minimalist.utils.impl.checkIsPositive
 import com.tegonal.minimalist.utils.toBigInt
 import java.math.BigInteger
 
-fun <T> ArbExtensionPoint.createIntDomainBasedClosedRangeArbGenerator(
+fun <T> ArbExtensionPoint.createIntDomainBasedBoundsArbGenerator(
 	minInclusive: Int,
 	maxInclusive: Int,
 	minSize: Int,
 	maxSize: Int?,
-	factory: (first: Int, last: Int) -> T
-): ArbArgsGenerator<T> {
-	val arbRange = internalCreateIntDomainBasedClosedRangeArbGenerator(
-		minInclusive = minInclusive,
-		maxInclusive = maxInclusive,
-		minSize = if (minSize == 0) 1 else minSize,
-		maxSize = maxSize,
-		factory = factory
-	)
-	return includeEmptyRangeIfMinSizeIs0(minInclusive, maxInclusive, minSize, factory, arbRange)
-}
-
-private fun <T> ArbExtensionPoint.internalCreateIntDomainBasedClosedRangeArbGenerator(
-	minInclusive: Int,
-	maxInclusive: Int,
-	minSize: Int,
-	maxSize: Int?,
-	factory: (first: Int, last: Int) -> T
+	factory: (lowerBound: Int, upperBound: Int) -> T
 ): ArbArgsGenerator<T> {
 	val (effectiveMaxSize, possibleMaxSize) = validateNumbersAndReturnEffectiveAndPossibleMaxSize(
 		minInclusive = minInclusive.toLong(),
@@ -41,7 +24,7 @@ private fun <T> ArbExtensionPoint.internalCreateIntDomainBasedClosedRangeArbGene
 		"only use createIntDomainBasedClosedRangeArbGenerator if you are sure that possibleMaxSize is less than or equal to $possibleMaxSizeSafeInIntDomain (was $possibleMaxSize)"
 	}
 	val possibleMaxSizeI = possibleMaxSize.toInt()
-	return arbClosedRangeIntBased(
+	return arbBoundsIntBased(
 		minInclusive = minInclusive,
 		minSize = minSize,
 		effectiveMaxSize = effectiveMaxSize.toInt(),
@@ -74,40 +57,20 @@ const val possibleMaxSizeSafeInLongDomain = 4_294_967_295L
 const val possibleMaxSizeSafeInIntDomainWithoutDivideTrick = 46_340
 const val possibleMaxSizeSafeInLongDomainWithoutDivideTrick = 3_037_000_499L
 
-fun <T> ArbExtensionPoint.createClosedRangeArbGenerator(
+fun <T> ArbExtensionPoint.createBoundsArbGenerator(
 	minInclusive: Long,
 	maxInclusive: Long,
 	minSize: Long,
 	maxSize: BigInt?,
-	factory: (first: Long, last: Long) -> T
-): ArbArgsGenerator<T> {
-	val arbRange = internalCreateClosedRangeArbGenerator(
-		minInclusive = minInclusive,
-		maxInclusive = maxInclusive,
-		minSize = if (minSize == 0L) 1L else minSize,
-		maxSize = maxSize,
-		factory = factory
-	)
-	Long.MAX_VALUE
-	return includeEmptyRangeIfMinSizeIs0(minInclusive, maxInclusive, minSize, factory, arbRange)
-}
-
-fun <T> ArbExtensionPoint.internalCreateClosedRangeArbGenerator(
-	minInclusive: Long,
-	maxInclusive: Long,
-	minSize: Long,
-	maxSize: BigInt?,
-	factory: (first: Long, last: Long) -> T
+	factory: (lowerBound: Long, upperBound: Long) -> T
 ): ArbArgsGenerator<T> {
 	val (effectiveMaxSize, possibleMaxSize) = validateNumbersAndReturnEffectiveAndPossibleMaxSize(
-		minInclusive,
-		maxInclusive,
-		minSize,
-		maxSize
+		minInclusive = minInclusive,
+		maxInclusive = maxInclusive,
+		minSize = minSize,
+		maxSize = maxSize
 	)
-
 	val bitLength = possibleMaxSize.bitLength()
-
 	return if (bitLength <= 31) {
 		val possibleMaxSizeI = possibleMaxSize.toInt()
 		val effectiveMaxSizeI = effectiveMaxSize.toInt()
@@ -115,10 +78,10 @@ fun <T> ArbExtensionPoint.internalCreateClosedRangeArbGenerator(
 		if (
 		// see explanation above (jump to the possibleMaxSizeSafeInIntDomain definition)
 		// why we know we are safe in the Int domain in this case ...
-			possibleMaxSizeI <= possibleMaxSizeSafeInIntDomain || run {
+			possibleMaxSizeI <= possibleMaxSizeSafeInIntDomain || this.run {
 				// ... otherwise we check if the biggest prefixSum still fits into the Int domain in case
 				// effectiveMaxSizeI is less than the possibleMaxSize or minSize > 1
-				(effectiveMaxSizeI < possibleMaxSizeI || minSize > 1) && run {
+				(effectiveMaxSizeI < possibleMaxSizeI || minSize > 1) && this@createBoundsArbGenerator.run {
 					val effectiveMaxSizeL = effectiveMaxSizeI.toLong()
 					val possibleMaxSizeL = possibleMaxSizeI.toLong()
 					val maxPrefixSum = (effectiveMaxSizeL - minSize + 1) *
@@ -130,15 +93,17 @@ fun <T> ArbExtensionPoint.internalCreateClosedRangeArbGenerator(
 			}
 		) {
 			if (minInclusive >= Int.MIN_VALUE && maxInclusive <= Int.MAX_VALUE) {
-				arbClosedRangeIntBased(
+				arbBoundsIntBased(
 					minInclusive = minInclusive.toInt(),
 					minSize = minSize.toInt(),
 					effectiveMaxSize = effectiveMaxSizeI,
 					possibleMaxSize = possibleMaxSizeI
-				) { start, end -> factory(start.toLong(), end.toLong()) }
+				) { start, end ->
+					factory(start.toLong(), end.toLong())
+				}
 			} else {
 				// we know that the possibleMaxSize <= Int.MAX_VALUE so we can safely shift the range
-				arbClosedRangeIntBased(
+				arbBoundsIntBased(
 					minInclusive = 0,
 					minSize = minSize.toInt(),
 					effectiveMaxSize = effectiveMaxSizeI,
@@ -148,36 +113,37 @@ fun <T> ArbExtensionPoint.internalCreateClosedRangeArbGenerator(
 		} else {
 			val effectiveMaxSizeL = effectiveMaxSizeI.toLong()
 			val possibleMaxSizeL = possibleMaxSizeI.toLong()
-			arbClosedRangeLongBased(
+			arbBoundsLongBased(
 				minInclusive = minInclusive,
 				minSize = minSize,
 				effectiveMaxSize = effectiveMaxSizeL,
 				possibleMaxSize = possibleMaxSizeL,
-				factory
+				factory = factory
 			)
 		}
 	} else {
-		takeIf(bitLength <= 63) {
+		takeIf<ArbArgsGenerator<T>?>(bitLength <= 63) {
 			val possibleMaxSizeL = possibleMaxSize.toLong()
 			val effectiveMaxSizeL = effectiveMaxSize.toLong()
-			takeIf(possibleMaxSizeL < possibleMaxSizeSafeInLongDomain || run {
-				(effectiveMaxSizeL < possibleMaxSizeL || minSize > 1) && run {
-					val maxPrefixSum = (effectiveMaxSizeL - minSize + 1).toBigInt() * run {
-						(possibleMaxSizeL - minSize + 1).toBigInt() +
-							(possibleMaxSizeL - effectiveMaxSizeL + 1).toBigInt()
-					}
+			takeIf<ArbArgsGenerator<T>>(possibleMaxSizeL < possibleMaxSizeSafeInLongDomain || this.run {
+				(effectiveMaxSizeL < possibleMaxSizeL || minSize > 1) && this@createBoundsArbGenerator.run {
+					val maxPrefixSum =
+						(effectiveMaxSizeL - minSize + 1).toBigInt() * this@createBoundsArbGenerator.run {
+							(possibleMaxSizeL - minSize + 1).toBigInt() +
+								(possibleMaxSizeL - effectiveMaxSizeL + 1).toBigInt()
+						}
 					maxPrefixSum.bitLength() <= 63
 				}
 			}) {
-				arbClosedRangeLongBased(
+				arbBoundsLongBased(
 					minInclusive = minInclusive,
 					minSize = minSize,
 					effectiveMaxSize = effectiveMaxSizeL,
 					possibleMaxSize = possibleMaxSizeL,
-					factory
+					factory = factory
 				)
 			}
-		} ?: arbClosedRangeBigIntBased(
+		} ?: arbBoundsBigIntBased(
 			minInclusive = minInclusive.toBigInt(),
 			possibleMaxSize = possibleMaxSize,
 			minSize = minSize.toBigInt(),
@@ -215,13 +181,13 @@ private fun validateNumbersAndReturnEffectiveAndPossibleMaxSize(
 	return Pair(effectiveMaxSize, possibleMaxSize)
 }
 
-private fun <T> ArbExtensionPoint.arbClosedRangeIntBased(
+private fun <T> ArbExtensionPoint.arbBoundsIntBased(
 	minInclusive: Int,
 	minSize: Int,
 	effectiveMaxSize: Int,
 	possibleMaxSize: Int,
-	factory: (first: Int, last: Int) -> T
-): ArbArgsGenerator<T> = arbClosedRangeNumberBased(
+	factory: (lowerBound: Int, upperBound: Int) -> T
+): ArbArgsGenerator<T> = arbBoundsNumberBased(
 	minInclusive = minInclusive,
 	minSize = minSize,
 	effectiveMaxSize = effectiveMaxSize,
@@ -238,13 +204,13 @@ private fun <T> ArbExtensionPoint.arbClosedRangeIntBased(
 	one = 1
 )
 
-private fun <T> ArbExtensionPoint.arbClosedRangeLongBased(
+private fun <T> ArbExtensionPoint.arbBoundsLongBased(
 	minInclusive: Long,
 	minSize: Long,
 	effectiveMaxSize: Long,
 	possibleMaxSize: Long,
-	factory: (first: Long, last: Long) -> T
-): ArbArgsGenerator<T> = arbClosedRangeNumberBased(
+	factory: (lowerBound: Long, upperBound: Long) -> T
+): ArbArgsGenerator<T> = arbBoundsNumberBased(
 	minInclusive = minInclusive,
 	minSize = minSize,
 	effectiveMaxSize = effectiveMaxSize,
@@ -261,13 +227,13 @@ private fun <T> ArbExtensionPoint.arbClosedRangeLongBased(
 )
 
 
-private fun <T> ArbExtensionPoint.arbClosedRangeBigIntBased(
+private fun <T> ArbExtensionPoint.arbBoundsBigIntBased(
 	minInclusive: BigInt,
 	possibleMaxSize: BigInt,
 	minSize: BigInt,
 	maxSize: BigInt,
-	factory: (first: BigInt, last: BigInt) -> T
-): ArbArgsGenerator<T> = arbClosedRangeNumberBased(
+	factory: (lowerBound: BigInt, upperBound: BigInt) -> T
+): ArbArgsGenerator<T> = arbBoundsNumberBased(
 	minInclusive,
 	minSize,
 	maxSize,
@@ -283,7 +249,7 @@ private fun <T> ArbExtensionPoint.arbClosedRangeBigIntBased(
 	BigInt.ONE
 )
 
-private inline fun <NumberT, T> ArbExtensionPoint.arbClosedRangeNumberBased(
+private inline fun <NumberT, T> ArbExtensionPoint.arbBoundsNumberBased(
 	minInclusive: NumberT,
 	minSize: NumberT,
 	effectiveMaxSize: NumberT,
@@ -582,18 +548,3 @@ private inline fun <NumberT> findSizeMatchingPrefixSumIndex(
 	}
 	return low
 }
-
-private fun <T, NumberT> ArbExtensionPoint.includeEmptyRangeIfMinSizeIs0(
-	minInclusive: NumberT,
-	maxInclusive: NumberT,
-	minSize: NumberT,
-	factory: (NumberT, NumberT) -> T,
-	arbRange: ArbArgsGenerator<T>
-): ArbArgsGenerator<T> = if (minSize == 0) {
-	mergeWeighted(
-		// TODO 2.1.0 make this configurable once we introduce the concept of edge cases, for now we generate an
-		// empty IntRange in 5% of the cases
-		5 to arb.of(factory(maxInclusive, minInclusive)),
-		95 to arbRange
-	)
-} else arbRange

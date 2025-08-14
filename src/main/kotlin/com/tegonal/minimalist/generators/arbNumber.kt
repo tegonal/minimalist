@@ -50,6 +50,62 @@ fun ArbExtensionPoint.longPositive(): ArbArgsGenerator<Long> =
 	longFromTo(1, Long.MAX_VALUE)
 
 /**
+ * Returns an [ArbArgsGenerator] which generates [Int]s ranging from
+ * 0 (inclusive) to [Int.MAX_VALUE] (inclusive) -- i.e. positive numbers and 0.
+ *
+ * @since 2.0.0
+ */
+fun ArbExtensionPoint.intPositiveAndZero(): ArbArgsGenerator<Int> =
+	intFromTo(0, Int.MAX_VALUE)
+
+/**
+ * Returns an [ArbArgsGenerator] which generates [Long]s ranging from
+ * 0 (inclusive) to [Long.MAX_VALUE] (inclusive) -- i.e. positive numbers and 0.
+ *
+ * @since 2.0.0
+ */
+fun ArbExtensionPoint.longPositiveAndZero(): ArbArgsGenerator<Long> =
+	longFromTo(0, Long.MAX_VALUE)
+
+/**
+ * Returns an [ArbArgsGenerator] which generates [Int]s ranging from
+ * [Int.MIN_VALUE] (inclusive) to 0 (exclusive).
+ *
+ * @since 2.0.0
+ */
+fun ArbExtensionPoint.intNegative(): ArbArgsGenerator<Int> =
+	intFromUntil(Int.MIN_VALUE, 0)
+
+/**
+ * Returns an [ArbArgsGenerator] which generates [Int]s ranging from
+ * [Long.MIN_VALUE] (inclusive) to 0 (exclusive).
+ *
+ * @since 2.0.0
+ */
+fun ArbExtensionPoint.longNegative(): ArbArgsGenerator<Long> =
+	longFromUntil(Long.MIN_VALUE, 0)
+
+/**
+ * Returns an [ArbArgsGenerator] which generates [Int]s ranging from
+ * [Int.MIN_VALUE] (inclusive) to 0 (inclusive).
+ *
+ * @since 2.0.0
+ */
+fun ArbExtensionPoint.intNegativeAndZero(): ArbArgsGenerator<Int> =
+	intFromUntil(Int.MIN_VALUE, 1)
+
+/**
+ * Returns an [ArbArgsGenerator] which generates [Long]s ranging from
+ * [Long.MIN_VALUE] (inclusive) to 0 (inclusive) -- i.e. negative numbers and 0.
+ *
+ * @since 2.0.0
+ */
+fun ArbExtensionPoint.longNegativeAndZero(): ArbArgsGenerator<Long> =
+	longFromUntil(Long.MIN_VALUE, 1)
+
+
+
+/**
  * Returns an [ArbArgsGenerator] which generates [Int]s ranging [from] (inclusive) to [toExclusive].
  *
  * @since 2.0.0
