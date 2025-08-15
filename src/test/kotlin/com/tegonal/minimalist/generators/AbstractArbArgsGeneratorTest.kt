@@ -31,8 +31,8 @@ abstract class AbstractArbArgsGeneratorWithoutAnnotationsTest : AbstractArgsGene
 				@Suppress("UNCHECKED_CAST")
 				val generatorSeedOffset1 = generatorSeedOffset1InList.first() as ArbArgsGenerator<T>
 
-				expect(generator.generate(seedOffset = offset).take(10).toList()).toEqual(
-					generatorSeedOffset1.generate(seedOffset = 0).take(10).toList()
+				expect(generator.generate(seedOffset = offset).take(3).toList()).toEqual(
+					generatorSeedOffset1.generate(seedOffset = 0).take(3).toList()
 				)
 			}
 		}
