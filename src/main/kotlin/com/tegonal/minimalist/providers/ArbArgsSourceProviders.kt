@@ -21,7 +21,7 @@ interface PredefinedArgsSourceProviders {
 		@JvmStatic
 		fun arbChar() = arb.char()
 
-		// arbNumbers ---------------------------------------------------------
+		// arbNumber ----------------------------------------------------------
 
 		@JvmStatic
 		fun arbInt() = arb.int()
