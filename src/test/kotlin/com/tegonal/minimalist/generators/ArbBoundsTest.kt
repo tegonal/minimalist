@@ -131,7 +131,7 @@ class ArbBoundsTest : AbstractArbArgsGeneratorTest<Any>() {
 		fun intSafeMinMax() =
 			// we are not using arb.intRange here on purpose as we would use the function under test in the test-setup
 			arb.intFromUntil(Int.MIN_VALUE, Int.MAX_VALUE - possibleMaxSizeSafeInIntDomain).combineDependent {
-				arb.intFromTo(it, it + possibleMaxSizeSafeInIntDomain)
+				arb.intFromUntil(it, it + possibleMaxSizeSafeInIntDomain)
 			}
 
 		@JvmStatic
@@ -145,7 +145,7 @@ class ArbBoundsTest : AbstractArbArgsGeneratorTest<Any>() {
 			// we are not using arb.longRange here on purpose as we would use the function under test in the test-setup
 			arb.longFromUntil(Long.MIN_VALUE, Long.MAX_VALUE - possibleMaxSizeSafeInLongDomain).combineDependent {
 				// + possibleMaxSizeSafeInIntDomain as we could otherwise land in the Int-Domain
-				arb.longFromTo(it + possibleMaxSizeSafeInIntDomain, it + possibleMaxSizeSafeInLongDomain)
+				arb.longFromUntil(it + possibleMaxSizeSafeInIntDomain, it + possibleMaxSizeSafeInLongDomain)
 			}
 
 		@JvmStatic
