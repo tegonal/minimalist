@@ -9,14 +9,14 @@ import kotlin.random.Random
  * Returns an [ArbArgsGenerator] which generates [String]s with [minLength] and [maxLength] (inclusive) using
  * the given allowed [UnicodeRange]s.
  *
- * You can use one of the predefined lists in [UnicodeRange.Companion] such as [UnicodeRange.ASCII_PRINTABLE]
+ * You can use one of the predefined [UnicodeRanges.ranges] such as [UnicodeRanges.ASCII_PRINTABLE]
  *
  * @since 2.0.0
  */
 fun ArbExtensionPoint.string(
 	maxLength: Int,
 	minLength: Int = 0,
-	allowedRanges: List<UnicodeRange> = UnicodeRange.UTF_8
+	allowedRanges: Array<out UnicodeRange> = UnicodeRanges.UTF_8_PRINTABLE.ranges
 ): ArbArgsGenerator<String> {
 	failIfNegative(minLength, "minLength")
 	require(minLength <= maxLength) {
