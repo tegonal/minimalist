@@ -20,9 +20,6 @@ dependencies {
 
 	testImplementation(kotlin("test"))
 	testImplementation(libs.atrium.fluent)
-
-	// only necessary, when we re-generate the UnicodeRanges lists
-//	testImplementation("com.ibm.icu:icu4j:73.2")
 }
 
 val generationFolder: ConfigurableFileCollection = project.files("src/main/generated/kotlin")
