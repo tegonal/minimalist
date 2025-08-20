@@ -2,7 +2,6 @@ package com.tegonal.minimalist.utils.impl
 
 import com.tegonal.minimalist.utils.BigInt
 
-
 /**
  * !! No backward compatibility guarantees !!
  * Reuse at your own risk

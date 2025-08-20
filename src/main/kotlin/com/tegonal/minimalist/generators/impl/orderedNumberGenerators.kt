@@ -4,9 +4,9 @@ import com.tegonal.minimalist.config.ComponentFactoryContainer
 import com.tegonal.minimalist.generators.OrderedArgsGenerator
 import com.tegonal.minimalist.generators.map
 import com.tegonal.minimalist.utils.BigInt
-import com.tegonal.minimalist.utils.impl.BaseBigIntFromUntilRepeatingIterator
-import com.tegonal.minimalist.utils.impl.BaseIntFromUntilRepeatingIterator
-import com.tegonal.minimalist.utils.impl.BaseLongFromUntilRepeatingIterator
+import com.tegonal.minimalist.utils.impl.BigIntFromUntilRepeatingIterator
+import com.tegonal.minimalist.utils.impl.IntFromUntilRepeatingIterator
+import com.tegonal.minimalist.utils.impl.LongFromUntilRepeatingIterator
 import com.tegonal.minimalist.utils.impl.checkRangeNumbers
 import com.tegonal.minimalist.utils.toBigInt
 
@@ -33,9 +33,7 @@ class IntFromUntilOrderedArgsGenerator(
 ), OrderedArgsGenerator<Int> {
 
 	override fun generateAfterChecks(offset: Int): Sequence<Int> = Sequence {
-		object : BaseIntFromUntilRepeatingIterator<Int>(from, toExclusive, offset = offset, step = step) {
-			override fun getElementAt(index: Int): Int = index
-		}
+		IntFromUntilRepeatingIterator(from, toExclusive, offset = offset, step = step)
 	}
 }
 
@@ -62,9 +60,7 @@ class LongFromUntilOrderedArgsGenerator(
 ), OrderedArgsGenerator<Long> {
 
 	override fun generateAfterChecks(offset: Int): Sequence<Long> = Sequence {
-		object : BaseLongFromUntilRepeatingIterator<Long>(from, toExclusive, offset = offset.toLong(), step = step) {
-			override fun getElementAt(index: Long): Long = index
-		}
+		LongFromUntilRepeatingIterator(from, toExclusive, offset = offset.toLong(), step = step)
 	}
 }
 
@@ -90,13 +86,7 @@ class BigIntFromUntilOrderedArgsGenerator(
 ), OrderedArgsGenerator<BigInt> {
 
 	override fun generateAfterChecks(offset: Int): Sequence<BigInt> = Sequence {
-		object : BaseBigIntFromUntilRepeatingIterator<BigInt>(
-			from, toExclusive,
-			offset = offset.toBigInt(),
-			step = step
-		) {
-			override fun getElementAt(index: BigInt): BigInt = index
-		}
+		BigIntFromUntilRepeatingIterator(from, toExclusive, offset = offset.toBigInt(), step = step)
 	}
 }
 

@@ -11,3 +11,5 @@ build
 *.iml
 
 minimalist.local.properties
+
+src/test/resources/UnicodeData.txt

@@ -1,6 +1,7 @@
 package com.tegonal.minimalist.generators.impl
 
 import com.tegonal.minimalist.generators.ArgsGenerator
+import com.tegonal.minimalist.generators.UnicodeRange
 import com.tegonal.minimalist.utils.impl.FEATURE_REQUEST_URL
 
 /**
