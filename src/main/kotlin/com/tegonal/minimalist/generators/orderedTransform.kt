@@ -68,5 +68,3 @@ fun <T, R> OrderedArgsGenerator<T>.transformMaterialised(
 	transform: (Sequence<T>) -> Sequence<R>,
 ): OrderedArgsGenerator<R> =
 	generate().take(size).let(transform).toList().let(_components.ordered::fromList)
-
-

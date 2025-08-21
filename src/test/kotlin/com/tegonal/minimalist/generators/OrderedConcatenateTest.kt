@@ -1,12 +1,8 @@
 package com.tegonal.minimalist.generators
 
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.config.build
-import com.tegonal.minimalist.providers.ArgsRangeDecider
 import com.tegonal.minimalist.testutils.anyToList
 import com.tegonal.minimalist.testutils.getTestValue
-import kotlin.collections.plus
 
 @Suppress("UNCHECKED_CAST")
 class OrderedConcatenateTest : AbstractOrderedConcatenateTest() {
@@ -15,15 +11,9 @@ class OrderedConcatenateTest : AbstractOrderedConcatenateTest() {
 		val g1Variants = variants(0)
 		val g2Variants = variants(1)
 
-		val combined = g1Variants.combine(g2Variants) { (name1, g1), (name2, g2) ->
+		val concatenated = g1Variants.combine(g2Variants) { (name1, g1), (name2, g2) ->
 			Tuple("$name1 + $name2", g1 + g2, anyToList(getTestValue(name1, 0)) + anyToList(getTestValue(name2, 1)))
 		}
-
-        // we use a modifiedOrdered in AbstractOrderedArgsGeneratorWithoutAnnotationsTest because we want to test that
-        // the ComponentContainer is passed correctly from generator to generator. But that also means that if we would
-        // use the components from it, that seed is always 1. That's not what we want, hence we use the "normal"
-        // MinimalistConfig and its defined seed and components
-        val argsRange = ordered._components.build<ArgsRangeDecider>().decide(combined)
-        return combined.generateAndTake(argsRange)
+        return concatenated.generateAndTakeBasedOnDecider()
 	}
 }
