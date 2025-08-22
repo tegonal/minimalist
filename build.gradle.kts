@@ -89,7 +89,7 @@ Release & deploy a commit
 
 
 export MNLMST_PREVIOUS_VERSION=1.1.0
-export MNLMST_VERSION=1.2.0
+export MNLMST_VERSION=2.0.0-RC-1
 find ./ -name "*.md" | xargs perl -0777 -i \
    -pe "s@$MNLMST_PREVIOUS_VERSION@$MNLMST_VERSION@g;" \
    -pe "s@tree/main@tree/v$MNLMST_VERSION@g;" \

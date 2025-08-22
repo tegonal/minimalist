@@ -16,10 +16,21 @@ import ch.tutteli.kbox.Tuple9
 import ch.tutteli.kbox.Tuple9Like
 import ch.tutteli.kbox.toList
 
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 fun tupleAndTupleLikeToList(maybeTupleOrTupleLike: Any?): List<*>? =
 	tupleToList(maybeTupleOrTupleLike) ?: tupleLikeToList(maybeTupleOrTupleLike)
 
-
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 fun tupleToList(maybeTuple: Any?): List<*>? = when (maybeTuple) {
 	is Pair<*, *> -> maybeTuple.toList()
 	is Triple<*, *, *> -> maybeTuple.toList()
@@ -32,6 +43,12 @@ fun tupleToList(maybeTuple: Any?): List<*>? = when (maybeTuple) {
 	else -> null
 }
 
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 fun tupleLikeToList(maybeTupleLike: Any?): List<*>? = when (maybeTupleLike) {
 
 	is Tuple2Like<*, *> -> listOf(maybeTupleLike.component1(), maybeTupleLike.component2())

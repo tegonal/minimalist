@@ -19,6 +19,10 @@ tasks.configureEach<AbstractDokkaLeafTask> {
 		reportUndocumented.set(true)
         jdkVersion.set(buildParameters.defaultJdkVersion)
         includes.from(kdocDir.resolve("packages.md"))
+		perPackageOption {
+			matchingRegex.set("com\\.tegonal\\.minimalist\\.export\\..*")
+			suppress.set(true)
+		}
     }
     configurePlugins()
 }

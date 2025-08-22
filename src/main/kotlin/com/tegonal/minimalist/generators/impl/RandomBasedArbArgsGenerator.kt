@@ -4,6 +4,12 @@ import com.tegonal.minimalist.config.ComponentFactoryContainer
 import com.tegonal.minimalist.utils.repeatForever
 import kotlin.random.Random
 
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 abstract class RandomBasedArbArgsGenerator<T>(
 	componentFactoryContainer: ComponentFactoryContainer,
 	seedBaseOffset: Int,

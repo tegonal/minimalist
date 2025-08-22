@@ -7,6 +7,12 @@ import com.tegonal.minimalist.utils.impl.checkIsPositive
 import com.tegonal.minimalist.utils.toBigInt
 import java.math.BigInteger
 
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 fun <T> ArbExtensionPoint.createIntDomainBasedBoundsArbGenerator(
 	minInclusive: Int,
 	maxInclusive: Int,
@@ -47,16 +53,48 @@ fun <T> ArbExtensionPoint.createIntDomainBasedBoundsArbGenerator(
 // 2 * Int.MAX_SIZE ≥ possibleMaxSize² + possibleMaxSize
 // using the quadratic formula yields approximately: 65535.5 so if possibleMaxSize is less or equal to 65535 we are
 // fine to use Int arithmetic, using the same approach for Long.MAX_SIZE yields: 4294967295.5
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 const val possibleMaxSizeSafeInIntDomain = 65_535
+
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 const val possibleMaxSizeSafeInLongDomain = 4_294_967_295L
 
 // since we first multiply and then divide, it is actually only safe for
 // Int.MAX_SIZE ≥ possibleMaxSize * (possibleMaxSize + 1) which yields 46340.5
 // as a trick we first divide possibleMaxSize or possibleMaxSize + 1 (depending on which one is even, we don't
 // want to truncate due to Int division) but for this we need one additional if with
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 const val possibleMaxSizeSafeInIntDomainWithoutDivideTrick = 46_340
+
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 const val possibleMaxSizeSafeInLongDomainWithoutDivideTrick = 3_037_000_499L
 
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 fun <T> ArbExtensionPoint.createBoundsArbGenerator(
 	minInclusive: Long,
 	maxInclusive: Long,
@@ -319,7 +357,7 @@ private fun numOfRangesWithSize(size: Int, possibleMaxSize: Int) =
 		one = 1
 	)
 
-fun prefixSumFast(size: Int, numOfRangesWithMinSize: Int, minSize: Int, possibleMaxSize: Int) =
+private fun prefixSumFast(size: Int, numOfRangesWithMinSize: Int, minSize: Int, possibleMaxSize: Int) =
 	prefixSumFast(
 		size = size,
 		numOfRangesWithMinSize = numOfRangesWithMinSize,
@@ -333,7 +371,7 @@ fun prefixSumFast(size: Int, numOfRangesWithMinSize: Int, minSize: Int, possible
 		two = 2
 	)
 
-fun prefixSumSlower(size: Int, numOfRangesWithMinSize: Int, minSize: Int, possibleMaxSize: Int): Int =
+private fun prefixSumSlower(size: Int, numOfRangesWithMinSize: Int, minSize: Int, possibleMaxSize: Int): Int =
 	prefixSumSlower(
 		size = size,
 		numOfRangesWithMinSize = numOfRangesWithMinSize,
