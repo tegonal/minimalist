@@ -4,7 +4,6 @@
 plugins {
 	id("build-logic.published-kotlin-jvm")
 	id("code-generation.generate")
-	alias(libs.plugins.nexus.publish)
 	id("me.champeau.jmh") version "0.7.3"
 }
 
@@ -68,12 +67,6 @@ java {
 //	}
 //}
 
-nexusPublishing {
-	repositories {
-		sonatype()
-	}
-}
-
 jmh {
 	profilers = listOf("gc")
 	// run ./gradlew jmh -Pjmh.include=... to run a specific bench
@@ -88,7 +81,7 @@ Release & deploy a commit
 1. update main:
 
 
-export MNLMST_PREVIOUS_VERSION=1.1.0
+export MNLMST_PREVIOUS_VERSION=2.0.0-RC-1
 export MNLMST_VERSION=2.0.0-RC-1
 find ./ -name "*.md" | xargs perl -0777 -i \
    -pe "s@$MNLMST_PREVIOUS_VERSION@$MNLMST_VERSION@g;" \
@@ -99,7 +92,7 @@ perl -0777 -i \
   -pe "s/version = \"${MNLMST_VERSION}-SNAPSHOT\"/version = \"$MNLMST_VERSION\"/;" \
   ./build.gradle.kts
 perl -0777 -i \
-  -pe 's/(<!-- for main -->\n)\n([\S\s]*?)(\n<!-- for release -->\n)<!--\n([\S\s]*?)-->\n(\n# <img)/$1<!--\n$2-->$3\n$4\n$5/;' \
+  -pe 's/(<!-- for main -->\n)\n([\S\s]*?)(\n<!-- for main end -->\n<!-- for release -->\n)<!--\n([\S\s]*?)-->\n(<!-- for release end -->)/$1<!--\n$2-->$3\n$4\n$5/;' \
   -pe 's/(---\n❗ You are taking[^-]*?---)/<!$1>/;' \
   ./README.md
 git commit -a -m "v$MNLMST_VERSION"
@@ -113,7 +106,7 @@ git push
     b) git push origin "v$MNLMST_VERSION"
     c) Log in to github and create draft for the release
 
-The tag is required for dokka in order that the externalLinkDocumentation and source-mapping works
+The tag is required for dokka in order that the externalLinkDocumentation works
 
 3. update github pages:
 Assumes you have a minimalist-gh-pages folder on the same level as minimalist where the gh-pages branch is checked out
@@ -170,15 +163,30 @@ git push
 
 cd ../minimalist
 
-3. deploy to maven central:
+3. deploy to sonatype central portal:
 (assumes you have an alias named gr pointing to ./gradlew)
-    a) echo "enter the sonatype user token"
-	   read SONATYPE_PW
-    b) java -version 2>&1 | grep "version \"11" && ORG_GRADLE_PROJECT_sonatypePassword="$SONATYPE_PW" CI=true gr clean publishToSonatype
-    c) Log into https://oss.sonatype.org/#stagingRepositories
-    d) check if staging repo is ok
-    e) close repo
-    f) release repo
+    a) java -version 2>&1 | grep "version \"11" && PUB=true CI=true gr clean pubToMaLo &&
+       tmpDir=$(mktemp -d -t "minimalist-release-$MNLMST_VERSION-XXXXXXXXXX") &&
+       find "$HOME/.m2/repository/com/tegonal/minimalist" -type d -name "*$MNLMST_VERSION" -print0 |
+         while read -r -d $'\0' versionDir; do
+           find "$versionDir" -type f -print0 | while read -r -d $'\0' file; do
+              relPath="${file#"$HOME/.m2/repository/"}"
+              mkdir -p "$tmpDir/$(dirname "$relPath")"
+              cp "$file" "$tmpDir/$relPath"
+           done
+         done &&
+       find "$tmpDir" -type f -not -name "*.md5" -not -name "*.sha1" -not -name "*.asc" -print0 |
+         while read -r -d $'\0' file; do
+           base=$(basename "$file");
+           md5sum "$file" | awk '{ print $1 }' > "${file}.md5"
+           sha1sum "$file" | awk '{ print $1 }' > "$file.sha1"
+       done &&
+       (cd "$tmpDir" zip -r "minimalist-$MNLMST_VERSION.zip" .) &&
+       find "$tmpDir" -name "*.jar" | head -n 1 | xargs -I {} gpg --verify "{}.asc" "{}" &&
+       echo "verify the correct gpg key was used (see above) and you might want to check the release in $tmpDir"
+    b) Log into https://central.sonatype.com/publishing/deployments
+    c) click on publish component and upload zip
+    d) click on publish once verification is done
 
 4. publish release on github
     1) Log in to github and publish draft
@@ -188,7 +196,7 @@ Prepare next dev cycle
     1. update main:
 
 
-export MNLMST_VERSION=1.1.0
+export MNLMST_VERSION=2.0.0-RC-1
 export MNLMST_NEXT_VERSION=1.2.0
 find ./ -name "*.md" | xargs perl -0777 -i \
    -pe "s@tree/v$MNLMST_VERSION@tree/main@g;" \

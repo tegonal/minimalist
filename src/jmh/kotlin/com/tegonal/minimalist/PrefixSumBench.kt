@@ -1,8 +1,6 @@
 package com.tegonal.minimalist
 
 import com.tegonal.minimalist.generators.impl.possibleMaxSizeSafeInIntDomainWithoutDivideTrick
-import com.tegonal.minimalist.generators.impl.prefixSumFast
-import com.tegonal.minimalist.generators.impl.prefixSumSlower
 import org.openjdk.jmh.annotations.*
 import java.util.concurrent.TimeUnit
 
@@ -59,3 +57,87 @@ open class PrefixSumBench {
 			)
 		}
 }
+
+
+private fun prefixSumFast(size: Int, numOfRangesWithMinSize: Int, minSize: Int, possibleMaxSize: Int) =
+	prefixSumFast(
+		size = size,
+		numOfRangesWithMinSize = numOfRangesWithMinSize,
+		minSize = minSize,
+		possibleMaxSize = possibleMaxSize,
+		plus = Int::plus,
+		minus = Int::minus,
+		times = Int::times,
+		divide = Int::div,
+		one = 1,
+		two = 2
+	)
+
+private fun prefixSumSlower(size: Int, numOfRangesWithMinSize: Int, minSize: Int, possibleMaxSize: Int): Int =
+	prefixSumSlower(
+		size = size,
+		numOfRangesWithMinSize = numOfRangesWithMinSize,
+		minSize = minSize,
+		possibleMaxSize = possibleMaxSize,
+		plus = Int::plus,
+		minus = Int::minus,
+		times = Int::times,
+		divide = Int::div,
+		mod = Int::rem,
+		zero = 0,
+		one = 1,
+		two = 2
+	)
+
+private inline fun <NumberT> prefixSumFast(
+	size: NumberT,
+	numOfRangesWithMinSize: NumberT,
+	minSize: NumberT,
+	possibleMaxSize: NumberT,
+	crossinline plus: (NumberT, NumberT) -> NumberT,
+	crossinline minus: (NumberT, NumberT) -> NumberT,
+	crossinline times: (NumberT, NumberT) -> NumberT,
+	crossinline divide: (NumberT, NumberT) -> NumberT,
+	one: NumberT,
+	two: NumberT,
+): NumberT where NumberT : Number, NumberT : Comparable<NumberT> {
+	val n = plus(minus(size, minSize), one)
+	val numOfRangesWithGivenSize = numOfRangesWithSize(size, possibleMaxSize, plus, minus, one)
+	// note, as far as I can see it is not possible that both n and numOfRangesWithMinSize + numOfRangesWithGivenSize
+	// are odd, i.e. the result is always even, and therefore / 2 is safe (no truncation because of Int/Long arithmetic
+	// happens)
+	return divide(times(n, plus(numOfRangesWithMinSize, numOfRangesWithGivenSize)), two)
+}
+
+private inline fun <NumberT> prefixSumSlower(
+	size: NumberT,
+	numOfRangesWithMinSize: NumberT,
+	minSize: NumberT,
+	possibleMaxSize: NumberT,
+	crossinline plus: (NumberT, NumberT) -> NumberT,
+	crossinline minus: (NumberT, NumberT) -> NumberT,
+	crossinline times: (NumberT, NumberT) -> NumberT,
+	crossinline divide: (NumberT, NumberT) -> NumberT,
+	crossinline mod: (NumberT, NumberT) -> NumberT,
+	zero: NumberT,
+	one: NumberT,
+	two: NumberT,
+): NumberT where NumberT : Number, NumberT : Comparable<NumberT> {
+	val n = plus(minus(size, minSize), one)
+	val numOfRangesWithGivenSize = numOfRangesWithSize(size, possibleMaxSize, plus, minus, one)
+	// usual formula: n * (first + last) / 2 would overflow, hence we divide first. In order not to truncate (due to
+	// int division) need to check if n is even or not (one of both is always even).
+	return if (mod(n, two) == zero) {
+		times(divide(n, two), plus(numOfRangesWithMinSize, numOfRangesWithGivenSize))
+	} else {
+		times(n, divide(plus(numOfRangesWithMinSize, numOfRangesWithGivenSize), two))
+	}
+}
+
+private inline fun <NumberT> numOfRangesWithSize(
+	size: NumberT,
+	possibleMaxSize: NumberT,
+	plus: (NumberT, NumberT) -> NumberT,
+	minus: (NumberT, NumberT) -> NumberT,
+	one: NumberT,
+): NumberT where NumberT : Number, NumberT : Comparable<NumberT> = plus(minus(possibleMaxSize, size), one)

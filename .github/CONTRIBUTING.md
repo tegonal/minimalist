@@ -12,7 +12,7 @@ Following a few guidelines so that others can quickly benefit from your contribu
 
 ## Code of Conduct
 This project and everyone participating in it is governed by Minimalist's 
-[Code of Conduct](https://github.com/tegonal/minimalist/tree/main/.github/CODE_OF_CONDUCT.md). 
+[Code of Conduct](https://github.com/tegonal/minimalist/tree/v2.0.0-RC-1/.github/CODE_OF_CONDUCT.md). 
 By participating, you are expected to uphold this code. Please report unacceptable behaviour to info@tutteli.ch
 
 ## How to Contribute
