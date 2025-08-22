@@ -1,5 +1,7 @@
 package com.tegonal.minimalist.testutils
 
+import com.tegonal.minimalist.utils.toBigInt
+
 private val testValues: Map<String, List<Any>> = mapOf(
 	"of" to listOf(arrayOf(1, 2, 3), arrayOf(10, 11, 12, 13)),
 	"fromList" to listOf(listOf(4, 5, 6), listOf(14, 15)),
@@ -19,10 +21,12 @@ private val testValues: Map<String, List<Any>> = mapOf(
 	"fromCharProgression" to listOf('k'..'p' step 2, 'K'..'O' step 3),
 	"fromIntProgression" to listOf(120..130 step 2, 150 downTo 140 step 2),
 	"fromLongProgression" to listOf(160L..170L step 3, 190L downTo 171L step 5),
-	"intFromUntil" to listOf(200..205, 206 .. 210),
-	"longFromUntil" to listOf(211L..213L, 214L .. 219L),
-	"intFromTo" to listOf(220..224, 225 .. 228),
-	"longFromTo" to listOf(230L..233L, 234L .. 238L),
+	"intFromUntil" to listOf(200..205, 206..210),
+	"longFromUntil" to listOf(211L..213L, 214L..219L),
+	"bigIntFromUntil" to listOf((220L..224L).map { it.toBigInt() }, (225L..228L).map { it.toBigInt() }),
+	"intFromTo" to listOf(230..233, 234..238),
+	"longFromTo" to listOf(240L..242L, 243L..247L),
+	"bigIntFromTo" to listOf((250L..255L).map { it.toBigInt() }, (256L..259L).map { it.toBigInt() }),
 )
 
 fun getTestValue(key: String, index: Int) = (testValues[key]!!).let { it[index] }
