@@ -94,7 +94,7 @@ class UnicodeRangeTest {
 											}, elseBlock = {
 												false
 											})
-										)
+											)
 
 									toBeInIf {
 										// JDKs usually don't include all valid unicode codePoints in CharacterData
@@ -139,7 +139,11 @@ class UnicodeRangeTest {
 
 								else -> {
 									toBeInIf {
-										isInAsciiRange && (it == UnicodeRanges.ASCII || it == UnicodeRanges.ASCII_PRINTABLE) ||
+										isInAsciiRange && (
+											it == UnicodeRanges.ASCII || it == UnicodeRanges.ASCII_PRINTABLE ||
+												it == UnicodeRanges.ASCII_ALPHA && (codePoint in 'A'.code ..'Z'.code || codePoint in 'a'.code .. 'z'.code) ||
+												it == UnicodeRanges.ASCII_DIGIT && codePoint in '0'.code ..'9'.code
+											) ||
 											isInIso88591Range && (it == UnicodeRanges.ISO_8859_1 || it == UnicodeRanges.ISO_8859_1_PRINTABLE) ||
 											it == UnicodeRanges.UTF_8 ||
 											it == UnicodeRanges.UTF_8_PRINTABLE ||
