@@ -51,6 +51,8 @@ class UnicodeRange(override val start: Int, override val endInclusive: Int) : Cl
  */
 enum class UnicodeRanges(open vararg val ranges: UnicodeRange) {
 	ASCII(UnicodeRange(0x00, ASCII_END)),
+	ASCII_ALPHA(UnicodeRange('A'.code, 'Z'.code), UnicodeRange('a'.code, 'z'.code)),
+	ASCII_DIGIT(UnicodeRange('0'.code, '9'.code)),
 	ASCII_PRINTABLE(UnicodeRange(ASCII_PRINTABLE_START, ASCII_PRINTABLE_END)),
 	ISO_8859_1(UnicodeRange(0x00, ISO_8859_1_END)),
 	ISO_8859_1_PRINTABLE(
