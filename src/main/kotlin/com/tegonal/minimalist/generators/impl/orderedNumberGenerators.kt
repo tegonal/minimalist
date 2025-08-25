@@ -35,6 +35,9 @@ class IntFromUntilOrderedArgsGenerator(
 	override fun generateAfterChecks(offset: Int): Sequence<Int> = Sequence {
 		IntFromUntilRepeatingIterator(from, toExclusive, offset = offset, step = step)
 	}
+
+	//TODO 2.1.0 bench if overriding toArbArgsGenerator with delegating to arb.fromProgression would be faster than the
+	// default implementation.
 }
 
 /**

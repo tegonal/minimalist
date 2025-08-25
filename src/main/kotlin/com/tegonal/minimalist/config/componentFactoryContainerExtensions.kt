@@ -99,7 +99,6 @@ val ComponentFactoryContainer.arb get() : ArbExtensionPoint = DefaultArbExtensio
 inline fun <reified T : Any> ComponentFactoryContainer.build(): T = buildOrNull(T::class)
 	?: error("No factory is registered in this ComponentFactoryContainer which is able to build a ${T::class.qualifiedName}")
 
-
 /**
  * Returns a chain of components of type [T] using a corresponding factory or throws an [IllegalStateException]
  * in case no factory was found which is able to build a chain of components of the given type.
@@ -114,4 +113,3 @@ inline fun <reified T : Any> ComponentFactoryContainer.build(): T = buildOrNull(
  */
 inline fun <reified T : Any> ComponentFactoryContainer.buildChained(): Sequence<T> = buildChainedOrNull(T::class)
 	?: error("No factory is registered in this ComponentFactoryContainer which is able to build a chain of ${T::class.qualifiedName}")
-
