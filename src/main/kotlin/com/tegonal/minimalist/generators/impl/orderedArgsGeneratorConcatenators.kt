@@ -20,6 +20,16 @@ class OrderedArgsGeneratorConcatenator<T>(
 	a1Generator._components,
 	a1Generator.size.toLong() + a2Generator.size.toLong()
 ), OrderedArgsGenerator<T> {
+	
+	override fun generateOneAfterChecks(offset: Int): T {
+		val offsetInRange = offset % size
+		val a1Size = a1Generator.size
+		return if (offsetInRange < a1Size) {
+			a1Generator.generateOne(offsetInRange)
+		} else {
+			a2Generator.generateOne(offsetInRange - a1Size)
+		}
+	}
 
 	override fun generateAfterChecks(offset: Int): Sequence<T> =
 		concatenate(a1Generator, a2Generator, size, offset)

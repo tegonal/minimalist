@@ -8,6 +8,7 @@ import com.tegonal.minimalist.utils.impl.BigIntFromUntilRepeatingIterator
 import com.tegonal.minimalist.utils.impl.IntFromUntilRepeatingIterator
 import com.tegonal.minimalist.utils.impl.LongFromUntilRepeatingIterator
 import com.tegonal.minimalist.utils.impl.checkRangeNumbers
+import com.tegonal.minimalist.utils.impl.determineStartingIndex
 import com.tegonal.minimalist.utils.toBigInt
 
 /**
@@ -31,6 +32,12 @@ class IntFromUntilOrderedArgsGenerator(
 		calculatedRangeSizeToArgsGeneratorSize(from.toLong(), toExclusive.toLong(), step.toLong())
 	}
 ), OrderedArgsGenerator<Int> {
+
+	override fun generateOneAfterChecks(offset: Int): Int {
+		checkRangeNumbers(from, toExclusive, offset, step)
+		// index = value so we can directly return it
+		return determineStartingIndex(from, toExclusive, offset, step)
+	}
 
 	override fun generateAfterChecks(offset: Int): Sequence<Int> = Sequence {
 		IntFromUntilRepeatingIterator(from, toExclusive, offset = offset, step = step)
@@ -62,6 +69,15 @@ class LongFromUntilOrderedArgsGenerator(
 	}
 ), OrderedArgsGenerator<Long> {
 
+	override fun generateOneAfterChecks(offset: Int): Long {
+		checkRangeNumbers(from, toExclusive, offset.toLong(), step)
+		// index = value so we can directly return it
+		return determineStartingIndex(
+			// toExclusive - from could overflow, so we use BigInt
+			from.toBigInt(), toExclusive.toBigInt(), offset.toBigInt(), step.toBigInt()
+		).toLong()
+	}
+
 	override fun generateAfterChecks(offset: Int): Sequence<Long> = Sequence {
 		LongFromUntilRepeatingIterator(from, toExclusive, offset = offset.toLong(), step = step)
 	}
@@ -88,11 +104,16 @@ class BigIntFromUntilOrderedArgsGenerator(
 	}
 ), OrderedArgsGenerator<BigInt> {
 
+	override fun generateOneAfterChecks(offset: Int): BigInt {
+		val offsetBigInt = offset.toBigInt()
+		checkRangeNumbers(from, toExclusive, offsetBigInt, step)
+		return determineStartingIndex(from, toExclusive, offsetBigInt, step)
+	}
+
 	override fun generateAfterChecks(offset: Int): Sequence<BigInt> = Sequence {
 		BigIntFromUntilRepeatingIterator(from, toExclusive, offset = offset.toBigInt(), step = step)
 	}
 }
-
 
 private fun calculatedRangeSizeToArgsGeneratorSize(
 	from: Long,

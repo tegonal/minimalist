@@ -30,6 +30,12 @@ class ArbArgsGeneratorMerger<T>(
 		checkIsPositive(a2GeneratorWithWeight.first, "(2.) weight")
 	}
 
+	override fun generateOne(seedOffset: Int): T = createMinimalistRandom(seedOffset).let { minimalistRandom ->
+		val r = minimalistRandom.nextInt(1, totalWeightPlus1)
+		return if (r <= a1Weight) a1Generator.generateOne(seedOffset)
+		else a2Generator.generateOne(seedOffset)
+	}
+
 	override fun generate(seedOffset: Int): Sequence<T> = createMinimalistRandom(seedOffset).let { minimalistRandom ->
 		Sequence {
 			object : Iterator<T> {
@@ -98,6 +104,12 @@ class MultiArbArgsGeneratorIndexOfMerger<T>(
 		}
 
 		totalWeightPlus1 = Math.addExact(acc, 1)
+	}
+
+	override fun generateOne(seedOffset: Int): T = createMinimalistRandom(seedOffset).let { minimalistRandom ->
+		val r = minimalistRandom.nextInt(1, totalWeightPlus1)
+		val index = cumulativeWeights.indexOfFirst { it >= r }
+		generators[index].generateOne(seedOffset)
 	}
 
 	override fun generate(seedOffset: Int): Sequence<T> = createMinimalistRandom(seedOffset).let { minimalistRandom ->

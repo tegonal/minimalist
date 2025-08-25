@@ -18,6 +18,13 @@ interface SemiOrderedArgsGenerator<out T> : ArgsGenerator<T> {
 	val size: Int
 
 	/**
+	 * Returns the value at the given [offset].
+	 *
+	 * @since 2.0.0
+	 */
+	fun generateOne(offset: Int = 0): T = generate(offset).first()
+
+	/**
 	 * Returns an infinite stream of values starting at [offset] and repeating after reaching [size] of values
 	 * where one part of the values are always the same when generated multiple times.
 	 *

@@ -41,7 +41,7 @@ abstract class BaseIntFromUntilRepeatingIterator<T>(
 
 	init {
 		checkRangeNumbers(from, toExclusive, offset, step)
-		index = determineStartingIndex(from.toLong(), toExclusive.toLong(), offset.toLong(), step.toLong()).toInt()
+		index = determineStartingIndex(from, toExclusive, offset, step)
 	}
 
 	override fun hasNext() = true
@@ -124,8 +124,17 @@ abstract class BaseBigIntFromUntilRepeatingIterator<T>(
 	abstract fun getElementAt(index: BigInt): T
 }
 
+/**
+ * Convenience method which convert to [Long] and then calls determineStartingIndex and converts the result back to Int
+ */
+fun determineStartingIndex(
+	from: Int,
+	toExclusive: Int,
+	offset: Int,
+	step: Int
+): Int = determineStartingIndex(from.toLong(), toExclusive.toLong(), offset.toLong(), step.toLong()).toInt()
 
-private fun determineStartingIndex(
+fun determineStartingIndex(
 	from: Long,
 	toExclusive: Long,
 	offset: Long,
@@ -143,7 +152,7 @@ private fun determineStartingIndex(
 	1
 )
 
-private fun determineStartingIndex(
+fun determineStartingIndex(
 	from: BigInt,
 	toExclusive: BigInt,
 	offset: BigInt,

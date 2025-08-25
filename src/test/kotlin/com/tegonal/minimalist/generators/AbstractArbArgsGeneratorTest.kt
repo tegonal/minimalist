@@ -8,6 +8,7 @@ import ch.tutteli.kbox.a2
 import ch.tutteli.kbox.mapA3
 import com.tegonal.minimalist.config.arb
 import com.tegonal.minimalist.generators.impl.DefaultArbExtensionPoint
+import org.junit.jupiter.api.Test
 
 typealias ArbArgsTestFactoryResult<T> = ArgsTestFactoryResult<T, ArbArgsGenerator<T>>
 
@@ -58,4 +59,12 @@ abstract class AbstractArbArgsGeneratorTest<T>() : AbstractArbArgsGeneratorWitho
 	@TestFactory
 	fun canAlwaysTakeTheDesiredAmount() =
 		canAlwaysTakeTheDesiredAmountTest({ createGenerators(customComponentFactoryContainer.arb) }) { it.generate() }
+
+	@TestFactory
+	fun generateOneIsTheSameAsGenerateFirst() =
+		generateOneIsTheSameAsGenerateFirstTest(
+			factory = { createGenerators(customComponentFactoryContainer.arb) },
+			generateOne = { it.generateOne() },
+			generate = { it.generate() }
+		)
 }

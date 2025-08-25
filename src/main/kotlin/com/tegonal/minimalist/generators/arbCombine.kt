@@ -48,10 +48,5 @@ fun <A1, A2, R> ArbArgsGenerator<A1>.combineDependent(
 	transform: (A1, A2) -> R
 ): ArbArgsGenerator<R> =
 	this.mapIndexed { index, it, seedOffset ->
-		transform(
-			it,
-			//TODO 2.1.0 introduce ArbArgsGenerator.generateOne, this way ArbArgsGenerators can provide a more efficient
-			// way it they like, (instead of creating a sequence and then using first() and then drop the sequence)
-			this._core.arb.otherFactory(it).generate(index + seedOffset).first()
-		)
+		transform(it, this._core.arb.otherFactory(it).generateOne(index + seedOffset))
 	}

@@ -21,6 +21,13 @@ import com.tegonal.minimalist.utils.createMinimalistRandom
 //  return all values in case an ArgsRangeDecider decides to take more then the available size
 interface ArbArgsGenerator<out T> : ArgsGenerator<T> {
 	/**
+	 * Returns one random value of type [T].
+	 *
+	 * @since 2.0.0
+	 */
+	fun generateOne(seedOffset: Int = 0): T = generate(seedOffset).first()
+
+	/**
 	 * Generates an infinite stream of random values of type [T].
 	 *
 	 * @param seedOffset an offset to [MinimalistConfig.seed] which shall be applied in

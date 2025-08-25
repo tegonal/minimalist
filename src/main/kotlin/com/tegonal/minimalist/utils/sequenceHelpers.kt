@@ -16,7 +16,6 @@ fun repeatForever(): Sequence<Unit> = ForeverUnitSequence()
  */
 fun <T> repeatForever(list: List<T>, offset: Int = 0): Sequence<T> = RepeatingListSequence(list, offset)
 
-
 /**
  * Returns an infinite [Sequence] backed by the given [array], starting at the given [offset].
  * @since 2.0.0

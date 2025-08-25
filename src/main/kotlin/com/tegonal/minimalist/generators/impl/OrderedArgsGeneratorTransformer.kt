@@ -2,7 +2,6 @@ package com.tegonal.minimalist.generators.impl
 
 import com.tegonal.minimalist.generators.OrderedArgsGenerator
 
-
 /**
  * !! No backward compatibility guarantees !!
  * Reuse at your own risk

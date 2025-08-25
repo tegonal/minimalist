@@ -15,6 +15,10 @@ abstract class RandomBasedArbArgsGenerator<T>(
 	seedBaseOffset: Int,
 ) : BaseArbArgsGenerator<T>(componentFactoryContainer, seedBaseOffset) {
 
+	override fun generateOne(seedOffset: Int): T =
+		// Random is not thread safe, add synchronisation in case we run into issues
+		createMinimalistRandom(seedOffset).nextElement()
+
 	override fun generate(seedOffset: Int): Sequence<T> = createMinimalistRandom(seedOffset).let { random ->
 		repeatForever().map {
 			// Random is not thread safe, add synchronisation in case we run into issues
