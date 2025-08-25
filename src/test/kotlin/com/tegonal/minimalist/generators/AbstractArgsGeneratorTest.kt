@@ -16,7 +16,7 @@ typealias ArgsTestFactoryResult<T, ArgsGeneratorT> = Sequence<Triple<String, Arg
 
 const val maxTakeInCanAlwaysTakeTheDesiredAmountTest = 200
 
-abstract class AbstractArgsGeneratorTest: BaseTest() {
+abstract class AbstractArgsGeneratorTest : BaseTest() {
 	protected val customComponentFactoryContainer =
 		ComponentFactoryContainer.createBasedOnConfig(ordered._components.config)
 
@@ -49,6 +49,14 @@ abstract class AbstractArgsGeneratorTest: BaseTest() {
 			++count
 		}
 		expect(count).toEqual(take)
+	}
+
+	protected fun <T, ArgsGeneratorT : ArgsGenerator<T>, TestResultT : ArgsTestFactoryResult<T, ArgsGeneratorT>> generateOneIsTheSameAsGenerateFirstTest(
+		factory: () -> TestResultT,
+		generateOne: (ArgsGeneratorT) -> T,
+		generate: (ArgsGeneratorT) -> Sequence<T>
+	) = testFactory(factory) { generator, _, _ ->
+		expect(generateOne(generator)).toEqual(generate(generator).first())
 	}
 
 	protected fun <T, ArgGeneratorT : ArgsGenerator<T>, TestResulT : ArgsTestFactoryResult<T, ArgGeneratorT>> testFactory(

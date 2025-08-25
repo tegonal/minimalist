@@ -41,12 +41,23 @@ abstract class BaseSemiOrderedArgsGenerator<T>(
 		checkIsPositive(size, "size")
 	}
 
+	final override fun generateOne(offset: Int): T {
+		checkOffset(offset)
+		return generateOneAfterChecks(offset)
+	}
+
 	final override fun generate(offset: Int): Sequence<T> {
-		check(offset >= 0) {
-			"minus offsets are not supported, given $offset"
-		}
+		checkOffset(offset)
 		return generateAfterChecks(offset)
 	}
+
+	private fun checkOffset(offset: Int) {
+		check(offset >= 0) {
+			"negative offsets are not supported, given $offset"
+		}
+	}
+
+	open fun generateOneAfterChecks(offset: Int): T = generateAfterChecks(offset).first()
 
 	abstract fun generateAfterChecks(offset: Int): Sequence<T>
 }

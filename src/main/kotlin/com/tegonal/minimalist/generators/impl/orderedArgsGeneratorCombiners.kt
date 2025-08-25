@@ -22,6 +22,8 @@ class OrderedArgsGeneratorCombiner<A1, A2, R>(
 	a1Generator.size.toLong() * a2Generator.size.toLong()
 ), OrderedArgsGenerator<R> {
 
+	//TODO 2.1.0 override generateOneAfterChecks?
+
 	override fun generateAfterChecks(offset: Int): Sequence<R> =
 		combine(a1Generator, a2Generator, transform, offset)
 }

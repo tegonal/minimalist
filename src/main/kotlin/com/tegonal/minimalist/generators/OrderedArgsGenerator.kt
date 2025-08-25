@@ -43,6 +43,6 @@ interface OrderedArgsGenerator<out T> : SemiOrderedArgsGenerator<T> {
 			seedBaseOffset = 0,
 			from = 0,
 			toExclusive = size
-		).map { offset -> this.generate(offset).first() }
+		).map { offset -> this.generateOne(offset) }
 }
 

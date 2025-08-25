@@ -6,7 +6,9 @@ import ch.tutteli.atrium.api.verbs.expectGrouped
 import ch.tutteli.atrium.creating.Expect
 import ch.tutteli.atrium.testfactories.TestFactory
 import com.tegonal.minimalist.config._components
+import com.tegonal.minimalist.config.arb
 import com.tegonal.minimalist.config.config
+import com.tegonal.minimalist.config.ordered
 import com.tegonal.minimalist.generators.impl.DefaultOrderedExtensionPoint
 import com.tegonal.minimalist.utils.createMinimalistRandom
 import kotlin.math.absoluteValue
@@ -90,6 +92,14 @@ abstract class AbstractOrderedArgsGeneratorTest<T>() : AbstractOrderedArgsGenera
 
 	@TestFactory
 	fun canAlwaysTakeTheDesiredAmount() = canAlwaysTakeTheDesiredAmountTest(::createGenerators)
+
+	@TestFactory
+	fun generateOneIsTheSameAsGenerateFirst() =
+		generateOneIsTheSameAsGenerateFirstTest(
+			factory = { createGenerators() },
+			generateOne = { it.generateOne(customComponentFactoryContainer.config.seed.absoluteValue) },
+			generate = { it.generate(customComponentFactoryContainer.config.seed.absoluteValue) }
+		)
 
 	@TestFactory
 	fun coversAllCases() = coversAllCasesTest(::createGenerators)

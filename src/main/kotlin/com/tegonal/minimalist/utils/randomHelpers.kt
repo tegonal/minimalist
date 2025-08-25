@@ -3,8 +3,9 @@ package com.tegonal.minimalist.utils
 import com.tegonal.minimalist.config.MinimalistConfig
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.createMinimalistRandom
-import com.tegonal.minimalist.utils.impl.checkIsPositive
+import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
 import com.tegonal.minimalist.generators.ordered
+import com.tegonal.minimalist.utils.impl.checkIsPositive
 import com.tegonal.minimalist.utils.impl.requireFromLessThanToExclusive
 import java.math.BigInteger
 import kotlin.random.Random
@@ -14,7 +15,7 @@ import kotlin.random.asJavaRandom
  * Picks randomly one element from `this` [Collection] based on the configured [MinimalistConfig.seed]
  * @since 2.0.0
  */
-fun <T> Collection<T>.pickRandomly(): T =
+fun <T> Collection<T>.pickOneRandomly(): T =
 	when (val size = size) {
 		0 -> error("this Collection is empty, we cannot pick randomly an element from it")
 		1 -> first()
@@ -37,7 +38,7 @@ fun <T> Collection<T>.pickRandomly(): T =
  * Picks randomly one element from `this` [Collection] based on the configured [MinimalistConfig.seed].
  * @since 2.0.0
  */
-fun <T> Array<T>.pickRandomly(): T =
+fun <T> Array<T>.pickOneRandomly(): T =
 	when (val size = size) {
 		0 -> error("this Array is empty, we cannot pick randomly an element from it")
 		1 -> first()
@@ -47,6 +48,14 @@ fun <T> Array<T>.pickRandomly(): T =
 		}
 	}
 
+/**
+ * Picks randomly one element from `this` [SemiOrderedArgsGenerator] based on the configured [MinimalistConfig.seed].
+ * @since 2.0.0
+ */
+fun <T> SemiOrderedArgsGenerator<T>.pickOneRandomly(seedOffset: Int = 0): T =
+	_components.createMinimalistRandom(seedOffset).nextInt(0, size).let { offset ->
+		generateOne(offset)
+	}
 
 /**
  * Takes the given [amount] of elements from `this` [Iterable] (likewise [Iterable.take]) but in a random way

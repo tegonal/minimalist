@@ -46,7 +46,6 @@ abstract class BaseArgsRangeOptionsBasedArgsRangeDecider : ArgsRangeDecider {
 		argsGenerator: ArgsGenerator<*>
 	): ArgsRange
 
-
 	private fun ArgsRange.restrictBasedOnConfigAndArgsRangeOptions(
 		config: MinimalistConfig,
 		argsRangeOptions: ArgsRangeOptions?,
