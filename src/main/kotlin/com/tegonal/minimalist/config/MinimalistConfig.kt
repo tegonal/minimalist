@@ -35,6 +35,8 @@ class MinimalistConfig(
 	 * Note, you are not allowed to fix a seed via minimalist.properties (which is usually committed), use
 	 * minimalist.local.properties instead (which is usually on the git ignore list).
 	 */
+	//TODO 2.0.0 reconsider if we want to provide that one, it's hard to implement correctly for ordered and
+	// transformations like mapIndexed
 	val offsetToDecidedOffset: Int? = null,
 
 	/**

@@ -1,0 +1,7 @@
+#@ Version: 1.1.0
+tag	file	relativeTarget	tagFilter	sha512
+v1.3.0-alpha-2	misc/tools/readme-examples/src/test/kotlin/readme/examples/jupiter/WriteReadmeTest.kt	../src/test/kotlin/readme/examples/jupiter/WriteReadmeTest.kt	.*	5a166ebead531e48409ed51daaf1c282c0ce6b8e06c148a439cd64d915def5e8cd36d61727e9dfd6681af1e3ccc668b67c73367a41f795057a4b62c423f81100
+v1.3.0-alpha-2	misc/tools/readme-examples/src/test/kotlin/readme/examples/jupiter/ReadmeState.kt	../src/test/kotlin/readme/examples/jupiter/ReadmeState.kt	.*	15197ed82905368ad5db5a4915a9f4c58ef1f16a0c2f85e110fe3519d5aa5c591196caee93b76acbc3c5423c5145ec8aa46a89d401b08e09432824bb8fd23756
+v1.3.0-alpha-2	misc/tools/readme-examples/src/test/kotlin/readme/examples/jupiter/ReadmeInvocationInterceptor.kt	../src/test/kotlin/readme/examples/jupiter/ReadmeInvocationInterceptor.kt	.*	6d1706b083a7a9d26bcd84880c006f93419a28f5451380a583a67eb61dea5c2e82fd602dc59608d0343131864eda98ae6925cde0ca6a7f1b7a64238e622b186e
+v1.3.0-alpha-2	misc/tools/readme-examples/src/test/kotlin/readme/examples/jupiter/ReadmeTestClassOrderer.kt	../src/test/kotlin/readme/examples/jupiter/ReadmeTestClassOrderer.kt	.*	ea1318f28155ead4c24537110cff1741847a1087cf50e02f40065b6526f98aa05b3b042042ca38197bcb89f83c857cccc19b4a5d37a289bf6e24bf134a555ed0
+v1.3.0-alpha-2	misc/tools/readme-examples/src/test/kotlin/readme/examples/jupiter/ReadmeTest.kt	../src/test/kotlin/readme/examples/jupiter/ReadmeTest.kt	.*	8e8eef7b2a80c9be53d6ba72211d9de5d80cadf38302ec933a0de1003242aeb548f4fce58ba9b85512a2730c7ab1d952bec680bfd307c3f067fa5dea0b7c9857

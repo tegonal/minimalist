@@ -1,5 +1,5 @@
 package com.tegonal.minimalist.testutils
 
-import com.tegonal.minimalist.providers.PredefinedArgsSourceProviders
+import com.tegonal.minimalist.providers.PredefinedArgsProviders
 
-abstract class BaseTest : PredefinedArgsSourceProviders
+abstract class BaseTest : PredefinedArgsProviders

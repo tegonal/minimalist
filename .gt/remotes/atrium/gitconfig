@@ -1,0 +1,8 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[remote "atrium"]
+	url = https://github.com/robstoll/atrium
+	fetch = +refs/heads/*:refs/remotes/atrium/*
