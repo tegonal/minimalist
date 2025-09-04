@@ -21,25 +21,30 @@ class MinimalistPropertiesParser {
 			val key = keyAny as String
 			val value = valueAny as String
 
+			val supportedKeys = mutableListOf(PROFILES_PREFIX)
+
+			fun isKey(supportedKey: String) = (key == supportedKey).also {
+				supportedKeys.add(supportedKey)
+			}
+
 			when {
-				key == "seed" -> seed = value.toIntOrErrorNotValid(key)
-				key == "offsetToDecidedOffset" -> offsetToDecidedOffset = value.toIntOrErrorNotValid(key)
+				isKey("seed") -> seed = value.toIntOrErrorNotValid(key)
+				isKey("offsetToDecidedOffset") -> offsetToDecidedOffset = value.toIntOrErrorNotValid(key)
 
-				key == "maxArgs" -> maxArgs = value.toIntOrErrorNotValid(key)
-				key == "requestedMinArgs" -> requestedMinArgs = value.toIntOrErrorNotValid(key)
-				key == "activeArgsRangeDecider" -> activeArgsRangeDecider = value
-				key == "activeEnv" -> activeEnv = value
-				key == "defaultProfile" -> defaultProfile = value
+				isKey("maxArgs") -> maxArgs = value.toIntOrErrorNotValid(key)
+				isKey("requestedMinArgs") -> requestedMinArgs = value.toIntOrErrorNotValid(key)
+				isKey("activeArgsRangeDecider") -> activeArgsRangeDecider = value
+				isKey("activeEnv") -> activeEnv = value
+				isKey("defaultProfile") -> defaultProfile = value
 
-				key == PROFILES -> {
+				isKey(PROFILES) -> {
 					if (value == "clear") testProfiles.clear()
 					else error("don't know how to interpret $value for $key")
 				}
 
 				key.startsWith(PROFILES_PREFIX) -> parseTestProfile(key, value)
 
-
-				else -> throwUnknownProperty(key, value)
+				else -> throwUnknownProperty(key, value, supportedKeys)
 			}
 		}
 	}
@@ -66,15 +71,19 @@ class MinimalistPropertiesParser {
 			} else {
 				val testConfig = when (remainingAfterProfile.substringAfter("$env.")) {
 					"maxArgs" -> TestConfig(maxArgs = value.toPositiveIntOrErrorNotValid(key))
-					else -> throwUnknownProperty(key, value)
+					else -> throwUnknownProperty(key, value, listOf("maxArgs"))
 				}
-				testConfigsPerEnv.put(env, testConfig)
+				testConfigsPerEnv[env] = testConfig
 			}
 		}
 	}
 
-	private fun throwUnknownProperty(key: String, value: String): Nothing {
-		error("Unknown minimalist config property $key with value $value -- if you want to introduce custom config properties, then please open a feature request: $FEATURE_REQUEST_URL&title=custom%20config%20properties")
+	private fun throwUnknownProperty(key: String, value: String, supportedKeys: List<String>): Nothing {
+		error(
+			"Unknown minimalist config property $key with value $value -- if you want to introduce custom config properties, then please open a feature request: $FEATURE_REQUEST_URL&title=custom%20config%20properties\nSupported Keys: ${
+				supportedKeys.sorted().joinToString(", ")
+			}"
+		)
 	}
 
 	companion object {

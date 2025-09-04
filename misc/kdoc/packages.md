@@ -1,6 +1,6 @@
 # Package com.tegonal.minimalist
 
-Contains `Args`, `Args1` etc. 
+Contains `Args`, `Args1` etc.
 
 # Package com.tegonal.minimalist.config
 
@@ -12,7 +12,7 @@ No backward compatibility guarantees! Config loaders etc.
 
 # Package com.tegonal.minimalist.generators
 
-Contains `arb` and `ordered` and corresponding extension methods such as `intFromUntil` etc. 
+Contains `arb` and `ordered` and corresponding extension methods such as `intFromUntil` etc.
 
 # Package com.tegonal.minimalist.generators.impl
 
@@ -27,7 +27,8 @@ No backward compatibility guarantees! The implementations behind the generators.
 No backward compatibility guarantees! The implementations of the providers.
 
 # Package com.tegonal.minimalist.utils
-Helper functions such as `pickRandomly`/`takeRandomly` as well as helper functions for `Sequence`. 
+
+Helper functions such as `pickRandomly`/`takeRandomly` as well as helper functions for `Sequence`.
 
 # Package com.tegonal.minimalist.utils.impl
 
