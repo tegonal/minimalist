@@ -19,7 +19,7 @@ import com.tegonal.minimalist.generators.impl.ArbArgsGeneratorTransformer
  */
 fun <T, R> ArbArgsGenerator<T>.map(transform: (T) -> R): ArbArgsGenerator<R> =
 	// TODO 3.0.0 no need to define the seq parameter (we can use `it`) once we switch to api/languageVersion 2.x
-	this.transform { seq -> seq.map(transform) }
+	transform { seq -> seq.map(transform) }
 
 /**
  * Maps the values `this` [ArbArgsGenerator] generates together with an index to type [R] with the help of the
@@ -60,7 +60,7 @@ fun <T, R> ArbArgsGenerator<T>.mapIndexed(transform: (index: Int, T) -> R): ArbA
  * @since 2.0.0
  */
 fun <T, R> ArbArgsGenerator<T>.mapIndexed(transform: (index: Int, T, seedOffset: Int) -> R): ArbArgsGenerator<R> =
-	this.transform { seq, seedOffset ->
+	transform { seq, seedOffset ->
 		val offset = _components.config.offsetToDecidedOffset
 		if (offset == null) {
 			seq.mapIndexed { index, it -> transform(index, it, seedOffset) }
@@ -95,7 +95,7 @@ fun <T, R> ArbArgsGenerator<T>.mapIndexed(transform: (index: Int, T, seedOffset:
  */
 fun <T> ArbArgsGenerator<T>.filter(predicate: (T) -> Boolean): ArbArgsGenerator<T> =
 	// TODO 3.0.0 no need to define the seq parameter (we can use `it`) once we switch to api/languageVersion 2.x
-	this.transform { seq -> seq.filter(predicate) }
+	transform { seq -> seq.filter(predicate) }
 
 /**
  * Filters the [Sequence] of values `this` [ArbArgsGenerator] will [generate][ArbArgsGenerator.generate] which
@@ -118,7 +118,7 @@ fun <T> ArbArgsGenerator<T>.filter(predicate: (T) -> Boolean): ArbArgsGenerator<
  */
 fun <T> ArbArgsGenerator<T>.filterNot(predicate: (T) -> Boolean): ArbArgsGenerator<T> =
 	// TODO 3.0.0 no need to define the seq parameter (we can use `it`) once we switch to api/languageVersion 2.x
-	this.transform { seq -> seq.filterNot(predicate) }
+	transform { seq -> seq.filterNot(predicate) }
 
 
 /**
@@ -134,7 +134,7 @@ fun <T> ArbArgsGenerator<T>.filterNot(predicate: (T) -> Boolean): ArbArgsGenerat
  */
 fun <T> ArbArgsGenerator<T>.chunked(size: Int): ArbArgsGenerator<List<T>> =
 	// TODO 3.0.0 no need to define the seq parameter (we can use `it`) once we switch to api/languageVersion 2.x
-	this.transform { seq -> seq.chunked(size) }
+	transform { seq -> seq.chunked(size) }
 
 
 /**

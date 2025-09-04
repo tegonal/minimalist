@@ -67,6 +67,8 @@ abstract class BaseArgsRangeOptionsBasedArgsRangeDecider : ArgsRangeDecider {
 			}.letIf(generatorSize != null) {
 				// no need to take more as we would start to repeat values, i.e. even if config defines requestedMinArgs
 				// we only take generatorSize if it is less than requestedMinArgs
+				// We don't use offset=0 in such cases because, who knows, maybe the tests are dependent somehow
+				// and we want to be sure we cover this via different offsets
 				minOf(generatorSize!!, it)
 			}
 

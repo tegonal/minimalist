@@ -3,6 +3,7 @@ package com.tegonal.minimalist.generators
 import ch.tutteli.atrium.api.fluent.en_GB.toContainExactlyElementsOf
 import ch.tutteli.atrium.api.fluent.en_GB.toEqual
 import ch.tutteli.atrium.api.verbs.expect
+import ch.tutteli.kbox.Tuple
 import com.tegonal.minimalist.Args
 import com.tegonal.minimalist.Args2
 import com.tegonal.minimalist.testutils.PseudoArbArgsGenerator
@@ -47,6 +48,24 @@ class ArbPseudoTransformationTests {
 		val fourCombined = expected.take(4).toList()
 
 		// combineDependent doesn't change the seedBaseOffset
+		expect(generator._core.seedBaseOffset).toEqual(a1generator.seedBaseOffset)
+
+		expect(generator.generateToList(1)).toContainExactlyElementsOf(oneCombined)
+		expect(generator.generateToList(2)).toContainExactlyElementsOf(expected.take(2).toList())
+		expect(generator.generateToList(3)).toContainExactlyElementsOf(expected.take(3).toList())
+		expect(generator.generateToList(4)).toContainExactlyElementsOf(fourCombined)
+		expect(generator.generateToList(5)).toContainExactlyElementsOf(fourCombined + oneCombined)
+	}
+
+	@Test
+	fun combineAll() {
+		val a1generator = PseudoArbArgsGenerator(a1s)
+		val generator = Tuple(a1generator, PseudoArbArgsGenerator(a2s)).combineAll()
+		val expected = a1s.zip(a2sAfterCombine)
+		val oneCombined = expected.take(1).toList()
+		val fourCombined = expected.take(4).toList()
+
+		// combine doesn't change the seedBaseOffset
 		expect(generator._core.seedBaseOffset).toEqual(a1generator.seedBaseOffset)
 
 		expect(generator.generateToList(1)).toContainExactlyElementsOf(oneCombined)

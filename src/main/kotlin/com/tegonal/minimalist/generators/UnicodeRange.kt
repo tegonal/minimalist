@@ -17,10 +17,13 @@ import kotlin.collections.binarySearch
  * @since 2.0.0
  */
 class UnicodeRange(override val start: Int, override val endInclusive: Int) : ClosedRange<Int> {
+
+	constructor(start: Char, endInclusive: Char) : this(start.code, endInclusive.code)
+
 	init {
 		failIfNegative(start, "start")
 		require(endInclusive <= MAX_CODE_POINT) {
-			"endInclusive ($endInclusive) must be less than or equal to 0x10FFFF"
+			"endInclusive ($endInclusive) must be less than or equal to 0x${MAX_CODE_POINT.toString(16)}"
 		}
 		require(start <= endInclusive) {
 			"start ($start) must be less than or equal to endInclusive ($endInclusive) -- a ${UnicodeRange::class.simpleName} doesn't support to be empty"
@@ -51,8 +54,10 @@ class UnicodeRange(override val start: Int, override val endInclusive: Int) : Cl
  */
 enum class UnicodeRanges(open vararg val ranges: UnicodeRange) {
 	ASCII(UnicodeRange(0x00, ASCII_END)),
-	ASCII_ALPHA(UnicodeRange('A'.code, 'Z'.code), UnicodeRange('a'.code, 'z'.code)),
-	ASCII_DIGIT(UnicodeRange('0'.code, '9'.code)),
+	ASCII_ALPHA_LOWER(UnicodeRange('a', 'z')),
+	ASCII_ALPHA_UPPER(UnicodeRange('A', 'Z')),
+	ASCII_ALPHA(UnicodeRange('A', 'Z'), UnicodeRange('a', 'z')),
+	ASCII_DIGIT(UnicodeRange('0', '9')),
 	ASCII_PRINTABLE(UnicodeRange(ASCII_PRINTABLE_START, ASCII_PRINTABLE_END)),
 	ISO_8859_1(UnicodeRange(0x00, ISO_8859_1_END)),
 	ISO_8859_1_PRINTABLE(

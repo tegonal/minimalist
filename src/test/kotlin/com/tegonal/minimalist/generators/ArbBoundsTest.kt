@@ -1,6 +1,9 @@
 package com.tegonal.minimalist.generators
 
-import ch.tutteli.atrium.api.fluent.en_GB.*
+import ch.tutteli.atrium.api.fluent.en_GB.first
+import ch.tutteli.atrium.api.fluent.en_GB.second
+import ch.tutteli.atrium.api.fluent.en_GB.toBeGreaterThanOrEqualTo
+import ch.tutteli.atrium.api.fluent.en_GB.toBeLessThanOrEqualTo
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
 import com.tegonal.minimalist.generators.impl.createBoundsArbGenerator
@@ -10,6 +13,7 @@ import com.tegonal.minimalist.generators.impl.possibleMaxSizeSafeInLongDomain
 import com.tegonal.minimalist.providers.ArgsSource
 import com.tegonal.minimalist.utils.toBigInt
 import org.junit.jupiter.params.ParameterizedTest
+import kotlin.test.Test
 
 class ArbBoundsTest : AbstractArbArgsGeneratorTest<Any>() {
 

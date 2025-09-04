@@ -32,7 +32,7 @@ import ch.tutteli.kbox.Tuple9
 @JvmName("combineToTuple2")
 fun <A1, A2> SemiOrderedArgsGenerator<A1>.combine(
 	other: SemiOrderedArgsGenerator<A2>
-): SemiOrderedArgsGenerator<Tuple2<A1, A2>> = this.combine(other, ::Tuple2)
+): SemiOrderedArgsGenerator<Tuple2<A1, A2>> = combine(other, ::Tuple2)
 
 /**
  * Combines the [component1] [SemiOrderedArgsGenerator] with the [component2] [ArgsGenerator]
@@ -45,6 +45,7 @@ fun <A1, A2> Tuple2<
 	ArgsGenerator<A2>
 >.combineAll(): SemiOrderedArgsGenerator<Tuple2<A1, A2>> =
 	component1().combine(component2(), ::Tuple2)
+
 /**
  * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [SemiOrderedArgsGenerator] transforming the values
  * into a [Tuple3].
@@ -61,7 +62,7 @@ fun <A1, A2> Tuple2<
 @JvmName("combineToTuple3")
 fun <A1, A2, A3> SemiOrderedArgsGenerator<Tuple2<A1, A2>>.combine(
 	other: SemiOrderedArgsGenerator<A3>
-): SemiOrderedArgsGenerator<Tuple3<A1, A2, A3>> = this.combine(other) { args, otherArg ->
+): SemiOrderedArgsGenerator<Tuple3<A1, A2, A3>> = combine(other) { args, otherArg ->
 	args.append(otherArg)
 }
 
@@ -77,6 +78,7 @@ fun <A1, A2, A3> Tuple3<
 	ArgsGenerator<A3>
 >.combineAll(): SemiOrderedArgsGenerator<Tuple3<A1, A2, A3>> =
 	component1().combine(component2(), ::Tuple2).combine(component3()) { args, a3 -> args.append(a3) }
+
 /**
  * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [SemiOrderedArgsGenerator] transforming the values
  * into a [Tuple4].
@@ -93,7 +95,7 @@ fun <A1, A2, A3> Tuple3<
 @JvmName("combineToTuple4")
 fun <A1, A2, A3, A4> SemiOrderedArgsGenerator<Tuple3<A1, A2, A3>>.combine(
 	other: SemiOrderedArgsGenerator<A4>
-): SemiOrderedArgsGenerator<Tuple4<A1, A2, A3, A4>> = this.combine(other) { args, otherArg ->
+): SemiOrderedArgsGenerator<Tuple4<A1, A2, A3, A4>> = combine(other) { args, otherArg ->
 	args.append(otherArg)
 }
 
@@ -112,6 +114,7 @@ fun <A1, A2, A3, A4> Tuple4<
 	component1().combine(component2(), ::Tuple2)
 		.combine(component3()) { args, a3 -> args.append(a3) }
 		.combine(component4()) { args, a4 -> args.append(a4) }
+
 /**
  * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [SemiOrderedArgsGenerator] transforming the values
  * into a [Tuple5].
@@ -128,7 +131,7 @@ fun <A1, A2, A3, A4> Tuple4<
 @JvmName("combineToTuple5")
 fun <A1, A2, A3, A4, A5> SemiOrderedArgsGenerator<Tuple4<A1, A2, A3, A4>>.combine(
 	other: SemiOrderedArgsGenerator<A5>
-): SemiOrderedArgsGenerator<Tuple5<A1, A2, A3, A4, A5>> = this.combine(other) { args, otherArg ->
+): SemiOrderedArgsGenerator<Tuple5<A1, A2, A3, A4, A5>> = combine(other) { args, otherArg ->
 	args.append(otherArg)
 }
 
@@ -149,6 +152,7 @@ fun <A1, A2, A3, A4, A5> Tuple5<
 		.combine(component3()) { args, a3 -> args.append(a3) }
 		.combine(component4()) { args, a4 -> args.append(a4) }
 		.combine(component5()) { args, a5 -> args.append(a5) }
+
 /**
  * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [SemiOrderedArgsGenerator] transforming the values
  * into a [Tuple6].
@@ -165,7 +169,7 @@ fun <A1, A2, A3, A4, A5> Tuple5<
 @JvmName("combineToTuple6")
 fun <A1, A2, A3, A4, A5, A6> SemiOrderedArgsGenerator<Tuple5<A1, A2, A3, A4, A5>>.combine(
 	other: SemiOrderedArgsGenerator<A6>
-): SemiOrderedArgsGenerator<Tuple6<A1, A2, A3, A4, A5, A6>> = this.combine(other) { args, otherArg ->
+): SemiOrderedArgsGenerator<Tuple6<A1, A2, A3, A4, A5, A6>> = combine(other) { args, otherArg ->
 	args.append(otherArg)
 }
 
@@ -188,6 +192,7 @@ fun <A1, A2, A3, A4, A5, A6> Tuple6<
 		.combine(component4()) { args, a4 -> args.append(a4) }
 		.combine(component5()) { args, a5 -> args.append(a5) }
 		.combine(component6()) { args, a6 -> args.append(a6) }
+
 /**
  * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [SemiOrderedArgsGenerator] transforming the values
  * into a [Tuple7].
@@ -204,7 +209,7 @@ fun <A1, A2, A3, A4, A5, A6> Tuple6<
 @JvmName("combineToTuple7")
 fun <A1, A2, A3, A4, A5, A6, A7> SemiOrderedArgsGenerator<Tuple6<A1, A2, A3, A4, A5, A6>>.combine(
 	other: SemiOrderedArgsGenerator<A7>
-): SemiOrderedArgsGenerator<Tuple7<A1, A2, A3, A4, A5, A6, A7>> = this.combine(other) { args, otherArg ->
+): SemiOrderedArgsGenerator<Tuple7<A1, A2, A3, A4, A5, A6, A7>> = combine(other) { args, otherArg ->
 	args.append(otherArg)
 }
 
@@ -229,6 +234,7 @@ fun <A1, A2, A3, A4, A5, A6, A7> Tuple7<
 		.combine(component5()) { args, a5 -> args.append(a5) }
 		.combine(component6()) { args, a6 -> args.append(a6) }
 		.combine(component7()) { args, a7 -> args.append(a7) }
+
 /**
  * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [SemiOrderedArgsGenerator] transforming the values
  * into a [Tuple8].
@@ -245,7 +251,7 @@ fun <A1, A2, A3, A4, A5, A6, A7> Tuple7<
 @JvmName("combineToTuple8")
 fun <A1, A2, A3, A4, A5, A6, A7, A8> SemiOrderedArgsGenerator<Tuple7<A1, A2, A3, A4, A5, A6, A7>>.combine(
 	other: SemiOrderedArgsGenerator<A8>
-): SemiOrderedArgsGenerator<Tuple8<A1, A2, A3, A4, A5, A6, A7, A8>> = this.combine(other) { args, otherArg ->
+): SemiOrderedArgsGenerator<Tuple8<A1, A2, A3, A4, A5, A6, A7, A8>> = combine(other) { args, otherArg ->
 	args.append(otherArg)
 }
 
@@ -272,6 +278,7 @@ fun <A1, A2, A3, A4, A5, A6, A7, A8> Tuple8<
 		.combine(component6()) { args, a6 -> args.append(a6) }
 		.combine(component7()) { args, a7 -> args.append(a7) }
 		.combine(component8()) { args, a8 -> args.append(a8) }
+
 /**
  * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [SemiOrderedArgsGenerator] transforming the values
  * into a [Tuple9].
@@ -288,7 +295,7 @@ fun <A1, A2, A3, A4, A5, A6, A7, A8> Tuple8<
 @JvmName("combineToTuple9")
 fun <A1, A2, A3, A4, A5, A6, A7, A8, A9> SemiOrderedArgsGenerator<Tuple8<A1, A2, A3, A4, A5, A6, A7, A8>>.combine(
 	other: SemiOrderedArgsGenerator<A9>
-): SemiOrderedArgsGenerator<Tuple9<A1, A2, A3, A4, A5, A6, A7, A8, A9>> = this.combine(other) { args, otherArg ->
+): SemiOrderedArgsGenerator<Tuple9<A1, A2, A3, A4, A5, A6, A7, A8, A9>> = combine(other) { args, otherArg ->
 	args.append(otherArg)
 }
 
@@ -317,3 +324,4 @@ fun <A1, A2, A3, A4, A5, A6, A7, A8, A9> Tuple9<
 		.combine(component7()) { args, a7 -> args.append(a7) }
 		.combine(component8()) { args, a8 -> args.append(a8) }
 		.combine(component9()) { args, a9 -> args.append(a9) }
+
