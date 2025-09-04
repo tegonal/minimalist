@@ -1,10 +1,11 @@
 package com.tegonal.minimalist.generators
 
+import ch.tutteli.kbox.Tuple
 import com.tegonal.minimalist.generators.impl.OrderedArgsGeneratorCombiner
 import com.tegonal.minimalist.providers.ArgsSource
 import org.junit.jupiter.params.ParameterizedTest
 
-class OrderedCombinerTest : AbstractOrderedCombinerTest() {
+class OrderedCombineTest : AbstractOrderedCombinerTest() {
 
 	@ParameterizedTest
 	@ArgsSource("numOfIntAndChars")
@@ -14,6 +15,18 @@ class OrderedCombinerTest : AbstractOrderedCombinerTest() {
 		val a1Generator = ordered.fromList(a1s)
 		val a2Generator = ordered.fromList(a2s)
 		val generator: OrderedArgsGenerator<Pair<Int, Char>> = a1Generator.combine(a2Generator)
+
+		validateGeneration(generator.map { pair -> pair.toList() }, listOf(a1s, a2s))
+	}
+
+	@ParameterizedTest
+	@ArgsSource("numOfIntAndChars")
+	fun combineAll2(numOfInts: Int, numOfChars: Int) {
+		val a1s = (1..numOfInts).toList()
+		val a2s = (1..numOfChars).map { 'A' + it }
+		val a1Generator = ordered.fromList(a1s)
+		val a2Generator = ordered.fromList(a2s)
+		val generator: OrderedArgsGenerator<Pair<Int, Char>> = Tuple(a1Generator, a2Generator).combineAll()
 
 		validateGeneration(generator.map { pair -> pair.toList() }, listOf(a1s, a2s))
 	}
@@ -29,6 +42,22 @@ class OrderedCombinerTest : AbstractOrderedCombinerTest() {
 		val a3Generator = ordered.fromList(a3s)
 		val generator: OrderedArgsGenerator<Triple<Int, Char, String>> =
 			a1Generator.combine(a2Generator).combine(a3Generator)
+
+		validateGeneration(generator.map { triple -> triple.toList() }, listOf(a1s, a2s, a3s))
+	}
+
+
+	@ParameterizedTest
+	@ArgsSource("numOfIntCharsAndStrings")
+	fun combineAll3(numOfInts: Int, numOfChars: Int, numOfStrings: Int) {
+		val a1s = (1..numOfInts).toList()
+		val a2s = (1..numOfChars).map { 'A' + it }
+		val a3s = (1..numOfStrings).map { ('a' + it).toString() }
+		val a1Generator = ordered.fromList(a1s)
+		val a2Generator = ordered.fromList(a2s)
+		val a3Generator = ordered.fromList(a3s)
+		val generator: OrderedArgsGenerator<Triple<Int, Char, String>> =
+			Tuple(a1Generator, a2Generator, a3Generator).combineAll()
 
 		validateGeneration(generator.map { triple -> triple.toList() }, listOf(a1s, a2s, a3s))
 	}

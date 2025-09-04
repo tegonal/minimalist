@@ -72,4 +72,7 @@ fun ArbExtensionPoint.string(
 }
 
 
+//TODO 2.1.0 combinations on case
+//arb.randomCase(s: String)
+
 

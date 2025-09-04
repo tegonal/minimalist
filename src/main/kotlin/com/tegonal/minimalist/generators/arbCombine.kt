@@ -21,14 +21,14 @@ package com.tegonal.minimalist.generators
 fun <A1, A2, R> ArbArgsGenerator<A1>.combine(
 	other: ArbArgsGenerator<A2>,
 	transform: (A1, A2) -> R
-): ArbArgsGenerator<R> =
-	this.transform { seq, seedOffset -> seq.zip(other.generate(this._core.seedBaseOffset + 1 + seedOffset), transform) }
+): ArbArgsGenerator<R> = transform { seq, seedOffset ->
+	seq.zip(other.generate(this._core.seedBaseOffset + 1 + seedOffset), transform)
+}
 
 /**
  * Creates for each generated value of type [A1] by `this` [ArbArgsGenerator] another [ArbArgsGenerator] with the
  * help of the given [otherFactory] where the other generator generates values of type [A2] and then [transform]s the
  * value of `this` [ArbArgsGenerator] with one value of the other [ArbArgsGenerator] to type [R].
- *
  *
  * @param otherFactory Builds another [ArbArgsGenerator] based on a given value of type [A1].
  * @param transform The transformation function which takes an [A1] and [A2] and produces an [R].
@@ -46,7 +46,6 @@ fun <A1, A2, R> ArbArgsGenerator<A1>.combine(
 fun <A1, A2, R> ArbArgsGenerator<A1>.combineDependent(
 	otherFactory: ArbExtensionPoint.(A1) -> ArbArgsGenerator<A2>,
 	transform: (A1, A2) -> R
-): ArbArgsGenerator<R> =
-	this.mapIndexed { index, it, seedOffset ->
-		transform(it, this._core.arb.otherFactory(it).generateOne(index + seedOffset))
-	}
+): ArbArgsGenerator<R> = mapIndexed { index, a1, seedOffset ->
+	transform(a1, this._core.arb.otherFactory(a1).generateOne(index + seedOffset))
+}

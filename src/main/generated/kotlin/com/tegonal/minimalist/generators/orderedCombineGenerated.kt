@@ -32,7 +32,7 @@ import ch.tutteli.kbox.Tuple9
 @JvmName("combineToTuple2")
 fun <A1, A2> OrderedArgsGenerator<A1>.combine(
 	other: OrderedArgsGenerator<A2>
-): OrderedArgsGenerator<Tuple2<A1, A2>> = this.combine(other, ::Tuple2)
+): OrderedArgsGenerator<Tuple2<A1, A2>> = combine(other, ::Tuple2)
 
 /**
  * Combines the [component1] [OrderedArgsGenerator] with the [component2] [OrderedArgsGenerator]
@@ -48,6 +48,7 @@ fun <A1, A2> Tuple2<
 	OrderedArgsGenerator<A2>
 >.combineAll(): OrderedArgsGenerator<Tuple2<A1, A2>> =
 	component1().combine(component2(), ::Tuple2)
+
 /**
  * Combines `this` [OrderedArgsGenerator] with the given [other] [OrderedArgsGenerator] transforming the values
  * into a [Tuple3].
@@ -64,7 +65,7 @@ fun <A1, A2> Tuple2<
 @JvmName("combineToTuple3")
 fun <A1, A2, A3> OrderedArgsGenerator<Tuple2<A1, A2>>.combine(
 	other: OrderedArgsGenerator<A3>
-): OrderedArgsGenerator<Tuple3<A1, A2, A3>> = this.combine(other) { args, otherArg ->
+): OrderedArgsGenerator<Tuple3<A1, A2, A3>> = combine(other) { args, otherArg ->
 	args.append(otherArg)
 }
 
@@ -83,6 +84,7 @@ fun <A1, A2, A3> Tuple3<
 	OrderedArgsGenerator<A3>
 >.combineAll(): OrderedArgsGenerator<Tuple3<A1, A2, A3>> =
 	component1().combine(component2(), ::Tuple2).combine(component3()) { args, a3 -> args.append(a3) }
+
 /**
  * Combines `this` [OrderedArgsGenerator] with the given [other] [OrderedArgsGenerator] transforming the values
  * into a [Tuple4].
@@ -99,7 +101,7 @@ fun <A1, A2, A3> Tuple3<
 @JvmName("combineToTuple4")
 fun <A1, A2, A3, A4> OrderedArgsGenerator<Tuple3<A1, A2, A3>>.combine(
 	other: OrderedArgsGenerator<A4>
-): OrderedArgsGenerator<Tuple4<A1, A2, A3, A4>> = this.combine(other) { args, otherArg ->
+): OrderedArgsGenerator<Tuple4<A1, A2, A3, A4>> = combine(other) { args, otherArg ->
 	args.append(otherArg)
 }
 
@@ -121,6 +123,7 @@ fun <A1, A2, A3, A4> Tuple4<
 	component1().combine(component2(), ::Tuple2)
 		.combine(component3()) { args, a3 -> args.append(a3) }
 		.combine(component4()) { args, a4 -> args.append(a4) }
+
 /**
  * Combines `this` [OrderedArgsGenerator] with the given [other] [OrderedArgsGenerator] transforming the values
  * into a [Tuple5].
@@ -137,7 +140,7 @@ fun <A1, A2, A3, A4> Tuple4<
 @JvmName("combineToTuple5")
 fun <A1, A2, A3, A4, A5> OrderedArgsGenerator<Tuple4<A1, A2, A3, A4>>.combine(
 	other: OrderedArgsGenerator<A5>
-): OrderedArgsGenerator<Tuple5<A1, A2, A3, A4, A5>> = this.combine(other) { args, otherArg ->
+): OrderedArgsGenerator<Tuple5<A1, A2, A3, A4, A5>> = combine(other) { args, otherArg ->
 	args.append(otherArg)
 }
 
@@ -161,6 +164,7 @@ fun <A1, A2, A3, A4, A5> Tuple5<
 		.combine(component3()) { args, a3 -> args.append(a3) }
 		.combine(component4()) { args, a4 -> args.append(a4) }
 		.combine(component5()) { args, a5 -> args.append(a5) }
+
 /**
  * Combines `this` [OrderedArgsGenerator] with the given [other] [OrderedArgsGenerator] transforming the values
  * into a [Tuple6].
@@ -177,7 +181,7 @@ fun <A1, A2, A3, A4, A5> Tuple5<
 @JvmName("combineToTuple6")
 fun <A1, A2, A3, A4, A5, A6> OrderedArgsGenerator<Tuple5<A1, A2, A3, A4, A5>>.combine(
 	other: OrderedArgsGenerator<A6>
-): OrderedArgsGenerator<Tuple6<A1, A2, A3, A4, A5, A6>> = this.combine(other) { args, otherArg ->
+): OrderedArgsGenerator<Tuple6<A1, A2, A3, A4, A5, A6>> = combine(other) { args, otherArg ->
 	args.append(otherArg)
 }
 
@@ -203,6 +207,7 @@ fun <A1, A2, A3, A4, A5, A6> Tuple6<
 		.combine(component4()) { args, a4 -> args.append(a4) }
 		.combine(component5()) { args, a5 -> args.append(a5) }
 		.combine(component6()) { args, a6 -> args.append(a6) }
+
 /**
  * Combines `this` [OrderedArgsGenerator] with the given [other] [OrderedArgsGenerator] transforming the values
  * into a [Tuple7].
@@ -219,7 +224,7 @@ fun <A1, A2, A3, A4, A5, A6> Tuple6<
 @JvmName("combineToTuple7")
 fun <A1, A2, A3, A4, A5, A6, A7> OrderedArgsGenerator<Tuple6<A1, A2, A3, A4, A5, A6>>.combine(
 	other: OrderedArgsGenerator<A7>
-): OrderedArgsGenerator<Tuple7<A1, A2, A3, A4, A5, A6, A7>> = this.combine(other) { args, otherArg ->
+): OrderedArgsGenerator<Tuple7<A1, A2, A3, A4, A5, A6, A7>> = combine(other) { args, otherArg ->
 	args.append(otherArg)
 }
 
@@ -247,6 +252,7 @@ fun <A1, A2, A3, A4, A5, A6, A7> Tuple7<
 		.combine(component5()) { args, a5 -> args.append(a5) }
 		.combine(component6()) { args, a6 -> args.append(a6) }
 		.combine(component7()) { args, a7 -> args.append(a7) }
+
 /**
  * Combines `this` [OrderedArgsGenerator] with the given [other] [OrderedArgsGenerator] transforming the values
  * into a [Tuple8].
@@ -263,7 +269,7 @@ fun <A1, A2, A3, A4, A5, A6, A7> Tuple7<
 @JvmName("combineToTuple8")
 fun <A1, A2, A3, A4, A5, A6, A7, A8> OrderedArgsGenerator<Tuple7<A1, A2, A3, A4, A5, A6, A7>>.combine(
 	other: OrderedArgsGenerator<A8>
-): OrderedArgsGenerator<Tuple8<A1, A2, A3, A4, A5, A6, A7, A8>> = this.combine(other) { args, otherArg ->
+): OrderedArgsGenerator<Tuple8<A1, A2, A3, A4, A5, A6, A7, A8>> = combine(other) { args, otherArg ->
 	args.append(otherArg)
 }
 
@@ -293,6 +299,7 @@ fun <A1, A2, A3, A4, A5, A6, A7, A8> Tuple8<
 		.combine(component6()) { args, a6 -> args.append(a6) }
 		.combine(component7()) { args, a7 -> args.append(a7) }
 		.combine(component8()) { args, a8 -> args.append(a8) }
+
 /**
  * Combines `this` [OrderedArgsGenerator] with the given [other] [OrderedArgsGenerator] transforming the values
  * into a [Tuple9].
@@ -309,7 +316,7 @@ fun <A1, A2, A3, A4, A5, A6, A7, A8> Tuple8<
 @JvmName("combineToTuple9")
 fun <A1, A2, A3, A4, A5, A6, A7, A8, A9> OrderedArgsGenerator<Tuple8<A1, A2, A3, A4, A5, A6, A7, A8>>.combine(
 	other: OrderedArgsGenerator<A9>
-): OrderedArgsGenerator<Tuple9<A1, A2, A3, A4, A5, A6, A7, A8, A9>> = this.combine(other) { args, otherArg ->
+): OrderedArgsGenerator<Tuple9<A1, A2, A3, A4, A5, A6, A7, A8, A9>> = combine(other) { args, otherArg ->
 	args.append(otherArg)
 }
 
@@ -341,3 +348,4 @@ fun <A1, A2, A3, A4, A5, A6, A7, A8, A9> Tuple9<
 		.combine(component7()) { args, a7 -> args.append(a7) }
 		.combine(component8()) { args, a8 -> args.append(a8) }
 		.combine(component9()) { args, a9 -> args.append(a9) }
+
