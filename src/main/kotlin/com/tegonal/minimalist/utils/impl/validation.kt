@@ -142,6 +142,17 @@ fun <E : Comparable<E>> requireFromLessThanToExclusive(from: E, toExclusive: E) 
  *
  * @since 2.0.0
  */
+fun <E : Comparable<E>> requireFromLessThanOrEqualToExclusive(from: E, toInclusive: E) =
+	require(from <= toInclusive) {
+		"from ($from) must be be less than or equal to toInclusive ($toInclusive)"
+	}
+
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
 fun checkRangeNumbers(
 	from: Int,
 	toExclusive: Int,

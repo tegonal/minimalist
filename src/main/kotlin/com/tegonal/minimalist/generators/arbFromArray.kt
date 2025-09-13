@@ -1,5 +1,8 @@
 package com.tegonal.minimalist.generators
 
+import com.tegonal.minimalist.config._components
+import com.tegonal.minimalist.generators.impl.ConstantArbArgsGenerator
+
 /**
  * Returns an [ArbArgsGenerator] based on the given [args].
  *
@@ -7,7 +10,8 @@ package com.tegonal.minimalist.generators
  * @since 2.0.0
  */
 fun ArbExtensionPoint.fromArray(args: ByteArray): ArbArgsGenerator<Byte> =
-	intFromUntil(0, args.size).map(args::get)
+	checkNotEmptyNullIfOneElementAndOtherwiseIntFromUntilSize(args.size)?.map(args::get)
+		?: ConstantArbArgsGenerator(_components, seedBaseOffset, args.first())
 
 /**
  * Returns an [ArbArgsGenerator] based on the given [args].
@@ -16,7 +20,8 @@ fun ArbExtensionPoint.fromArray(args: ByteArray): ArbArgsGenerator<Byte> =
  * @since 2.0.0
  */
 fun ArbExtensionPoint.fromArray(args: CharArray): ArbArgsGenerator<Char> =
-	intFromUntil(0, args.size).map(args::get)
+	checkNotEmptyNullIfOneElementAndOtherwiseIntFromUntilSize(args.size)?.map(args::get)
+		?: ConstantArbArgsGenerator(_components, seedBaseOffset, args.first())
 
 
 /**
@@ -26,7 +31,8 @@ fun ArbExtensionPoint.fromArray(args: CharArray): ArbArgsGenerator<Char> =
  * @since 2.0.0
  */
 fun ArbExtensionPoint.fromArray(args: ShortArray): ArbArgsGenerator<Short> =
-	intFromUntil(0, args.size).map(args::get)
+	checkNotEmptyNullIfOneElementAndOtherwiseIntFromUntilSize(args.size)?.map(args::get)
+		?: ConstantArbArgsGenerator(_components, seedBaseOffset, args.first())
 
 /**
  * Returns an [ArbArgsGenerator] based on the given [args].
@@ -35,7 +41,8 @@ fun ArbExtensionPoint.fromArray(args: ShortArray): ArbArgsGenerator<Short> =
  * @since 2.0.0
  */
 fun ArbExtensionPoint.fromArray(args: IntArray): ArbArgsGenerator<Int> =
-	intFromUntil(0, args.size).map(args::get)
+	checkNotEmptyNullIfOneElementAndOtherwiseIntFromUntilSize(args.size)?.map(args::get)
+		?: ConstantArbArgsGenerator(_components, seedBaseOffset, args.first())
 
 /**
  * Returns an [ArbArgsGenerator] based on the given [args].
@@ -44,7 +51,8 @@ fun ArbExtensionPoint.fromArray(args: IntArray): ArbArgsGenerator<Int> =
  * @since 2.0.0
  */
 fun ArbExtensionPoint.fromArray(args: LongArray): ArbArgsGenerator<Long> =
-	intFromUntil(0, args.size).map(args::get)
+	checkNotEmptyNullIfOneElementAndOtherwiseIntFromUntilSize(args.size)?.map(args::get)
+		?: ConstantArbArgsGenerator(_components, seedBaseOffset, args.first())
 
 /**
  * Returns an [ArbArgsGenerator] based on the given [args].
@@ -53,7 +61,8 @@ fun ArbExtensionPoint.fromArray(args: LongArray): ArbArgsGenerator<Long> =
  * @since 2.0.0
  */
 fun ArbExtensionPoint.fromArray(args: FloatArray): ArbArgsGenerator<Float> =
-	intFromUntil(0, args.size).map(args::get)
+	checkNotEmptyNullIfOneElementAndOtherwiseIntFromUntilSize(args.size)?.map(args::get)
+		?: ConstantArbArgsGenerator(_components, seedBaseOffset, args.first())
 
 /**
  * Returns an [ArbArgsGenerator] based on the given [args].
@@ -62,7 +71,8 @@ fun ArbExtensionPoint.fromArray(args: FloatArray): ArbArgsGenerator<Float> =
  * @since 2.0.0
  */
 fun ArbExtensionPoint.fromArray(args: DoubleArray): ArbArgsGenerator<Double> =
-	intFromUntil(0, args.size).map(args::get)
+	checkNotEmptyNullIfOneElementAndOtherwiseIntFromUntilSize(args.size)?.map(args::get)
+		?: ConstantArbArgsGenerator(_components, seedBaseOffset, args.first())
 
 /**
  * Returns an [ArbArgsGenerator] based on the given [args].
@@ -71,7 +81,8 @@ fun ArbExtensionPoint.fromArray(args: DoubleArray): ArbArgsGenerator<Double> =
  * @since 2.0.0
  */
 fun ArbExtensionPoint.fromArray(args: BooleanArray): ArbArgsGenerator<Boolean> =
-	intFromUntil(0, args.size).map(args::get)
+	checkNotEmptyNullIfOneElementAndOtherwiseIntFromUntilSize(args.size)?.map(args::get)
+		?: ConstantArbArgsGenerator(_components, seedBaseOffset, args.first())
 
 /**
  * Returns an [ArbArgsGenerator] based on the given [args].
@@ -79,5 +90,13 @@ fun ArbExtensionPoint.fromArray(args: BooleanArray): ArbArgsGenerator<Boolean> =
  * @return an [ArbArgsGenerator] based on the given [args].
  * @since 2.0.0
  */
-fun <A1> ArbExtensionPoint.fromArray(args: Array<out A1>): ArbArgsGenerator<A1> =
-	intFromUntil(0, args.size).map(args::get)
+fun <T> ArbExtensionPoint.fromArray(args: Array<out T>): ArbArgsGenerator<T> =
+	checkNotEmptyNullIfOneElementAndOtherwiseIntFromUntilSize(args.size)?.map(args::get)
+		?: ConstantArbArgsGenerator(_components, seedBaseOffset, args.first())
+
+fun ArbExtensionPoint.checkNotEmptyNullIfOneElementAndOtherwiseIntFromUntilSize(size: Int) =
+	when (size) {
+		0 -> error("You must define at least one element, 0 given")
+		1 -> null
+		else -> intFromUntil(0, size)
+	}

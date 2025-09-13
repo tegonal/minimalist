@@ -3,6 +3,9 @@ package com.tegonal.minimalist.generators
 import com.tegonal.minimalist.testutils.AbcdEnum
 import com.tegonal.minimalist.testutils.XyzEnum
 import com.tegonal.minimalist.testutils.getTestValue
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 
 abstract class AbstractArbMergeTwoTest : AbstractArbArgsGeneratorTest<Any>() {
 
@@ -30,23 +33,33 @@ abstract class AbstractArbMergeTwoTest : AbstractArbArgsGeneratorTest<Any>() {
 			// we don't include, int, long, double, intPositive, longPositive as their ranges are too big
 			"intFromUntil".let {
 				it to (getTestValue(it, index) as IntRange).let { range ->
-					modifiedArb.intFromUntil(range.start, range.endInclusive + 1)
+					modifiedArb.intFromUntil(range.first, range.last + 1)
 				}
 			},
 			"longFromUntil".let {
 				it to (getTestValue(it, index) as LongRange).let { range ->
-					modifiedArb.longFromUntil(range.start, range.endInclusive + 1)
+					modifiedArb.longFromUntil(range.first, range.last + 1)
 				}
 			},
 			"intFromTo".let {
 				it to (getTestValue(it, index) as IntRange).let { range ->
-					modifiedArb.intFromTo(range.start, range.endInclusive)
+					modifiedArb.intFromTo(range.first, range.last)
 				}
 			},
 			"longFromTo".let {
 				it to (getTestValue(it, index) as LongRange).let { range ->
-					modifiedArb.longFromTo(range.start, range.endInclusive)
+					modifiedArb.longFromTo(range.first, range.last)
 				}
 			},
+			"localDateFromUntil".let {
+				it to (getTestValue(it, index) as Array<LocalDate>).let { array ->
+					modifiedArb.localDateFromUntil(array.first(), array.last().plusDays(1))
+				}
+			},
+			"localDateTimeFromUntil".let {
+				it to (getTestValue(it, index) as Array<LocalDateTime>).let { array ->
+					modifiedArb.localDateTimeFromUntil(array.first(), array.last().plusDays(1), ChronoUnit.DAYS)
+				}
+			}
 		)
 }

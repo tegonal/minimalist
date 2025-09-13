@@ -7,5 +7,4 @@ package com.tegonal.minimalist.generators
  * @since 2.0.0
  */
 fun <T> ArbExtensionPoint.of(vararg args: T): ArbArgsGenerator<T> =
-	//TODO 2.1.0 introduce a ConstantArbArgsGenerator in case of just one element?
 	fromArray(args)

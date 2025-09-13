@@ -1,6 +1,8 @@
 package com.tegonal.minimalist.testutils
 
 import com.tegonal.minimalist.utils.toBigInt
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 private val testValues: Map<String, List<Any>> = mapOf(
 	"of" to listOf(arrayOf(1, 2, 3), arrayOf(10, 11, 12, 13)),
@@ -27,6 +29,18 @@ private val testValues: Map<String, List<Any>> = mapOf(
 	"intFromTo" to listOf(230..233, 234..238),
 	"longFromTo" to listOf(240L..242L, 243L..247L),
 	"bigIntFromTo" to listOf((250L..255L).map { it.toBigInt() }, (256L..259L).map { it.toBigInt() }),
+	"localDateFromUntil" to LocalDate.now().let { now ->
+		listOf(
+			arrayOf(now, now.plusDays(1)),
+			arrayOf(now.plusDays(3), now.plusDays(4), now.plusDays(5))
+		)
+	},
+	"localDateTimeFromUntil" to LocalDateTime.now().let { now ->
+		listOf(
+			arrayOf(now, now.plusDays(1)),
+			arrayOf(now.plusDays(3), now.plusDays(4), now.plusDays(5))
+		)
+	}
 )
 
 fun getTestValue(key: String, index: Int) = (testValues[key]!!).let { it[index] }
