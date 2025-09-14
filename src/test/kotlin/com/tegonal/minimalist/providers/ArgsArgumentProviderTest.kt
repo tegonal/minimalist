@@ -16,28 +16,28 @@ class ArgsArgumentProviderTest {
 	@ArgsSource("rawValuesInList")
 	fun rawValues_inList(value: Long) {
 		val range = rawValuesInRange()
-		expect(value).toBeGreaterThanOrEqualTo(range.start).toBeLessThanOrEqualTo(range.endInclusive)
+		expect(value).toBeGreaterThanOrEqualTo(range.first).toBeLessThanOrEqualTo(range.last)
 	}
 
 	@ParameterizedTest
 	@ArgsSource("rawValuesInSet")
 	fun rawValues_inSet(value: Long) {
 		val range = rawValuesInRange()
-		expect(value).toBeGreaterThanOrEqualTo(range.start).toBeLessThanOrEqualTo(range.endInclusive)
+		expect(value).toBeGreaterThanOrEqualTo(range.first).toBeLessThanOrEqualTo(range.last)
 	}
 
 	@ParameterizedTest
 	@ArgsSource("rawValuesInIterable")
 	fun rawValues_inIterable(value: Long) {
 		val range = rawValuesInRange()
-		expect(value).toBeGreaterThanOrEqualTo(range.start).toBeLessThanOrEqualTo(range.endInclusive)
+		expect(value).toBeGreaterThanOrEqualTo(range.first).toBeLessThanOrEqualTo(range.last)
 	}
 
 	@ParameterizedTest
 	@ArgsSource("rawValuesInSequence")
 	fun rawValues_inSequence(value: Long) {
 		val range = rawValuesInRange()
-		expect(value).toBeGreaterThanOrEqualTo(range.start).toBeLessThanOrEqualTo(range.endInclusive)
+		expect(value).toBeGreaterThanOrEqualTo(range.first).toBeLessThanOrEqualTo(range.last)
 	}
 
 
@@ -45,7 +45,7 @@ class ArgsArgumentProviderTest {
 	@ArgsSource("rawValuesInRange")
 	fun rawValues_inRange(value: Long) {
 		val range = rawValuesInRange()
-		expect(value).toBeGreaterThanOrEqualTo(range.start).toBeLessThanOrEqualTo(range.endInclusive)
+		expect(value).toBeGreaterThanOrEqualTo(range.first).toBeLessThanOrEqualTo(range.last)
 	}
 
 

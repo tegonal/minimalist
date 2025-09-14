@@ -101,7 +101,7 @@ class ArbMergeWeightedTest {
 		fun weightsInTotalAlways100() = createMinimalistRandom().let { minimalistRandom ->
 			arb.intFromUntil(1, 10).map { numOfGenerators ->
 				mutableListOf<Int>().also { weights ->
-					val cumulativeWeight = (0..numOfGenerators - 1).fold(0) { cumulativeWeight, index ->
+					val cumulativeWeight = (0 until numOfGenerators).fold(0) { cumulativeWeight, index ->
 						val remainingWeight = 99 - numOfGenerators + index - cumulativeWeight
 						val weight = if (remainingWeight <= 1) 1 else minimalistRandom.nextInt(1, remainingWeight)
 						weights.add(weight)
