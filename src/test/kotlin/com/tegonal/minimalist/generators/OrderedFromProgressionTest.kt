@@ -38,6 +38,6 @@ class OrderedFromProgressionTest : AbstractOrderedArgsGeneratorTest<Any>() {
 
 	companion object {
 		@JvmStatic
-		fun steps() = ordered.intFromTo(1, 5)
+		fun steps() = ordered.intFromUntil(1, 6)
 	}
 }
