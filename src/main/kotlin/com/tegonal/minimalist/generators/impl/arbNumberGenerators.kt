@@ -6,7 +6,6 @@ import com.tegonal.minimalist.generators.map
 import com.tegonal.minimalist.utils.BigInt
 import com.tegonal.minimalist.utils.nextBigInt
 import com.tegonal.minimalist.utils.toBigInt
-import java.math.BigInteger
 import kotlin.random.Random
 
 /**
@@ -80,10 +79,12 @@ fun IntFromToArbArgsGenerator(
 	from: Int,
 	toInclusive: Int,
 ): ArbArgsGenerator<Int> =
-	if (toInclusive == Int.MAX_VALUE) {
+	if (from == toInclusive) {
+		ConstantArbArgsGenerator(componentFactoryContainer, seedBaseOffset, from)
+	} else if (toInclusive == Int.MAX_VALUE) {
 		if (from == Int.MIN_VALUE) ArbIntArgsGenerator(componentFactoryContainer, seedBaseOffset)
 		else {
-			//TODO 2.1.0 bench what is better (speed vs. memory), this approach or if we would swift the range
+			//TODO 2.1.0 bench what is better (speed vs. memory), this approach or if we would shift the range
 			LongFromUntilArbArgsGenerator(
 				componentFactoryContainer,
 				seedBaseOffset,
@@ -107,7 +108,9 @@ fun LongFromToArbArgsGenerator(
 	from: Long,
 	toInclusive: Long,
 ): ArbArgsGenerator<Long> =
-	if (toInclusive == Long.MAX_VALUE) {
+	if (from == toInclusive) {
+		ConstantArbArgsGenerator(componentFactoryContainer, seedBaseOffset, from)
+	} else if (toInclusive == Long.MAX_VALUE) {
 		if (from == Long.MIN_VALUE) {
 			ArbLongArgsGenerator(componentFactoryContainer, seedBaseOffset)
 		} else {
@@ -178,9 +181,14 @@ fun BigIntFromToArbArgsGenerator(
 	seedBaseOffset: Int,
 	from: BigInt,
 	toInclusive: BigInt,
-): ArbArgsGenerator<BigInt> = BigIntFromUntilArbArgsGenerator(
-	componentFactoryContainer,
-	seedBaseOffset,
-	from,
-	toInclusive + BigInt.ONE,
-)
+): ArbArgsGenerator<BigInt> =
+	if (from == toInclusive) {
+		ConstantArbArgsGenerator(componentFactoryContainer, seedBaseOffset, from)
+	} else {
+		BigIntFromUntilArbArgsGenerator(
+			componentFactoryContainer,
+			seedBaseOffset,
+			from,
+			toInclusive + BigInt.ONE,
+		)
+	}

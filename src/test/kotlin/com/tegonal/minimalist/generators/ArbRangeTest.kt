@@ -22,22 +22,22 @@ class ArbRangeTest : AbstractArbArgsGeneratorTest<Any>() {
 			Tuple(
 				"intRange minSize=0, maxSize=2",
 				modifiedArb.intRange(1, 4, maxSize = 2),
-				minSize0MaxSize2.map { it.start.code - 'a'.code + 1..it.last.code - 'a'.code + 1 }
+				minSize0MaxSize2.map { it.first.code - 'a'.code + 1..it.last.code - 'a'.code + 1 }
 			),
 			Tuple(
 				"intRange minSize=1, maxSize=2",
 				modifiedArb.intRange(1, 4, minSize = 1, maxSize = 2),
-				minSize1MaxSize2.map { it.start.code - 'a'.code + 1..it.last.code - 'a'.code + 1 }
+				minSize1MaxSize2.map { it.first.code - 'a'.code + 1..it.last.code - 'a'.code + 1 }
 			),
 			Tuple(
 				"longRange minSize=0, maxSize=2",
 				modifiedArb.longRange(1, 4, maxSize = 2),
-				minSize0MaxSize2.map { (it.start.code - 'a'.code + 1).toLong()..it.last.code - 'a'.code + 1 }
+				minSize0MaxSize2.map { (it.first.code - 'a'.code + 1).toLong()..it.last.code - 'a'.code + 1 }
 			),
 			Tuple(
 				"longRange minSize=1, maxSize=2",
 				modifiedArb.longRange(1, 4, minSize = 1, maxSize = 2),
-				minSize1MaxSize2.map { (it.start.code - 'a'.code + 1).toLong()..it.last.code - 'a'.code + 1 }
+				minSize1MaxSize2.map { (it.first.code - 'a'.code + 1).toLong()..it.last.code - 'a'.code + 1 }
 			),
 		)
 	}

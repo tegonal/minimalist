@@ -1,5 +1,6 @@
 package com.tegonal.minimalist
 
+import ch.tutteli.kbox.Tuple2
 import com.tegonal.minimalist.generators.OrderedArgsGenerator
 import com.tegonal.minimalist.generators.fromList
 import com.tegonal.minimalist.generators.impl.SemiOrderedArgsGeneratorCombiner
@@ -47,7 +48,7 @@ open class CombinerBench {
 
 	@Benchmark
 	fun iterator() =
-		SemiOrderedArgsGeneratorCombiner(intGenerator, charGenerator, ::Pair).generate(offset).take(take).count()
+		SemiOrderedArgsGeneratorCombiner(intGenerator, charGenerator, ::Tuple2).generate(offset).take(take).count()
 
 
 	@Benchmark

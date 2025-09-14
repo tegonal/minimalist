@@ -16,7 +16,7 @@ fun ArbExtensionPoint.char(): ArbArgsGenerator<Char> =
  */
 fun ArbExtensionPoint.charFromTo(from: Char, toInclusive: Char): ArbArgsGenerator<Char> {
 	// I guess it is not worth to introduce an UShortFromUntil but in case we should because we want to generate UShort
-	// then we could re-use it here in case toInclusive != Char, would use less memory
-	return intFromUntil(from.code, toInclusive.code + 1).map(Int::toChar)
+	// then we could re-use it here in case toInclusive != Char.MAX_VALUE, would use less memory
+	return intFromTo(from.code, toInclusive.code).map(Int::toChar)
 }
 

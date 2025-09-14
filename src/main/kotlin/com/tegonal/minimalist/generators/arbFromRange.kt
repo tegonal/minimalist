@@ -7,7 +7,7 @@ package com.tegonal.minimalist.generators
  * @since 2.0.0
  */
 fun ArbExtensionPoint.fromRange(range: CharRange): ArbArgsGenerator<Char> =
-	charFromTo(range.start, range.endInclusive)
+	charFromTo(range.first, range.last)
 
 /**
  * Returns an [ArbArgsGenerator] generating [Char]s based on the given [range].
@@ -16,7 +16,7 @@ fun ArbExtensionPoint.fromRange(range: CharRange): ArbArgsGenerator<Char> =
  * @since 2.0.0
  */
 fun ArbExtensionPoint.fromRange(range: IntRange): ArbArgsGenerator<Int> =
-	intFromTo(range.start, range.endInclusive)
+	intFromTo(range.first, range.last)
 
 /**
  * Returns an [ArbArgsGenerator] generating [Char]s based on the given [range].
@@ -25,4 +25,4 @@ fun ArbExtensionPoint.fromRange(range: IntRange): ArbArgsGenerator<Int> =
  * @since 2.0.0
  */
 fun ArbExtensionPoint.fromRange(range: LongRange): ArbArgsGenerator<Long> =
-	longFromTo(range.start, range.endInclusive)
+	longFromTo(range.first, range.last)
