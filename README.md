@@ -32,7 +32,7 @@ version: [README of v2.0.0-RC-1](https://github.com/tegonal/minimalist/tree/v2.0
 
 ---
 
-**Table of Content**
+**Table of Contents**
 
 - [Installation](#installation)
 - [Code Documentation](#code-documentation)
