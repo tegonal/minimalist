@@ -5,7 +5,6 @@ import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.atrium.api.verbs.expectGrouped
 import ch.tutteli.atrium.creating.Expect
 import ch.tutteli.atrium.testfactories.TestFactory
-import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.config
 import com.tegonal.minimalist.generators.impl.DefaultOrderedExtensionPoint
 import com.tegonal.minimalist.utils.createMinimalistRandom
@@ -18,7 +17,7 @@ abstract class AbstractOrderedArgsGeneratorWithoutAnnotationsTest : AbstractArgs
 	val modifiedOrdered: OrderedExtensionPoint = DefaultOrderedExtensionPoint(customComponentFactoryContainer)
 
 	protected fun <T> canAlwaysTakeTheDesiredAmountTest(factory: () -> OrderedArgsTestFactoryResult<T>) =
-		super.canAlwaysTakeTheDesiredAmountTest(factory) { it.generate(ordered._components.config.seed.absoluteValue) }
+		super.canAlwaysTakeTheDesiredAmountTest(factory) { it.generate() }
 
 	protected fun <T> coversAllCasesTest(factory: () -> OrderedArgsTestFactoryResult<T>) =
 		testFactory(factory) { generator, expectedValues, _ ->
@@ -71,7 +70,7 @@ abstract class AbstractOrderedArgsGeneratorWithoutAnnotationsTest : AbstractArgs
 			(1 until take).forEach { offset ->
 				generator.generate(offset).take(take).forEachIndexed { index, value ->
 					val listIndex = (index + offset) % take
-					group("offset $offset / index $index same as offset ${offset - 1} index $listIndex") {
+					group("offset $offset, index $index same as offset ${offset - 1}, index $listIndex") {
 						expect(value).toEqual(list[listIndex])
 					}
 				}
@@ -110,6 +109,6 @@ abstract class AbstractOrderedArgsGeneratorTest<T>() : AbstractOrderedArgsGenera
 		returnsDifferentValuesUntilReachingSizeAndThenRepeatsTest(::createGenerators)
 
 	@TestFactory
-	fun offsetPlusXReturnsTheSameAsOffsetXMinus1JustShifted() =
+	open fun offsetPlusXReturnsTheSameAsOffsetXMinus1JustShifted() =
 		offsetPlusXReturnsTheSameAsOffsetXMinus1JustShiftedTest(::createGenerators)
 }

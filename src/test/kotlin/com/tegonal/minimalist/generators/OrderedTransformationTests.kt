@@ -1,5 +1,6 @@
 package com.tegonal.minimalist.generators
 
+import ch.tutteli.atrium.testfactories.TestFactory
 import ch.tutteli.kbox.Tuple
 
 class OrderedTransformationTests : AbstractOrderedArgsGeneratorTest<Int>() {
@@ -12,7 +13,15 @@ class OrderedTransformationTests : AbstractOrderedArgsGeneratorTest<Int>() {
 		sequenceOf(
 			Tuple("map", generator.map(mapFun), l.map(mapFun)),
 			Tuple(
+				"mapIndexed",
+				generator.mapIndexed { index, it -> (index % l.size) * 10 + mapFun(it) },
+				l.mapIndexed { index, it -> (index % l.size) * 10 + mapFun(it) },
+			),
+			Tuple(
 				"filterMaterialised", generator.filterMaterialised { it % 2 == 0 }, listOf(2, 4)
+			),
+			Tuple(
+				"filterNotMaterialised", generator.filterNotMaterialised { it % 2 == 0 }, listOf(1, 3)
 			),
 			Tuple(
 				"transformMaterialised - flatMap",
@@ -26,4 +35,11 @@ class OrderedTransformationTests : AbstractOrderedArgsGeneratorTest<Int>() {
 			),
 		)
 	}
+
+	@TestFactory
+	override fun offsetPlusXReturnsTheSameAsOffsetXMinus1JustShifted() =
+		offsetPlusXReturnsTheSameAsOffsetXMinus1JustShiftedTest {
+			// this "law" does not hold for mapIndexed
+			createGenerators().filter { it.first != "mapIndexed" }
+		}
 }

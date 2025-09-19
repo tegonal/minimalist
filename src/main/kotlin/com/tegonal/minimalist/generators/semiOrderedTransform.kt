@@ -22,7 +22,7 @@ import com.tegonal.minimalist.generators.impl.SemiOrderedArgsGeneratorTransforme
  * @since 2.0.0
  */
 fun <T, R> SemiOrderedArgsGenerator<T>.map(transform: (T) -> R): SemiOrderedArgsGenerator<R> =
-	transform { it.map(transform) }
+	transformInternal { it.map(transform) }
 
 /**
  * Maps the values `this` [SemiOrderedArgsGenerator] generates together with an index to type [R] with the help of the
@@ -41,7 +41,7 @@ fun <T, R> SemiOrderedArgsGenerator<T>.map(transform: (T) -> R): SemiOrderedArgs
  * @since 2.0.0
  */
 fun <T, R> SemiOrderedArgsGenerator<T>.mapIndexed(transform: (index: Int, T) -> R): SemiOrderedArgsGenerator<R> =
-	transform { seq ->
+	transformInternal { seq ->
 		val offset = _components.config.offsetToDecidedOffset
 		if (offset == null) {
 			seq.mapIndexed(transform)
@@ -55,6 +55,9 @@ fun <T, R> SemiOrderedArgsGenerator<T>.mapIndexed(transform: (index: Int, T) -> 
 			}
 		}
 	}
+
+private fun <R, T> SemiOrderedArgsGenerator<T>.transformInternal(transform: (Sequence<T>) -> Sequence<R>): SemiOrderedArgsGeneratorTransformer<T, R> =
+	SemiOrderedArgsGeneratorTransformer(this, transform)
 
 @Suppress("UnusedReceiverParameter")
 @Deprecated(
@@ -70,7 +73,24 @@ fun <T, R> SemiOrderedArgsGenerator<T>.mapIndexed(transform: (index: Int, T) -> 
 	level = DeprecationLevel.ERROR
 )
 fun <T> SemiOrderedArgsGenerator<T>.filterMaterialised(@Suppress("UNUSED_PARAMETER") predicate: (T) -> Boolean): OrderedArgsGenerator<T> =
-	throw UnsupportedOperationException("materialising SemiOrderedArgsGenerator not supported out of the box to prevent bugs in test setup")
+	throw UnsupportedOperationException("Materialising SemiOrderedArgsGenerator is not supported out of the box to prevent bugs in the test setup")
+
+@Suppress("UnusedReceiverParameter")
+@Deprecated(
+	""""
+		Materialising means fixing the undefined/random part of an SemiOrderedArgsGenerator.
+		Normally you do not want to turn an SemiOrderedArgsGenerator into an OrderedArgsGenerator as you basically
+		loose the randomness you added in the first place.
+		If you still want to do this, then use:
+
+		let { g -> g.generate().take(g.size) }.filterNot(predicate).toList().let(ordered::fromList)
+	""",
+	ReplaceWith("let { g -> g.generate().take(g.size) }.filterNot(predicate).toList().let(ordered::fromList)"),
+	level = DeprecationLevel.ERROR
+)
+fun <T> SemiOrderedArgsGenerator<T>.filterNotMaterialised(@Suppress("UNUSED_PARAMETER") predicate: (T) -> Boolean): OrderedArgsGenerator<T> =
+	throw UnsupportedOperationException("Materialising SemiOrderedArgsGenerator is not supported out of the box to prevent bugs in the test setup")
+
 
 @Suppress("UnusedReceiverParameter")
 @Deprecated(
@@ -86,7 +106,4 @@ fun <T> SemiOrderedArgsGenerator<T>.filterMaterialised(@Suppress("UNUSED_PARAMET
 	level = DeprecationLevel.ERROR
 )
 fun <T, R> SemiOrderedArgsGenerator<T>.transformMaterialised(@Suppress("UNUSED_PARAMETER") transform: (Sequence<T>) -> Sequence<R>): OrderedArgsGenerator<T> =
-	throw UnsupportedOperationException("materialising SemiOrderedArgsGenerator not supported out of the box to prevent bugs in test setup")
-
-private fun <R, T> SemiOrderedArgsGenerator<T>.transform(transform: (Sequence<T>) -> Sequence<R>): SemiOrderedArgsGeneratorTransformer<T, R> =
-	SemiOrderedArgsGeneratorTransformer(this, transform)
+	throw UnsupportedOperationException("Materialising SemiOrderedArgsGenerator is not supported out of the box to prevent bugs in the test setup")
