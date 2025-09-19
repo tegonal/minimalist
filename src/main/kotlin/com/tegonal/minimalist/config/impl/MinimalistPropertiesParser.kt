@@ -71,16 +71,26 @@ class MinimalistPropertiesParser {
 			} else {
 				val testConfig = when (remainingAfterProfile.substringAfter("$env.")) {
 					"maxArgs" -> TestConfig(maxArgs = value.toPositiveIntOrErrorNotValid(key))
-					else -> throwUnknownProperty(key, value, listOf("maxArgs"))
+					else -> throwUnknownProperty(
+						key,
+						value,
+						supportedKeys = listOf("maxArgs"),
+						within = "$PROFILES_PREFIX.$env."
+					)
 				}
 				testConfigsPerEnv[env] = testConfig
 			}
 		}
 	}
 
-	private fun throwUnknownProperty(key: String, value: String, supportedKeys: List<String>): Nothing {
+	private fun throwUnknownProperty(
+		key: String,
+		value: String,
+		supportedKeys: List<String>,
+		within: String? = null
+	): Nothing {
 		error(
-			"Unknown minimalist config property $key with value $value -- if you want to introduce custom config properties, then please open a feature request: $FEATURE_REQUEST_URL&title=custom%20config%20properties\nSupported Keys: ${
+			"Unknown minimalist config property $key with value $value -- if you want to introduce custom config properties, then please open a feature request: $FEATURE_REQUEST_URL&title=custom%20config%20properties\nSupported Keys${within?.let { " within $it" } ?: ""}: ${
 				supportedKeys.sorted().joinToString(", ")
 			}"
 		)
