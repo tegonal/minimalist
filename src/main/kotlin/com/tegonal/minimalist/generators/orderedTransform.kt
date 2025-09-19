@@ -10,7 +10,6 @@ import com.tegonal.minimalist.config.config
 import com.tegonal.minimalist.config.ordered
 import com.tegonal.minimalist.generators.impl.OrderedArgsGeneratorTransformer
 
-
 /**
  * Maps the values `this` [OrderedArgsGenerator] generates to type [R] with the help of the given [transform] function.
  *

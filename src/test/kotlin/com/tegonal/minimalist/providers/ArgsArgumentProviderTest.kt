@@ -1,6 +1,7 @@
 package com.tegonal.minimalist.providers
 
 import ch.tutteli.atrium.api.fluent.en_GB.toBeGreaterThanOrEqualTo
+import ch.tutteli.atrium.api.fluent.en_GB.toBeLessThan
 import ch.tutteli.atrium.api.fluent.en_GB.toBeLessThanOrEqualTo
 import ch.tutteli.atrium.api.fluent.en_GB.toEqual
 import ch.tutteli.atrium.api.verbs.expect
@@ -8,10 +9,23 @@ import ch.tutteli.kbox.Tuple
 import com.tegonal.minimalist.Args
 import com.tegonal.minimalist.component1
 import com.tegonal.minimalist.component2
+import com.tegonal.minimalist.config.ComponentFactory
+import com.tegonal.minimalist.config.ComponentFactoryContainer
+import com.tegonal.minimalist.config.MinimalistConfig
+import com.tegonal.minimalist.config._components
+import com.tegonal.minimalist.config.arb
+import com.tegonal.minimalist.config.config
+import com.tegonal.minimalist.config.create
+import com.tegonal.minimalist.config.impl.createVia
+import com.tegonal.minimalist.config.ordered
+import com.tegonal.minimalist.generators.ArgsGenerator
+import com.tegonal.minimalist.generators.OrderedArgsGenerator
 import com.tegonal.minimalist.generators.arb
 import com.tegonal.minimalist.generators.fromList
+import com.tegonal.minimalist.generators.of
 import com.tegonal.minimalist.generators.ordered
 import com.tegonal.minimalist.testutils.Tuple4LikeStructure
+import com.tegonal.minimalist.testutils.createOrderedWithCustomConfig
 import org.junit.jupiter.params.ParameterizedTest
 
 class ArgsArgumentProviderTest {
@@ -145,6 +159,18 @@ class ArgsArgumentProviderTest {
 		expect(i.toDouble() + l.toDouble()).toEqual(d)
 	}
 
+	@ParameterizedTest
+	@ArgsSource("orderedWithSuffixArgsGenerator")
+	fun argsGeneratorSuffixDeciderAddsLongToOrdered(i: Int, l: Long) {
+		expect(i.toLong()).toBeLessThan(l)
+	}
+
+	@ParameterizedTest
+	@ArgsSource("arbWithSuffixArgsGenerator")
+	fun argsGeneratorSuffixDeciderAddsLongToArb(i: Int, l: Long) {
+		expect(i.toLong()).toBeLessThan(l)
+	}
+
 
 	companion object {
 		@JvmStatic
@@ -199,5 +225,23 @@ class ArgsArgumentProviderTest {
 
 		@JvmStatic
 		fun arbNestedTuples() = arb.fromList(rawNestedTuples())
+
+		@JvmStatic
+		fun orderedWithSuffixArgsGenerator() = componentWithCustomArgsGeneratorSuffixDecider.ordered.of(1, 2, 3)
+
+		@JvmStatic
+		fun arbWithSuffixArgsGenerator() = componentWithCustomArgsGeneratorSuffixDecider.arb.of(1, 2, 3)
+
+		private val componentWithCustomArgsGeneratorSuffixDecider = ordered._components.merge(
+			ComponentFactoryContainer.create(
+				mapOf(
+					ArgsGeneratorSuffixDecider::class createVia { _ ->
+						object : ArgsGeneratorSuffixDecider {
+							override fun decide(annotationData: AnnotationData): ArgsGenerator<*> =
+								arb.of(4L, 5L, 6L)
+						}
+					}
+				))
+		)
 	}
 }

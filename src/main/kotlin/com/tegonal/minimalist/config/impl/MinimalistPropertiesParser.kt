@@ -6,7 +6,7 @@ import com.tegonal.minimalist.config.TestConfig
 import com.tegonal.minimalist.utils.impl.FEATURE_REQUEST_URL
 import com.tegonal.minimalist.utils.impl.toIntOrErrorNotValid
 import com.tegonal.minimalist.utils.impl.toPositiveIntOrErrorNotValid
-import java.util.Properties
+import java.util.*
 
 /**
  * !! No backward compatibility guarantees !!
@@ -34,6 +34,7 @@ class MinimalistPropertiesParser {
 				isKey("maxArgs") -> maxArgs = value.toIntOrErrorNotValid(key)
 				isKey("requestedMinArgs") -> requestedMinArgs = value.toIntOrErrorNotValid(key)
 				isKey("activeArgsRangeDecider") -> activeArgsRangeDecider = value
+				isKey("activeArgsGeneratorSuffixDecider") -> activeArgsGeneratorSuffixDecider = value
 				isKey("activeEnv") -> activeEnv = value
 				isKey("defaultProfile") -> defaultProfile = value
 

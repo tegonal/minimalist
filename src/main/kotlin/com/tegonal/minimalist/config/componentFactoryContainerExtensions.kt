@@ -1,17 +1,11 @@
 package com.tegonal.minimalist.config
 
-import com.tegonal.minimalist.config.impl.DefaultComponentFactoryContainer
-import com.tegonal.minimalist.config.impl.KotlinRandomFactory
-import com.tegonal.minimalist.config.impl.createSingletonVia
+import com.tegonal.minimalist.config.impl.*
 import com.tegonal.minimalist.generators.ArbExtensionPoint
 import com.tegonal.minimalist.generators.OrderedExtensionPoint
 import com.tegonal.minimalist.generators.impl.DefaultArbExtensionPoint
 import com.tegonal.minimalist.generators.impl.DefaultOrderedExtensionPoint
-import com.tegonal.minimalist.providers.AnnotationDataDeducer
-import com.tegonal.minimalist.providers.ArgsGeneratorToArgumentsConverter
-import com.tegonal.minimalist.providers.ArgsRangeDecider
-import com.tegonal.minimalist.providers.GenericToArgsGeneratorConverter
-import com.tegonal.minimalist.providers.impl.DefaultAnnotationDataDeducer
+import com.tegonal.minimalist.providers.*
 import com.tegonal.minimalist.providers.impl.DefaultArgsGeneratorToArgumentsConverter
 import com.tegonal.minimalist.providers.impl.DefaultGenericToArgsGeneratorConverter
 import com.tegonal.minimalist.utils.impl.loadService
@@ -26,25 +20,27 @@ fun ComponentFactoryContainer.Companion.createBasedOnConfig(config: MinimalistCo
 	ComponentFactoryContainer.create(
 		mapOf(
 			MinimalistConfig::class createSingletonVia { config },
+			ArgsGeneratorSuffixDecider::class createVia {
+				loadService(config.activeArgsGeneratorSuffixDecider)
+			},
 			GenericToArgsGeneratorConverter::class createSingletonVia { _ ->
 				DefaultGenericToArgsGeneratorConverter()
-			},
-			//TODO 2.1.0 change to a chained approach to make it extensible?
-			AnnotationDataDeducer::class createSingletonVia { _ ->
-				DefaultAnnotationDataDeducer()
 			},
 			ArgsGeneratorToArgumentsConverter::class createSingletonVia { _ ->
 				DefaultArgsGeneratorToArgumentsConverter()
 			},
 			ArgsRangeDecider::class createSingletonVia { _ ->
-				loadService<ArgsRangeDecider>(config.activeArgsRangeDecider)
+				loadService(config.activeArgsRangeDecider)
 			},
 
 			RandomFactory::class createSingletonVia {
 				KotlinRandomFactory()
 			}
 		),
-		emptyMap()
+		mapOf(
+			//TODO 2.1.0 allow to sort them?
+			createChainFromServiceLoaders<AnnotationDataDeducer>(),
+		)
 	)
 
 /**

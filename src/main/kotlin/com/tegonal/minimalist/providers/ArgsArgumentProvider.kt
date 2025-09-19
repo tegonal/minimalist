@@ -3,6 +3,7 @@ package com.tegonal.minimalist.providers
 import ch.tutteli.kbox.failIf
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.build
+import com.tegonal.minimalist.config.buildChained
 import com.tegonal.minimalist.export.org.junit.platform.commons.util.*
 import com.tegonal.minimalist.generators.ArgsGenerator
 import com.tegonal.minimalist.generators.fromList
@@ -68,7 +69,6 @@ class ArgsArgumentProvider : ArgumentsProvider {
 		return factoryResultToArguments(factoryResult, testMethod, methodName).asStream()
 	}
 
-
 	private fun factoryResultToArguments(
 		result: Any,
 		testMethod: Method,
@@ -104,24 +104,29 @@ class ArgsArgumentProvider : ArgumentsProvider {
 		else -> throw UnsupportedOperationException("don't know how to convert ${result::class.qualifiedName ?: result} into Arguments, please open a feature request: $FEATURE_REQUEST_URL&title=Convert%20${result::class}%20to%20Arguments")
 	}
 
-
 	private fun generateArguments(
 		argsGenerator: ArgsGenerator<*>,
-		restMaybeArgGenerators: List<Any?>,
+		restMaybeArgGenerators: List<*>,
 		testMethod: Method,
 		argsSourceMethodName: String,
 	): Sequence<Arguments> = argsGenerator._components.let { components ->
+		val annotationDataDeducers = components.buildChained<AnnotationDataDeducer>()
+		val argsGeneratorSuffixDecider = components.build<ArgsGeneratorSuffixDecider>()
 		val genericToArgsGeneratorConverter = components.build<GenericToArgsGeneratorConverter>()
-
-		val argsGeneratorCombined =
-			genericToArgsGeneratorConverter.toArgsGenerator(argsGenerator, restMaybeArgGenerators)
-
-		val annotationData = components.build<AnnotationDataDeducer>().deduce(testMethod, argsSourceMethodName)
-			?: AnnotationData(argsSourceMethodName)
-
 		val argsGeneratorToArgumentsConverter = components.build<ArgsGeneratorToArgumentsConverter>()
 
-		argsGeneratorToArgumentsConverter.toArguments(annotationData, argsGeneratorCombined)
+		val annotationData = annotationDataDeducers.fold(AnnotationData(argsSourceMethodName)) { data, deducer ->
+			deducer.deduce(testMethod, argsSourceMethodName)?.let { data.merge(it) } ?: data
+		}
+
+		val restMaybeArgGeneratorsWithSuffix = argsGeneratorSuffixDecider.decide(annotationData)?.let {
+			restMaybeArgGenerators + listOf(it)
+		} ?: restMaybeArgGenerators
+
+		genericToArgsGeneratorConverter.toArgsGenerator(argsGenerator, restMaybeArgGeneratorsWithSuffix)
+			.let { argsGeneratorCombinedDecorated ->
+				argsGeneratorToArgumentsConverter.toArguments(annotationData, argsGeneratorCombinedDecorated)
+			}
 	}
 
 

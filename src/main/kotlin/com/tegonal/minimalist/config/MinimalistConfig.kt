@@ -1,11 +1,13 @@
 package com.tegonal.minimalist.config
 
-import com.tegonal.minimalist.utils.impl.checkIsNotBlank
-import com.tegonal.minimalist.utils.impl.failIfNegative
 import com.tegonal.minimalist.generators.ArgsGenerator
+import com.tegonal.minimalist.providers.ArgsGeneratorSuffixDecider
 import com.tegonal.minimalist.providers.ArgsRange
 import com.tegonal.minimalist.providers.ArgsRangeDecider
+import com.tegonal.minimalist.providers.impl.EmptyArgsGeneratorSuffixDecider
 import com.tegonal.minimalist.providers.impl.ProfileBasedArgsRangeDecider
+import com.tegonal.minimalist.utils.impl.checkIsNotBlank
+import com.tegonal.minimalist.utils.impl.failIfNegative
 import kotlin.random.Random
 
 /**
@@ -59,10 +61,19 @@ class MinimalistConfig(
 	val maxArgs: Int? = null,
 
 	/**
-	 * Defines which [ArgsRangeDecider] shall be used.
+	 * Defines which [ArgsRangeDecider] shall be used identified via fully qualified name.
+	 * Per default, the corresponding class is loaded via [java.util.ServiceLoader].
 	 */
 	val activeArgsRangeDecider: String = ProfileBasedArgsRangeDecider::class.qualifiedName ?: error(
 		"cannot determine qualified name of ProfileBasedArgsRangeDecider "
+	),
+
+	/**
+	 * Defines which [ArgsGeneratorSuffixDecider] shall be used identified via fully qualified name.
+	 * Per default, the corresponding class is loaded via [java.util.ServiceLoader].
+	 */
+	val activeArgsGeneratorSuffixDecider: String = EmptyArgsGeneratorSuffixDecider::class.qualifiedName ?: error(
+		"cannot determine qualified name of EmptyArgsGeneratorSuffixProvider "
 	),
 
 	/**
@@ -165,6 +176,7 @@ class MinimalistConfig(
 			maxArgs = maxArgs,
 			requestedMinArgs = requestedMinArgs,
 			activeArgsRangeDecider = activeArgsRangeDecider,
+			activeArgsGeneratorSuffixDecider = activeArgsGeneratorSuffixDecider,
 			activeEnv = activeEnv,
 			defaultProfile = defaultProfile,
 			testProfiles = testProfiles.toHashMap()
@@ -180,6 +192,7 @@ class MinimalistConfigBuilder(
 	var maxArgs: Int?,
 	var requestedMinArgs: Int?,
 	var activeArgsRangeDecider: String,
+	var activeArgsGeneratorSuffixDecider: String,
 	var activeEnv: String,
 	var defaultProfile: String,
 	var testProfiles: HashMap<String, HashMap<String, TestConfig>>
@@ -190,17 +203,10 @@ class MinimalistConfigBuilder(
 		requestedMinArgs = requestedMinArgs,
 		maxArgs = maxArgs,
 		activeArgsRangeDecider = activeArgsRangeDecider,
+		activeArgsGeneratorSuffixDecider = activeArgsGeneratorSuffixDecider,
 		activeEnv = activeEnv,
 		defaultProfile = defaultProfile,
 		testProfiles = TestProfiles.create(testProfiles)
 	)
 }
 
-/**
- * Our way to inject the [MinimalistConfig] into an instance after it was created via [java.util.ServiceLoader].
- *
- * @since 2.0.0
- */
-interface RequiresConfig {
-	var config: MinimalistConfig
-}
