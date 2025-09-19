@@ -11,11 +11,11 @@ import com.tegonal.minimalist.generators._core
  */
 class ArbArgsGeneratorTransformer<T, R>(
 	private val baseGenerator: ArbArgsGenerator<T>,
-	private val transformation: (Sequence<T>, seedOffset: Int) -> Sequence<R>
+	private val transform: (Sequence<T>, seedOffset: Int) -> Sequence<R>
 ) : BaseArbArgsGenerator<R>(baseGenerator._core) {
 
 	override fun generate(seedOffset: Int): Sequence<R> {
 		val seq = baseGenerator.generate(seedOffset)
-		return transformation(seq, seedOffset)
+		return transform(seq, seedOffset)
 	}
 }

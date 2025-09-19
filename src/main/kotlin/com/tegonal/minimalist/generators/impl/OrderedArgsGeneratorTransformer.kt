@@ -10,5 +10,5 @@ import com.tegonal.minimalist.generators.OrderedArgsGenerator
  */
 class OrderedArgsGeneratorTransformer<T, R>(
 	baseGenerator: OrderedArgsGenerator<T>,
-	transformation: (Sequence<T>) -> Sequence<R>
-) : BaseSemiOrderedArgsGeneratorTransformer<T, R>(baseGenerator, transformation), OrderedArgsGenerator<R>
+	transform: (Sequence<T>) -> Sequence<R>
+) : BaseSemiOrderedArgsGeneratorTransformer<T, R>(baseGenerator, transform), OrderedArgsGenerator<R>

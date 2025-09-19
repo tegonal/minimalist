@@ -22,7 +22,7 @@ import com.tegonal.minimalist.generators.impl.SemiOrderedArgsGeneratorTransforme
  * @since 2.0.0
  */
 fun <T, R> SemiOrderedArgsGenerator<T>.map(transform: (T) -> R): SemiOrderedArgsGenerator<R> =
-	transformInternal { it.map(transform) }
+	transformInternal { seq -> seq.map(transform) }
 
 /**
  * Maps the values `this` [SemiOrderedArgsGenerator] generates together with an index to type [R] with the help of the
