@@ -12,6 +12,7 @@ import com.tegonal.minimalist.impl.*
  *
  * @since 1.0.0
  */
+//TODO 2.0.0 still worth to keep now that we base most things on Tuple?
 interface Args : Arguments {
 	/**
 	 * Extension point for Args (next to [Args.of] functions).
