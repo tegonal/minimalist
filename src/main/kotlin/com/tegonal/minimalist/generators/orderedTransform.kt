@@ -23,7 +23,9 @@ import com.tegonal.minimalist.generators.impl.OrderedArgsGeneratorTransformer
  * @since 2.0.0
  */
 fun <T, R> OrderedArgsGenerator<T>.map(transform: (T) -> R): OrderedArgsGenerator<R> =
-	transformInternal { it.map(transform) }
+// TODO 2.1.0 bench if it would be worth it to introduce an OrderdArgsGeneratorMapper which takes T -> R and
+	//  provides an optimised generateOne method
+	transformInternal { seq -> seq.map(transform) }
 
 /**
  * Maps the values `this` [OrderedArgsGenerator] generates together with an index to type [R] with the help of the
@@ -68,8 +70,7 @@ fun <T, R> OrderedArgsGenerator<T>.mapIndexed(transform: (index: Int, T) -> R): 
 //   Sequence.chunked needs extra care as the resulting stream should be ordered finite, repeating after size
 private fun <R, T> OrderedArgsGenerator<T>.transformInternal(
 	transform: (Sequence<T>) -> Sequence<R>
-): OrderedArgsGeneratorTransformer<T, R> = OrderedArgsGeneratorTransformer(this, transform)
-
+): OrderedArgsGenerator<R> = OrderedArgsGeneratorTransformer(this, transform)
 
 
 /**
@@ -86,7 +87,7 @@ private fun <R, T> OrderedArgsGenerator<T>.transformInternal(
  * @since 2.0.0
  */
 fun <T> OrderedArgsGenerator<T>.filterMaterialised(predicate: (T) -> Boolean): OrderedArgsGenerator<T> =
-	transformMaterialised { it.filter(predicate) }
+	transformMaterialised { seq -> seq.filter(predicate) }
 
 /**
  * Generates [size][OrderedArgsGenerator.size] values, filters the resulting [Sequence] so that only elements matching
@@ -102,7 +103,7 @@ fun <T> OrderedArgsGenerator<T>.filterMaterialised(predicate: (T) -> Boolean): O
  * @since 2.0.0
  */
 fun <T> OrderedArgsGenerator<T>.filterNotMaterialised(predicate: (T) -> Boolean): OrderedArgsGenerator<T> =
-	transformMaterialised { it.filterNot(predicate) }
+	transformMaterialised { seq -> seq.filterNot(predicate) }
 
 /**
  * Generates [size][OrderedArgsGenerator.size] values, [transform]s and materialises them and creates a new
@@ -121,5 +122,4 @@ fun <T> OrderedArgsGenerator<T>.filterNotMaterialised(predicate: (T) -> Boolean)
  */
 fun <T, R> OrderedArgsGenerator<T>.transformMaterialised(
 	transform: (Sequence<T>) -> Sequence<R>,
-): OrderedArgsGenerator<R> =
-	generate().take(size).let(transform).toList().let(_components.ordered::fromList)
+): OrderedArgsGenerator<R> = generate().take(size).let(transform).toList().let(_components.ordered::fromList)

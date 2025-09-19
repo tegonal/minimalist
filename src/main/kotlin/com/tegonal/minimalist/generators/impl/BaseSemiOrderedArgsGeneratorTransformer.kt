@@ -11,8 +11,8 @@ import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
  */
 abstract class BaseSemiOrderedArgsGeneratorTransformer<T, R>(
 	private val baseGenerator: SemiOrderedArgsGenerator<T>,
-	private val transformation: (Sequence<T>) -> Sequence<R>
+	private val transform: (Sequence<T>) -> Sequence<R>
 ) : BaseSemiOrderedArgsGenerator<R>(baseGenerator._components, baseGenerator.size) {
 
-	override fun generateAfterChecks(offset: Int): Sequence<R> = baseGenerator.generate(offset).let(transformation)
+	override fun generateAfterChecks(offset: Int): Sequence<R> = baseGenerator.generate(offset).let(transform)
 }

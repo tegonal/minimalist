@@ -32,6 +32,10 @@ class ArbTransformationTests : AbstractArbArgsGeneratorTest<Any>() {
 					(1..4).flatMap { first -> (1..4).map { second -> listOf(first, second) } }
 				),
 				Tuple(
+					"chunked with transform", generator.chunked(2) { it.toSet() },
+					(1..4).flatMap { first -> (1..4).map { second -> setOf(first, second) } }
+				),
+				Tuple(
 					"transformMaterialised - flatMap",
 					generator.transform { s -> s.flatMap { sequenceOf(it, it + 10) } },
 					listOf(1, 11, 2, 12, 3, 13, 4, 14)
