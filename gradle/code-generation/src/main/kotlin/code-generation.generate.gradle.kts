@@ -38,7 +38,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 			file.writeText(this.toString())
 		}
 
-
+		//TODO 2.0.0 still worth to keep, now that we base most things on Tuple instead of Args?
 		val argsInterface = createStringBuilder(mainPackageName)
 			.append(
 				"""
