@@ -5,24 +5,8 @@ import com.tegonal.minimalist.generators.*
 /**
  * @since 2.0.0
  */
-interface PredefinedArgsSourceProviders {
+interface PredefinedArbNumberProviders {
 	companion object {
-
-		// arbBounds ----------------------------------------------------------
-
-		@JvmStatic
-		fun arbIntBoundsMinSize2() = arb.intBounds(minSize = 2)
-
-		@JvmStatic
-		fun arbLongBoundsMinSize2() = arb.longBounds(minSize = 2)
-
-		// arbChar ------------------------------------------------------------
-
-		@JvmStatic
-		fun arbChar() = arb.char()
-
-		// arbNumber ----------------------------------------------------------
-
 		@JvmStatic
 		fun arbInt() = arb.int()
 
