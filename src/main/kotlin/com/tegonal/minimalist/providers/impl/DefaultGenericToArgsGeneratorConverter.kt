@@ -28,7 +28,7 @@ class DefaultGenericToArgsGeneratorConverter : GenericToArgsGeneratorConverter {
 						list.also { it.add(aNext) }
 					}
 
-					is SemiOrderedArgsGenerator<*> -> error("wrong ordering of ArgsGenerators, make sure at leat one (Semi)OrderedArgsGenerators come before a RandomArgsGenerator<*>")
+					is SemiOrderedArgsGenerator<*> -> error("wrong ordering of ArgsGenerators, make sure at leat one (Semi)OrderedArgsGenerators comes before an ArbArgsGenerator.")
 					is ArgsGenerator<*> -> throwUnsupportedArgsGenerator(next)
 					else -> throwDontKnowHowToConvertToArgsGenerator(next)
 				}

@@ -14,7 +14,7 @@ description = "Library which helps to setup and prioritise parameterized tests"
 
 dependencies {
 	api(libs.junit.jupiter.params)
-	implementation(libs.kbox)
+	api(libs.kbox)
 	implementation(kotlin("reflect"))
 
 	testImplementation(kotlin("test"))

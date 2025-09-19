@@ -8,7 +8,6 @@ import ch.tutteli.kbox.a2
 import ch.tutteli.kbox.mapA3
 import com.tegonal.minimalist.config.arb
 import com.tegonal.minimalist.generators.impl.DefaultArbExtensionPoint
-import org.junit.jupiter.api.Test
 
 typealias ArbArgsTestFactoryResult<T> = ArgsTestFactoryResult<T, ArbArgsGenerator<T>>
 

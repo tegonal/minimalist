@@ -34,7 +34,6 @@ class IntFromUntilOrderedArgsGenerator(
 ), OrderedArgsGenerator<Int> {
 
 	override fun generateOneAfterChecks(offset: Int): Int {
-		checkRangeNumbers(from, toExclusive, offset, step)
 		// index = value so we can directly return it
 		return determineStartingIndex(from, toExclusive, offset, step)
 	}
@@ -70,7 +69,6 @@ class LongFromUntilOrderedArgsGenerator(
 ), OrderedArgsGenerator<Long> {
 
 	override fun generateOneAfterChecks(offset: Int): Long {
-		checkRangeNumbers(from, toExclusive, offset.toLong(), step)
 		// index = value so we can directly return it
 		return determineStartingIndex(
 			// toExclusive - from could overflow, so we use BigInt
@@ -105,9 +103,8 @@ class BigIntFromUntilOrderedArgsGenerator(
 ), OrderedArgsGenerator<BigInt> {
 
 	override fun generateOneAfterChecks(offset: Int): BigInt {
-		val offsetBigInt = offset.toBigInt()
-		checkRangeNumbers(from, toExclusive, offsetBigInt, step)
-		return determineStartingIndex(from, toExclusive, offsetBigInt, step)
+		// index = value so we can directly return it
+		return determineStartingIndex(from, toExclusive, offset.toBigInt(), step)
 	}
 
 	override fun generateAfterChecks(offset: Int): Sequence<BigInt> = Sequence {
