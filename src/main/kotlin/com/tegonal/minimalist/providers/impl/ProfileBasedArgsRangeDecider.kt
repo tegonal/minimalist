@@ -6,7 +6,6 @@ import com.tegonal.minimalist.generators.ArgsGenerator
 import com.tegonal.minimalist.providers.ArgsRange
 import kotlin.math.absoluteValue
 
-
 /**
  * !! No backward compatibility guarantees !!
  * Reuse at your own risk

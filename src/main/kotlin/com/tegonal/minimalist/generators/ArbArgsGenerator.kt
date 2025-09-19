@@ -1,8 +1,8 @@
 package com.tegonal.minimalist.generators
 
 import com.tegonal.minimalist.config.ComponentFactoryContainerProvider
-import com.tegonal.minimalist.generators.impl.DefaultArbExtensionPoint
 import com.tegonal.minimalist.config.MinimalistConfig
+import com.tegonal.minimalist.generators.impl.DefaultArbExtensionPoint
 import com.tegonal.minimalist.utils.createMinimalistRandom
 
 /**

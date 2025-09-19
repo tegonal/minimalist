@@ -2,6 +2,7 @@ package com.tegonal.minimalist.config.impl
 
 import com.tegonal.minimalist.config.ComponentFactory
 import com.tegonal.minimalist.config.ComponentFactoryContainer
+import com.tegonal.minimalist.utils.impl.loadServices
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.KClass
 import kotlin.reflect.cast
@@ -122,3 +123,15 @@ infix fun <T : Any> KClass<T>.createSingletonVia(factory: (ComponentFactoryConta
  */
 infix fun <T : Any> KClass<T>.createChainVia(factories: Sequence<(ComponentFactoryContainer) -> T>): Pair<KClass<*>, Sequence<ComponentFactory>> =
 	this to factories.map { ComponentFactory(it, producesSingleton = false) }
+
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
+inline fun <reified T : Any> createChainFromServiceLoaders() = T::class.createChainVia(
+	loadServices<T>().asSequence().map {
+		{ _ -> it }
+	}
+)

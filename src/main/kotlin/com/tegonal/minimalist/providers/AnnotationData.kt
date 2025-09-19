@@ -9,6 +9,11 @@ import com.tegonal.minimalist.config.merge
 class AnnotationData(
 	val argsSourceMethodName: String,
 	val argsRangeOptions: ArgsRangeOptions = ArgsRangeOptions(),
+	/**
+	 * Generic map for extensions of Minimalist (or your own custom code), intended to be filled by an
+	 * [AnnotationDataDeducer] and later be consumed by e.g. [ArgsRangeDecider], [ArgsGeneratorSuffixDecider].
+	 */
+	val extensionData: Map<String, Any> = emptyMap()
 ) {
 	init {
 		check(argsSourceMethodName.isNotBlank()) {
@@ -29,7 +34,8 @@ fun AnnotationData.merge(other: AnnotationData): AnnotationData {
 	}
 	return AnnotationData(
 		argsSourceMethodName,
-		argsRangeOptions = this.argsRangeOptions.merge(other.argsRangeOptions)
+		argsRangeOptions = this.argsRangeOptions.merge(other.argsRangeOptions),
+		extensionData = this.extensionData + other.extensionData
 	)
 }
 
