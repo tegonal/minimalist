@@ -37,27 +37,33 @@ class DefaultArgsGeneratorToArgumentsConverter : ArgsGeneratorToArgumentsConvert
 				)
 
 				1 -> generatorResults.first().let { result ->
-					// we don't split TupleLike (in contrast to ArgsArgumentProvider)
-					tupleToList(result)?.let { Arguments.of(*it.toTypedArray()) }
+					// we don't split TupleLike (in contrast to GenericToArgsGeneratorConverter)
+					tupleToList(result)?.let(::flattenTuplesAndPutIntoArguments)
 						?: (result as? Arguments)
 						?: Arguments.of(result)
 				}
 
-				else -> {
-					val flattenedArgs = generatorResults.flatMap { result ->
-						tupleToList(result)
-							?: when (result) {
-								is Arguments -> result.get().toList()
-								// assuming a raw values
-								else -> listOf(result)
-							}
-					}
-
-					Arguments.of(*flattenedArgs.toTypedArray())
-				}
+				else -> flattenTuplesAndPutIntoArguments(generatorResults)
 			}
 		}
 	}
+
+	private fun flattenTuplesAndPutIntoArguments(generatorResults: List<*>): Arguments {
+		val flattenedArgs = flattenTuples(generatorResults)
+		return Arguments.of(*flattenedArgs.toTypedArray())
+	}
+
+	//TODO 2.1.0 benchmark if we should use a mutable structure instead of flatMap, I guess in most cases we don't have
+	// nesting at all, and sometimes we might have 1 or 2 levels
+	private fun flattenTuples(generatorResults: List<*>): List<*> =
+		generatorResults.flatMap { result ->
+			tupleToList(result)?.let(::flattenTuples)
+				?: when (result) {
+					is Arguments -> result.get().toList()
+					// assuming raw values
+					else -> listOf(result)
+				}
+		}
 
 	private fun decideArgsRange(
 		annotationData: AnnotationData,

@@ -6,9 +6,7 @@ import ch.tutteli.atrium.api.verbs.expectGrouped
 import ch.tutteli.atrium.creating.Expect
 import ch.tutteli.atrium.testfactories.TestFactory
 import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.config.arb
 import com.tegonal.minimalist.config.config
-import com.tegonal.minimalist.config.ordered
 import com.tegonal.minimalist.generators.impl.DefaultOrderedExtensionPoint
 import com.tegonal.minimalist.utils.createMinimalistRandom
 import kotlin.math.absoluteValue
