@@ -11,6 +11,7 @@ import com.tegonal.minimalist.generators.impl.createIntDomainBasedBoundsArbGener
 import com.tegonal.minimalist.generators.impl.possibleMaxSizeSafeInIntDomain
 import com.tegonal.minimalist.generators.impl.possibleMaxSizeSafeInLongDomain
 import com.tegonal.minimalist.providers.ArgsSource
+import com.tegonal.minimalist.utils.BigInt
 import com.tegonal.minimalist.utils.toBigInt
 import org.junit.jupiter.params.ParameterizedTest
 import kotlin.test.Test
@@ -122,13 +123,20 @@ class ArbBoundsTest : AbstractArbArgsGeneratorTest<Any>() {
 		}
 	}
 
+	@Test
+	fun foo() {
+		arb.createIntDomainBasedBoundsArbGenerator(
+			minInclusive = -1561948995, maxInclusive = -1561948995, minSize = 1, maxSize = null
+		) { s, l -> s to l }.generateAndTake(3).toList().let(::println)
+	}
+
 	//TODO 2.0.0 error in case of wrong min/max etc.
 
 	companion object {
 		@JvmStatic
 		fun intSafeMinMaxAndMinSize() =
 			intSafeMinMax().combineDependent {
-				arb.intFromUntil(1, it.second - it.first)
+				arb.intFromTo(1, it.second - it.first + 1)
 			}
 
 		@JvmStatic
@@ -141,7 +149,7 @@ class ArbBoundsTest : AbstractArbArgsGeneratorTest<Any>() {
 		@JvmStatic
 		fun longSafeMinMaxAndMinSize() =
 			longSafeMinMax().combineDependent {
-				arb.longFromUntil(1, it.second - it.first)
+				arb.longFromTo(1, it.second - it.first + 1)
 			}
 
 		@JvmStatic
@@ -157,9 +165,9 @@ class ArbBoundsTest : AbstractArbArgsGeneratorTest<Any>() {
 			arb.longFromUntil(Long.MIN_VALUE, Long.MAX_VALUE - possibleMaxSizeSafeInLongDomain - 10).combineDependent {
 				arb.longFromUntil(it + possibleMaxSizeSafeInLongDomain, Long.MAX_VALUE)
 			}.combineDependent {
-				arb.longFromUntil(
+				arb.longFromTo(
 					1,
-					(it.second.toBigInt() - it.first.toBigInt()).min(Long.MAX_VALUE.toBigInt()).toLong()
+					(it.second.toBigInt() - it.first.toBigInt() + BigInt.ONE).min(Long.MAX_VALUE.toBigInt()).toLong()
 				)
 			}
 	}
