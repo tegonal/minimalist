@@ -42,7 +42,7 @@ class ArbSeedOffsetTest {
 	}
 
 	@Test
-	fun combineTakesGivenSeedIncrementIntoAccount() {
+	fun combineTakesGivenSeedOffsetIntoAccount() {
 		val arb =
 			createArbWithCustomConfig(arb._components.config.copy { seed = 0 })._components.withMockedRandom { seed ->
 				Tuple((0..9).map { it + seed * 10 }, emptyList(), emptyList())
@@ -56,7 +56,7 @@ class ArbSeedOffsetTest {
 	}
 
 	@Test
-	fun combineDependentUsingArbInsideIncrementsSeedOffset() {
+	fun combineDependentUsingArbInsideIncrementsBaseSeedOffset() {
 		val arb1 =
 			createArbWithCustomConfig(arb._components.config.copy { seed = 0 })._components.withMockedRandom { seed ->
 				Tuple((0..9).map { it + seed * 10 }, emptyList(), emptyList())
@@ -70,7 +70,7 @@ class ArbSeedOffsetTest {
 	}
 
 	@Test
-	fun combineDependentTakesGivenSeedIncrementIntoAccount() {
+	fun combineDependentTakesGivenSeedOffsetIntoAccount() {
 		val arb1 =
 			createArbWithCustomConfig(arb._components.config.copy { seed = 0 })._components.withMockedRandom { seed ->
 				Tuple((0..9).map { it + seed * 10 }, emptyList(), emptyList())
@@ -84,7 +84,7 @@ class ArbSeedOffsetTest {
 	}
 
 	@Test
-	fun usingArbInAnArbExtensionReceiverIncrementsSeedOffset() {
+	fun usingArbInAnArbExtensionReceiverIncrementsBaseSeedOffset() {
 		val arb1 =
 			createArbWithCustomConfig(arb._components.config.copy { seed = 0 })._components.withMockedRandom { seed ->
 				Tuple((0..9).map { it + seed * 10 }, emptyList(), emptyList())

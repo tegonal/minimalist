@@ -11,7 +11,7 @@ class AnnotationData(
 	val argsRangeOptions: ArgsRangeOptions = ArgsRangeOptions(),
 	/**
 	 * Generic map for extensions of Minimalist (or your own custom code), intended to be filled by an
-	 * [AnnotationDataDeducer] and later be consumed by e.g. [ArgsRangeDecider], [ArgsGeneratorSuffixDecider].
+	 * [AnnotationDataDeducer] and later be consumed by e.g. [ArgsRangeDecider], [SuffixArgsGeneratorDecider].
 	 */
 	val extensionData: Map<String, Any> = emptyMap()
 ) {

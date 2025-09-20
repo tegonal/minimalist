@@ -1,10 +1,10 @@
 package com.tegonal.minimalist.config
 
 import com.tegonal.minimalist.generators.ArgsGenerator
-import com.tegonal.minimalist.providers.ArgsGeneratorSuffixDecider
+import com.tegonal.minimalist.providers.SuffixArgsGeneratorDecider
 import com.tegonal.minimalist.providers.ArgsRange
 import com.tegonal.minimalist.providers.ArgsRangeDecider
-import com.tegonal.minimalist.providers.impl.EmptyArgsGeneratorSuffixDecider
+import com.tegonal.minimalist.providers.impl.SuffixArgsGeneratorNeverDecider
 import com.tegonal.minimalist.providers.impl.ProfileBasedArgsRangeDecider
 import com.tegonal.minimalist.utils.impl.checkIsNotBlank
 import com.tegonal.minimalist.utils.impl.failIfNegative
@@ -69,10 +69,10 @@ class MinimalistConfig(
 	),
 
 	/**
-	 * Defines which [ArgsGeneratorSuffixDecider] shall be used identified via fully qualified name.
+	 * Defines which [SuffixArgsGeneratorDecider] shall be used identified via fully qualified name.
 	 * Per default, the corresponding class is loaded via [java.util.ServiceLoader].
 	 */
-	val activeArgsGeneratorSuffixDecider: String = EmptyArgsGeneratorSuffixDecider::class.qualifiedName ?: error(
+	val activeSuffixArgsGeneratorDecider: String = SuffixArgsGeneratorNeverDecider::class.qualifiedName ?: error(
 		"cannot determine qualified name of EmptyArgsGeneratorSuffixProvider "
 	),
 
@@ -176,7 +176,7 @@ class MinimalistConfig(
 			maxArgs = maxArgs,
 			requestedMinArgs = requestedMinArgs,
 			activeArgsRangeDecider = activeArgsRangeDecider,
-			activeArgsGeneratorSuffixDecider = activeArgsGeneratorSuffixDecider,
+			activeSuffixArgsGeneratorDecider = activeSuffixArgsGeneratorDecider,
 			activeEnv = activeEnv,
 			defaultProfile = defaultProfile,
 			testProfiles = testProfiles.toHashMap()
@@ -192,7 +192,7 @@ class MinimalistConfigBuilder(
 	var maxArgs: Int?,
 	var requestedMinArgs: Int?,
 	var activeArgsRangeDecider: String,
-	var activeArgsGeneratorSuffixDecider: String,
+	var activeSuffixArgsGeneratorDecider: String,
 	var activeEnv: String,
 	var defaultProfile: String,
 	var testProfiles: HashMap<String, HashMap<String, TestConfig>>
@@ -203,7 +203,7 @@ class MinimalistConfigBuilder(
 		requestedMinArgs = requestedMinArgs,
 		maxArgs = maxArgs,
 		activeArgsRangeDecider = activeArgsRangeDecider,
-		activeArgsGeneratorSuffixDecider = activeArgsGeneratorSuffixDecider,
+		activeSuffixArgsGeneratorDecider = activeSuffixArgsGeneratorDecider,
 		activeEnv = activeEnv,
 		defaultProfile = defaultProfile,
 		testProfiles = TestProfiles.create(testProfiles)
