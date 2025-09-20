@@ -7,7 +7,7 @@ import com.tegonal.minimalist.generators.combine
 import com.tegonal.minimalist.generators.impl.throwDontKnowHowToConvertToArgsGenerator
 import com.tegonal.minimalist.generators.impl.throwUnsupportedArgsGenerator
 import com.tegonal.minimalist.generators.map
-import com.tegonal.minimalist.providers.GenericToArgsGeneratorConverter
+import com.tegonal.minimalist.providers.GenericArgsGeneratorCombiner
 
 /**
  * !! No backward compatibility guarantees !!
@@ -15,8 +15,9 @@ import com.tegonal.minimalist.providers.GenericToArgsGeneratorConverter
  *
  * @since 2.0.0
  */
-class DefaultGenericToArgsGeneratorConverter : GenericToArgsGeneratorConverter {
-	override fun toArgsGenerator(
+class DefaultGenericArgsGeneratorCombiner : GenericArgsGeneratorCombiner {
+
+	override fun combineFirstWithRest(
 		firstArgsGenerator: ArgsGenerator<*>,
 		restMaybeArgGenerators: List<*>
 	): ArgsGenerator<List<*>> = when (firstArgsGenerator) {
@@ -28,7 +29,7 @@ class DefaultGenericToArgsGeneratorConverter : GenericToArgsGeneratorConverter {
 						list.also { it.add(aNext) }
 					}
 
-					is SemiOrderedArgsGenerator<*> -> error("wrong ordering of ArgsGenerators, make sure at leat one (Semi)OrderedArgsGenerators comes before an ArbArgsGenerator.")
+					is SemiOrderedArgsGenerator<*> -> error("Wrong ordering of ArgsGenerators, first ArgsGenerators was an ArbArgsGenerator which means only ArbArgsGenerator are allowed but found ${next}. Make sure it comes first (or any other (Semi)OrderedArgsGenerators.")
 					is ArgsGenerator<*> -> throwUnsupportedArgsGenerator(next)
 					else -> throwDontKnowHowToConvertToArgsGenerator(next)
 				}

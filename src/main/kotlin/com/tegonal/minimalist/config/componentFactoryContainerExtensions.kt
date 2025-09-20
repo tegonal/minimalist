@@ -7,7 +7,7 @@ import com.tegonal.minimalist.generators.impl.DefaultArbExtensionPoint
 import com.tegonal.minimalist.generators.impl.DefaultOrderedExtensionPoint
 import com.tegonal.minimalist.providers.*
 import com.tegonal.minimalist.providers.impl.DefaultArgsGeneratorToArgumentsConverter
-import com.tegonal.minimalist.providers.impl.DefaultGenericToArgsGeneratorConverter
+import com.tegonal.minimalist.providers.impl.DefaultGenericArgsGeneratorCombiner
 import com.tegonal.minimalist.utils.impl.loadService
 import kotlin.random.Random
 import kotlin.reflect.KClass
@@ -20,11 +20,11 @@ fun ComponentFactoryContainer.Companion.createBasedOnConfig(config: MinimalistCo
 	ComponentFactoryContainer.create(
 		mapOf(
 			MinimalistConfig::class createSingletonVia { config },
-			ArgsGeneratorSuffixDecider::class createVia {
-				loadService(config.activeArgsGeneratorSuffixDecider)
+			SuffixArgsGeneratorDecider::class createVia {
+				loadService(config.activeSuffixArgsGeneratorDecider)
 			},
-			GenericToArgsGeneratorConverter::class createSingletonVia { _ ->
-				DefaultGenericToArgsGeneratorConverter()
+			GenericArgsGeneratorCombiner::class createSingletonVia { _ ->
+				DefaultGenericArgsGeneratorCombiner()
 			},
 			ArgsGeneratorToArgumentsConverter::class createSingletonVia { _ ->
 				DefaultArgsGeneratorToArgumentsConverter()

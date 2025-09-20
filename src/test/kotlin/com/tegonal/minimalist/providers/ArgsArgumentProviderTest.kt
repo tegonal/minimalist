@@ -4,28 +4,24 @@ import ch.tutteli.atrium.api.fluent.en_GB.toBeGreaterThanOrEqualTo
 import ch.tutteli.atrium.api.fluent.en_GB.toBeLessThan
 import ch.tutteli.atrium.api.fluent.en_GB.toBeLessThanOrEqualTo
 import ch.tutteli.atrium.api.fluent.en_GB.toEqual
+import ch.tutteli.atrium.api.fluent.en_GB.toHaveSize
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
 import com.tegonal.minimalist.Args
 import com.tegonal.minimalist.component1
 import com.tegonal.minimalist.component2
-import com.tegonal.minimalist.config.ComponentFactory
 import com.tegonal.minimalist.config.ComponentFactoryContainer
-import com.tegonal.minimalist.config.MinimalistConfig
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.arb
-import com.tegonal.minimalist.config.config
 import com.tegonal.minimalist.config.create
 import com.tegonal.minimalist.config.impl.createVia
 import com.tegonal.minimalist.config.ordered
 import com.tegonal.minimalist.generators.ArgsGenerator
-import com.tegonal.minimalist.generators.OrderedArgsGenerator
 import com.tegonal.minimalist.generators.arb
 import com.tegonal.minimalist.generators.fromList
 import com.tegonal.minimalist.generators.of
 import com.tegonal.minimalist.generators.ordered
 import com.tegonal.minimalist.testutils.Tuple4LikeStructure
-import com.tegonal.minimalist.testutils.createOrderedWithCustomConfig
 import org.junit.jupiter.params.ParameterizedTest
 
 class ArgsArgumentProviderTest {
@@ -115,6 +111,16 @@ class ArgsArgumentProviderTest {
 		expect(index).toEqual(expectedIndex)
 	}
 
+	@ParameterizedTest
+	@ArgsSource("rawPairsInList")
+	fun rawPairInListIsNotSplit(p: List<Pair<Int, Long>>) {
+		expect(p).toHaveSize(1)
+		val (index, value) = p.first()
+		val (expectedIndex, expectValue) = rawPairs()[index]
+		expect(value).toEqual(expectValue)
+		expect(index).toEqual(expectedIndex)
+	}
+
 
 	@ParameterizedTest
 	@ArgsSource("rawTupleLike")
@@ -188,6 +194,7 @@ class ArgsArgumentProviderTest {
 		@JvmStatic
 		fun rawValuesInRange() = (20L..22L)
 
+
 		@JvmStatic
 		fun rawArgs() = rawValuesInRange().mapIndexed { index, it -> Args.of(index, it) }
 
@@ -207,6 +214,8 @@ class ArgsArgumentProviderTest {
 		@JvmStatic
 		fun arbPairs() = arb.fromList(rawArgs())
 
+		@JvmStatic
+		fun rawPairsInList() = rawValuesInRange().mapIndexed { index, it -> listOf(index to it) }
 
 		@JvmStatic
 		fun rawTupleLike() = listOf(Tuple4LikeStructure(0, 2L, 3.0, 4.0f), Tuple4LikeStructure(1, 20L, 30.0, 40.0f))
@@ -227,21 +236,23 @@ class ArgsArgumentProviderTest {
 		fun arbNestedTuples() = arb.fromList(rawNestedTuples())
 
 		@JvmStatic
-		fun orderedWithSuffixArgsGenerator() = componentWithCustomArgsGeneratorSuffixDecider.ordered.of(1, 2, 3)
+		fun orderedWithSuffixArgsGenerator() = componentWithCustomSuffixArgsGeneratorDecider.ordered.of(1, 2, 3)
 
 		@JvmStatic
-		fun arbWithSuffixArgsGenerator() = componentWithCustomArgsGeneratorSuffixDecider.arb.of(1, 2, 3)
+		fun arbWithSuffixArgsGenerator() = componentWithCustomSuffixArgsGeneratorDecider.arb.of(1, 2, 3)
 
-		private val componentWithCustomArgsGeneratorSuffixDecider = ordered._components.merge(
+		private val componentWithCustomSuffixArgsGeneratorDecider = ordered._components.merge(
 			ComponentFactoryContainer.create(
 				mapOf(
-					ArgsGeneratorSuffixDecider::class createVia { _ ->
-						object : ArgsGeneratorSuffixDecider {
-							override fun decide(annotationData: AnnotationData): ArgsGenerator<*> =
+					SuffixArgsGeneratorDecider::class createVia { _ ->
+						object : SuffixArgsGeneratorDecider {
+							override fun computeSuffixArgsGenerator(annotationData: AnnotationData): ArgsGenerator<*> =
 								arb.of(4L, 5L, 6L)
 						}
 					}
 				))
 		)
+
+
 	}
 }

@@ -111,24 +111,24 @@ class ArgsArgumentProvider : ArgumentsProvider {
 		argsSourceMethodName: String,
 	): Sequence<Arguments> = argsGenerator._components.let { components ->
 		val annotationDataDeducers = components.buildChained<AnnotationDataDeducer>()
-		val argsGeneratorSuffixDecider = components.build<ArgsGeneratorSuffixDecider>()
-		val genericToArgsGeneratorConverter = components.build<GenericToArgsGeneratorConverter>()
+		val suffixArgsGeneratorDecider = components.build<SuffixArgsGeneratorDecider>()
+		val genericArgsGeneratorCombiner = components.build<GenericArgsGeneratorCombiner>()
 		val argsGeneratorToArgumentsConverter = components.build<ArgsGeneratorToArgumentsConverter>()
 
 		val annotationData = annotationDataDeducers.fold(AnnotationData(argsSourceMethodName)) { data, deducer ->
 			deducer.deduce(testMethod, argsSourceMethodName)?.let { data.merge(it) } ?: data
 		}
 
-		val restMaybeArgGeneratorsWithSuffix = argsGeneratorSuffixDecider.decide(annotationData)?.let {
-			restMaybeArgGenerators + listOf(it)
-		} ?: restMaybeArgGenerators
+		val restMaybeArgGeneratorsWithSuffix = suffixArgsGeneratorDecider
+			.computeSuffixArgsGenerator(annotationData)?.let { suffixArgsGenerator ->
+				restMaybeArgGenerators + listOf(suffixArgsGenerator)
+			} ?: restMaybeArgGenerators
 
-		genericToArgsGeneratorConverter.toArgsGenerator(argsGenerator, restMaybeArgGeneratorsWithSuffix)
-			.let { argsGeneratorCombinedDecorated ->
-				argsGeneratorToArgumentsConverter.toArguments(annotationData, argsGeneratorCombinedDecorated)
+		genericArgsGeneratorCombiner.combineFirstWithRest(argsGenerator, restMaybeArgGeneratorsWithSuffix)
+			.let { argsGeneratorsCombined ->
+				argsGeneratorToArgumentsConverter.toArguments(annotationData, argsGeneratorsCombined)
 			}
 	}
-
 
 	// copied from JUnit's MethodArgumentsProvider (EPL License) and adopted to our needs
 	private fun findMethod(testClass: Class<*>, testMethod: Method, methodName: String): Method {

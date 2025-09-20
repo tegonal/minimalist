@@ -34,7 +34,7 @@ class MinimalistPropertiesParser {
 				isKey("maxArgs") -> maxArgs = value.toIntOrErrorNotValid(key)
 				isKey("requestedMinArgs") -> requestedMinArgs = value.toIntOrErrorNotValid(key)
 				isKey("activeArgsRangeDecider") -> activeArgsRangeDecider = value
-				isKey("activeArgsGeneratorSuffixDecider") -> activeArgsGeneratorSuffixDecider = value
+				isKey("activeSuffixArgsGeneratorDecider") -> activeSuffixArgsGeneratorDecider = value
 				isKey("activeEnv") -> activeEnv = value
 				isKey("defaultProfile") -> defaultProfile = value
 

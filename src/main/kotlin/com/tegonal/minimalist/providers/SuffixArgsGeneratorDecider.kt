@@ -7,10 +7,10 @@ import com.tegonal.minimalist.generators.ArgsGenerator
  *
  * @since 2.0.0
  */
-interface ArgsGeneratorSuffixDecider {
+interface SuffixArgsGeneratorDecider {
 
 	/**
 	 * Returns `null` in case no [ArgsGenerator] shall be combined last or a corresponding generator respectively.
 	 */
-	fun decide(annotationData: AnnotationData): ArgsGenerator<*>?
+	fun computeSuffixArgsGenerator(annotationData: AnnotationData): ArgsGenerator<*>?
 }

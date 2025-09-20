@@ -85,6 +85,18 @@ class ArgsGeneratorToArgumentsConverterTest {
 	}
 
 	@Test
+	fun listOfTuples_notSplitIntoArgs() {
+		val combinations = testee.toArguments(
+			requestedAtLeastArgs1000, orderedWithSeed0.of(listOf(listOf(1 to 2, 3 to 4)), listOf(5 to 6, 7 to 8))
+		).map { it.get().asList() }.toList()
+		expect(combinations) {
+			toHaveSize(2)
+			get(0).toContainExactly(listOf(1 to 2, 3 to 4))
+			get(1).toContainExactly(5, 6, 7, 8)
+		}
+	}
+
+	@Test
 	fun oneArgs_keptAsIs() {
 		val args1 = Args.of(1, 2)
 		val args2 = Args.of(3, 4)
