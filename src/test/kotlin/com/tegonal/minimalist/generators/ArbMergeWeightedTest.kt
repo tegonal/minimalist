@@ -28,7 +28,7 @@ class ArbMergeWeightedTest {
 			weight to PseudoArbArgsGenerator((0..9).asSequence().map { it + (index + 1) * 10 })
 		}.toVararg()
 
-		val merged = mergeWeighted(weights.first() to g1, secondWithWeights, *othersWithWeights)
+		val merged = arb.mergeWeighted(weights.first() to g1, secondWithWeights, *othersWithWeights)
 
 		val l = merged.generate().take(100).toList()
 
@@ -52,18 +52,18 @@ class ArbMergeWeightedTest {
 		val g3 = arb.intFromUntil(40, 50)
 
 		expect {
-			mergeWeighted(weight to g1, 50 to g2)
+			arb.mergeWeighted(weight to g1, 50 to g2)
 		}.toThrow<IllegalStateException> {
 			messageToContain("$weight is not a valid (1.) weight, must be greater than 0")
 		}
 		expect {
-			mergeWeighted(50 to g1, weight to g2)
+			arb.mergeWeighted(50 to g1, weight to g2)
 		}.toThrow<IllegalStateException> {
 			messageToContain("$weight is not a valid (2.) weight, must be greater than 0")
 		}
 
 		expect {
-			mergeWeighted(10 to g1, 50 to g2, weight to g3)
+			arb.mergeWeighted(10 to g1, 50 to g2, weight to g3)
 		}.toThrow<IllegalStateException> {
 			messageToContain("$weight is not a valid (3.) weight, must be greater than 0")
 		}
@@ -76,7 +76,7 @@ class ArbMergeWeightedTest {
 		val g2 = arb.intFromUntil(20, 30)
 
 		expect {
-			mergeWeighted(weight1 to g1, weight2 to g2)
+			arb.mergeWeighted(weight1 to g1, weight2 to g2)
 		}.toThrow<ArithmeticException> {
 			messageToContain("integer overflow")
 		}
@@ -90,7 +90,7 @@ class ArbMergeWeightedTest {
 		val g3 = arb.intFromUntil(40, 50)
 
 		expect {
-			mergeWeighted(weight1 to g1, weight2 to g2, weight3 to g3)
+			arb.mergeWeighted(weight1 to g1, weight2 to g2, weight3 to g3)
 		}.toThrow<ArithmeticException> {
 			messageToContain("integer overflow")
 		}

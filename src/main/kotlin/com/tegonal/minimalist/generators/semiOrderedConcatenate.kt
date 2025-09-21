@@ -34,7 +34,7 @@ private fun <T> concatAll(iterator: Iterator<SemiOrderedArgsGenerator<T>>): Semi
 	var result = first
 	while (iterator.hasNext()) {
 		//TODO 2.1.0 would it be worth to introduce a Concatenator which takes n SemiOrderedArgsGenerator instead of just 2?
-		result = result + iterator.next()
+		result += iterator.next()
 	}
 	return result
 }

@@ -24,7 +24,8 @@ import com.tegonal.minimalist.generators.impl.MultiArbArgsGeneratorIndexOfMerger
  *
  * @since 2.0.0
  */
-fun <T> mergeWeighted(
+@Suppress("UnusedReceiverParameter")
+fun <T> ArbExtensionPoint.mergeWeighted(
 	first: Pair<Int, ArbArgsGenerator<T>>,
 	second: Pair<Int, ArbArgsGenerator<T>>,
 	vararg others: Pair<Int, ArbArgsGenerator<T>>,

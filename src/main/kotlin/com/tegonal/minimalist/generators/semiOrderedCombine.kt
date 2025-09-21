@@ -91,6 +91,6 @@ fun <A1, A2, R> SemiOrderedArgsGenerator<A1>.combine(
 fun <A1, A2, R> SemiOrderedArgsGenerator<A1>.combineDependent(
 	otherFactory: ArbExtensionPoint.(A1) -> ArbArgsGenerator<A2>,
 	transform: (A1, A2) -> R
-): SemiOrderedArgsGenerator<R> = this.mapIndexed { index, a1 ->
+): SemiOrderedArgsGenerator<R> = mapIndexed { index, a1 ->
 	transform(a1, this._components.arb.otherFactory(a1).generateOne(index))
 }
