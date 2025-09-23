@@ -104,7 +104,6 @@ class FirstTest : PredefinedArgsProviders {
 	}
 }
 ```
-
 </code-first-1>
 
 At a first glance, `ArgsSource` in the above example behaves the same way as
@@ -179,7 +178,6 @@ ordered.intFromUntil(1, 5)
 ordered.longFromTo(1, 5)
 //...
 ```
-
 </code-ordered-1>
 
 The "counterpart" of `ordered` is `arb` that allows to create `ArbArgsGenerator`s which per definition generate
@@ -216,7 +214,6 @@ arb.longBounds(minInclusive = -10, maxInclusive = 10, minSize = 0)
 
 arb.string(minLength = 0, maxLength = 20, allowedRanges = UnicodeRanges.ASCII_PRINTABLE.ranges)
 ```
-
 </code-arb-1>
 
 For a few `arb` definitions we provide predefined `ArgsSourceProvider`s. Following an example:
@@ -241,7 +238,6 @@ class PredefinedArgsProvidersTest : PredefinedArgsProviders {
 	}
 }
 ```
-
 </code-predefined-1>
 
 Typically, you will reuse your custom providers in several tests. We recommend you create your own interfaces which
@@ -306,7 +302,6 @@ class CombineTupleTest : PredefinedArgsProviders {
 	}
 }
 ```
-
 </code-combine-tuple>
 
 As you can see in the example, you can also combine `ordered` and `arb` (resulting in a `SemiOrderedArgsGenerator`).
@@ -362,7 +357,6 @@ class CombineManuallyTest : PredefinedArgsProviders {
 	}
 }
 ```
-
 </code-combine-manually>
 
 Note two things. First, tuples are flattened in the process of transforming the definition into `Arguments`. Second,
@@ -406,7 +400,6 @@ class CombineDependentTest : PredefinedArgsProviders {
 	}
 }
 ```
-
 </code-combine-dependent-arb>
 
 `combineDependent` also exists on `SemiOrderedArgsGenerator` and even on `OrderedArgsGenerator` where the resulting
@@ -423,7 +416,6 @@ ordered.fromEnum<Color>().combineDependent({ color ->
 	arb.hexColor(dominant = color)
 }) { _, hex -> hex }
 ```
-
 </code-combine-dependent-ordered>
 
 Note three things, first `hexColor` doesn't exist (yet) in Minimalist and is only there for illustration purposes.
@@ -456,7 +448,6 @@ ordered.intFromTo(1, 10).transformMaterialised { sequence ->
 	sequence.zipWithNext()
 }
 ```
-
 </code-transform>
 
 Which means you can use `transform` as building block for custom transformations based on `Sequence`.
@@ -475,7 +466,6 @@ arb.localDateFromTo(now.withDayOfYear(1), now).map { localDate -> localDate.atTi
 
 ordered.intFromTo('A'.code, 'Z'.code).map { it.toChar() }
 ```
-
 </code-map>
 
 ### filter
@@ -491,7 +481,6 @@ an explanation about `Materialised`). Note that `filterMaterialised`/`filterNotM
 arb.intFromUntil(1, 1000).filterNot { it == 523 }
 ordered.intFromUntil(1, 1000).filterNotMaterialised { it == 523 }
 ```
-
 </code-filter>
 
 Be aware of that filtering an `ArbArgsGenerator` might be a simple way to achieve something but could be slow due to
@@ -505,7 +494,6 @@ arb.fromProgression(1..1000 step 2)
 // ... instead of filter (which is slower)
 arb.intFromTo(1, 1000).filter { it % 2 == 1 }
 ```
-
 </code-dont-filter>
 
 ### chunked
@@ -522,7 +510,6 @@ arb.intFromTo(1, 100).chunked(3)
 arb.intFromTo(1, 100).chunked(3) { it.sorted() }
 arb.charFromTo('a', 't').combine(arb.intFromTo(1, 100)).chunked(3) { it.toMap() }
 ```
-
 </code-chunked>
 
 So far we did not come across a use case where `chunked` would be valuable for `OrderedArgsGenerator` and hence don't
@@ -546,7 +533,6 @@ ordered.of(1, 2) + ordered.intFromTo(100, 120)
 	ordered.of(0 + offset, 3 + offset)
 }.concatAll() // generates 0,3, 10,13, 20,23, 30,33, ...
 ```
-
 </code-concat>
 
 Concatenating an `ArbArgsGenerator` isn't possible as its size is infinite, i.e. we would never see the values
@@ -566,7 +552,6 @@ arb.mergeWeighted(
 	10 to arb.of(null)
 )
 ```
-
 </code-mergeWeighted>
 
 The weighting does not need to add up to 100. If they do, then the numbers correspond to percentage. So in the above
