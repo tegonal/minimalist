@@ -31,6 +31,7 @@ sourceOnce "$dir_of_tegonal_scripts/utility/log.sh"
 
 function cleanupOnPushToMain() {
 	"$projectDir/gradlew" generateAll
+	"$projectDir/gradlew" :readme-examples:build
 	logSuccess "code generated"
 }
 

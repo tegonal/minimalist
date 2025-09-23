@@ -39,11 +39,16 @@ version: [README of v2.0.0-RC-1](https://github.com/tegonal/minimalist/tree/v2.0
 - [Examples](#examples)
 	- [Your first parameterized Test](#your-first-parameterized-test)
 	- [Ordered and arbitrary arguments generators](#ordered-and-arbitrary-arguments-generators)
-	- [Transformations](#transformations)
+	- [Combinators](#combinators)
 		- [combine](#combine)
 		- [combineDependent](#combinedependent)
+		- [transform](#transform)
 		- [map](#map)
 		- [filter/filterNot](#filter)
+		- [chunked](#chunked)
+		- [ordered.concatenation](#ordered-concatenation)
+		- [arb.mergeWeighted](#arb-mergeweighted)
+		- [ordered.toArbArgsGenerator](#ordered-toarbargsgenerator)
 - [Configuration](#configuration)
 - [Code Documentation](#code-documentation)
 - [License](#license)
@@ -75,6 +80,7 @@ Minimum requirements:
 
 Likewise JUnit Jupiter params provides `@MethodSource`, Minimalist provides `@ArgsSource`.
 
+<!--suppress HtmlUnknownTag -->
 <code-first-1>
 
 ```kotlin
@@ -265,35 +271,10 @@ As a rule of thumb, use `ordered` only if you have explicit restrictions and you
 were faster. Whenever you are in doubt, use `arb` and switch to `ordered` once you are convinced that it is better
 suited.
 
-## Transformations
+## Combinators
 
-`ArgsGenerator`s provide different means to transform them. Not all types of `ArgsGenerator` provide the same methods.
-For instance, since an `OrderedArgsGenerator` needs to know how many values it can generate before repeating them,
-methods like `filter` require that a full cycle gets materialised first.
-Such methods are signified with a `Materialised` suffix.
-
-Most transformation functionality is based on `transform`, `transformMaterialised` respectively where a function
-operates on the generated `Sequence` and must return another `Sequence` which still adheres to the corresponding
-`ArgsGenerator` contract. Following an example:
-
-<code-transform>
-
-```kotlin
-arb.intFromTo(1, 10).transform { sequence ->
-	// return a generated value twice
-	sequence.flatMap { listOf(it, it) }
-}
-
-ordered.intFromTo(1, 10).transformMaterialised { sequence ->
-	sequence.zipWithNext()
-}
-```
-
-</code-transform>
-
-The following subsections outline the most common transformations which got an own function (see KDoc or code completion
-for a full list). The most common transformation is to combine multiple `ArgsGenerator`s, a reason why it got some extra
-care.
+Minimalist provides different combinators to produce new `ArgsGenerator`.
+The most common combinator is to combine multiple `ArgsGenerator`s, a reason why it got some extra care.
 
 ### Combine
 
@@ -395,6 +376,9 @@ The advantage of using tuples instead of manual `combine` are:
   instance `append` another `ArgsGenerator` to the tuple, replace one at a specific position, `glue` tuples together and
   more (see the documentation of [kbox](https://github.com/robstoll/kbox) regarding tuples).
 
+`combine` also provides an overload which takes a `transform` function so that you can turn it into something else than
+`Tuple2`.
+
 ### combineDependent
 
 In many cases you have dependencies between `ArgsGenerators`. Something like, you need two `Int` where the first
@@ -403,10 +387,10 @@ adheres uniform distribution at its core: `arb.intBounds` or `arb.intRange` depe
 `arb.xyzBoundsBased` as building block to create other bounds based `ArbArgsGenerators`. For other relationships you
 can use `combineDependent` as follows:
 
-<code-combine-dependent>
+<code-combine-dependent-arb>
 
 ```kotlin
-class CombineTest : PredefinedArgsProviders {
+class CombineDependentTest : PredefinedArgsProviders {
 
 	@ParameterizedTest
 	@ArgsSource("moreThan10InSum")
@@ -423,7 +407,61 @@ class CombineTest : PredefinedArgsProviders {
 }
 ```
 
-</code-combine-dependent>
+</code-combine-dependent-arb>
+
+`combineDependent` also exists on `SemiOrderedArgsGenerator` and even on `OrderedArgsGenerator` where the resulting
+generator is then an `SemiOrderedArgsGenerator`. Following an example:
+
+<code-combine-dependent-ordered>
+
+```kotlin
+enum class Color {
+	Red, Blue, Green
+}
+
+ordered.fromEnum<Color>().combineDependent({ color ->
+	arb.hexColor(dominant = color)
+}) { _, hex -> hex }
+```
+
+</code-combine-dependent-ordered>
+
+Note three things, first `hexColor` doesn't exist (yet) in Minimalist and is only there for illustration purposes.
+Secondly, `combineDependent` also has two overloads (like `combine`) where the one with a `transform` function allows
+to turn the values into something else. And last but not least, this is a way to define that we want to have x test runs
+at maximum where x is the number of elements in the `Color` enum but we are not interested in `Color` as such but
+something arbitrary which depends on it. If we did not want to limit the number of runs, we could also have used
+[arb.mergeWeighted](#arb-mergeweighted) instead.
+
+### transform
+
+Minimalist provides different means to transform them. Not all types of `ArgsGenerator` provide the same extension
+methods. For instance, since an `OrderedArgsGenerator` needs to know how many values it can generate before repeating
+them, methods like `filter` require that a full cycle gets materialised first.
+Such methods are signified with a `Materialised` suffix.
+
+Most transformation functionality is based on `transform`, `transformMaterialised` respectively where a function
+operates on the generated `Sequence` and must return another `Sequence` which still adheres to the corresponding
+`ArgsGenerator` contract. Following an example:
+
+<code-transform>
+
+```kotlin
+arb.intFromTo(1, 10).transform { sequence ->
+	// return a generated value twice
+	sequence.flatMap { listOf(it, it) }
+}
+
+ordered.intFromTo(1, 10).transformMaterialised { sequence ->
+	sequence.zipWithNext()
+}
+```
+
+</code-transform>
+
+Which means you can use `transform` as building block for custom transformations based on `Sequence`.
+Some functions are so common, that Minimalist provides them as extension of `ArgsGenerator` as well,
+the following section outlines some.
 
 ### map
 
@@ -432,8 +470,8 @@ You can map values of `ArgsGenerator` to another type by providing a mapping fun
 <code-map>
 
 ```kotlin
-LocalDate.now().let { now -> arb.localDateFromTo(now.withDayOfYear(1), now) }
-	.map { localDate -> localDate.atTime(12, 0) }
+val now = LocalDate.now()
+arb.localDateFromTo(now.withDayOfYear(1), now).map { localDate -> localDate.atTime(12, 0) }
 
 ordered.intFromTo('A'.code, 'Z'.code).map { it.toChar() }
 ```
@@ -442,9 +480,10 @@ ordered.intFromTo('A'.code, 'Z'.code).map { it.toChar() }
 
 ### filter
 
-Filtering an `ArgsGenerator` can be done via `filter`/`filterNot`, `filterMaterialised`/`filterNotMaterialised`
-respectively. Note that `filterMaterialised`/`filterNotMaterialised` cannot be used for `SemiOrderedArgsGenerator`s as
-this would fix the arbitrary part of it.
+Filtering an `ArbArgsGenerator` can be done via `filter`/`filterNot`.
+Filtering an `OrderedArgsGenerator` via `filterMaterialised`/`filterNotMaterialised` (see [transform](#transform) for
+an explanation about `Materialised`). Note that `filterMaterialised`/`filterNotMaterialised` is not available for
+`SemiOrderedArgsGenerator`s as this would fix the arbitrary part of it.
 
 <code-filter>
 
@@ -468,6 +507,77 @@ arb.intFromTo(1, 1000).filter { it % 2 == 1 }
 ```
 
 </code-dont-filter>
+
+### chunked
+
+If you want to take a static number of values from an `ArbArgsGenerator` and transform them into another type, then
+`chunked` comes in handy where as for `Sequence` two overloads are provided. The first transforms the values into a
+`List` and the second takes a `transform` function in addition which allows to map the `List` of values into something
+else.
+
+<code-chunked>
+
+```kotlin
+arb.intFromTo(1, 100).chunked(3)
+arb.intFromTo(1, 100).chunked(3) { it.sorted() }
+arb.charFromTo('a', 't').combine(arb.intFromTo(1, 100)).chunked(3) { it.toMap() }
+```
+
+</code-chunked>
+
+So far we did not come across a use case where `chunked` would be valuable for `OrderedArgsGenerator` and hence don't
+provide a shortcut. Let us know your use cases, we happily add the shortcut if it is of value (we try to not clutter
+the API with methods we have not used ourselves so far).
+
+### ordered concatenation
+
+Concatenating `OrderedArgsGenerators` can be done via `+` or via `concatAll` where the resulting `size` will
+correspondingly be
+the size of `this.size` + `other.size`.
+
+<code-concat>
+
+```kotlin
+ordered.of(1, 2) + ordered.intFromTo(100, 120)
+
+// works with Iterable/Sequence as well
+(0..3).map {
+	val offset = 10 * it
+	ordered.of(0 + offset, 3 + offset)
+}.concatAll() // generates 0,3, 10,13, 20,23, 30,33, ...
+```
+
+</code-concat>
+
+Concatenating an `ArbArgsGenerator` isn't possible as its size is infinite, i.e. we would never see the values
+of the second `ArbArgsGenerator`. But you can merge them, see next section.
+
+### arb mergeWeighted
+
+Sometimes you want to use two or more `ArbArgsGenerator`s as source of a test. In such a case you can use
+`arb.mergeWeighted` to merge them where you can define the weighting of the individual generators:
+
+<code-mergeWeighted>
+
+```kotlin
+arb.mergeWeighted(
+	80 to arb.intFromUntil(100, 200),
+	10 to arb.of(201),
+	10 to arb.of(null)
+)
+```
+
+</code-mergeWeighted>
+
+The weighting does not need to add up to 100. If they do, then the numbers correspond to percentage. So in the above
+case, out of 100 generates values, around 80 will be between 100 and 200 (exclusive), around 10 will be 201 and
+around 10 will be `null`. The defined weighting is uniformly distributed, which means that for a small number of values,
+it might be skewed; for example, 85 values could fall between 100 and 200, etc.
+
+### ordered toArbArgsGenerator
+
+You can turn a `(Semi)OrderedArgsGenerator` into an `ArbArgsGenerator` by using the `toArbArgsGenerator()` extension
+method.
 
 # Configuration
 

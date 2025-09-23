@@ -10,8 +10,8 @@ import kotlin.test.assertTrue
 
 @Suppress("unused")
 @Order(1)
-//snippet-combine-dependent-start
-class CombineTest : PredefinedArgsProviders {
+//snippet-combine-dependent-arb-start
+class CombineDependentTest : PredefinedArgsProviders {
 
 	@ParameterizedTest
 	@ArgsSource("moreThan10InSum")
@@ -26,5 +26,5 @@ class CombineTest : PredefinedArgsProviders {
 		}
 	}
 }
-//snippet-combine-dependent-end
+//snippet-combine-dependent-arb-end
 
