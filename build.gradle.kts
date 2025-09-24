@@ -7,7 +7,7 @@ plugins {
 	id("me.champeau.jmh") version "0.7.3"
 }
 
-version = "2.0.0-RC-1"
+version = "2.0.0-RC-2"
 group = "com.tegonal.minimalist"
 description = "Library which helps to setup and prioritise parameterized tests"
 
@@ -82,8 +82,8 @@ Release & deploy a commit
 1. update main:
 
 
-export MNLMST_PREVIOUS_VERSION=2.0.0-RC-1
-export MNLMST_VERSION=2.0.0-RC-1
+export MNLMST_PREVIOUS_VERSION=2.0.0-RC-2
+export MNLMST_VERSION=2.0.0-RC-2
 find ./ -name "*.md" | xargs perl -0777 -i \
    -pe "s@$MNLMST_PREVIOUS_VERSION@$MNLMST_VERSION@g;" \
    -pe "s@tree/main@tree/v$MNLMST_VERSION@g;" \
@@ -197,7 +197,7 @@ Prepare next dev cycle
     1. update main:
 
 
-export MNLMST_VERSION=2.0.0-RC-1
+export MNLMST_VERSION=2.0.0-RC-2
 export MNLMST_NEXT_VERSION=1.2.0
 find ./ -name "*.md" | xargs perl -0777 -i \
    -pe "s@tree/v$MNLMST_VERSION@tree/main@g;" \
