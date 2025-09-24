@@ -23,7 +23,7 @@ class ArbPseudoTransformationTests {
 	@Test
 	fun combine() {
 		val a1generator = PseudoArbArgsGenerator(a1s)
-		val generator = a1generator.combine(PseudoArbArgsGenerator(a2s))
+		val generator = a1generator.zip(PseudoArbArgsGenerator(a2s))
 		val expected = a1s.zip(a2sAfterCombine)
 		val oneCombined = expected.take(1).toList()
 		val fourCombined = expected.take(4).toList()
@@ -42,7 +42,7 @@ class ArbPseudoTransformationTests {
 	fun combineTransformed() {
 		val f: (Int, Char) -> Args2<Int, Char> = { a1, a2 -> Args.of(a1, a2) }
 		val a1generator = PseudoArbArgsGenerator(a1s)
-		val generator = a1generator.combine(PseudoArbArgsGenerator(a2s), f)
+		val generator = a1generator.zip(PseudoArbArgsGenerator(a2s), f)
 		val expected = a1s.zip(a2sAfterCombine, f)
 		val oneCombined = expected.take(1).toList()
 		val fourCombined = expected.take(4).toList()

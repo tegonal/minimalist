@@ -1,14 +1,10 @@
 package com.tegonal.minimalist.generators
 
 import ch.tutteli.atrium.api.fluent.en_GB.messageToContain
-import ch.tutteli.atrium.api.fluent.en_GB.notToHaveNext
-import ch.tutteli.atrium.api.fluent.en_GB.toBeEmpty
 import ch.tutteli.atrium.api.fluent.en_GB.toContainExactly
-import ch.tutteli.atrium.api.fluent.en_GB.toContainExactlyElementsOf
 import ch.tutteli.atrium.api.fluent.en_GB.toThrow
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.providers.ArgsRange
 import com.tegonal.minimalist.testutils.anyToList
 import com.tegonal.minimalist.testutils.getTestValue
 import kotlin.test.Test
@@ -20,7 +16,7 @@ class OrderedConcatenateAllTest : AbstractOrderedConcatenateTest() {
 		val g1Variants = variants(0)
 		val g2Variants = variants(1)
 
-		val concatenated = g1Variants.combine(g2Variants) { (name1, g1), (name2, g2) ->
+		val concatenated = g1Variants.cartesian(g2Variants) { (name1, g1), (name2, g2) ->
 			val l = listOf(888_888, 999_999)
 			Tuple(
 				"$name1, $name2",

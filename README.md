@@ -40,7 +40,9 @@ version: [README of v2.0.0-RC-1](https://github.com/tegonal/minimalist/tree/v2.0
 	- [Your first parameterized Test](#your-first-parameterized-test)
 	- [Ordered and arbitrary arguments generators](#ordered-and-arbitrary-arguments-generators)
 	- [Combinators](#combinators)
-		- [combine](#combine)
+		- [generic combine](#generic-combine)
+        - [ordered.cartesian](#ordered-cartesian)
+        - [arb.zip](#arb-zip)
 		- [combineDependent](#combinedependent)
 		- [transform](#transform)
 		- [map](#map)
@@ -148,11 +150,11 @@ Raw values are turned into a `List` and then passed to `ordered.fromList`. The n
 
 Minimalist provides two entry points to create an `ArgsGenenerator`: `ordered` and `arb`.
 
-`ordered` can be used to define an ordered (not to be confused with sorted) list of finite values where the
-corresponding
-`OrderedArgsGenerator` generates a sequence which repeats them indefinitely.
-For instance, if you use `ordered.of('a', 'b')` as provider, then it results in two runs where in the first run you
-will get `'a'` and in the second `'b'` or you will get `'b'` in the first run and `'a'` in the second.
+`ordered` can be used to define an ordered (not to be confused with sorted) list of finite (`OrderedArgsGenerator.size`)
+values where the corresponding `OrderedArgsGenerator` generates a sequence which repeats them indefinitely.
+For instance, if you use `ordered.of('a', 'b')` as provider, then `OrderedArgsGenerator.size = 2` and correspondingly
+it results in two runs. You either will get `'a'` in the first run and in the second `'b'` or
+you will get `'b'` in the first run and `'a'` in the second.
 That is because the resulting sequence repeats indefinitely `'a', 'b', 'a', 'b', ... `
 and it depends on a randomly chosen seed what offset is taken.
 
@@ -184,8 +186,14 @@ ordered.longFromTo(1, 5)
 
 The "counterpart" of `ordered` is `arb` that allows to create `ArbArgsGenerator`s which per definition generate
 an infinite sequence of values where it is basically not known if they follow some order or not.
-The default implementations almost all are based on `Random`.
-Following a few examples as well (import and enum definition omitted, as it is the same as above):
+The default implementations are almost all based on `Random`.
+The number of runs of such a provider is in theory infinite as well (`ArbArgsGenerator.size` doesn't exist) but gets
+limited by the [profile](#profiles) the test falls into, the environment where the test runs and what configuration
+was set up for this combination. Also `OrderedArgsGenerator` are limited by profile/env but introduce an own limit in
+addition.
+
+Following a few examples for `ArbArgsGenerator` as well (import and enum definition omitted, as it is the same as
+above):
 
 <code-arb-1>
 
@@ -250,8 +258,7 @@ contain predefined `ArgsSource` providers and one ArgsSourceProvider which exten
 from Minimalist's PredefinedArgsSourceProviders as well.
 
 Back to the example, in contrast to the [first parameterized test example](#your-first-parameterized-test) where we used
-raw values (which are
-turned into a `List` and then passed to `ordered.fromList`), we now want to be sure the test
+raw values (which are turned into a `List` and then passed to `ordered.fromList`), we now want to be sure the test
 works for all positive integers and not only `1..20`. Since there are many positive integers, we use `arb` and no
 longer `ordered`.
 
@@ -259,8 +266,7 @@ Note, that even if we defined a provider with `arb.intFromTo(1, 20)` the runtime
 Where `OrderedArgsGenerator`s generate a window of all possible values (i.e. still ordered),
 an `ArbArgsGenerator` generates arbitrary/random values (possibly the same value multiple times).
 To illustrate it better, following an example where `maxArgs=5` (more on `maxArgs` in
-the [Configuration](#configuration)
-section):
+the [Configuration](#configuration) section):
 
 ```kotlin
 ordered.of(1, 2, 3) // results in 3 runs: 1, 2, 3 or 2, 3, 1 or 3, 1, 2
@@ -274,12 +280,12 @@ suited.
 ## Combinators
 
 Minimalist provides different combinators to produce new `ArgsGenerator`.
-The most common combinator is to combine multiple `ArgsGenerator`s, a reason why it got some extra care.
 
-### Combine
+### Generic Combine
 
-Although Minimalist provides a `combine` function (more on that later on), the cleanest way to define that two
-`ArgsGenerator`s shall be combined, is to use `Tuple` (from ch.tutteli.kbox) which exists up to `Tuple9`:
+The most frequently used combinator is probably a way to combine multiple `ArgsGenerator`s in some way. A reason why
+we added a bit of magic to Minimalist. The idiomatic way to define that we want to combine multiple generators is
+to use `Tuple` (from ch.tutteli.kbox) which exists up to `Tuple9`:
 
 <code-combine-tuple>
 
@@ -309,28 +315,27 @@ class CombineTupleTest : PredefinedArgsProviders {
 
 </code-combine-tuple>
 
-As you can see in the example, you can also combine `ordered` and `arb` (resulting in a `SemiOrderedArgsGenerator`).
-You only need to make sure that your first `ArgsGenerator` in the tuple is a `SemiOrderedArgsGenerator`
-(`OrderedArgsGenerator` is a subtype of `SemiOrderedArgsGenerator`). If your first `ArgsGenerator` in the tuple is
-an `ArbArgsGenerator` then all generators which follow need to be an `ArbArgsGenerator` as well (otherwise it will
-fail at runtime).
+Combining two `OrderedArgsGenerator`s A and B (or `SemiOrderedArgsGenerator`s) results in an `OrderedArgsGenerator`
+representing their cartesian product and the size correspondingly `A.size * B.size`. I.e. such combinations can
+grow quickly, but Minimalist has you covered in therms that this is just a definition (nothing generated yet) and 
+you still execute only a window of those values in a fast and efficient way.
+On the other hand, combining two `ArbArgsGenerator` means zipping them and results in another `ArbArgsGenerator`.
 
-Maybe you are asking yourself how many runs result out of the above definition. `SemiOrderedArgsGenerator`s have a
-property `size` and as long as no `maxArgs` definition restricts it, it will result in that many runs.
+Combining an `OrderedArgsGenerators` and an `ArbArgsGenerator` works as well (as shown in the example) and uses 
+again zip behaviour, where the result is no longer an `OrderedArgsGenerators` but a `SemiOrderedArgsGenerators` (which 
+still has a `size` property). You only need to make sure that your first `ArgsGenerator` in the tuple is a
+`SemiOrderedArgsGenerator` (`OrderedArgsGenerator` is a subtype of `SemiOrderedArgsGenerator`). 
+If your first `ArgsGenerator` in the tuple is an `ArbArgsGenerator` then all generators which follow need to be an
+`ArbArgsGenerator` as well (otherwise it will fail at runtime).
+
+Maybe you are asking yourself how many runs result out of the above definition. As long as no `maxArgs` definition 
+restricts it, it will result in `SemiOrderedArgsGenerator.size` runs.
 So for `ordered.intFromTo(15, 30)`, we will get 30 - 15 + 1 = 16 runs at max (+1 since bounds are inclusive for
 `intFromTo`). Which means we combine 16 arbitrary names with the defined ages.
 
-If you combine two `OrderedArgsGenerator`s A and B (or `SemiOrderedArgsGenerator`s) the resulting `OrderedArgsGenerator`
-will be their cartesian product and the size correspondingly `A.size * B.size`. I.e. such combinations can grow quickly,
-but Minimalist has you covered in therms that this is just a definition (nothing generated yet) and you still execute
-only a window of those values in a fast and efficient way.
-
-If you combine two `ArbArgsGenerator`s then you will get back an `ArbArgsGenerator` which semantically
-[`zip`s](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/zip.html) the generates values.
-
 What if you want to combine more than 9 `ArgsGenerators`? In such a case you have to combine them via
 `TupleX.combineAll()` to get an `ArgsGenerators<TupleX<...>>` which then again can be used in a tuple.
-Or use `ArgsGenerator.combine(otherArgsGenerator)` to create an `ArgsGenerators<Tuple2<...>>`.
+Or use `cartesian`, `zip` to create an `ArgsGenerators<Tuple2<...>>`.
 Following an example (using less than 9 `ArgsGenerators` for brevity -- imports omitted, same as in
 `TupleCombine1Test` above)
 
@@ -349,7 +354,7 @@ class CombineManuallyTest : PredefinedArgsProviders {
 		@JvmStatic
 		fun numbersAndChar() = run { // use run to let the compiler infer the return type
 			val numbers = Tuple(
-				arb.int().combine(arb.long()), // combines them into an ArbArgsGenerators<Tuple2<Int, Long>>
+				arb.int().zip(arb.long()), // combines them into an ArbArgsGenerators<Tuple2<Int, Long>>
 				arb.double(),
 				arb.bigIntFromUntil(BigInt.ZERO, BigInt.TEN)
 			).combineAll() // combines all into an ArbArgsGenerators<Tuple3<...>>
@@ -365,19 +370,81 @@ class CombineManuallyTest : PredefinedArgsProviders {
 
 </code-combine-manually>
 
-Note two things. First, tuples are flattened in the process of transforming the definition into `Arguments`. Second,
-`Tuple2`/`Tuple3` are just type aliases for `Pair`/`Triple`. Which means, if you want that an argument is like a
+Note two things. First, tuples are flattened in the process of transforming the definition into JUnit's `Arguments`.
+Second, `Tuple2`/`Tuple3` are just type aliases for `Pair`/`Triple`. Which means, if you want that an argument is like a
 `Pair`/`Triple` without being flattened, then define e.g. a `data class`.
 
-The advantage of using tuples instead of manual `combine` are:
+The advantage of using tuples instead of manual `cartesian`/`zip` are:
 
 - a) readability (less consecutive `combine` method calls -- less cluttering) and
 - b) you only define that you would like to combine them without actually doing it. Which allows that you can for
   instance `append` another `ArgsGenerator` to the tuple, replace one at a specific position, `glue` tuples together and
   more (see the documentation of [kbox](https://github.com/robstoll/kbox) regarding tuples).
 
-`combine` also provides an overload which takes a `transform` function so that you can turn it into something else than
-`Tuple2`.
+`cartesian` and `zip` provide an overload which takes a `transform` function so that you can turn the generates values
+pairwise into something else than `Tuple2`.
+
+### ordered cartesian
+
+As mentioned in [generic combine](#generic-combine), combining multiple `OrderArgsGenerator`s by using a `Tuple` uses
+`cartesian` behind the scenes and results in a new `OrderArgsGenerator` which represents the cartesian product of them,
+i.e. all possible combinations.
+
+<code-cartesian-1>
+
+```kotlin
+ordered.of(1, 2).cartesian(ordered.of('A', 'B'))
+```
+
+</code-cartesian-1>
+
+For the above example, the possible combinations are 1/A, 2/A, 1/B, 2/B
+You can pass a `transform` function as last argument and map the values pairwise to another type:
+
+<code-cartesian-2>
+
+```kotlin
+ordered.of(1, 2).cartesian(ordered.of(4, 5)) { i1, i2 ->
+	i1 + i2
+}
+```
+
+</code-cartesian-2>
+
+The above example results in an `OrderedArgsGenerator<Int>` with the values 5 (1+4), 6 (2+4), 6 (1+5), 7 (2+5)
+(the order of the values is implementation specific). As you can see, an `OrderedArgsGenerator` can also generate the 
+same value multiple times.
+
+### arb zip
+
+As mentioned in [generic combine](#generic-combine), combining multiple `ArbArgsGenerator`s by using a `Tuple` uses
+`zip` behind the scenes and results in a new `ArbArgsGenerator`:
+
+<code-zip-1>
+
+```kotlin
+arb.intFromUntil(1, 100).zip(arb.charFromTo('A', 'Z'))
+```
+
+</code-zip-1>
+
+For the above example, the possible combinations are 1/A, 2/A,... 99/A, 1/B, 2/B... 99/Z
+As mentioned in [ordered and arbitrary arguments generators](#ordered-and-arbitrary-arguments-generators), an
+`ArbArgsGenerator` order is undefined and it could occur that you see a combination more than once.
+You can pass a `transform` function as last argument and map the values pairwise another type:
+
+<code-zip-2>
+
+```kotlin
+arb.intFromUntil(1, 100).zip(arb.intFromUntil(1000, 2000)) { i1, i2 ->
+	i1 + i2
+}
+```
+
+</code-zip-2>
+
+The above example results in an `ArbArgsGenerator<Int>` generating values from 1001 until 2098 where 1002 until 1099 are 
+more likely to appear since they result twice (1+1001 and 2+1000 = 1002 etc.).
 
 ### combineDependent
 
@@ -520,7 +587,7 @@ else.
 ```kotlin
 arb.intFromTo(1, 100).chunked(3)
 arb.intFromTo(1, 100).chunked(3) { it.sorted() }
-arb.charFromTo('a', 't').combine(arb.intFromTo(1, 100)).chunked(3) { it.toMap() }
+arb.charFromTo('a', 't').zip(arb.intFromTo(1, 100)).chunked(3) { it.toMap() }
 ```
 
 </code-chunked>
@@ -584,12 +651,22 @@ method.
 Minimalist provides a configuration via `MinimalistConfig` which per default can be customised via
 `minimalist.properties`.
 This file needs to be available on your classpath. Typically, you put it in src/test/resources.
-Next to `minimalist.properties` which is intended to make project based adjustments, you can create a
-`minimalist.local.properties`
-which you should add on your git ignore list. This file overwrites settings in `minimalist.properties` and is intended
-for personal adjustments and debugging.
+Next to `minimalist.properties` which is intended to make project based adjustments
+(e.g. change `Miniamlist.defaultProfile` to `E2E`, see [profiles](#profiles)), you can create a
+`minimalist.local.properties` which you should add on your git ignore list. 
+This file overwrites settings in `minimalist.properties` and is intended for personal adjustments and debugging.
 
 More documentation about the configuration will follow, in the meantime, take a look at the KDoc of MinimalistConfig.
+
+## Profiles
+
+Minimalist steers how many runs will result at maximum (if not limited by other factors such as
+`OrderedArgsGenerator.size`) by the profile definition in use (`MinimalistConfig.defaultProfile` is `Integration`)
+and the environment the test runs in (defined via `MinimalistConfig.activeEnv`). 
+The active environment is determined from environment variables (GitHub and GitLab env vars), 
+defaulting to `Local` if it cannot be deduced.
+
+See `MinimalistConfig.testProfiles` for what `maxArgs` are defined per default.
 
 # Code Documentation
 

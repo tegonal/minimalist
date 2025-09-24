@@ -194,6 +194,7 @@ class WriteReadmeTest {
                 """<$tag>
                 |
                 |${contentProvider()}
+				|
                 |</$tag>
                 """.trimMargin().prependIndent(it.destructured.component1())
             }

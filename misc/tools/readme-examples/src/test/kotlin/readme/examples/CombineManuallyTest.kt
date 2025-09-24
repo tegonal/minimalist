@@ -22,7 +22,7 @@ class CombineManuallyTest : PredefinedArgsProviders {
 		@JvmStatic
 		fun numbersAndChar() = run { // use run to let the compiler infer the return type
 			val numbers = Tuple(
-				arb.int().combine(arb.long()), // combines them into an ArbArgsGenerators<Tuple2<Int, Long>>
+				arb.int().zip(arb.long()), // combines them into an ArbArgsGenerators<Tuple2<Int, Long>>
 				arb.double(),
 				arb.bigIntFromUntil(BigInt.ZERO, BigInt.TEN)
 			).combineAll() // combines all into an ArbArgsGenerators<Tuple3<...>>

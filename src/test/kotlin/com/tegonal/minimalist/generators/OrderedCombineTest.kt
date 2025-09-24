@@ -14,7 +14,7 @@ class OrderedCombineTest : AbstractOrderedCombinerTest() {
 		val a2s = (1..numOfChars).map { 'A' - 1 + it }
 		val a1Generator = ordered.fromList(a1s)
 		val a2Generator = ordered.fromList(a2s)
-		val generator: OrderedArgsGenerator<Pair<Int, Char>> = a1Generator.combine(a2Generator)
+		val generator: OrderedArgsGenerator<Pair<Int, Char>> = a1Generator.cartesian(a2Generator)
 
 		validateGeneration(generator.map { pair -> pair.toList() }, listOf(a1s, a2s))
 	}
@@ -41,7 +41,7 @@ class OrderedCombineTest : AbstractOrderedCombinerTest() {
 		val a2Generator = ordered.fromList(a2s)
 		val a3Generator = ordered.fromList(a3s)
 		val generator: OrderedArgsGenerator<Triple<Int, Char, String>> =
-			a1Generator.combine(a2Generator).combine(a3Generator)
+			a1Generator.cartesian(a2Generator).cartesian(a3Generator)
 
 		validateGeneration(generator.map { triple -> triple.toList() }, listOf(a1s, a2s, a3s))
 	}

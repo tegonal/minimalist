@@ -1,4 +1,4 @@
-@file:JvmName("ArbCombineKt")
+@file:JvmName("ArbCombineDependentKt")
 @file:JvmMultifileClass
 // --------------------------------------------------------------------------------------------------------------------
 // automatically generated, don't modify here but in:
@@ -18,8 +18,8 @@ import ch.tutteli.kbox.Tuple9
 
 /**
  * Creates for each generated value of type [A1] by `this` [ArbArgsGenerator] another [ArbArgsGenerator] with the
- * help of the given [otherFactory] where the other generator generates values of type [A2] and then combines the value
- * of `this` [ArbArgsGenerator] with one value of the other [ArbArgsGenerator].
+ * help of the given [otherFactory] where the other generator generates values of type [A2]
+ and then zips the value of `this` [ArbArgsGenerator] with one values of the other [ArbArgsGenerator].
  *
  * @param otherFactory Builds an [ArbArgsGenerator] based on a given value of type [A1].
  *
@@ -34,8 +34,8 @@ fun <A1, A2> ArbArgsGenerator<A1>.combineDependent(
 
 /**
  * Creates for each generated value of type [Tuple2] by `this` [ArbArgsGenerator] another [ArbArgsGenerator] with the
- * help of the given [otherFactory] where the other generator generates values of type [A3] and then combines the value
- * of `this` [ArbArgsGenerator] with one value of the other [ArbArgsGenerator].
+ * help of the given [otherFactory] where the other generator generates values of type [A3]
+ and then zips the value of `this` [ArbArgsGenerator] with one values of the other [ArbArgsGenerator].
  *
  * @param otherFactory Builds an [ArbArgsGenerator] based on a given value of type [Tuple2].
  *
@@ -52,8 +52,8 @@ fun <A1, A2, A3> ArbArgsGenerator<Tuple2<A1, A2>>.combineDependent(
 
 /**
  * Creates for each generated value of type [Tuple3] by `this` [ArbArgsGenerator] another [ArbArgsGenerator] with the
- * help of the given [otherFactory] where the other generator generates values of type [A4] and then combines the value
- * of `this` [ArbArgsGenerator] with one value of the other [ArbArgsGenerator].
+ * help of the given [otherFactory] where the other generator generates values of type [A4]
+ and then zips the value of `this` [ArbArgsGenerator] with one values of the other [ArbArgsGenerator].
  *
  * @param otherFactory Builds an [ArbArgsGenerator] based on a given value of type [Tuple3].
  *
@@ -70,8 +70,8 @@ fun <A1, A2, A3, A4> ArbArgsGenerator<Tuple3<A1, A2, A3>>.combineDependent(
 
 /**
  * Creates for each generated value of type [Tuple4] by `this` [ArbArgsGenerator] another [ArbArgsGenerator] with the
- * help of the given [otherFactory] where the other generator generates values of type [A5] and then combines the value
- * of `this` [ArbArgsGenerator] with one value of the other [ArbArgsGenerator].
+ * help of the given [otherFactory] where the other generator generates values of type [A5]
+ and then zips the value of `this` [ArbArgsGenerator] with one values of the other [ArbArgsGenerator].
  *
  * @param otherFactory Builds an [ArbArgsGenerator] based on a given value of type [Tuple4].
  *
@@ -88,8 +88,8 @@ fun <A1, A2, A3, A4, A5> ArbArgsGenerator<Tuple4<A1, A2, A3, A4>>.combineDepende
 
 /**
  * Creates for each generated value of type [Tuple5] by `this` [ArbArgsGenerator] another [ArbArgsGenerator] with the
- * help of the given [otherFactory] where the other generator generates values of type [A6] and then combines the value
- * of `this` [ArbArgsGenerator] with one value of the other [ArbArgsGenerator].
+ * help of the given [otherFactory] where the other generator generates values of type [A6]
+ and then zips the value of `this` [ArbArgsGenerator] with one values of the other [ArbArgsGenerator].
  *
  * @param otherFactory Builds an [ArbArgsGenerator] based on a given value of type [Tuple5].
  *
@@ -106,8 +106,8 @@ fun <A1, A2, A3, A4, A5, A6> ArbArgsGenerator<Tuple5<A1, A2, A3, A4, A5>>.combin
 
 /**
  * Creates for each generated value of type [Tuple6] by `this` [ArbArgsGenerator] another [ArbArgsGenerator] with the
- * help of the given [otherFactory] where the other generator generates values of type [A7] and then combines the value
- * of `this` [ArbArgsGenerator] with one value of the other [ArbArgsGenerator].
+ * help of the given [otherFactory] where the other generator generates values of type [A7]
+ and then zips the value of `this` [ArbArgsGenerator] with one values of the other [ArbArgsGenerator].
  *
  * @param otherFactory Builds an [ArbArgsGenerator] based on a given value of type [Tuple6].
  *
@@ -124,8 +124,8 @@ fun <A1, A2, A3, A4, A5, A6, A7> ArbArgsGenerator<Tuple6<A1, A2, A3, A4, A5, A6>
 
 /**
  * Creates for each generated value of type [Tuple7] by `this` [ArbArgsGenerator] another [ArbArgsGenerator] with the
- * help of the given [otherFactory] where the other generator generates values of type [A8] and then combines the value
- * of `this` [ArbArgsGenerator] with one value of the other [ArbArgsGenerator].
+ * help of the given [otherFactory] where the other generator generates values of type [A8]
+ and then zips the value of `this` [ArbArgsGenerator] with one values of the other [ArbArgsGenerator].
  *
  * @param otherFactory Builds an [ArbArgsGenerator] based on a given value of type [Tuple7].
  *
@@ -142,8 +142,8 @@ fun <A1, A2, A3, A4, A5, A6, A7, A8> ArbArgsGenerator<Tuple7<A1, A2, A3, A4, A5,
 
 /**
  * Creates for each generated value of type [Tuple8] by `this` [ArbArgsGenerator] another [ArbArgsGenerator] with the
- * help of the given [otherFactory] where the other generator generates values of type [A9] and then combines the value
- * of `this` [ArbArgsGenerator] with one value of the other [ArbArgsGenerator].
+ * help of the given [otherFactory] where the other generator generates values of type [A9]
+ and then zips the value of `this` [ArbArgsGenerator] with one values of the other [ArbArgsGenerator].
  *
  * @param otherFactory Builds an [ArbArgsGenerator] based on a given value of type [Tuple8].
  *

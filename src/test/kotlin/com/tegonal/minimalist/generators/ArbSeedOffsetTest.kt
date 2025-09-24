@@ -34,7 +34,7 @@ class ArbSeedOffsetTest {
 				Tuple((0..9).map { it + seed * 10 }, emptyList(), emptyList())
 			}.arb
 
-		val listOfPairs = arb.int().combine(arb.int()).generateAndTake(10).toList()
+		val listOfPairs = arb.int().zip(arb.int()).generateAndTake(10).toList()
 		val a1s = listOfPairs.map { it.first }
 		val a2s = listOfPairs.map { it.second }
 		expect(a1s).toEqual((0..9).toList())
@@ -48,7 +48,7 @@ class ArbSeedOffsetTest {
 				Tuple((0..9).map { it + seed * 10 }, emptyList(), emptyList())
 			}.arb
 
-		val listOfPairs = arb.int().combine(arb.int()).generate(seedOffset = 2).take(10).toList()
+		val listOfPairs = arb.int().zip(arb.int()).generate(seedOffset = 2).take(10).toList()
 		val a1s = listOfPairs.map { it.first }
 		val a2s = listOfPairs.map { it.second }
 		expect(a1s).toEqual((20..29).toList())
