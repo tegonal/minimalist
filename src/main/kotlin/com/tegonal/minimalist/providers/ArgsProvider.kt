@@ -31,7 +31,7 @@ import kotlin.streams.asStream
  *
  * @since 2.0.0
  */
-class ArgsArgumentProvider : ArgumentsProvider {
+class ArgsProvider : ArgumentsProvider {
 
 	@Suppress("DEPRECATION")
 	override fun provideArguments(

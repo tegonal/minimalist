@@ -15,7 +15,7 @@ import com.tegonal.minimalist.config.TestType
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
 @MustBeDocumented
-@ArgumentsSource(ArgsArgumentProvider::class)
+@ArgumentsSource(ArgsProvider::class)
 @ArgsSourceLike
 annotation class ArgsSource(
 	@Language("jvm-method-name") val methodName: String,

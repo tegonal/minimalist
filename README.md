@@ -150,7 +150,7 @@ Raw values are turned into a `List` and then passed to `ordered.fromList`. The n
 
 Minimalist provides two entry points to create an `ArgsGenenerator`: `ordered` and `arb`.
 
-`ordered` can be used to define an ordered (not to be confused with sorted) list of finite (`OrderedArgsGenerator.size`)
+`ordered` can be used to define an ordered (not to be confused with sorted) list of finite
 values where the corresponding `OrderedArgsGenerator` generates a sequence which repeats them indefinitely.
 For instance, if you use `ordered.of('a', 'b')` as provider, then `OrderedArgsGenerator.size = 2` and correspondingly
 it results in two runs. You either will get `'a'` in the first run and in the second `'b'` or
@@ -158,8 +158,8 @@ you will get `'b'` in the first run and `'a'` in the second.
 That is because the resulting sequence repeats indefinitely `'a', 'b', 'a', 'b', ... `
 and it depends on a randomly chosen seed what offset is taken.
 
-Following a few examples what predefined `ordered` exist (take a look at the [Code Documentation](#code-documentation)
-to see all):
+Following a few examples what predefined factories exist on `ordered` (take a look at the 
+[Code Documentation](#code-documentation) to see all):
 
 <code-ordered-1>
 
@@ -192,8 +192,7 @@ limited by the [profile](#profiles) the test falls into, the environment where t
 was set up for this combination. Also `OrderedArgsGenerator` are limited by profile/env but introduce an own limit in
 addition.
 
-Following a few examples for `ArbArgsGenerator` as well (import and enum definition omitted, as it is the same as
-above):
+Following a few examples for `arb` as well (import and enum definition omitted, as it is the same as above):
 
 <code-arb-1>
 
@@ -227,7 +226,7 @@ arb.string(minLength = 0, maxLength = 20, allowedRanges = UnicodeRanges.ASCII_PR
 
 </code-arb-1>
 
-For a few `arb` definitions we provide predefined `ArgsSourceProvider`s. Following an example:
+For some `arb` and a few `ordered` definitions we provide predefined `ArgsSourceProvider`s. Following an example:
 
 <code-predefined-1>
 
@@ -253,9 +252,9 @@ class PredefinedArgsProvidersTest : PredefinedArgsProviders {
 </code-predefined-1>
 
 Typically, you will reuse your custom providers in several tests. We recommend you create your own interfaces which
-contain predefined `ArgsSource` providers and one ArgsSourceProvider which extends all of them
-(see `com.tegonal.minimalist.providers.PredefinedArgsSourceProviders` for an example) and you might want to extend
-from Minimalist's PredefinedArgsSourceProviders as well.
+contain predefined `ArgsSource` providers and one `ArgsProvider` which extends all of them
+(see `com.tegonal.minimalist.providers.PredefinedArgsProviders` for an example) and you might want to extend
+from Minimalist's PredefinedArgsProviders as well.
 
 Back to the example, in contrast to the [first parameterized test example](#your-first-parameterized-test) where we used
 raw values (which are turned into a `List` and then passed to `ordered.fromList`), we now want to be sure the test
@@ -337,7 +336,7 @@ What if you want to combine more than 9 `ArgsGenerators`? In such a case you hav
 `TupleX.combineAll()` to get an `ArgsGenerators<TupleX<...>>` which then again can be used in a tuple.
 Or use `cartesian`, `zip` to create an `ArgsGenerators<Tuple2<...>>`.
 Following an example (using less than 9 `ArgsGenerators` for brevity -- imports omitted, same as in
-`TupleCombine1Test` above)
+`CombineTupleTest` above)
 
 <code-combine-manually>
 

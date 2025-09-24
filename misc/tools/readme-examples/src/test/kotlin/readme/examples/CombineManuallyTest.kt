@@ -30,7 +30,7 @@ class CombineManuallyTest : PredefinedArgsProviders {
 			Tuple(
 				numbers, // can again be used in a tuple to define that it shall be combined
 				arb.char()
-			) // the ArgsArgumentProvider will flatten all tuples, resulting in 5 arguments (see bar above)
+			) // the ArgsProvider will flatten all tuples, resulting in 5 arguments (see bar above)
 		}
 	}
 }
