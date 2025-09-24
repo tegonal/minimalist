@@ -5,7 +5,7 @@ import com.tegonal.minimalist.generators.*
 /**
  * @since 2.0.0
  */
-interface PredefinedArbNumberProviders {
+interface PredefinedNumberProviders {
 	companion object {
 		@JvmStatic
 		fun arbInt() = arb.int()

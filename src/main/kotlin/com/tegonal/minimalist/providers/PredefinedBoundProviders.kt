@@ -7,7 +7,7 @@ import com.tegonal.minimalist.generators.longBounds
 /**
  * @since 2.0.0
  */
-interface PredefinedArbBoundsProviders {
+interface PredefinedBoundProviders {
 	companion object {
 		@JvmStatic
 		fun arbIntBoundsMinSize2() = arb.intBounds(minSize = 2)

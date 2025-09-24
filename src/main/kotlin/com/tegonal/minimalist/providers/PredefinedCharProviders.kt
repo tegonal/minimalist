@@ -6,7 +6,7 @@ import com.tegonal.minimalist.generators.char
 /**
  * @since 2.0.0
  */
-interface PredefinedArbCharProviders {
+interface PredefinedCharProviders {
 	companion object {
 		@JvmStatic
 		fun arbChar() = arb.char()
