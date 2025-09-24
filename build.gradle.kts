@@ -83,7 +83,7 @@ Release & deploy a commit
 
 
 export MNLMST_PREVIOUS_VERSION=2.0.0-RC-2
-export MNLMST_VERSION=2.0.0-RC-2
+export MNLMST_VERSION=2.0.0-RC-3
 find ./ -name "*.md" | xargs perl -0777 -i \
    -pe "s@$MNLMST_PREVIOUS_VERSION@$MNLMST_VERSION@g;" \
    -pe "s@tree/main@tree/v$MNLMST_VERSION@g;" \
@@ -182,7 +182,7 @@ cd ../minimalist
            md5sum "$file" | awk '{ print $1 }' > "${file}.md5"
            sha1sum "$file" | awk '{ print $1 }' > "$file.sha1"
        done &&
-       (cd "$tmpDir" zip -r "minimalist-$MNLMST_VERSION.zip" .) &&
+       (cd "$tmpDir" && zip -r "minimalist-$MNLMST_VERSION.zip" .) &&
        find "$tmpDir" -name "*.jar" | head -n 1 | xargs -I {} gpg --verify "{}.asc" "{}" &&
        echo "verify the correct gpg key was used (see above) and you might want to check the release in $tmpDir"
     b) Log into https://central.sonatype.com/publishing/deployments
@@ -198,7 +198,7 @@ Prepare next dev cycle
 
 
 export MNLMST_VERSION=2.0.0-RC-2
-export MNLMST_NEXT_VERSION=1.2.0
+export MNLMST_NEXT_VERSION=2.0.0-RC-3
 find ./ -name "*.md" | xargs perl -0777 -i \
    -pe "s@tree/v$MNLMST_VERSION@tree/main@g;" \
    -pe "s@$MNLMST_VERSION/kdoc@latest#/kdoc@g;" \
