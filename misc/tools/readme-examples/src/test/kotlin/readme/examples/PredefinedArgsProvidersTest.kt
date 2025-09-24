@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Order
 class PredefinedArgsProvidersTest : PredefinedArgsProviders {
 
 	@ParameterizedTest
-	// uses the predefined ArbArgsGenerator arbIntPositive defined in PredefinedArgsSourceProviders
+	// uses the predefined ArbArgsGenerator arbIntPositive defined in PredefinedArgsProviders
 	@ArgsSource("arbIntPositive")
 	fun positiveNumberTimesMinusOneIsNegative(positiveNumber: Int) {
 		assertTrue(positiveNumber * -1 < 0)

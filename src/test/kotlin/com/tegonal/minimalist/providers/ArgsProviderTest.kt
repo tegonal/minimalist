@@ -24,7 +24,7 @@ import com.tegonal.minimalist.generators.ordered
 import com.tegonal.minimalist.testutils.Tuple4LikeStructure
 import org.junit.jupiter.params.ParameterizedTest
 
-class ArgsArgumentProviderTest {
+class ArgsProviderTest {
 
 	@ParameterizedTest
 	@ArgsSource("rawValuesInList")
@@ -252,7 +252,5 @@ class ArgsArgumentProviderTest {
 					}
 				))
 		)
-
-
 	}
 }
