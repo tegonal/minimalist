@@ -10,7 +10,7 @@ class ArbMergeWeightedTwoTest : AbstractArbMergeTwoTest() {
 		val g1Variants = variants(modifiedArb, 0)
 		val g2Variants = variants(modifiedArb, 1)
 
-		val combined = g1Variants.combine(g2Variants) { (name1, g1), (name2, g2) ->
+		val combined = g1Variants.cartesian(g2Variants) { (name1, g1), (name2, g2) ->
 			Tuple(
 				"$name1, $name2",
 				arb.mergeWeighted(40 to g1, 60 to g2),

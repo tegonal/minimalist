@@ -21,6 +21,30 @@ class CombinatorsExample : PredefinedArgsProviders {
 	}
 
 	@Test
+	fun `code-cartesian-1`() {
+		ordered.of(1, 2).cartesian(ordered.of('A', 'B'))
+	}
+
+	@Test
+	fun `code-cartesian-2`() {
+		ordered.of(1, 2).cartesian(ordered.of(4, 5)) { i1, i2 ->
+			i1 + i2
+		}
+	}
+
+	@Test
+	fun `code-zip-1`() {
+		arb.intFromUntil(1, 100).zip(arb.charFromTo('A', 'Z'))
+	}
+
+	@Test
+	fun `code-zip-2`() {
+		arb.intFromUntil(1, 100).zip(arb.intFromUntil(1000, 2000)) { i1, i2 ->
+			i1 + i2
+		}
+	}
+
+	@Test
 	fun `code-combine-dependent-arb`() {
 		//snippet-combine-dependent-arb-insert
 	}
@@ -76,7 +100,7 @@ class CombinatorsExample : PredefinedArgsProviders {
 	fun `code-chunked`() {
 		arb.intFromTo(1, 100).chunked(3)
 		arb.intFromTo(1, 100).chunked(3) { it.sorted() }
-		arb.charFromTo('a', 't').combine(arb.intFromTo(1, 100)).chunked(3) { it.toMap() }
+		arb.charFromTo('a', 't').zip(arb.intFromTo(1, 100)).chunked(3) { it.toMap() }
 	}
 
 	@Test

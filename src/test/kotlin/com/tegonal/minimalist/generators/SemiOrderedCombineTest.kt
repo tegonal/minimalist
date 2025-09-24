@@ -17,7 +17,7 @@ class SemiOrderedCombineTest : AbstractOrderedCombinerTest() {
 		val a2s = (1..numOfChars).map { 'A' + it }
 		val a1Generator: SemiOrderedArgsGenerator<Int> = ordered.fromList(a1s)
 		val a2Generator: SemiOrderedArgsGenerator<Char> = ordered.fromList(a2s)
-		val generator: SemiOrderedArgsGenerator<Pair<Int, Char>> = a1Generator.combine(a2Generator)
+		val generator: SemiOrderedArgsGenerator<Pair<Int, Char>> = a1Generator.cartesian(a2Generator)
 
 		validateGeneration(generator.map { pair -> pair.toList() }, listOf(a1s, a2s))
 	}
@@ -44,7 +44,7 @@ class SemiOrderedCombineTest : AbstractOrderedCombinerTest() {
 		val a2Generator: SemiOrderedArgsGenerator<Char> = ordered.fromList(a2s)
 		val a3Generator: SemiOrderedArgsGenerator<String> = ordered.fromList(a3s)
 		val generator: SemiOrderedArgsGenerator<Triple<Int, Char, String>> =
-			a1Generator.combine(a2Generator).combine(a3Generator)
+			a1Generator.cartesian(a2Generator).cartesian(a3Generator)
 
 		validateGeneration(generator.map { triple -> triple.toList() }, listOf(a1s, a2s, a3s))
 	}
@@ -78,7 +78,7 @@ class SemiOrderedCombineTest : AbstractOrderedCombinerTest() {
 		val generators = values.map { val g: SemiOrderedArgsGenerator<Any> = ordered.fromList(it); g }
 		val generator: SemiOrderedArgsGenerator<List<Any>> =
 			generators.drop(1).fold(generators.first().map { mutableListOf(it) }) { generator, other ->
-				generator.combine(other) { l, a2 -> l.also { it.add(a2) } }
+				generator.cartesian(other) { l, a2 -> l.also { it.add(a2) } }
 			}
 
 		validateGeneration(generator, values)

@@ -16,7 +16,7 @@ class SemiOrderedConcatenateAllTest : AbstractOrderedConcatenateTest() {
 		val g1Variants = variants(0)
 		val g2Variants = variants(1)
 
-		val concatenated = g1Variants.combine(g2Variants) { (name1, g1), (name2, g2) ->
+		val concatenated = g1Variants.cartesian(g2Variants) { (name1, g1), (name2, g2) ->
 			val semiG1: SemiOrderedArgsGenerator<Any> = g1
 			val semiG2: SemiOrderedArgsGenerator<Any> = g2
 			val l = listOf(888_888, 999_999)

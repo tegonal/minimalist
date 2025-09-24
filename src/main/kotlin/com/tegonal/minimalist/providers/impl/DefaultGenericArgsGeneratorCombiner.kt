@@ -4,6 +4,7 @@ import com.tegonal.minimalist.generators.ArgsGenerator
 import com.tegonal.minimalist.generators.ArbArgsGenerator
 import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
 import com.tegonal.minimalist.generators.combine
+import com.tegonal.minimalist.generators.zip
 import com.tegonal.minimalist.generators.impl.throwDontKnowHowToConvertToArgsGenerator
 import com.tegonal.minimalist.generators.impl.throwUnsupportedArgsGenerator
 import com.tegonal.minimalist.generators.map
@@ -25,7 +26,7 @@ class DefaultGenericArgsGeneratorCombiner : GenericArgsGeneratorCombiner {
 			val initial = firstArgsGenerator.map { mutableListOf(it) }
 			restMaybeArgGenerators.fold(initial) { generator, next ->
 				when (next) {
-					is ArbArgsGenerator<*> -> generator.combine(next) { list, aNext ->
+					is ArbArgsGenerator<*> -> generator.zip(next) { list, aNext ->
 						list.also { it.add(aNext) }
 					}
 

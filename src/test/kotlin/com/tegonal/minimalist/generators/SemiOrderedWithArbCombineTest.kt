@@ -14,23 +14,23 @@ class SemiOrderedWithArbCombineTest : AbstractOrderedArgsGeneratorWithoutAnnotat
 	fun createGenerators(): OrderedArgsTestFactoryResult<Pair<Int, Any>> = sequenceOf(
 		Tuple(
 			"combine with 1 random",
-			generator.combine(randomGenerator),
+			generator.zip(randomGenerator),
 			// zip is only correct because for most tests we don't take more than generator.size
 			// see createGeneratorsAllPossibleCombinations where we need to use flatMap
 			a1s.zip(a2s)
 		),
 		Tuple(
 			"combine with 2 random",
-			generator.combine(randomGenerator)
-				.combine(randomGenerator) { pair, a3 ->
+			generator.zip(randomGenerator)
+				.zip(randomGenerator) { pair, a3 ->
 					pair.mapSecond { it to a3 }
 				},
 			a1s.zip(a2s.map { it to it })
 		),
 		Tuple(
 			"combine with 3 random",
-			generator.combine(randomGenerator).combine(randomGenerator)
-				.combine(randomGenerator) { (a1, a2, a3), a4 ->
+			generator.zip(randomGenerator).zip(randomGenerator)
+				.zip(randomGenerator) { (a1, a2, a3), a4 ->
 					a1 to Triple(a2, a3, a4)
 				},
 			a1s.zip(a2s.map { Triple(it, it, it) })
@@ -50,21 +50,21 @@ class SemiOrderedWithArbCombineTest : AbstractOrderedArgsGeneratorWithoutAnnotat
 		sequenceOf(
 			Tuple(
 				"combine with 1 random",
-				generator.combine(randomGenerator),
+				generator.zip(randomGenerator),
 				a1s.flatMap { a1 -> a2s.map { a2 -> a1 to a2 } }
 			),
 			Tuple(
 				"combine with 2 random",
-				generator.combine(randomGenerator)
-					.combine(randomGenerator) { pair, a3 ->
+				generator.zip(randomGenerator)
+					.zip(randomGenerator) { pair, a3 ->
 						pair.mapSecond { it to a3 }
 					},
 				a1s.flatMap { a1 -> a2s.map { a2 -> a1 to (a2 to a2) } }
 			),
 			Tuple(
 				"combine with 3 random",
-				generator.combine(randomGenerator).combine(randomGenerator)
-					.combine(randomGenerator) { (a1, a2, a3), a4 ->
+				generator.zip(randomGenerator).zip(randomGenerator)
+					.zip(randomGenerator) { (a1, a2, a3), a4 ->
 						a1 to Triple(a2, a3, a4)
 					},
 				a1s.flatMap { a1 -> a2s.map { a2 -> a1 to Triple(a2, a2, a2) } }

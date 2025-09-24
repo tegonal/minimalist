@@ -129,7 +129,7 @@ class ArgsGeneratorToArgumentsConverterTest {
 		val combinations = testee.toArguments(
 			requestedAtLeastArgs1000,
 			(1 until numOfGenerators).fold(firstList) { generator, from ->
-				generator.combine(arb.fromRange(from * 10 until from * 10 + 10)) { list, num ->
+				generator.zip(arb.fromRange(from * 10 until from * 10 + 10)) { list, num ->
 					list.also { it.add(num) }
 				}
 			}
