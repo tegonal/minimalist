@@ -123,13 +123,6 @@ class ArbBoundsTest : AbstractArbArgsGeneratorTest<Any>() {
 		}
 	}
 
-	@Test
-	fun foo() {
-		arb.createIntDomainBasedBoundsArbGenerator(
-			minInclusive = -1561948995, maxInclusive = -1561948995, minSize = 1, maxSize = null
-		) { s, l -> s to l }.generateAndTake(3).toList().let(::println)
-	}
-
 	//TODO 2.0.0 error in case of wrong min/max etc.
 
 	companion object {
