@@ -10,7 +10,7 @@ import com.tegonal.minimalist.testutils.PseudoArbArgsGenerator
 import com.tegonal.minimalist.utils.repeatForever
 import kotlin.test.Test
 
-class ArbPseudoTransformationTests {
+class ArbPseudoTransformationTest {
 
 	// Note, this test relies on implementation details and is thus fragile. E.g. it is undefined how two
 	// RandomArgsGenerator are combined, since the result is random the combination is random. We use

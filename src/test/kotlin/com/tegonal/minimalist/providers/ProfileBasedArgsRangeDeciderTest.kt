@@ -12,7 +12,7 @@ import com.tegonal.minimalist.providers.impl.ProfileBasedArgsRangeDecider
 import com.tegonal.minimalist.testutils.createOrderedWithCustomConfig
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
-import kotlin.math.absoluteValue
+import org.junit.jupiter.params.provider.ValueSource
 
 @ArgsSourceOptions(profile = TestType.ForAnnotation.Unit)
 class ProfileBasedArgsRangeDeciderTest {
@@ -52,7 +52,6 @@ class ProfileBasedArgsRangeDeciderTest {
 		}
 		val ordered = createOrderedWithCustomConfig(customConfig)
 
-
 		val argsGenerator = ordered.fromRange(0 until argsGeneratorSize)
 		val config = argsGenerator._components.config
 		expect(config.seed).toEqual(customConfig.seed)
@@ -60,7 +59,7 @@ class ProfileBasedArgsRangeDeciderTest {
 		val argsRange = ProfileBasedArgsRangeDecider().decide(argsGenerator)
 
 		expect(argsRange) {
-			feature(ArgsRange::offset).toEqual(config.seed.absoluteValue)
+			feature(ArgsRange::offset).toEqual(config.seed.toOffset())
 			feature(ArgsRange::take).toEqual(
 				minOf(
 					argsGeneratorSize,
@@ -70,10 +69,11 @@ class ProfileBasedArgsRangeDeciderTest {
 		}
 	}
 
-	@Test
-	fun canCopeWithALargeSeedOffset() {
+	@ParameterizedTest
+	@ValueSource(ints = [Int.MAX_VALUE, Int.MIN_VALUE])
+	fun canCopeWithALargeSeedOffset(offset: Int) {
 		expect {
-			DefaultArbExtensionPoint(arb._components, Int.MAX_VALUE).arb.int().generateAndTakeBasedOnDecider().count()
+			DefaultArbExtensionPoint(arb._components, offset).arb.int().generateAndTakeBasedOnDecider().count()
 		}.notToThrow()
 	}
 
@@ -87,14 +87,39 @@ class ProfileBasedArgsRangeDeciderTest {
 		}.notToThrow()
 	}
 
-	@Test
-	fun canCopeWithALargeSeed() {
+	@ParameterizedTest
+	@ValueSource(ints = [Int.MAX_VALUE, Int.MIN_VALUE])
+	fun canCopeWithALargeSeed(offset: Int) {
 		expect {
 			val ordered = createOrderedWithCustomConfig(
-				ordered._components.config.copy { seed = Int.MAX_VALUE }
+				ordered._components.config.copy { seed = offset }
 			).ordered
 			ordered.of(1, 2, 3, 4).generateAndTakeBasedOnDecider().count()
 		}.notToThrow()
+	}
+
+	@Test
+	fun requiredMinIgnoredForOrderedArgsGenerator() {
+		val argsRange = ProfileBasedArgsRangeDecider().decide(
+			ordered.of(1, 2),
+			AnnotationData("bla", ArgsRangeOptions(requestedMinArgs = 10))
+		)
+		expect(argsRange) {
+			feature(ArgsRange::take).toEqual(2)
+			feature(ArgsRange::offset).toEqual(ordered._components.config.seed.toOffset())
+		}
+	}
+
+	@Test
+	fun requiredMinTakenIntoAccountForSemiOrderedArgsGenerator() {
+		val argsRange = ProfileBasedArgsRangeDecider().decide(
+			ordered.of(1, 2).zip(arb.of('A')),
+			AnnotationData("bla", ArgsRangeOptions(requestedMinArgs = 10))
+		)
+		expect(argsRange) {
+			feature(ArgsRange::take).toEqual(10)
+			feature(ArgsRange::offset).toEqual(ordered._components.config.seed.toOffset())
+		}
 	}
 
 	//TODO 2.0.0

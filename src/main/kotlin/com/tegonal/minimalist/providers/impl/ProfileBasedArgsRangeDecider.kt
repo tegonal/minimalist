@@ -2,9 +2,9 @@ package com.tegonal.minimalist.providers.impl
 
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.config
+import com.tegonal.minimalist.config.toOffset
 import com.tegonal.minimalist.generators.ArgsGenerator
 import com.tegonal.minimalist.providers.ArgsRange
-import kotlin.math.absoluteValue
 
 /**
  * !! No backward compatibility guarantees !!
@@ -20,7 +20,7 @@ class ProfileBasedArgsRangeDecider() : BaseArgsRangeOptionsBasedArgsRangeDecider
 		argsGenerator: ArgsGenerator<*>
 	): ArgsRange = argsGenerator._components.config.let { config ->
 		ArgsRange(
-			offset = config.seed.absoluteValue,
+			offset = config.seed.toOffset(),
 			take = config.testProfiles.get(profileName, env).maxArgs
 		)
 	}

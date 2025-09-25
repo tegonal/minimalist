@@ -1,12 +1,12 @@
 package com.tegonal.minimalist.testutils
 
 import ch.tutteli.kbox.Tuple3
-import com.tegonal.minimalist.config.ArgsRangeOptions
 import com.tegonal.minimalist.config.ComponentFactoryContainer
 import com.tegonal.minimalist.config.RandomFactory
 import com.tegonal.minimalist.config.create
 import com.tegonal.minimalist.config.impl.createSingletonVia
 import com.tegonal.minimalist.generators.ArgsGenerator
+import com.tegonal.minimalist.providers.AnnotationData
 import com.tegonal.minimalist.providers.ArgsRange
 import com.tegonal.minimalist.providers.ArgsRangeDecider
 
@@ -40,7 +40,7 @@ fun ComponentFactoryContainer.withMockedArgsRange(
 				object : ArgsRangeDecider {
 					override fun decide(
 						argsGenerator: ArgsGenerator<*>,
-						argsRangeOptions: ArgsRangeOptions?
+						annotationData: AnnotationData?
 					): ArgsRange = ArgsRange(offset = offset, take = take)
 				}
 			})

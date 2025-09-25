@@ -6,9 +6,9 @@ import ch.tutteli.atrium.api.verbs.expectGrouped
 import ch.tutteli.atrium.creating.Expect
 import ch.tutteli.atrium.testfactories.TestFactory
 import com.tegonal.minimalist.config.config
+import com.tegonal.minimalist.config.toOffset
 import com.tegonal.minimalist.generators.impl.DefaultOrderedExtensionPoint
 import com.tegonal.minimalist.utils.createMinimalistRandom
-import kotlin.math.absoluteValue
 
 typealias OrderedArgsTestFactoryResult<T> = ArgsTestFactoryResult<T, SemiOrderedArgsGenerator<T>>
 
@@ -94,8 +94,8 @@ abstract class AbstractOrderedArgsGeneratorTest<T>() : AbstractOrderedArgsGenera
 	fun generateOneIsTheSameAsGenerateFirst() =
 		generateOneIsTheSameAsGenerateFirstTest(
 			factory = { createGenerators() },
-			generateOne = { it.generateOne(customComponentFactoryContainer.config.seed.absoluteValue) },
-			generate = { it.generate(customComponentFactoryContainer.config.seed.absoluteValue) }
+			generateOne = { it.generateOne(customComponentFactoryContainer.config.seed.toOffset()) },
+			generate = { it.generate(customComponentFactoryContainer.config.seed.toOffset()) }
 		)
 
 	@TestFactory

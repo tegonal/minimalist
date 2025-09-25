@@ -71,6 +71,6 @@ class DefaultArgsGeneratorToArgumentsConverter : ArgsGeneratorToArgumentsConvert
 	): ArgsRange {
 		val componentFactoryContainer = argsGenerator._components
 		val argsRangeDecider = componentFactoryContainer.build<ArgsRangeDecider>()
-		return argsRangeDecider.decide(argsGenerator, annotationData.argsRangeOptions)
+		return argsRangeDecider.decide(argsGenerator, annotationData)
 	}
 }

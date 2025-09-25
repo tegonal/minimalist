@@ -2,7 +2,7 @@ package com.tegonal.minimalist.generators
 
 import ch.tutteli.kbox.Tuple
 
-class ArbTransformationTests : AbstractArbArgsGeneratorTest<Any>() {
+class ArbTransformationTest : AbstractArbArgsGeneratorTest<Any>() {
 
 	// see PseudoRandomArgsGeneratorTransformationTests for tests about combine
 
@@ -36,12 +36,12 @@ class ArbTransformationTests : AbstractArbArgsGeneratorTest<Any>() {
 					(1..4).flatMap { first -> (1..4).map { second -> setOf(first, second) } }
 				),
 				Tuple(
-					"transformMaterialised - flatMap",
+					"transform - flatMap",
 					generator.transform { s -> s.flatMap { sequenceOf(it, it + 10) } },
 					listOf(1, 11, 2, 12, 3, 13, 4, 14)
 				),
 				Tuple(
-					"transformMaterialised - zip",
+					"transform - zip",
 					generator.transform { s -> s.zip(s) { a1, a2 -> a1 + a2 } },
 					listOf(
 						/* 1+1 = */ 2,

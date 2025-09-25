@@ -28,9 +28,19 @@ class DefaultOrderedExtensionPoint(
  */
 class DefaultArbExtensionPoint(
 	override val componentFactoryContainer: ComponentFactoryContainer,
+	/**
+	 * Will be added to [com.tegonal.minimalist.config.MinimalistConfig.seed].
+	 *
+	 * Is allowed to be negative.
+	 */
 	override val seedBaseOffset: Int,
 ) : ArbExtensionPoint, ComponentFactoryContainerProvider {
 
-	override val arb: ArbExtensionPoint get() = DefaultArbExtensionPoint(componentFactoryContainer, seedBaseOffset + 1)
+	override val arb: ArbExtensionPoint
+		get() = DefaultArbExtensionPoint(
+			componentFactoryContainer,
+			// expected that this can overflow in the worst case
+			seedBaseOffset + 1
+		)
 	override val ordered: OrderedExtensionPoint get() = componentFactoryContainer.ordered
 }

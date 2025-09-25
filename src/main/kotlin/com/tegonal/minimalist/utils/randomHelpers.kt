@@ -166,3 +166,8 @@ fun Random.nextBigInt(toExclusive: BigInt): BigInt {
 		}
 	}
 }
+
+/**
+ * Makes sure the given [seed] is positive, so that it can be used as offset.
+ */
+fun seedToOffset(seed: Int): Int = seed ushr 1
