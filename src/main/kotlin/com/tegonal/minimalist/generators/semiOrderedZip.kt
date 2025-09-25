@@ -1,4 +1,4 @@
-@file:JvmName("SemiOrderedArgsGeneratorZipKt")
+@file:JvmName("SemiOrderedZipKt")
 @file:JvmMultifileClass
 
 package com.tegonal.minimalist.generators

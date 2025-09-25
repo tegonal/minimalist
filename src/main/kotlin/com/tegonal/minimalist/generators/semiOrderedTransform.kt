@@ -1,13 +1,10 @@
-// --------------------------------------------------------------------------------------------------------------------
-// automatically generated, don't modify here but in:
-// gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts => generate
-// --------------------------------------------------------------------------------------------------------------------
 package com.tegonal.minimalist.generators
 
 import com.tegonal.minimalist.config.MinimalistConfig
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.config
 import com.tegonal.minimalist.generators.impl.SemiOrderedArgsGeneratorTransformer
+import com.tegonal.minimalist.generators.impl.throwMaterialisingSemiOrderedArgsGeneratorNotSupported
 
 /**
  * Maps the values `this` [SemiOrderedArgsGenerator] generates to type [R] with the help of the given [transform] function.
@@ -62,48 +59,48 @@ private fun <R, T> SemiOrderedArgsGenerator<T>.transformInternal(transform: (Seq
 @Suppress("UnusedReceiverParameter")
 @Deprecated(
 	""""
-		Materialising means fixing the undefined/random part of an SemiOrderedArgsGenerator.
-		Normally you do not want to turn an SemiOrderedArgsGenerator into an OrderedArgsGenerator as you basically
-		loose the randomness you added in the first place.
-		If you still want to do this, then use:
+	Materialising means fixing the undefined/random part of an SemiOrderedArgsGenerator.
+	Normally you do not want to turn an SemiOrderedArgsGenerator into an OrderedArgsGenerator as you basically
+	loose the randomness you added in the first place.
+	If you still want to do this, then use:
 
-		let { g -> g.generate().take(g.size) }.filter(predicate).toList().let(ordered::fromList)
+	let { g -> g.generate().take(g.size) }.filter(predicate).toList().let(ordered::fromList)
 	""",
 	ReplaceWith("let { g -> g.generate().take(g.size) }.filter(predicate).toList().let(ordered::fromList)"),
 	level = DeprecationLevel.ERROR
 )
 fun <T> SemiOrderedArgsGenerator<T>.filterMaterialised(@Suppress("UNUSED_PARAMETER") predicate: (T) -> Boolean): OrderedArgsGenerator<T> =
-	throw UnsupportedOperationException("Materialising SemiOrderedArgsGenerator is not supported out of the box to prevent bugs in the test setup")
+	throwMaterialisingSemiOrderedArgsGeneratorNotSupported()
 
 @Suppress("UnusedReceiverParameter")
 @Deprecated(
 	""""
-		Materialising means fixing the undefined/random part of an SemiOrderedArgsGenerator.
-		Normally you do not want to turn an SemiOrderedArgsGenerator into an OrderedArgsGenerator as you basically
-		loose the randomness you added in the first place.
-		If you still want to do this, then use:
+	Materialising means fixing the undefined/random part of an SemiOrderedArgsGenerator.
+	Normally you do not want to turn an SemiOrderedArgsGenerator into an OrderedArgsGenerator as you basically
+	loose the randomness you added in the first place.
+	If you still want to do this, then use:
 
-		let { g -> g.generate().take(g.size) }.filterNot(predicate).toList().let(ordered::fromList)
+	let { g -> g.generate().take(g.size) }.filterNot(predicate).toList().let(ordered::fromList)
 	""",
 	ReplaceWith("let { g -> g.generate().take(g.size) }.filterNot(predicate).toList().let(ordered::fromList)"),
 	level = DeprecationLevel.ERROR
 )
 fun <T> SemiOrderedArgsGenerator<T>.filterNotMaterialised(@Suppress("UNUSED_PARAMETER") predicate: (T) -> Boolean): OrderedArgsGenerator<T> =
-	throw UnsupportedOperationException("Materialising SemiOrderedArgsGenerator is not supported out of the box to prevent bugs in the test setup")
+	throwMaterialisingSemiOrderedArgsGeneratorNotSupported()
 
 
 @Suppress("UnusedReceiverParameter")
 @Deprecated(
 	""""
-		Materialising means fixing the undefined/random part of an SemiOrderedArgsGenerator.
-		Normally you do not want to turn an SemiOrderedArgsGenerator into an OrderedArgsGenerator as you basically
-		loose the randomness you added in the first place.
-		If you still want to do this, then use:
+	Materialising means fixing the undefined/random part of an SemiOrderedArgsGenerator.
+	Normally you do not want to turn an SemiOrderedArgsGenerator into an OrderedArgsGenerator as you basically
+	loose the randomness you added in the first place.
+	If you still want to do this, then use:
 
-		let { g -> g.generate().take(g.size) }.let(transform).toList().let(ordered::fromList)
+	let { g -> g.generate().take(g.size) }.let(transform).toList().let(ordered::fromList)
 	""",
 	ReplaceWith("let { g -> g.generate().take(g.size) }.filter(predicate).toList().let(ordered::fromList)"),
 	level = DeprecationLevel.ERROR
 )
 fun <T, R> SemiOrderedArgsGenerator<T>.transformMaterialised(@Suppress("UNUSED_PARAMETER") transform: (Sequence<T>) -> Sequence<R>): OrderedArgsGenerator<T> =
-	throw UnsupportedOperationException("Materialising SemiOrderedArgsGenerator is not supported out of the box to prevent bugs in the test setup")
+	throwMaterialisingSemiOrderedArgsGeneratorNotSupported()
