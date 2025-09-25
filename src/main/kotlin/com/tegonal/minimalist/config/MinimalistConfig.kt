@@ -1,13 +1,15 @@
 package com.tegonal.minimalist.config
 
 import com.tegonal.minimalist.generators.ArgsGenerator
-import com.tegonal.minimalist.providers.SuffixArgsGeneratorDecider
+import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
 import com.tegonal.minimalist.providers.ArgsRange
 import com.tegonal.minimalist.providers.ArgsRangeDecider
-import com.tegonal.minimalist.providers.impl.SuffixArgsGeneratorNeverDecider
+import com.tegonal.minimalist.providers.SuffixArgsGeneratorDecider
 import com.tegonal.minimalist.providers.impl.ProfileBasedArgsRangeDecider
+import com.tegonal.minimalist.providers.impl.SuffixArgsGeneratorNeverDecider
 import com.tegonal.minimalist.utils.impl.checkIsNotBlank
 import com.tegonal.minimalist.utils.impl.failIfNegative
+import com.tegonal.minimalist.utils.seedToOffset
 import kotlin.random.Random
 
 /**
@@ -24,7 +26,7 @@ class MinimalistConfig(
 	 * Note, you are not allowed to fix a seed via minimalist.properties (which is usually committed), use
 	 * minimalist.local.properties instead (which is usually on the git ignore list).
 	 */
-	val seed: Int = Random.nextInt(),
+	val seed: Seed = Seed(Random.nextInt()),
 
 	/**
 	 * Influences an [ArgsRangeDecider]'s choice of [ArgsRange.offset], i.e. allows to skip certain test cases.
@@ -171,7 +173,7 @@ class MinimalistConfig(
 
 	fun copy(configure: MinimalistConfigBuilder.() -> Unit): MinimalistConfig =
 		MinimalistConfigBuilder(
-			seed = seed,
+			seed = seed.value,
 			offsetToDecidedOffset = offsetToDecidedOffset,
 			maxArgs = maxArgs,
 			requestedMinArgs = requestedMinArgs,
@@ -198,7 +200,7 @@ class MinimalistConfigBuilder(
 	var testProfiles: HashMap<String, HashMap<String, TestConfig>>
 ) {
 	fun build(): MinimalistConfig = MinimalistConfig(
-		seed = seed,
+		seed = Seed(seed),
 		offsetToDecidedOffset = offsetToDecidedOffset,
 		requestedMinArgs = requestedMinArgs,
 		maxArgs = maxArgs,
@@ -210,3 +212,16 @@ class MinimalistConfigBuilder(
 	)
 }
 
+/**
+ * Represents the Minimalist seed, typically used for [Random] and as offset in [SemiOrderedArgsGenerator.generate].
+ *
+ * Use [value] to retrieve the seed as such (e.g. for [Random]) and [toOffset] in case it shall be used as random offset
+ * @since 2.0.0
+ */
+@JvmInline
+value class Seed(val value: Int)
+
+/**
+ * @since 2.0.0
+ */
+fun Seed.toOffset() = seedToOffset(value)

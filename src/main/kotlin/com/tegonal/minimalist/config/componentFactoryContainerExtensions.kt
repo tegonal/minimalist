@@ -63,7 +63,7 @@ val ComponentFactoryContainer.config: MinimalistConfig get() = build<MinimalistC
  * @since 2.0.0
  */
 fun ComponentFactoryContainer.createMinimalistRandom(seedOffset: Int): Random =
-	build<RandomFactory>().create(config.seed + seedOffset).also { random ->
+	build<RandomFactory>().create(config.seed.value + seedOffset).also { random ->
 		config.offsetToDecidedOffset?.also { repeat(it) { random.nextInt() } }
 	}
 

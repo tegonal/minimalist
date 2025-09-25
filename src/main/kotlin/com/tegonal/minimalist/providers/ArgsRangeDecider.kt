@@ -1,8 +1,7 @@
 package com.tegonal.minimalist.providers
 
-import com.tegonal.minimalist.config.ArgsRangeOptions
-import com.tegonal.minimalist.generators.ArgsGenerator
 import com.tegonal.minimalist.config.MinimalistConfig
+import com.tegonal.minimalist.generators.ArgsGenerator
 import com.tegonal.minimalist.utils.impl.checkIsPositive
 import com.tegonal.minimalist.utils.impl.failIfNegative
 
@@ -14,9 +13,9 @@ import com.tegonal.minimalist.utils.impl.failIfNegative
 interface ArgsRangeDecider {
 	/**
 	 * Returns an [ArgsRange] based on the given [argsGenerator] (and most likely the underlying [MinimalistConfig])
-	 * and [argsRangeOptions] if given.
+	 * and [annotationData] if given.
 	 */
-	fun decide(argsGenerator: ArgsGenerator<*>, argsRangeOptions: ArgsRangeOptions? = null): ArgsRange
+	fun decide(argsGenerator: ArgsGenerator<*>, annotationData: AnnotationData? = null): ArgsRange
 }
 
 

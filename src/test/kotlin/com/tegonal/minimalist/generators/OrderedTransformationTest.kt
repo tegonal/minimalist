@@ -3,9 +3,9 @@ package com.tegonal.minimalist.generators
 import ch.tutteli.atrium.testfactories.TestFactory
 import ch.tutteli.kbox.Tuple
 
-class OrderedTransformationTests : AbstractOrderedArgsGeneratorTest<Int>() {
+class OrderedTransformationTest : AbstractOrderedArgsGeneratorTest<Int>() {
 
-	// see OrderedArgsGeneratorCombinerTest for tests about combine
+	// see OrderedCombineTest for tests about combine
 
 	override fun createGenerators() = listOf(1, 2, 3, 4).let { l ->
 		val mapFun: (Int) -> Int = { it + 1 }

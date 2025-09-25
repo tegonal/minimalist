@@ -3,9 +3,9 @@ package com.tegonal.minimalist.generators
 import ch.tutteli.atrium.testfactories.TestFactory
 import ch.tutteli.kbox.Tuple
 
-class OrderedAsSemiOrderedTransformationTests : AbstractOrderedArgsGeneratorTest<Int>() {
+class OrderedAsSemiOrderedTransformationTest : AbstractOrderedArgsGeneratorTest<Int>() {
 
-	// see SemiOrderedArgsGeneratorCombinerTest for tests about combine
+	// see SemiOrderedCombineTest for tests about combine
 
 	override fun createGenerators() =
 		listOf(1, 2, 3, 4).let { l ->
