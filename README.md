@@ -427,10 +427,10 @@ arb.intFromUntil(1, 100).zip(arb.charFromTo('A', 'Z'))
 
 </code-zip-1>
 
-For the above example, the possible combinations are 1/A, 2/A,... 99/A, 1/B, 2/B... 99/Z
-As mentioned in [ordered and arbitrary arguments generators](#ordered-and-arbitrary-arguments-generators), an
-`ArbArgsGenerator` order is undefined and it could occur that you see a combination more than once.
-You can pass a `transform` function as last argument and map the values pairwise another type:
+For the above example, the possible combinations are 1/A, 2/A,... 99/A, 1/B, 2/B... 99/Z.
+As outlined in [ordered and arbitrary arguments generators](#ordered-and-arbitrary-arguments-generators), the order of the generated values of an
+`ArbArgsGenerator` is undefined and it could occur that you see a combination more than once.
+You can pass a `transform` function as last argument and map the values pairwise to another type:
 
 <code-zip-2>
 
