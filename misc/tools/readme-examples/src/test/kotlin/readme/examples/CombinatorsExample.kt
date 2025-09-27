@@ -58,9 +58,22 @@ class CombinatorsExample : PredefinedArgsProviders {
 		}) { _, hex -> hex }
 	}
 
+	@Test
+	fun `code-combine-dependent-ordered-ordered`() {
+
+		ordered.fromEnum<Color>().combineDependentMaterialised { color ->
+			ordered.colorMoods(color)
+		}
+	}
+
 	// only a dummy method, so that it compiles
 	private fun ArbExtensionPoint.hexColor(@Suppress("UNUSED_PARAMETER") dominant: Color): ArbArgsGenerator<String> =
 		of("#FF0000")
+
+	// only a dummy method, so that it compiles
+	private fun OrderedExtensionPoint.colorMoods(@Suppress("UNUSED_PARAMETER") color: Color): OrderedArgsGenerator<String> =
+		of("energetic")
+
 
 	@Test
 	fun `code-transform`() {

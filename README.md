@@ -263,13 +263,20 @@ arb.fromList(listOf(1, 2, 3))
 arb.fromArray(arrayOf(1, 2, 3))
 arb.fromRange(1..10)
 arb.fromProgression(1..10 step 2)
-//...
 
 arb.boolean()
 arb.char()
 arb.int()
+arb.long()
+arb.double()
+
 arb.intPositive()
-arb.longNegative()
+arb.intNegative()
+arb.longPositiveAndZero()
+arb.longNegativeAndZero()
+// ...
+arb.intFromUntil(-1000, 1000)
+arb.longFromTo(7, 420)
 arb.bigIntFromUntil(BigInt.ZERO, BigInt.TEN)
 //...
 
@@ -279,10 +286,15 @@ LocalDate.now().let { now ->
 LocalDateTime.now().let { now ->
 	arb.localDateTimeFromUntil(now, now.plusHours(48), ChronoUnit.MINUTES)
 }
+// ZonedDateTime/OffsetDateTime
 //...
 
-arb.intRange(minInclusive = 1, maxInclusive = 1000, minSize = 3, maxSize = 10)
-arb.longBounds(minInclusive = -10, maxInclusive = 10, minSize = 0)
+arb.charRange(minInclusive = 'A', maxInclusive = 'Z', minSize = 1)
+arb.intBounds(minInclusive = 1, maxInclusive = 1000, minSize = 3, maxSize = 10)
+
+arb.longBoundsBased(minInclusive = -10, maxInclusive = 10, maxSize = 4) { lower, upper ->
+	//..
+}
 //...
 
 arb.string(minLength = 0, maxLength = 20, allowedRanges = UnicodeRanges.ASCII_PRINTABLE.ranges)
@@ -522,8 +534,9 @@ class CombineDependentTest : PredefinedArgsProviders {
 
 </code-combine-dependent-arb>
 
-`combineDependent` also exists on `SemiOrderedArgsGenerator` and even on `OrderedArgsGenerator` where the resulting
-generator is then an `SemiOrderedArgsGenerator`. Following an example:
+`combineDependent` taking a factory which creates an `ArbArgsGenerator` also exists on `SemiOrderedArgsGenerator`
+and even on `OrderedArgsGenerator` where the resulting generator is then an `SemiOrderedArgsGenerator`.
+Following an example:
 
 <code-combine-dependent-ordered>
 
@@ -541,17 +554,43 @@ ordered.fromEnum<Color>().combineDependent({ color ->
 
 Note three things, first `hexColor` doesn't exist (yet) in Minimalist and is only there for illustration purposes.
 Secondly, `combineDependent` also has two overloads (like `cross`/`zip`) where the one with a `transform` function
-allows to turn the values into something else. And last but not least, this is a way to define that we want to have
-x test runs at maximum where x is the number of elements in the `Color` enum but we are not interested in `Color` as
-such but something arbitrary which depends on it. If we did not want to limit the number of runs,
-we could also have used [arb.mergeWeighted](#arb-mergeweighted) instead.
+allows to turn the values into something else than `Tuple2`. And last but not least, this is a way to define that
+we want to have x test runs at maximum where x is the number of elements in the `Color` enum but we are not
+interested in `Color` as such but something arbitrary which depends on it.
+If we did not want to limit the number of runs, we could also have used [arb.mergeWeighted](#arb-mergeweighted) instead.
+
+`OrderedArgsGenerator` also provides a `combineDependentMaterialised` which expects a factory that creates another
+`OrderedArgsGenerator` based on a given value from the first `OrderedArgsGenerator`. Following example (definition of
+`Color` emitted, see previous example).
+
+<code-combine-dependent-ordered-ordered>
+
+```kotlin
+ordered.fromEnum<Color>().combineDependentMaterialised { color ->
+	ordered.colorMoods(color)
+}
+```
+
+</code-combine-dependent-ordered-ordered>
+
+As the name implies, using it means that `this` `OrderedArgsGenerator` gets materialised and also that the resulting
+`OrderedArgsGenerator` gets materialised. You can think of it as `toList().flatMap { ... }.let(ordered:fromList)` but
+does a bit more behinds the scene.
+Also `combineDependentMaterialised` provides an overload which lets you pass a `transform` function.
+
+You may be wondering why this method does not exist for `SemiOrderedArgsGenerator`, the next section will shed light 
+on it.
 
 ### transform
 
-Minimalist provides different means to transform them. Not all types of `ArgsGenerator` provide the same extension
-methods. For instance, since an `OrderedArgsGenerator` needs to know how many values it can generate before repeating
-them, methods like `filter` require that a full cycle gets materialised first.
-Such methods are signified with a `Materialised` suffix.
+Minimalist provides different means to transform `ArgsGenerator`s. But not all extension methods are defined
+for all types of `ArgsGenerator`. For instance, since an `OrderedArgsGenerator` needs to know how many values it can
+generate before repeating them, methods like `filter` require that a full cycle gets materialised first.
+Such methods are signified with a `Materialised` suffix. A `SemiOrderedArgsGenerator` on the other hand does not
+even provide a `Materialised` version as materialising would mean you fix the arbitrary part of it and most likely that
+wouldn't be the intention. To be precise, `SemiOrderedArgsGenerator` actually provides the `Materialised` function but
+with a deprecation level `Error`. We have it there to remind you that you most likely don't want to use it (better than
+let you search for it just to realise after a while that it doesn't exist for `SemiOrderedArgsGenerator`).
 
 Most transformation functionality is based on `transform`, `transformMaterialised` respectively where a function
 operates on the generated `Sequence` and must return another `Sequence` which still adheres to the corresponding
