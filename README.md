@@ -39,10 +39,13 @@ version: [README of v2.0.0-RC-2](https://github.com/tegonal/minimalist/tree/v2.0
 - [Examples](#examples)
 	- [Your first parameterized Test](#your-first-parameterized-test)
 	- [Ordered and arbitrary arguments generators](#ordered-and-arbitrary-arguments-generators)
+		- [Predefined ordered factories](#predefined-ordered-factories)
+		- [Predefined arb factories](#predefined-arb-factories)
+		- [Predefined args providers](#predefined-args-providers)
 	- [Combinators](#combinators)
-		- [generic combine](#generic-combine)
-        - [ordered.cartesian](#ordered-cartesian)
-        - [arb.zip](#arb-zip)
+		- [Generic combine](#generic-combine)
+		- [ordered.cartesian](#ordered-cartesian)
+		- [arb.zip](#arb-zip)
 		- [combineDependent](#combinedependent)
 		- [transform](#transform)
 		- [map](#map)
@@ -141,7 +144,6 @@ For now, we continue without going too much into configuration details.
 > )
 > ```
 
-
 Although Minimalist allows that one can provide "raw" values as in `1..20` (could also have been `listOf(1, 2, 3, ...)`)
 it provides `ArgsGenerator`s which are way more efficient.
 Raw values are turned into a `List` and then passed to `ordered.fromList`. The next section outlines what `ordered` is.
@@ -158,7 +160,63 @@ you will get `'b'` in the first run and `'a'` in the second.
 That is because the resulting sequence repeats indefinitely `'a', 'b', 'a', 'b', ... `
 and it depends on a randomly chosen seed what offset is taken.
 
-Following a few examples what predefined factories exist on `ordered` (take a look at the 
+The "counterpart" of `ordered` is `arb` that allows to create `ArbArgsGenerator`s which per definition generate
+an infinite sequence of values where it is basically not known if they follow some order or not.
+The default implementations are almost all based on `Random`.
+The number of runs of such a provider is in theory infinite as well (`ArbArgsGenerator.size` doesn't exist) but gets
+limited by the [profile](#profiles) the test falls into, the environment where the test runs and what configuration
+was set up for this combination. Also `OrderedArgsGenerator` are limited by profile/env but introduce an own limit in
+addition. Following an example of how to use an `ArgsGenerator` as args provider.
+
+<code-arb-provider>
+
+```kotlin
+class ArbProviderTest : PredefinedArgsProviders {
+
+	@ParameterizedTest
+	@ArgsSource("arb1To50000")
+	fun positiveNumberTimesMinusOneIsNegative(positiveNumber: Int) {
+		assertTrue(positiveNumber * -1 < 0)
+	}
+
+	companion object {
+		@JvmStatic
+		fun arb1To50000() = arb.intFromTo(1, 50_000)
+	}
+}
+```
+
+</code-arb-provider>
+
+In contrast to the [first parameterized test example](#your-first-parameterized-test) where we used
+raw values (which are turned into a `List` and then passed to `ordered.fromList`), we now want to be sure the test
+covers integers from `1..50000` and not only `1..20` (and in [predefined args providers](#predefined-args-providers) you
+will see how we
+define that it shall work for all positive integers). But why did we use `arb` and not `ordered`? The short answer: too
+many values -- say your test takes ~2s and you cannot parallelise, running all would already take ~24h -- and most
+likely this is not your single test. In this case we don't expect that we cover all cases in a reasonable amount of
+time, hence we use `arb`. An `ArbArgsGenerator` has a different runtime behaviour regarding:
+
+1. how [multiple ArgsGenerators are combined implicitly](#generic-combine) (which we discuss there)
+2. how many runs are generated
+
+Let's take a look at a simple example to see the difference in how many runs are generated.
+Where `OrderedArgsGenerator`s generate a window of all possible values (i.e. still ordered),
+an `ArbArgsGenerator` generates arbitrary/random values (possibly the same value multiple times).
+Following an example where `maxArgs=5` (more on `maxArgs` in the [Configuration](#configuration) section):
+
+```kotlin
+ordered.of(1, 2, 3) // results in 3 runs: 1, 2, 3 or 2, 3, 1 or 3, 1, 2
+arb.of(1, 2, 3)     // results in 5 runs, order unknown (will change to 3 runs in v2.1.0)
+```
+
+As a rule of thumb, use `ordered` only if you have explicit restrictions and you would test all of them if the tests
+were faster. Whenever you are in doubt, use `arb` and switch to `ordered` once you are convinced that it is better
+suited. Read on to get a better understanding how they differ (especially the [Combinators](#combinators) section).
+
+### Predefined ordered factories
+
+Following a few examples what predefined factories exist on `ordered` (take a look at the
 [Code Documentation](#code-documentation) to see all):
 
 <code-ordered-1>
@@ -177,6 +235,7 @@ ordered.fromArray(arrayOf(4, 2, 7))
 ordered.fromRange(1..10)
 ordered.fromProgression(1..10 step 2)
 
+ordered.boolean()
 ordered.intFromUntil(1, 5)
 ordered.longFromTo(1, 5)
 //...
@@ -184,25 +243,30 @@ ordered.longFromTo(1, 5)
 
 </code-ordered-1>
 
-The "counterpart" of `ordered` is `arb` that allows to create `ArbArgsGenerator`s which per definition generate
-an infinite sequence of values where it is basically not known if they follow some order or not.
-The default implementations are almost all based on `Random`.
-The number of runs of such a provider is in theory infinite as well (`ArbArgsGenerator.size` doesn't exist) but gets
-limited by the [profile](#profiles) the test falls into, the environment where the test runs and what configuration
-was set up for this combination. Also `OrderedArgsGenerator` are limited by profile/env but introduce an own limit in
-addition.
+### Predefined arb factories
 
-Following a few examples for `arb` as well (import and enum definition omitted, as it is the same as above):
+Following a few examples what predefined factories exist on `arb` (take a look at the
+[Code Documentation](#code-documentation) to see all):
 
 <code-arb-1>
 
 ```kotlin
+import com.tegonal.minimalist.generators.*
+
+enum class Color {
+	Red, Blue, Green
+}
+
 arb.of(1, 2, 3)
 arb.fromEnum<Color>()
 arb.fromList(listOf(1, 2, 3))
 arb.fromArray(arrayOf(1, 2, 3))
+arb.fromRange(1..10)
+arb.fromProgression(1..10 step 2)
 //...
 
+arb.boolean()
+arb.char()
 arb.int()
 arb.intPositive()
 arb.longNegative()
@@ -226,7 +290,10 @@ arb.string(minLength = 0, maxLength = 20, allowedRanges = UnicodeRanges.ASCII_PR
 
 </code-arb-1>
 
-For some `arb` and a few `ordered` definitions we provide predefined `ArgsSourceProvider`s. Following an example:
+### Predefined args providers
+
+For some `arb` and a few `ordered` definitions we provide predefined args providers which you can use in `ArgsSource`.
+You only need to extend (directly or indirectly) Minimalist's `PredefinedArgsProviders`. Following an example:
 
 <code-predefined-1>
 
@@ -252,29 +319,9 @@ class PredefinedArgsProvidersTest : PredefinedArgsProviders {
 </code-predefined-1>
 
 Typically, you will reuse your custom providers in several tests. We recommend you create your own interfaces which
-contain predefined `ArgsSource` providers and one `ArgsProvider` which extends all of them
+contain predefined `ArgsSource` providers and one `ArgsProviders` which extends all of them
 (see `com.tegonal.minimalist.providers.PredefinedArgsProviders` for an example) and you might want to extend
-from Minimalist's PredefinedArgsProviders as well.
-
-Back to the example, in contrast to the [first parameterized test example](#your-first-parameterized-test) where we used
-raw values (which are turned into a `List` and then passed to `ordered.fromList`), we now want to be sure the test
-works for all positive integers and not only `1..20`. Since there are many positive integers, we use `arb` and no
-longer `ordered`.
-
-Note, that even if we defined a provider with `arb.intFromTo(1, 20)` the runtime behaviour differs from `ordered`.
-Where `OrderedArgsGenerator`s generate a window of all possible values (i.e. still ordered),
-an `ArbArgsGenerator` generates arbitrary/random values (possibly the same value multiple times).
-To illustrate it better, following an example where `maxArgs=5` (more on `maxArgs` in
-the [Configuration](#configuration) section):
-
-```kotlin
-ordered.of(1, 2, 3) // results in 3 runs: 1, 2, 3 or 2, 3, 1 or 3, 1, 2
-arb.of(1, 2, 3)     // results in 5 runs, order unknown
-```
-
-As a rule of thumb, use `ordered` only if you have explicit restrictions and you would test all of them if the tests
-were faster. Whenever you are in doubt, use `arb` and switch to `ordered` once you are convinced that it is better
-suited.
+from Minimalist's `PredefinedArgsProviders` as well.
 
 ## Combinators
 
@@ -316,18 +363,18 @@ class CombineTupleTest : PredefinedArgsProviders {
 
 Combining two `OrderedArgsGenerator`s A and B (or `SemiOrderedArgsGenerator`s) results in an `OrderedArgsGenerator`
 representing their cartesian product and the size correspondingly `A.size * B.size`. I.e. such combinations can
-grow quickly, but Minimalist has you covered in therms that this is just a definition (nothing generated yet) and 
+grow quickly, but Minimalist has you covered in therms that this is just a definition (nothing generated yet) and
 you still execute only a window of those values in a fast and efficient way.
 On the other hand, combining two `ArbArgsGenerator` means zipping them and results in another `ArbArgsGenerator`.
 
-Combining an `OrderedArgsGenerators` and an `ArbArgsGenerator` works as well (as shown in the example) and uses 
-again zip behaviour, where the result is no longer an `OrderedArgsGenerators` but a `SemiOrderedArgsGenerators` (which 
+Combining an `OrderedArgsGenerators` and an `ArbArgsGenerator` works as well (as shown in the example) and uses
+again zip behaviour, where the result is no longer an `OrderedArgsGenerators` but a `SemiOrderedArgsGenerators` (which
 still has a `size` property). You only need to make sure that your first `ArgsGenerator` in the tuple is a
-`SemiOrderedArgsGenerator` (`OrderedArgsGenerator` is a subtype of `SemiOrderedArgsGenerator`). 
+`SemiOrderedArgsGenerator` (`OrderedArgsGenerator` is a subtype of `SemiOrderedArgsGenerator`).
 If your first `ArgsGenerator` in the tuple is an `ArbArgsGenerator` then all generators which follow need to be an
 `ArbArgsGenerator` as well (otherwise it will fail at runtime).
 
-Maybe you are asking yourself how many runs result out of the above definition. As long as no `maxArgs` definition 
+Maybe you are asking yourself how many runs result out of the above definition. As long as no `maxArgs` definition
 restricts it, it will result in `SemiOrderedArgsGenerator.size` runs.
 So for `ordered.intFromTo(15, 30)`, we will get 30 - 15 + 1 = 16 runs at max (+1 since bounds are inclusive for
 `intFromTo`). Which means we combine 16 arbitrary names with the defined ages.
@@ -411,7 +458,7 @@ ordered.of(1, 2).cartesian(ordered.of(4, 5)) { i1, i2 ->
 </code-cartesian-2>
 
 The above example results in an `OrderedArgsGenerator<Int>` with the values 5 (1+4), 6 (2+4), 6 (1+5), 7 (2+5)
-(the order of the values is implementation specific). As you can see, an `OrderedArgsGenerator` can also generate the 
+(the order of the values is implementation specific). As you can see, an `OrderedArgsGenerator` can also generate the
 same value multiple times.
 
 ### arb zip
@@ -428,8 +475,8 @@ arb.intFromUntil(1, 100).zip(arb.charFromTo('A', 'Z'))
 </code-zip-1>
 
 For the above example, the possible combinations are 1/A, 2/A,... 99/A, 1/B, 2/B... 99/Z.
-As outlined in [ordered and arbitrary arguments generators](#ordered-and-arbitrary-arguments-generators), the order of the generated values of an
-`ArbArgsGenerator` is undefined and it could occur that you see a combination more than once.
+As outlined in [ordered and arbitrary arguments generators](#ordered-and-arbitrary-arguments-generators), the order of
+the generated values of an `ArbArgsGenerator` is undefined and it could occur that you see a combination more than once.
 You can pass a `transform` function as last argument and map the values pairwise to another type:
 
 <code-zip-2>
@@ -442,7 +489,7 @@ arb.intFromUntil(1, 100).zip(arb.intFromUntil(1000, 2000)) { i1, i2 ->
 
 </code-zip-2>
 
-The above example results in an `ArbArgsGenerator<Int>` generating values from 1001 until 2098 where 1002 until 1099 are 
+The above example results in an `ArbArgsGenerator<Int>` generating values from 1001 until 2098 where 1002 until 1099 are
 more likely to appear since they result twice (1+1001 and 2+1000 = 1002 etc.).
 
 ### combineDependent
@@ -493,11 +540,11 @@ ordered.fromEnum<Color>().combineDependent({ color ->
 </code-combine-dependent-ordered>
 
 Note three things, first `hexColor` doesn't exist (yet) in Minimalist and is only there for illustration purposes.
-Secondly, `combineDependent` also has two overloads (like `combine`) where the one with a `transform` function allows
-to turn the values into something else. And last but not least, this is a way to define that we want to have x test runs
-at maximum where x is the number of elements in the `Color` enum but we are not interested in `Color` as such but
-something arbitrary which depends on it. If we did not want to limit the number of runs, we could also have used
-[arb.mergeWeighted](#arb-mergeweighted) instead.
+Secondly, `combineDependent` also has two overloads (like `cross`/`zip`) where the one with a `transform` function
+allows to turn the values into something else. And last but not least, this is a way to define that we want to have
+x test runs at maximum where x is the number of elements in the `Color` enum but we are not interested in `Color` as
+such but something arbitrary which depends on it. If we did not want to limit the number of runs,
+we could also have used [arb.mergeWeighted](#arb-mergeweighted) instead.
 
 ### transform
 
@@ -652,7 +699,7 @@ Minimalist provides a configuration via `MinimalistConfig` which per default can
 This file needs to be available on your classpath. Typically, you put it in src/test/resources.
 Next to `minimalist.properties` which is intended to make project based adjustments
 (e.g. change `Miniamlist.defaultProfile` to `E2E`, see [profiles](#profiles)), you can create a
-`minimalist.local.properties` which you should add on your git ignore list. 
+`minimalist.local.properties` which you should add on your git ignore list.
 This file overwrites settings in `minimalist.properties` and is intended for personal adjustments and debugging.
 
 More documentation about the configuration will follow, in the meantime, take a look at the KDoc of MinimalistConfig.
@@ -661,8 +708,8 @@ More documentation about the configuration will follow, in the meantime, take a 
 
 Minimalist steers how many runs will result at maximum (if not limited by other factors such as
 `OrderedArgsGenerator.size`) by the profile definition in use (`MinimalistConfig.defaultProfile` is `Integration`)
-and the environment the test runs in (defined via `MinimalistConfig.activeEnv`). 
-The active environment is determined from environment variables (GitHub and GitLab env vars), 
+and the environment the test runs in (defined via `MinimalistConfig.activeEnv`).
+The active environment is determined from environment variables (GitHub and GitLab env vars),
 defaulting to `Local` if it cannot be deduced.
 
 See `MinimalistConfig.testProfiles` for what `maxArgs` are defined per default.
