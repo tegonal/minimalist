@@ -22,6 +22,7 @@ class OrderedExample : ReadmeTest {
 		ordered.fromRange(1..10)
 		ordered.fromProgression(1..10 step 2)
 
+		ordered.boolean()
 		ordered.intFromUntil(1, 5)
 		ordered.longFromTo(1, 5)
 		//...

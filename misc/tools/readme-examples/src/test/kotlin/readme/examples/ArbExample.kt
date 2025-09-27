@@ -10,14 +10,28 @@ import kotlin.test.Test
 
 class ArbExample : ReadmeTest {
 
+
+	@Test
+	fun `code-arb-provider`() {
+		//snippet-arb-provider-insert
+	}
+
 	@Test
 	fun `code-arb-1`() {
+		//snippet-ordered-1-insert
+
+		//snippet-ordered-2-insert
+
 		arb.of(1, 2, 3)
 		arb.fromEnum<Color>()
 		arb.fromList(listOf(1, 2, 3))
 		arb.fromArray(arrayOf(1, 2, 3))
+		arb.fromRange(1..10)
+		arb.fromProgression(1..10 step 2)
 		//...
 
+		arb.boolean()
+		arb.char()
 		arb.int()
 		arb.intPositive()
 		arb.longNegative()
@@ -38,5 +52,4 @@ class ArbExample : ReadmeTest {
 
 		arb.string(minLength = 0, maxLength = 20, allowedRanges = UnicodeRanges.ASCII_PRINTABLE.ranges)
 	}
-
 }
