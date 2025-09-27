@@ -7,7 +7,7 @@ import com.tegonal.minimalist.utils.BigInt
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.api.Order
 
-@Suppress("unused")
+@Suppress("unused", "UNUSED_PARAMETER")
 @Order(1)
 //snippet-combine-manually-start
 class CombineManuallyTest : PredefinedArgsProviders {

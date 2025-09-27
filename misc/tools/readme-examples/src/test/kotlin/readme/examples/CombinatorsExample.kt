@@ -59,7 +59,7 @@ class CombinatorsExample : PredefinedArgsProviders {
 	}
 
 	// only a dummy method, so that it compiles
-	private fun ArbExtensionPoint.hexColor(@Suppress("unused") dominant: Color): ArbArgsGenerator<String> =
+	private fun ArbExtensionPoint.hexColor(@Suppress("UNUSED_PARAMETER") dominant: Color): ArbArgsGenerator<String> =
 		of("#FF0000")
 
 	@Test
