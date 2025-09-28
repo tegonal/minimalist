@@ -1,5 +1,9 @@
 package com.tegonal.minimalist.generators
 
+import com.tegonal.minimalist.config._components
+import com.tegonal.minimalist.generators.impl.IntFromToOrderedArgsGenerator
+import com.tegonal.minimalist.generators.impl.LongFromToOrderedArgsGenerator
+
 /**
  * Returns an [OrderedArgsGenerator] generating [Char]s based on the given [progression].
  *
@@ -7,8 +11,10 @@ package com.tegonal.minimalist.generators
  * @since 2.0.0
  */
 fun OrderedExtensionPoint.fromProgression(progression: CharProgression): OrderedArgsGenerator<Char> =
-	if (progression.step > 0)
-		intFromTo(progression.first.code, progression.last.code, progression.step).map { it.toChar() }
+	if (progression.step > 0) {
+		IntFromToOrderedArgsGenerator(_components, progression.first.code, progression.last.code, progression.step)
+			.map { it.toChar() }
+	}
 	//TODO 2.1.0 no longer needed once we support minus steps in the iterator
 	else fromList(progression.toList())
 
@@ -19,7 +25,9 @@ fun OrderedExtensionPoint.fromProgression(progression: CharProgression): Ordered
  * @since 2.0.0
  */
 fun OrderedExtensionPoint.fromProgression(progression: IntProgression): OrderedArgsGenerator<Int> =
-	if (progression.step > 0) intFromTo(progression.first, progression.last, progression.step)
+	if (progression.step > 0) {
+		IntFromToOrderedArgsGenerator(_components, progression.first, progression.last, progression.step)
+	}
 	//TODO 2.1.0 no longer needed once we support minus steps in the iterator
 	else fromList(progression.toList())
 
@@ -30,7 +38,8 @@ fun OrderedExtensionPoint.fromProgression(progression: IntProgression): OrderedA
  * @since 2.0.0
  */
 fun OrderedExtensionPoint.fromProgression(progression: LongProgression): OrderedArgsGenerator<Long> =
-	if (progression.step > 0) longFromTo(progression.first, progression.last, progression.step)
+	if (progression.step > 0) {
+		LongFromToOrderedArgsGenerator(_components, progression.first, progression.last, progression.step)
+	}
 	//TODO 2.1.0 no longer needed once we support minus steps in the iterator
 	else fromList(progression.toList())
-
