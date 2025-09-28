@@ -105,7 +105,7 @@ class CombinatorsExample : PredefinedArgsProviders {
 	fun `code-dont-filter`() {
 		// prefer a progression as follows ...
 		arb.fromProgression(1..1000 step 2)
-		// ... instead of filter (which is slower)
+		// ... instead of filter (which is slower as every ~2nd time the number is even)
 		arb.intFromTo(1, 1000).filter { it % 2 == 1 }
 	}
 

@@ -1,9 +1,6 @@
 package com.tegonal.minimalist.generators
 
-import ch.tutteli.atrium.api.fluent.en_GB.toBeGreaterThan
-import ch.tutteli.atrium.api.fluent.en_GB.toBeGreaterThanOrEqualTo
-import ch.tutteli.atrium.api.fluent.en_GB.toBeLessThan
-import ch.tutteli.atrium.api.fluent.en_GB.toEqual
+import ch.tutteli.atrium.api.fluent.en_GB.*
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
 import com.tegonal.minimalist.config._components
@@ -70,6 +67,48 @@ class ArbNumberTest : AbstractArbArgsGeneratorTest<Any>() {
 	fun longPositive() {
 		arb.longPositive().generateAndTakeBasedOnDecider().forEach {
 			expect(it).toBeGreaterThan(0)
+		}
+	}
+
+	@Test
+	fun intPositiveAndZero() {
+		arb.intPositiveAndZero().generateAndTakeBasedOnDecider().forEach {
+			expect(it).toBeGreaterThanOrEqualTo(0)
+		}
+	}
+
+	@Test
+	fun longPositiveAndZero() {
+		arb.longPositiveAndZero().generateAndTakeBasedOnDecider().forEach {
+			expect(it).toBeGreaterThanOrEqualTo(0)
+		}
+	}
+
+	@Test
+	fun intNegative() {
+		arb.intNegative().generateAndTakeBasedOnDecider().forEach {
+			expect(it).toBeLessThan(0)
+		}
+	}
+
+	@Test
+	fun longNegative() {
+		arb.longNegative().generateAndTakeBasedOnDecider().forEach {
+			expect(it).toBeLessThan(0)
+		}
+	}
+
+	@Test
+	fun intNegativeAndZero() {
+		arb.intNegativeAndZero().generateAndTakeBasedOnDecider().forEach {
+			expect(it).toBeLessThanOrEqualTo(0)
+		}
+	}
+
+	@Test
+	fun longNegativeAndZero() {
+		arb.longNegativeAndZero().generateAndTakeBasedOnDecider().forEach {
+			expect(it).toBeLessThanOrEqualTo(0)
 		}
 	}
 

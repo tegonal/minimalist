@@ -8,7 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest
 //snippet-combine-tuple-import-end
 import org.junit.jupiter.api.Order
 
-@Suppress("unused")
+@Suppress("unused", "UNUSED_PARAMETER")
 @Order(1)
 //snippet-combine-tuple-start
 class CombineTupleTest : PredefinedArgsProviders {

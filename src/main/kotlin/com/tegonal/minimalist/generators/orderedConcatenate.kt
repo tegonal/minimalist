@@ -55,5 +55,7 @@ private fun <T> concatAll(iterator: Iterator<OrderedArgsGenerator<T>>): OrderedA
  */
 operator fun <T> OrderedArgsGenerator<T>.plus(
 	other: OrderedArgsGenerator<T>,
-): OrderedArgsGenerator<T> = OrderedArgsGeneratorConcatenator(this, other)
+): OrderedArgsGenerator<T> =
+	//TODO 2.1.0 bench when it makes sense to materialise instead of concatenation, for small sizes it could be faster
+	OrderedArgsGeneratorConcatenator(this, other)
 
