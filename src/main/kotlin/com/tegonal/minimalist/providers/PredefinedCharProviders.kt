@@ -1,5 +1,6 @@
 package com.tegonal.minimalist.providers
 
+import com.tegonal.minimalist.generators.ArbExtensionPoint
 import com.tegonal.minimalist.generators.arb
 import com.tegonal.minimalist.generators.char
 
@@ -8,6 +9,9 @@ import com.tegonal.minimalist.generators.char
  */
 interface PredefinedCharProviders {
 	companion object {
+		/**
+		 * See [arb.char()][ArbExtensionPoint.char]
+		 */
 		@JvmStatic
 		fun arbChar() = arb.char()
 	}

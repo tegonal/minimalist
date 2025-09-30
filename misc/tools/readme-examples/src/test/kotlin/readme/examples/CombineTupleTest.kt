@@ -14,14 +14,14 @@ import org.junit.jupiter.api.Order
 class CombineTupleTest : PredefinedArgsProviders {
 
 	@ParameterizedTest
-	@ArgsSource("ageAndName")
+	@ArgsSource("ageAndArbName")
 	fun foo(age: Int, name: String) {
 		//...
 	}
 
 	companion object {
 		@JvmStatic
-		fun ageAndName() = Tuple(
+		fun ageAndArbName() = Tuple(
 			ordered.intFromTo(15, 30),
 			arb.string(minLength = 3, maxLength = 50)
 		)

@@ -1,7 +1,7 @@
 package com.tegonal.minimalist.generators.impl
 
 import com.tegonal.minimalist.config.ComponentFactoryContainer
-import com.tegonal.minimalist.utils.impl.RepeatingConstantSequence
+import com.tegonal.minimalist.utils.repeatForever
 
 /**
  * !! No backward compatibility guarantees !!
@@ -14,7 +14,7 @@ class ConstantArbArgsGenerator<T>(
 	seedBaseOffset: Int,
 	private val constant: T,
 ) : BaseArbArgsGenerator<T>(componentFactoryContainer, seedBaseOffset) {
-	private val sequence = RepeatingConstantSequence(constant)
+	val sequence = repeatForever(constant)
 
 	override fun generateOne(seedOffset: Int): T = constant
 	override fun generate(seedOffset: Int): Sequence<T> = sequence

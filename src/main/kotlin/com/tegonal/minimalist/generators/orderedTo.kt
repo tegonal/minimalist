@@ -8,7 +8,7 @@ package com.tegonal.minimalist.generators
  * @since 2.0.0
  */
 fun <T> OrderedArgsGenerator<T>.toList(): List<T> =
-	generate().take(size).toList()
+	generate(offset = 0).take(size).toList()
 
 /**
  * Generates [size][OrderedArgsGenerator.size] values and puts them into a [Set].
@@ -18,5 +18,5 @@ fun <T> OrderedArgsGenerator<T>.toList(): List<T> =
  * @since 2.0.0
  */
 fun <T> OrderedArgsGenerator<T>.toSet(): Set<T> =
-	generate().take(size).toSet()
+	generate(offset = 0).take(size).toSet()
 

@@ -21,9 +21,10 @@ a library which helps you in setting up parameterized tests and prioritise them 
 to execute all of them.
 
 Although it might resemble a property based testing library, its focus is on tests that take longer
-(integration, e2e and system integration tests) and is more data-driven oriented.
+(integration, e2e and system integration tests) and is more data-driven oriented. A reason why you can also [use
+it in other contexts than JUnit](#use-minimalist-in-other-contexts-than-junit).
 
-Take a look at [Examples](#examples) to see how you can use it.
+Take a look at the [Examples](#examples) to see how you can use it.
 
 ---
 ❗ You are taking a *sneak peek* at the next version. It could be that some features you find on this page are not
@@ -54,7 +55,14 @@ version: [README of v2.0.0-RC-2](https://github.com/tegonal/minimalist/tree/v2.0
 		- [ordered.concatenation](#ordered-concatenation)
 		- [arb.mergeWeighted](#arb-mergeweighted)
 		- [ordered.toArbArgsGenerator](#ordered-toarbargsgenerator)
+- [Use Minimalist in other contexts than JUnit](#use-minimalist-in-other-contexts-than-junit)
 - [Configuration](#configuration)
+	- [Profiles and Envs](#profiles-and-envs)
+	- [Fixing the seed](#fixing-the-seed)
+- [Helpers](#helpers)
+	- [Random helpers](#random-helpers)
+	- [Sequence helpers](#sequence-helpers)
+	- [BigInt helpers](#bigint-helpers)
 - [Code Documentation](#code-documentation)
 - [License](#license)
 
@@ -164,7 +172,8 @@ The "counterpart" of `ordered` is `arb` that allows to create `ArbArgsGenerator`
 an infinite sequence of values where it is basically not known if they follow some order or not.
 The default implementations are almost all based on `Random`.
 The number of runs of such a provider is in theory infinite as well (`ArbArgsGenerator.size` doesn't exist) but gets
-limited by the [profile](#profiles) the test falls into, the environment where the test runs and what configuration
+limited by the [profile](#profiles-and-envs) the test falls into, the [environment](#profiles-and-envs) where the test
+runs and what configuration
 was set up for this combination. Also `OrderedArgsGenerator` are limited by profile/env but introduce an own limit in
 addition. Following an example of how to use an `ArgsGenerator` as args provider.
 
@@ -356,14 +365,14 @@ import org.junit.jupiter.params.ParameterizedTest
 class CombineTupleTest : PredefinedArgsProviders {
 
 	@ParameterizedTest
-	@ArgsSource("ageAndName")
+	@ArgsSource("ageAndArbName")
 	fun foo(age: Int, name: String) {
 		//...
 	}
 
 	companion object {
 		@JvmStatic
-		fun ageAndName() = Tuple(
+		fun ageAndArbName() = Tuple(
 			ordered.intFromTo(15, 30),
 			arb.string(minLength = 3, maxLength = 50)
 		)
@@ -403,14 +412,14 @@ Following an example (using less than 9 `ArgsGenerators` for brevity -- imports 
 class CombineManuallyTest : PredefinedArgsProviders {
 
 	@ParameterizedTest
-	@ArgsSource("numbersAndChar")
+	@ArgsSource("arbNumbersAndChar")
 	fun bar(i: Int, l: Long, d: Double, b: BigInt, c: Char) {
 		//...
 	}
 
 	companion object {
 		@JvmStatic
-		fun numbersAndChar() = run { // use run to let the compiler infer the return type
+		fun arbNumbersAndChar() = run { // use run to let the compiler infer the return type
 			val numbers = Tuple(
 				arb.int().zip(arb.long()), // combines them into an ArbArgsGenerators<Tuple2<Int, Long>>
 				arb.double(),
@@ -518,14 +527,14 @@ can use `combineDependent` as follows:
 class CombineDependentTest : PredefinedArgsProviders {
 
 	@ParameterizedTest
-	@ArgsSource("moreThan10InSum")
+	@ArgsSource("arbMoreThan10InSum")
 	fun foo(a: Int, b: Int) {
 		assertTrue(a + b > 10)
 	}
 
 	companion object {
 		@JvmStatic
-		fun moreThan10InSum() = arb.intFromTo(1, 10).combineDependent { a ->
+		fun arbMoreThan10InSum() = arb.intFromTo(1, 10).combineDependent { a ->
 			arb.intFromTo(11 - a, 10)
 		}
 	}
@@ -578,7 +587,7 @@ As the name implies, using it means that `this` `OrderedArgsGenerator` gets mate
 does a bit more behinds the scene.
 Also `combineDependentMaterialised` provides an overload which lets you pass a `transform` function.
 
-You may be wondering why this method does not exist for `SemiOrderedArgsGenerator`, the next section will shed light 
+You may be wondering why this method does not exist for `SemiOrderedArgsGenerator`, the next section will shed light
 on it.
 
 ### transform
@@ -731,19 +740,85 @@ it might be skewed; for example, 85 values could fall between 100 and 200, etc.
 You can turn a `(Semi)OrderedArgsGenerator` into an `ArbArgsGenerator` by using the `toArbArgsGenerator()` extension
 method.
 
+# Use Minimalist in other contexts than JUnit
+
+Minimalist is not bound to `@ParameterizedTest`s, not even to JUnit. It's a library which can be used whenever
+you have a data-driven situation (and you don't have time to consider all of it).
+For instance, we have used it in load tests as source for (arbitrary) input.
+You can also use it in combination
+with [JUnit's Dynamic Tests](https://docs.junit.org/current/user-guide/#writing-tests-dynamic-tests)
+Following an example:
+
+<code-dynamic-test-1>
+
+```kotlin
+import com.tegonal.minimalist.generators.arb
+import com.tegonal.minimalist.generators.generateAndTakeBasedOnDecider
+import com.tegonal.minimalist.generators.string
+import com.tegonal.minimalist.generators.zip
+import com.tegonal.minimalist.providers.PredefinedNumberProviders.Companion.arbIntPositive
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.DynamicTest.dynamicTest
+import org.junit.jupiter.api.TestFactory
+
+class DynamicTest : PredefinedArgsProviders {
+
+	@TestFactory
+	fun arbExample() =
+		arbIntPositive().zip(arb.string(maxLength = 20))
+			.generateAndTakeBasedOnDecider()
+			.map { (positiveNumber, label) ->
+				dynamicTest("$positiveNumber $label") {
+					assertTrue(positiveNumber * -1 < 0)
+				}
+			}
+}
+```
+
+</code-dynamic-test-1>
+
+Note however, that all the magic of `ArgsSource` isn't available (yet). Which means:
+
+- you need to combine ArgsGenerators manually (see [arb.zip](#arb-zip) and [ordered.cartesian](#ordered-cartesian)) or
+  use [combineAll](#generic-combine) if you deal with generators in `Tuple`s -- the good side, you don't lose the types.
+- definitions like `@ArgSourceOptions` are ignored, but as long as you use `generateAndTakeBasedOnDecider` the defined
+  seed and co. (see [fixing the seed](#fixing-the-seed) are taken into account
+- and you can pass `AnnotationData` to `generateAndTakeBasedOnDecider` to get back the same options as with
+  `ArgSourceOptions`
+
+<code-dynamic-test-2>
+
+```kotlin
+@TestFactory
+fun orderedExample() =
+	ordered.intFromUntil(1, 100)
+		.generateAndTakeBasedOnDecider(
+			AnnotationData.outsideParameterizedTest(
+				argsRangeOptions = ArgsRangeOptions(profile = "Integration", maxArgs = 20)
+			)
+		)
+		.map { positiveNumber ->
+			dynamicTest("$positiveNumber") {
+				assertTrue(positiveNumber * -1 < 0)
+			}
+		}
+```
+
+</code-dynamic-test-2>
+
 # Configuration
 
 Minimalist provides a configuration via `MinimalistConfig` which per default can be customised via
 `minimalist.properties`.
 This file needs to be available on your classpath. Typically, you put it in src/test/resources.
 Next to `minimalist.properties` which is intended to make project based adjustments
-(e.g. change `Miniamlist.defaultProfile` to `E2E`, see [profiles](#profiles)), you can create a
+(e.g. change `Miniamlist.defaultProfile` to `E2E`, see [Profiles and Envs](#profiles-and-envs)), you can create a
 `minimalist.local.properties` which you should add on your git ignore list.
 This file overwrites settings in `minimalist.properties` and is intended for personal adjustments and debugging.
 
 More documentation about the configuration will follow, in the meantime, take a look at the KDoc of MinimalistConfig.
 
-## Profiles
+## Profiles and Envs
 
 Minimalist steers how many runs will result at maximum (if not limited by other factors such as
 `OrderedArgsGenerator.size`) by the profile definition in use (`MinimalistConfig.defaultProfile` is `Integration`)
@@ -751,7 +826,94 @@ and the environment the test runs in (defined via `MinimalistConfig.activeEnv`).
 The active environment is determined from environment variables (GitHub and GitLab env vars),
 defaulting to `Local` if it cannot be deduced.
 
+Minimalist comes with two predefined enums, `TestType`s which are used as profile names and predefined `Env`s.
 See `MinimalistConfig.testProfiles` for what `maxArgs` are defined per default.
+
+## Fixing the seed
+
+Minimalist outputs the used seed once the config is fully loaded. Use it in `minimalist.local.properties` to fix the
+seed to e.g. a previous run. You might want to restrict `maxArgs` in such a case as well and use `offsetToDecidedOffset`
+to skip some runs, i.e. jump to a particular run.
+
+# Helpers
+
+Minimalist provides some helpers in addition to `ArgGenerators` and the `ArgsSource` machinery.
+
+## Random helpers
+
+Minimalist provides some helper methods and functionality in case you want to add randomness but still benefit
+from the possibility to re-run it in a deterministic way (by [fixing the seed](#fixing-the-seed)).
+
+<code-random-helper>
+
+```kotlin
+import com.tegonal.minimalist.utils.createMinimalistRandom
+import com.tegonal.minimalist.utils.pickOneRandomly
+import com.tegonal.minimalist.utils.takeRandomly
+
+// Imagine the list is more complicated than that, because if not, then better define it via arb or ordered
+// since then it is most likely more efficient (would not allocate the memory for 1001 Ints)
+val someList = (0..1000).toList()
+val i1: Int = someList.pickOneRandomly()
+val l1: List<Int> = someList.takeRandomly(10)
+
+// Imagine a more complicated ordered which combines multiple generators and in the end maps to a model.
+// In case you want to re-use it in another context than ParameterizedTests those helpers might come in handy
+val complicatedSetup = ordered.of(1, 2, 3)
+val i2: Int = complicatedSetup.pickOneRandomly()
+val l2: List<Int> = complicatedSetup.takeRandomly(100)
+// and of course, if you want to do more than that, then you can always turn your OrderedArgsGenerator
+// into an ArbArgsGenerator and then work on Sequence:
+val l3: Set<Int> = complicatedSetup.toArbArgsGenerator().generate()
+	.map { it + i1 + i2 }
+	//...
+	.take(50)
+	.toSet()
+
+// creates a Random based on the configured seed, i.e. if you fix the seed, then you get a deterministic result
+createMinimalistRandom().let { random ->
+	val i = random.nextInt()
+	//...
+}
+```
+
+</code-random-helper>
+
+## Sequence helpers
+
+In case you want to repeat something forever as well, then `repeatForever` might come in handy for you as well.
+
+<code-repeat-forever>
+
+```kotlin
+import com.tegonal.minimalist.utils.repeatForever
+
+// creates a Sequence which yields the given constant forever
+repeatForever(constant = 1)
+
+// creates a Sequence which yields 1, 2, 3 forever
+repeatForever(arrayOf(1, 2, 3), offset = 0)
+
+// creates a Sequence which yields 2, 3, 1 forever
+repeatForever(listOf(1, 2, 3), offset = 1)
+
+// repeats Unit forever and can be used as a building block
+repeatForever().flatMap { _ ->
+	// will repeat 11, 22, 33 forever
+	sequenceOf(1, 2, 3).mapIndexed { index, it -> it + (index + 1) * 10 }
+}
+```
+
+</code-repeat-forever>
+
+## BigInt helpers
+
+We think `BigInteger` is too cumbersome to write and hence use `BigInt` instead. For instance, we use
+`ordered.bigIntFromUntil` instead of `ordered.bigIntegerFromUntil`. And since it would look odd if this function
+takes `BigInteger`, we also introduced a corresponding `typealias` and an extension method `toBigInt` for `Int` and
+`Long`.
+
+Last but not least, we provide the extension method `Random.nextBigInt`.
 
 # Code Documentation
 

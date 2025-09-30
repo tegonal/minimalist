@@ -1,5 +1,6 @@
 package readme.examples.jupiter
 
+import org.junit.jupiter.api.extension.DynamicTestInvocationContext
 import org.junit.jupiter.api.extension.ExtensionContext
 import org.junit.jupiter.api.extension.InvocationInterceptor
 import org.junit.jupiter.api.extension.ReflectiveInvocationContext
@@ -12,16 +13,26 @@ import java.util.*
  */
 class ReadmeInvocationInterceptor : InvocationInterceptor {
 
+	override fun interceptDynamicTest(
+		invocation: InvocationInterceptor.Invocation<Void>,
+		invocationContext: DynamicTestInvocationContext,
+		extensionContext: ExtensionContext
+	) {
+		if (extensionContext.uniqueId.endsWith(":#1]")) {
+			ReadmeState.testClasses.add(extensionContext.uniqueId.substringAfter("[class:").substringBefore("]"))
+		}
+		super.interceptDynamicTest(invocation, invocationContext, extensionContext)
+	}
+
 	override fun interceptTestTemplateMethod(
 		invocation: InvocationInterceptor.Invocation<Void>,
 		invocationContext: ReflectiveInvocationContext<Method>,
 		extensionContext: ExtensionContext
 	) {
 		if (extensionContext.uniqueId.endsWith(":#1]")) {
-			interceptTestMethod(invocation, invocationContext, extensionContext)
-		} else {
-			super.interceptTestTemplateMethod(invocation, invocationContext, extensionContext)
+			ReadmeState.testClasses.add(invocationContext.executable.declaringClass.name)
 		}
+		super.interceptTestTemplateMethod(invocation, invocationContext, extensionContext)
 	}
 
 	override fun interceptTestMethod(
@@ -32,7 +43,7 @@ class ReadmeInvocationInterceptor : InvocationInterceptor {
 		// we only intercept ReadmeTests
 		if (ReadmeTest::class.java.isAssignableFrom(invocationContext.executable.declaringClass)) {
 			val failure = executeAndCatch(invocation, invocationContext, extensionContext)
-			ReadmeState.testClasses.add(invocationContext.executable.declaringClass)
+			ReadmeState.testClasses.add(invocationContext.executable.declaringClass.name)
 
 			val testName = invocationContext.executable.name
 			if (testName.startsWith("code-")) {

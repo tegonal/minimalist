@@ -17,7 +17,7 @@ import org.junit.jupiter.params.ParameterizedTest
 class ArbMergeWeightedTest {
 
 	@ParameterizedTest
-	@ArgsSource("weightsInTotalAlways100")
+	@ArgsSource("arbWeightsInTotalAlways100")
 	fun `check weights are correct`(weights: List<Int>) {
 		val g1 = PseudoArbArgsGenerator(
 			(0..9).asSequence(),
@@ -45,7 +45,7 @@ class ArbMergeWeightedTest {
 
 
 	@ParameterizedTest
-	@ArgsSource("invalidWeight")
+	@ArgsSource("arbInvalidWeight")
 	fun invalidWeights(weight: Int) {
 		val g1 = arb.intFromUntil(1, 10)
 		val g2 = arb.intFromUntil(20, 30)
@@ -70,7 +70,7 @@ class ArbMergeWeightedTest {
 	}
 
 	@ParameterizedTest
-	@ArgsSource("twoWeightsInTotalIntMaxOrMore")
+	@ArgsSource("arbTwoWeightsInTotalIntMaxOrMore")
 	fun `invalid total weights in case of 2`(weight1: Int, weight2: Int) {
 		val g1 = arb.intFromUntil(1, 10)
 		val g2 = arb.intFromUntil(20, 30)
@@ -83,7 +83,7 @@ class ArbMergeWeightedTest {
 	}
 
 	@ParameterizedTest
-	@ArgsSource("threeWeightsInTotalIntMaxOrMore")
+	@ArgsSource("arbThreeWeightsInTotalIntMaxOrMore")
 	fun `invalid total weights in case of 3`(weight1: Int, weight2: Int, weight3: Int) {
 		val g1 = arb.intFromUntil(1, 10)
 		val g2 = arb.intFromUntil(20, 30)
@@ -98,7 +98,7 @@ class ArbMergeWeightedTest {
 
 	companion object {
 		@JvmStatic
-		fun weightsInTotalAlways100() = createMinimalistRandom().let { minimalistRandom ->
+		fun arbWeightsInTotalAlways100() = createMinimalistRandom().let { minimalistRandom ->
 			arb.intFromUntil(1, 10).map { numOfGenerators ->
 				mutableListOf<Int>().also { weights ->
 					val cumulativeWeight = (0 until numOfGenerators).fold(0) { cumulativeWeight, index ->
@@ -113,19 +113,19 @@ class ArbMergeWeightedTest {
 		}
 
 		@JvmStatic
-		fun invalidWeight() =
+		fun arbInvalidWeight() =
 			//TODO 2.1.0 introduce the concept of edge cases, here we would like to be sure that 0 is invalid as well
 			arb.intFromTo(Int.MIN_VALUE, 0)
 
 		@JvmStatic
-		fun twoWeightsInTotalIntMaxOrMore() =
+		fun arbTwoWeightsInTotalIntMaxOrMore() =
 			arb.intFromUntil(1, Int.MAX_VALUE).combineDependent {
 				arb.intFromTo(Int.MAX_VALUE - it, Int.MAX_VALUE)
 			}
 
 
 		@JvmStatic
-		fun threeWeightsInTotalIntMaxOrMore() =
+		fun arbThreeWeightsInTotalIntMaxOrMore() =
 			arb.intFromUntil(1, Int.MAX_VALUE).combineDependent {
 				arb.intFromUntil(1, Int.MAX_VALUE)
 			}.combineDependent({ (a, b) ->

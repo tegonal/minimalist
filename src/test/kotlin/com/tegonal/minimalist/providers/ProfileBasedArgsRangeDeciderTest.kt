@@ -39,14 +39,14 @@ class ProfileBasedArgsRangeDeciderTest {
 	)
 
 	@ParameterizedTest
-	@ArgsSource("categoryLevelAndGeneratorSize")
+	@ArgsSource("testTypeEnvAndGeneratorSize")
 	fun activeLevel_takeMatchesMaxArgsOfLevelUnlessArgsGeneratorSizeIsSmaller(
-		profile: TestType,
+		testType: TestType,
 		env: Env,
 		argsGeneratorSize: Int
 	) {
 		val customConfig = MinimalistConfig().copy {
-			defaultProfile = profile.name
+			defaultProfile = testType.name
 			activeEnv = env.name
 			testProfiles = ownTestProfiles.toHashMap()
 		}
@@ -63,7 +63,7 @@ class ProfileBasedArgsRangeDeciderTest {
 			feature(ArgsRange::take).toEqual(
 				minOf(
 					argsGeneratorSize,
-					ownTestProfiles.get(profile.name, env.name).maxArgs
+					ownTestProfiles.get(testType.name, env.name).maxArgs
 				)
 			)
 		}
@@ -128,7 +128,7 @@ class ProfileBasedArgsRangeDeciderTest {
 	companion object {
 
 		@JvmStatic
-		fun categoryLevelAndGeneratorSize() = Tuple(
+		fun testTypeEnvAndGeneratorSize() = Tuple(
 			ordered.fromEnum<TestType>(),
 			ordered.fromEnum<Env>(),
 			ordered.fromRange(1..11),

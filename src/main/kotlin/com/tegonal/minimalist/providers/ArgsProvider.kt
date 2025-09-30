@@ -1,6 +1,7 @@
 package com.tegonal.minimalist.providers
 
 import ch.tutteli.kbox.failIf
+import com.tegonal.minimalist.config.ArgsRangeOptions
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.build
 import com.tegonal.minimalist.config.buildChained
@@ -115,7 +116,9 @@ class ArgsProvider : ArgumentsProvider {
 		val genericArgsGeneratorCombiner = components.build<GenericArgsGeneratorCombiner>()
 		val argsGeneratorToArgumentsConverter = components.build<ArgsGeneratorToArgumentsConverter>()
 
-		val annotationData = annotationDataDeducers.fold(AnnotationData(argsSourceMethodName)) { data, deducer ->
+		val annotationData = annotationDataDeducers.fold(
+			AnnotationData(argsSourceMethodName, ArgsRangeOptions())
+		) { data, deducer ->
 			deducer.deduce(testMethod, argsSourceMethodName)?.let { data.merge(it) } ?: data
 		}
 

@@ -11,7 +11,7 @@ import kotlin.test.Test
 class SemiOrderedCombineTest : AbstractOrderedCombinerTest() {
 
 	@ParameterizedTest
-	@ArgsSource("numOfIntAndChars")
+	@ArgsSource("arbNumOfIntAndChars")
 	fun combine2(numOfInts: Int, numOfChars: Int) {
 		val a1s = (1..numOfInts).toList()
 		val a2s = (1..numOfChars).map { 'A' + it }
@@ -23,7 +23,7 @@ class SemiOrderedCombineTest : AbstractOrderedCombinerTest() {
 	}
 
 	@ParameterizedTest
-	@ArgsSource("numOfIntAndChars")
+	@ArgsSource("arbNumOfIntAndChars")
 	fun combineAll2(numOfInts: Int, numOfChars: Int) {
 		val a1s = (1..numOfInts).toList()
 		val a2s = (1..numOfChars).map { 'A' + it }
@@ -35,7 +35,7 @@ class SemiOrderedCombineTest : AbstractOrderedCombinerTest() {
 	}
 
 	@ParameterizedTest
-	@ArgsSource("numOfIntCharsAndStrings")
+	@ArgsSource("arbNumOfIntCharsAndStrings")
 	fun combine3(numOfInts: Int, numOfChars: Int, numOfStrings: Int) {
 		val a1s = (1..numOfInts).toList()
 		val a2s = (1..numOfChars).map { 'A' + it }
@@ -50,7 +50,7 @@ class SemiOrderedCombineTest : AbstractOrderedCombinerTest() {
 	}
 
 	@ParameterizedTest
-	@ArgsSource("numOfIntCharsAndStrings")
+	@ArgsSource("arbNumOfIntCharsAndStrings")
 	fun combineAll3(numOfInts: Int, numOfChars: Int, numOfStrings: Int) {
 		val a1s = (1..numOfInts).toList()
 		val a2s = (1..numOfChars).map { 'A' + it }
@@ -65,7 +65,7 @@ class SemiOrderedCombineTest : AbstractOrderedCombinerTest() {
 	}
 
 	@ParameterizedTest
-	@ArgsSource("dynamicNumOfGeneratorsAndValues")
+	@ArgsSource("arbNumOfGeneratorsAndValues")
 	fun dynamic(numOfValuesPerGenerator: List<Int>) {
 		val values: List<List<Any>> = numOfValuesPerGenerator.mapIndexed { index, numOfValues ->
 			when (index % 3) {
@@ -106,5 +106,6 @@ class SemiOrderedCombineTest : AbstractOrderedCombinerTest() {
 		expect(generator.generateToList(5)).toContainExactlyElementsOf(fourCombined + oneCombined)
 	}
 
-	fun <T> SemiOrderedArgsGenerator<T>.generateToList(amount: Int): List<T> = generate().take(amount).toList()
+	fun <T> SemiOrderedArgsGenerator<T>.generateToList(amount: Int): List<T> =
+		generate(offset = 0).take(amount).toList()
 }

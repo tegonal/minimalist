@@ -2,6 +2,7 @@ package com.tegonal.minimalist.utils
 
 import com.tegonal.minimalist.utils.impl.ForeverUnitSequence
 import com.tegonal.minimalist.utils.impl.RepeatingArraySequence
+import com.tegonal.minimalist.utils.impl.RepeatingConstantSequence
 import com.tegonal.minimalist.utils.impl.RepeatingListSequence
 
 /**
@@ -21,3 +22,9 @@ fun <T> repeatForever(list: List<T>, offset: Int = 0): Sequence<T> = RepeatingLi
  * @since 2.0.0
  */
 fun <T> repeatForever(array: Array<T>, offset: Int = 0): Sequence<T> = RepeatingArraySequence(array, offset)
+
+/**
+ * Returns an infinite [Sequence] backed by the given [constant].
+ * @since 2.0.0
+ */
+fun <T> repeatForever(constant: T): Sequence<T> = RepeatingConstantSequence(constant)

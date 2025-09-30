@@ -17,7 +17,7 @@ abstract class AbstractOrderedArgsGeneratorWithoutAnnotationsTest : AbstractArgs
 	val modifiedOrdered: OrderedExtensionPoint = DefaultOrderedExtensionPoint(customComponentFactoryContainer)
 
 	protected fun <T> canAlwaysTakeTheDesiredAmountTest(factory: () -> OrderedArgsTestFactoryResult<T>) =
-		super.canAlwaysTakeTheDesiredAmountTest(factory) { it.generate() }
+		super.canAlwaysTakeTheDesiredAmountTest(factory) { it.generate(offset = 0) }
 
 	protected fun <T> coversAllCasesTest(factory: () -> OrderedArgsTestFactoryResult<T>) =
 		testFactory(factory) { generator, expectedValues, _ ->
@@ -26,7 +26,7 @@ abstract class AbstractOrderedArgsGeneratorWithoutAnnotationsTest : AbstractArgs
 
 				(1..expectedValues.size).forEach { take ->
 					group("take $take") {
-						val l = generator.generate().take(take).toList()
+						val l = generator.generate(offset = 0).take(take).toList()
 						@Suppress("UNCHECKED_CAST")
 						(expect(l) as Expect<List<*>>).toContainExactlyElementsOf(expectedValues.take(take))
 					}
@@ -49,7 +49,7 @@ abstract class AbstractOrderedArgsGeneratorWithoutAnnotationsTest : AbstractArgs
 	) = testFactory(factory) { generator, _, _ ->
 		val generatorSize = generator.size
 		val doubleSize = generatorSize * 2
-		val list = generator.generate().take(doubleSize).toList()
+		val list = generator.generate(offset = 0).take(doubleSize).toList()
 		expect(list) {
 			size.toEqual(doubleSize)
 			feature("toSet", { toSet() }) {
@@ -65,7 +65,7 @@ abstract class AbstractOrderedArgsGeneratorWithoutAnnotationsTest : AbstractArgs
 		factory: () -> OrderedArgsTestFactoryResult<T>
 	) = testFactory(factory) { generator, expectedValues, _ ->
 		val take = expectedValues.size
-		val list = generator.generate().take(take).toList()
+		val list = generator.generate(offset = 0).take(take).toList()
 		expectGrouped {
 			(1 until take).forEach { offset ->
 				generator.generate(offset).take(take).forEachIndexed { index, value ->

@@ -14,14 +14,14 @@ import kotlin.test.assertTrue
 class CombineDependentTest : PredefinedArgsProviders {
 
 	@ParameterizedTest
-	@ArgsSource("moreThan10InSum")
+	@ArgsSource("arbMoreThan10InSum")
 	fun foo(a: Int, b: Int) {
 		assertTrue(a + b > 10)
 	}
 
 	companion object {
 		@JvmStatic
-		fun moreThan10InSum() = arb.intFromTo(1, 10).combineDependent { a ->
+		fun arbMoreThan10InSum() = arb.intFromTo(1, 10).combineDependent { a ->
 			arb.intFromTo(11 - a, 10)
 		}
 	}

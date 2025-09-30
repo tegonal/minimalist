@@ -13,14 +13,14 @@ import org.junit.jupiter.api.Order
 class CombineManuallyTest : PredefinedArgsProviders {
 
 	@ParameterizedTest
-	@ArgsSource("numbersAndChar")
+	@ArgsSource("arbNumbersAndChar")
 	fun bar(i: Int, l: Long, d: Double, b: BigInt, c: Char) {
 		//...
 	}
 
 	companion object {
 		@JvmStatic
-		fun numbersAndChar() = run { // use run to let the compiler infer the return type
+		fun arbNumbersAndChar() = run { // use run to let the compiler infer the return type
 			val numbers = Tuple(
 				arb.int().zip(arb.long()), // combines them into an ArbArgsGenerators<Tuple2<Int, Long>>
 				arb.double(),
