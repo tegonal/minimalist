@@ -219,7 +219,9 @@ class MinimalistConfigBuilder(
  * @since 2.0.0
  */
 @JvmInline
-value class Seed(val value: Int)
+value class Seed(val value: Int) {
+	override fun toString(): String = value.toString()
+}
 
 /**
  * @since 2.0.0

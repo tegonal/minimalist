@@ -40,7 +40,7 @@ private fun <T> concatAll(iterator: Iterator<SemiOrderedArgsGenerator<T>>): Semi
 }
 
 /**
- * Merges `this` [OrderedArgsGenerator] with the given [other] [OrderedArgsGenerator] resulting in an
+ * Merges `this` [OrderedArgsGenerator] with the given [other]&nbsp;[OrderedArgsGenerator] resulting in an
  * [OrderedArgsGenerator] which yields the values of `this` [OrderedArgsGenerator] and then of the [other] before
  * repeating.
  *
