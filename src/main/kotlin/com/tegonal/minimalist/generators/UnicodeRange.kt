@@ -8,12 +8,17 @@ import com.tegonal.minimalist.generators.UnicodeRange.Companion.ASCII_PRINTABLE_
 import com.tegonal.minimalist.generators.UnicodeRange.Companion.MAX_CODE_POINT
 import com.tegonal.minimalist.generators.UnicodeRange.Companion.ISO_8859_1_END
 import com.tegonal.minimalist.generators.UnicodeRange.Companion.ISO_8859_1_PRINTABLE_START
+import com.tegonal.minimalist.generators.UnicodeRange.Companion.BMP_END
+import com.tegonal.minimalist.generators.UnicodeRange.Companion.NON_BMP_START
 import com.tegonal.minimalist.generators.UnicodeRange.Companion.SURROGATES_END
 import com.tegonal.minimalist.generators.UnicodeRange.Companion.SURROGATES_START
 import com.tegonal.minimalist.utils.impl.failIfNegative
 import kotlin.collections.binarySearch
 
 /**
+ * A range defined via a [start] code point and an [endInclusive] code point, either staying in the
+ * Basic Multilingual Plane (BMP) domain (0x0000 - 0xFFFF) or being completely outside of it.
+ *
  * @since 2.0.0
  */
 class UnicodeRange(override val start: Int, override val endInclusive: Int) : ClosedRange<Int> {
@@ -23,21 +28,33 @@ class UnicodeRange(override val start: Int, override val endInclusive: Int) : Cl
 	init {
 		failIfNegative(start, "start")
 		require(endInclusive <= MAX_CODE_POINT) {
-			"endInclusive ($endInclusive) must be less than or equal to 0x${MAX_CODE_POINT.toString(16)}"
+			"endInclusive (${endInclusive.formatAsCodepoint()}) must be less than or equal to ${MAX_CODE_POINT.formatAsCodepoint()}"
 		}
 		require(start <= endInclusive) {
-			"start ($start) must be less than or equal to endInclusive ($endInclusive) -- a ${UnicodeRange::class.simpleName} doesn't support to be empty"
+			"start (${start.formatAsCodepoint()}) must be less than or equal to endInclusive (${endInclusive.formatAsCodepoint()}) -- a ${UnicodeRange::class.simpleName} doesn't support to be empty"
+		}
+		require(Character.isBmpCodePoint(start) == Character.isBmpCodePoint(endInclusive)) {
+			"starts (${start.formatAsCodepoint()}) and endInclusive (${endInclusive.formatAsCodepoint()}) must either both be in BPM domain (0x0000 - 0xFFFF) or both above"
 		}
 	}
 
-	override fun toString(): String = "U+%04X..U+%04X".format(start, endInclusive)
+	fun isBmpRange(): Boolean {
+		// since we don't allow that a Unicode rang starts in BMP and ends in non-BMP it is enough to just check start
+		return Character.isBmpCodePoint(start)
+	}
+
+	override fun toString(): String = "${start.formatAsCodepoint()}..${endInclusive.formatAsCodepoint()}"
 
 	companion object {
+
+		private fun Int.formatAsCodepoint() = "0x" + this.toString(16).uppercase().padStart(4, '0')
 		const val SURROGATES_START = 0xD800
 		const val SURROGATES_END = 0xDFFF
 		const val BEFORE_SURROGATES_START = SURROGATES_START - 1
 		const val AFTER_SURROGATES_END = SURROGATES_END + 1
 
+		const val BMP_END = 0xFFFF
+		const val NON_BMP_START = BMP_END + 1
 		const val MAX_CODE_POINT = 0x10FFFF
 		const val ASCII_END = 0x7F
 		const val ASCII_PRINTABLE_START = 0x20
@@ -64,15 +81,16 @@ enum class UnicodeRanges(open vararg val ranges: UnicodeRange) {
 		ranges = arrayOf(UnicodeRange(ISO_8859_1_PRINTABLE_START, ISO_8859_1_END)) + ASCII_PRINTABLE.ranges
 	),
 	UTF_8(
-		// we only exclude surrogates as they are not valid codepoints in UTF-8 everything else are valid points
+		// we only exclude surrogates as they are not valid code points in UTF-8 everything else are valid points
 		// but maybe not suited (like unassigned code points, private use, noncharacters etc.).
 		UnicodeRange(0x0000, BEFORE_SURROGATES_START),
-		UnicodeRange(AFTER_SURROGATES_END, MAX_CODE_POINT)
+		UnicodeRange(AFTER_SURROGATES_END, BMP_END),
+		UnicodeRange(NON_BMP_START, MAX_CODE_POINT),
 	),
 
 	// UTF_8_PRINTABLE see further below as it is quite long it comes last
 	SURROGATES(UnicodeRange(SURROGATES_START, SURROGATES_END)),
-	ALL(UnicodeRange(0x0000, MAX_CODE_POINT)),
+	ALL(UnicodeRange(0x0000, BMP_END), UnicodeRange(NON_BMP_START, MAX_CODE_POINT)),
 	CONTROL() {
 		override val ranges: Array<out UnicodeRange> by lazy {
 			arrayOf(
