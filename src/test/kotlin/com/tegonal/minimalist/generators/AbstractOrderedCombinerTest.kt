@@ -51,20 +51,20 @@ abstract class AbstractOrderedCombinerTest : BaseTest() {
 	companion object {
 
 		@JvmStatic
-		fun numOfIntAndChars() = Tuple(
+		fun arbNumOfIntAndChars() = Tuple(
 			arb.intFromUntil(1, 15),
 			arb.intFromUntil(1, 7)
 		)
 
 		@JvmStatic
-		fun numOfIntCharsAndStrings() = Tuple(
+		fun arbNumOfIntCharsAndStrings() = Tuple(
 			arb.intFromUntil(1, 5),
 			arb.intFromUntil(1, 7),
 			arb.intFromUntil(1, 6)
 		)
 
 		@JvmStatic
-		fun dynamicNumOfGeneratorsAndValues(): ArbArgsGenerator<List<Int>> =
+		fun arbNumOfGeneratorsAndValues(): ArbArgsGenerator<List<Int>> =
 			arb.intFromUntil(3, 7).combineDependent({ numOfGenerators ->
 				arb.intFromUntil(1, 7 - (numOfGenerators / 2)).chunked(numOfGenerators)
 			}) { _, list -> list }

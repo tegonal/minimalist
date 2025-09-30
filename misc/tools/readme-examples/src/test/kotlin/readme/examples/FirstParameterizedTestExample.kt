@@ -10,8 +10,8 @@ class FirstParameterizedTestExample : ReadmeTest {
 
 	@Test
 	fun `code-first-1`() {
-		//snippet-first-1a-insert
+		//snippet-first-import-insert
 
-		//snippet-first-1b-insert
+		//snippet-first-insert
 	}
 }

@@ -8,7 +8,7 @@ import com.tegonal.minimalist.config.merge
  */
 class AnnotationData(
 	val argsSourceMethodName: String,
-	val argsRangeOptions: ArgsRangeOptions = ArgsRangeOptions(),
+	val argsRangeOptions: ArgsRangeOptions,
 	/**
 	 * Generic map for extensions of Minimalist (or your own custom code), intended to be filled by an
 	 * [AnnotationDataDeducer] and later be consumed by e.g. [ArgsRangeDecider], [SuffixArgsGeneratorDecider].
@@ -54,3 +54,12 @@ fun AnnotationData.Companion.fromOptions(
 		maxArgs = argsSourceOptions.maxArgs.takeIf { it > 0 },
 	),
 )
+
+/**
+ * @since 2.0.0
+ */
+fun AnnotationData.Companion.outsideParameterizedTest(
+	argsRangeOptions: ArgsRangeOptions,
+	extensionData: Map<String, Any> = emptyMap()
+): AnnotationData = AnnotationData("<not-specified>", argsRangeOptions, extensionData)
+

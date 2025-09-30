@@ -40,6 +40,6 @@ class SemiOrderedConcatenateAllTest : AbstractOrderedConcatenateTest() {
 		expect {
 			seq.iterator()
 		}.toThrow<IllegalStateException> { messageToContain("can be consumed only once") }
-		expect(concatenated.generate().take(11).toList()).toContainExactly(1, 2, 3, 4, 10, 11, 1, 2, 3, 4, 10)
+		expect(concatenated.generate(offset = 0).take(11).toList()).toContainExactly(1, 2, 3, 4, 10, 11, 1, 2, 3, 4, 10)
 	}
 }

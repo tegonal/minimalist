@@ -22,7 +22,7 @@ interface SemiOrderedArgsGenerator<out T> : ArgsGenerator<T> {
 	 *
 	 * @since 2.0.0
 	 */
-	fun generateOne(offset: Int = 0): T = generate(offset).first()
+	fun generateOne(offset: Int): T = generate(offset).first()
 
 	/**
 	 * Returns an infinite stream of values starting at [offset] and repeating after reaching [size] of values
@@ -30,5 +30,5 @@ interface SemiOrderedArgsGenerator<out T> : ArgsGenerator<T> {
 	 *
 	 * @since 2.0.0
 	 */
-	fun generate(offset: Int = 0): Sequence<T>
+	fun generate(offset: Int): Sequence<T>
 }

@@ -14,7 +14,6 @@ import com.tegonal.minimalist.providers.ArgsSource
 import com.tegonal.minimalist.utils.BigInt
 import com.tegonal.minimalist.utils.toBigInt
 import org.junit.jupiter.params.ParameterizedTest
-import kotlin.test.Test
 
 class ArbBoundsTest : AbstractArbArgsGeneratorTest<Any>() {
 
@@ -41,7 +40,7 @@ class ArbBoundsTest : AbstractArbArgsGeneratorTest<Any>() {
 	}
 
 	@ParameterizedTest
-	@ArgsSource("intSafeMinMaxAndMinSize")
+	@ArgsSource("arbIntSafeMinMaxAndMinSize")
 	fun createIntMaxInIntDomain(minInclusive: Int, maxInclusive: Int, minSize: Int) {
 		arb.createIntDomainBasedBoundsArbGenerator(
 			minInclusive = minInclusive, maxInclusive = maxInclusive, minSize = minSize, maxSize = null
@@ -56,7 +55,7 @@ class ArbBoundsTest : AbstractArbArgsGeneratorTest<Any>() {
 	}
 
 	@ParameterizedTest
-	@ArgsSource("intSafeMinMaxAndMinSize")
+	@ArgsSource("arbIntSafeMinMaxAndMinSize")
 	fun createMaxInIntDomain(minInclusive: Int, maxInclusive: Int, minSize: Int) {
 		val minInclusiveL = minInclusive.toLong()
 		val maxInclusiveL = maxInclusive.toLong()
@@ -73,7 +72,7 @@ class ArbBoundsTest : AbstractArbArgsGeneratorTest<Any>() {
 	}
 
 	@ParameterizedTest
-	@ArgsSource("intSafeMinMaxAndMinSize")
+	@ArgsSource("arbIntSafeMinMaxAndMinSize")
 	fun createMaxInIntDomainButShifted(minInclusive: Int, maxInclusive: Int, minSize: Int) {
 		val intMaxAsLong = Int.MAX_VALUE.toLong()
 		val minInclusiveShifted = intMaxAsLong + minInclusive
@@ -94,7 +93,7 @@ class ArbBoundsTest : AbstractArbArgsGeneratorTest<Any>() {
 	}
 
 	@ParameterizedTest
-	@ArgsSource("longSafeMinMaxAndMinSize")
+	@ArgsSource("arbLongSafeMinMaxAndMinSize")
 	fun createMaxInLongDomain(minInclusive: Long, maxInclusive: Long, minSize: Long) {
 		arb.createBoundsArbGenerator(
 			minInclusive = minInclusive, maxInclusive = maxInclusive, minSize = minSize, maxSize = null
@@ -109,7 +108,7 @@ class ArbBoundsTest : AbstractArbArgsGeneratorTest<Any>() {
 	}
 
 	@ParameterizedTest
-	@ArgsSource("longUnsafeMinMaxAndSize")
+	@ArgsSource("arbLongUnsafeMinMaxAndSize")
 	fun createMaxOutsideLongDomain(minInclusive: Long, maxInclusive: Long, minSize: Long) {
 		arb.createBoundsArbGenerator(
 			minInclusive = minInclusive, maxInclusive = maxInclusive, minSize = minSize, maxSize = null
@@ -127,26 +126,26 @@ class ArbBoundsTest : AbstractArbArgsGeneratorTest<Any>() {
 
 	companion object {
 		@JvmStatic
-		fun intSafeMinMaxAndMinSize() =
-			intSafeMinMax().combineDependent {
+		fun arbIntSafeMinMaxAndMinSize() =
+			arbIntSafeMinMax().combineDependent {
 				arb.intFromTo(1, it.second - it.first + 1)
 			}
 
 		@JvmStatic
-		fun intSafeMinMax() =
+		fun arbIntSafeMinMax() =
 			// we are not using arb.intRange here on purpose as we would use the function under test in the test-setup
 			arb.intFromUntil(Int.MIN_VALUE, Int.MAX_VALUE - possibleMaxSizeSafeInIntDomain).combineDependent {
 				arb.intFromUntil(it, it + possibleMaxSizeSafeInIntDomain)
 			}
 
 		@JvmStatic
-		fun longSafeMinMaxAndMinSize() =
-			longSafeMinMax().combineDependent {
+		fun arbLongSafeMinMaxAndMinSize() =
+			arbLongSafeMinMax().combineDependent {
 				arb.longFromTo(1, it.second - it.first + 1)
 			}
 
 		@JvmStatic
-		fun longSafeMinMax() =
+		fun arbLongSafeMinMax() =
 			// we are not using arb.longRange here on purpose as we would use the function under test in the test-setup
 			arb.longFromUntil(Long.MIN_VALUE, Long.MAX_VALUE - possibleMaxSizeSafeInLongDomain).combineDependent {
 				// + possibleMaxSizeSafeInIntDomain as we could otherwise land in the Int-Domain
@@ -154,7 +153,7 @@ class ArbBoundsTest : AbstractArbArgsGeneratorTest<Any>() {
 			}
 
 		@JvmStatic
-		fun longUnsafeMinMaxAndSize() =
+		fun arbLongUnsafeMinMaxAndSize() =
 			arb.longFromUntil(Long.MIN_VALUE, Long.MAX_VALUE - possibleMaxSizeSafeInLongDomain - 10).combineDependent {
 				arb.longFromUntil(it + possibleMaxSizeSafeInLongDomain, Long.MAX_VALUE)
 			}.combineDependent {

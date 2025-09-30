@@ -8,20 +8,28 @@ import com.tegonal.minimalist.generators.*
 interface PredefinedBooleanProviders {
 	companion object {
 
+		/**
+		 * See [ordered.boolean()][OrderedExtensionPoint.boolean]
+		 */
 		@JvmStatic
 		fun boolean() = ordered.boolean()
 
+		/**
+		 * Returns an [OrderedArgsGenerator] which generates `false`, `true` or `null`.
+		 */
 		@JvmStatic
-		fun booleanAndNull() = ordered.boolean() + ordered.of(null)
+		fun booleanAndNull() = ordered.of(false, true, null)
 
+		/**
+		 * See [arb.boolean()][ArbExtensionPoint.boolean]
+		 */
 		@JvmStatic
 		fun arbBoolean() = arb.boolean()
 
+		/**
+		 * Returns an [ArbArgsGenerator] which generates `false`, `true` or `null`.
+		 */
 		@JvmStatic
-		fun arbBooleanOrNull() = arb.mergeWeighted(
-			// TODO 2.1.0 base on edge case config
-			95 to arb.boolean(),
-			5 to arb.of(null)
-		)
+		fun arbBooleanOrNull() = arb.of(false, true, null)
 	}
 }

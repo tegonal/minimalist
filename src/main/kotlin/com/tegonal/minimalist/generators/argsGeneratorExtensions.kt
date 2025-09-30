@@ -2,6 +2,7 @@ package com.tegonal.minimalist.generators
 
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.build
+import com.tegonal.minimalist.providers.AnnotationData
 import com.tegonal.minimalist.providers.ArgsRange
 import com.tegonal.minimalist.providers.ArgsRangeDecider
 
@@ -10,8 +11,8 @@ import com.tegonal.minimalist.providers.ArgsRangeDecider
  *
  * @since 2.0.0
  */
-fun <T> SemiOrderedArgsGenerator<T>.generateAndTakeBasedOnDecider(): Sequence<T> =
-	_components.build<ArgsRangeDecider>().decide(this).let(::generateAndTake)
+fun <T> SemiOrderedArgsGenerator<T>.generateAndTakeBasedOnDecider(annotationData: AnnotationData? = null): Sequence<T> =
+	_components.build<ArgsRangeDecider>().decide(this, annotationData).let(::generateAndTake)
 
 /**
  * Returns a finite sequence of values based on the given [argsRange].
@@ -27,8 +28,8 @@ fun <T> SemiOrderedArgsGenerator<T>.generateAndTake(argsRange: ArgsRange): Seque
  *
  * @since 2.0.0
  */
-fun <T> ArbArgsGenerator<T>.generateAndTakeBasedOnDecider(): Sequence<T> =
-	_components.build<ArgsRangeDecider>().decide(this).let { this.generateAndTake(it.take) }
+fun <T> ArbArgsGenerator<T>.generateAndTakeBasedOnDecider(annotationData: AnnotationData? = null): Sequence<T> =
+	_components.build<ArgsRangeDecider>().decide(this, annotationData).let { this.generateAndTake(it.take) }
 
 /**
  * Returns a finite sequence of values of size [take].

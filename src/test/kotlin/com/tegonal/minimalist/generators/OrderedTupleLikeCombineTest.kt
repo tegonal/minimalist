@@ -10,7 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest
 class OrderedTupleLikeCombineTest : AbstractOrderedCombinerTest() {
 
 	@ParameterizedTest
-	@ArgsSource("numOfIntAndChars")
+	@ArgsSource("arbNumOfIntAndChars")
 	fun combineAll_Pair(numOfInts: Int, numOfChars: Int) {
 		val a1s = (1..numOfInts).toList()
 		val a2s = (1..numOfChars).map { 'A' + it }
@@ -22,7 +22,7 @@ class OrderedTupleLikeCombineTest : AbstractOrderedCombinerTest() {
 	}
 
 	@ParameterizedTest
-	@ArgsSource("numOfIntCharsAndStrings")
+	@ArgsSource("arbNumOfIntCharsAndStrings")
 	fun combineAll_Triple(numOfInts: Int, numOfChars: Int, numOfStrings: Int) {
 		val a1s = (1..numOfInts).toList()
 		val a2s = (1..numOfChars).map { 'A' + it }
@@ -37,7 +37,7 @@ class OrderedTupleLikeCombineTest : AbstractOrderedCombinerTest() {
 	}
 
 	@ParameterizedTest
-	@ArgsSource("numOfIntCharsAndStrings")
+	@ArgsSource("arbNumOfIntCharsAndStrings")
 	fun combineAll_Tuple4Like(numOfInts: Int, numOfChars: Int, numOfStrings: Int) {
 		val a1s = (1..numOfInts).toList()
 		val a2s = (1..numOfChars).map { 'A' + it }

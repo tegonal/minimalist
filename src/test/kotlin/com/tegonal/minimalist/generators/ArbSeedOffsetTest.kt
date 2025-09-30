@@ -16,7 +16,7 @@ import kotlin.collections.map
 class ArbSeedOffsetTest {
 
 	@ParameterizedTest
-	@ArgsSource("offsets")
+	@ArgsSource("arb0To10")
 	fun mapIndexedTakesConfigDeterminedOffsetIntoAccount(offset: Int) {
 		val modifiedArb = createArbWithCustomConfig(
 			arb._components.config.copy { offsetToDecidedOffset = offset }
@@ -100,6 +100,6 @@ class ArbSeedOffsetTest {
 
 	companion object {
 		@JvmStatic
-		fun offsets() = arb.intFromUntil(0, 10)
+		fun arb0To10() = arb.intFromUntil(0, 10)
 	}
 }
