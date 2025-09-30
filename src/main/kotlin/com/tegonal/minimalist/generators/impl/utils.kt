@@ -1,8 +1,8 @@
 package com.tegonal.minimalist.generators.impl
 
 import com.tegonal.minimalist.generators.ArgsGenerator
-import com.tegonal.minimalist.generators.UnicodeRange
 import com.tegonal.minimalist.utils.impl.FEATURE_REQUEST_URL
+import com.tegonal.minimalist.utils.repeatForever
 
 /**
  * !! No backward compatibility guarantees !!
@@ -19,7 +19,7 @@ inline fun <A, B, R> zipForever(
 	val iterA = seqA.iterator()
 	val iterB = seqB.iterator()
 
-	return generateSequence {
+	return repeatForever().map {
 		transform(iterA.next(), iterB.next())
 	}
 }

@@ -40,7 +40,7 @@ private fun <T> concatAll(iterator: Iterator<OrderedArgsGenerator<T>>): OrderedA
 }
 
 /**
- * Concatenates `this` [OrderedArgsGenerator] with the given [other] [OrderedArgsGenerator] resulting in an
+ * Concatenates `this` [OrderedArgsGenerator] with the given [other]&nbsp;[OrderedArgsGenerator] resulting in an
  * [OrderedArgsGenerator] which yields the values of `this` [OrderedArgsGenerator], then of the [other] and then
  * starting over.
  *

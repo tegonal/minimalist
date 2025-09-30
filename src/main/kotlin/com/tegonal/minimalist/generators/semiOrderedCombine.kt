@@ -3,12 +3,12 @@ package com.tegonal.minimalist.generators
 import com.tegonal.minimalist.generators.impl.throwUnsupportedArgsGenerator
 
 /**
- * Combines `this` [SemiOrderedArgsGenerator] with the given [other] [ArgsGenerator] and [transform]s the generated
+ * Combines `this` [SemiOrderedArgsGenerator] with the given [other]&nbsp;[ArgsGenerator] and [transform]s the generated
  * values pairwise, returning a [SemiOrderedArgsGenerator] which generates values of type [R].
  *
  * It is not statically known what [SemiOrderedArgsGenerator.size] the resulting [SemiOrderedArgsGenerator] will have.
  *
- * How the [other] [ArgsGenerator] is combined depends on its type:
+ * How the [other]&nbsp;[ArgsGenerator] is combined depends on its type:
  *   - a [SemiOrderedArgsGenerator] is combined using [cartesian]
  *   - an [ArbArgsGenerator] is combined using [zip]
  *
