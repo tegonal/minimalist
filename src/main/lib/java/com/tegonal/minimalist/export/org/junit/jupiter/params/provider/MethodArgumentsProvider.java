@@ -49,7 +49,7 @@ import static org.junit.platform.commons.support.AnnotationSupport.isAnnotated;
 public class MethodArgumentsProvider {
 
 	private static final Predicate<Method> isFactoryMethod = //
-		method ->  !isTestMethod(method);
+		method -> !isTestMethod(method);
 
 	public static Method findFactoryMethod(Class<?> testClass, Optional<Method> testMethod, String factoryMethodName) {
 		String originalFactoryMethodName = factoryMethodName;
