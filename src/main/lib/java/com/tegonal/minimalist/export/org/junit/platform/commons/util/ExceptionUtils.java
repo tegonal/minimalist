@@ -8,6 +8,13 @@
  * https://www.eclipse.org/legal/epl-v20.html
  */
 
+// -----------------------------------------------------------------------------------------------------
+// WARNING !!!!!!!!!!!!!!
+// Copied from JUnit and exported for internal use in Minimalist only
+// No backward compatibility guarantees. As soon as JUnit breaks compatibility (which can happen
+// even in a patch version and that is totally fine) and we `gt update` this file to this new version
+// (maybe also in a patch version), we will break compatibility as well.
+// -----------------------------------------------------------------------------------------------------
 package com.tegonal.minimalist.export.org.junit.platform.commons.util;
 
 import static org.apiguardian.api.API.Status.INTERNAL;
@@ -38,7 +45,7 @@ import org.apiguardian.api.API;
  * @since 1.0
  */
 @API(status = INTERNAL, since = "1.0")
-public final class ExceptionUtils {
+final class ExceptionUtils {
 
 	private static final String JUNIT_PLATFORM_LAUNCHER_PACKAGE_PREFIX = "org.junit.platform.launcher.";
 

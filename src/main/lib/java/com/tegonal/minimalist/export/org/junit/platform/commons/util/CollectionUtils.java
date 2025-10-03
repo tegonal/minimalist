@@ -8,6 +8,13 @@
  * https://www.eclipse.org/legal/epl-v20.html
  */
 
+// -----------------------------------------------------------------------------------------------------
+// WARNING !!!!!!!!!!!!!!
+// Copied from JUnit and exported for internal use in Minimalist only
+// No backward compatibility guarantees. As soon as JUnit breaks compatibility (which can happen
+// even in a patch version and that is totally fine) and we `gt update` this file to this new version
+// (maybe also in a patch version), we will break compatibility as well.
+// -----------------------------------------------------------------------------------------------------
 package com.tegonal.minimalist.export.org.junit.platform.commons.util;
 
 import static java.util.Spliterator.ORDERED;
@@ -17,6 +24,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 import static org.apiguardian.api.API.Status.INTERNAL;
 import static org.junit.platform.commons.support.ReflectionSupport.invokeMethod;
+import org.junit.platform.commons.support.ReflectionSupport;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
@@ -38,7 +46,6 @@ import java.util.stream.Stream;
 
 import org.apiguardian.api.API;
 import org.junit.platform.commons.PreconditionViolationException;
-import org.junit.platform.commons.support.ReflectionSupport;
 
 /**
  * Collection of utilities for working with {@link Collection Collections}.

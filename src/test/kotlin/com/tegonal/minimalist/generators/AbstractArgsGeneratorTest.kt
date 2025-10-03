@@ -11,6 +11,7 @@ import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.config
 import com.tegonal.minimalist.config.createBasedOnConfig
 import com.tegonal.minimalist.testutils.BaseTest
+import org.junit.jupiter.api.DynamicNode
 
 typealias ArgsTestFactoryResult<T, ArgsGeneratorT> = Sequence<Triple<String, ArgsGeneratorT, List<T>>>
 
@@ -71,7 +72,10 @@ abstract class AbstractArgsGeneratorTest : BaseTest() {
 			}
 		},
 		testFactory: TestFactoryBuilder.(generator: ArgGeneratorT, expectedValues: List<T>, decoratorValue: Any) -> Unit,
-	) = testFactoryDecorator(factory(), testFactory).toVararg().let { (first, rest) ->
-		ch.tutteli.atrium.api.verbs.testFactory(first, *rest)
+	): List<DynamicNode> = testFactoryDecorator(factory(), testFactory).toVararg().let { (first, rest) ->
+		// we know we cannot check it, the only reason why Atrium's testFactory does not return List<DynamicNode> has
+		// to do with limitations imposed by Kotlin on typealiases in conjunction with actual/expected
+		@Suppress("UNCHECKED_CAST")
+		ch.tutteli.atrium.api.verbs.testFactory(first, *rest) as List<DynamicNode>
 	}
 }
