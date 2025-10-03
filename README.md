@@ -17,14 +17,8 @@
 # Minimalist
 
 ![Minimalist](https://raw.githubusercontent.com/tegonal/minimalist/main/.idea/icon.png) M like Minimalist,
-a library which helps you in setting up parameterized tests and prioritise them in case you don't have enough time
-to execute all of them.
-
-Although it might resemble a property based testing library, its focus is on tests that take longer
-(integration, e2e and system integration tests) and is more data-driven oriented. A reason why you can also [use
-it in other contexts than JUnit](#use-minimalist-in-other-contexts-than-junit).
-
-Take a look at the [Examples](#examples) to see how you can use it.
+a Kotlin library which helps you in setting up data, particularly for JUnit's parameterized tests and prioritise them in
+case you don't have enough time to execute all of them.
 
 ---
 ❗ You are taking a *sneak peek* at the next version. It could be that some features you find on this page are not
@@ -36,6 +30,7 @@ version: [README of v2.0.0-RC-2](https://github.com/tegonal/minimalist/tree/v2.0
 
 **Table of Contents**
 
+- [Into](#intro)
 - [Installation](#installation)
 - [Examples](#examples)
 	- [Your first parameterized Test](#your-first-parameterized-test)
@@ -59,12 +54,30 @@ version: [README of v2.0.0-RC-2](https://github.com/tegonal/minimalist/tree/v2.0
 - [Configuration](#configuration)
 	- [Profiles and Envs](#profiles-and-envs)
 	- [Fixing the seed](#fixing-the-seed)
+	- [Change the ArgsRangeDecider](#change-the-argsrangedecider)
+	- [Use a SuffixArgsGeneratorDecider](#use-a-suffixargsgeneratordecider)
 - [Helpers](#helpers)
 	- [Random helpers](#random-helpers)
 	- [Sequence helpers](#sequence-helpers)
 	- [BigInt helpers](#bigint-helpers)
 - [Code Documentation](#code-documentation)
+- [Contributors and contribute](#contributors-and-contribute)
 - [License](#license)
+
+# Intro
+
+Minimalist might resemble a property based testing library but is more data-driven oriented.
+Its focus is on tests that take longer (integration, e2e and system integration tests) where shrinking is too costly but
+you can of course also use it for unit tests.  
+It comes with extra support for JUnit but can
+also [be used in other contexts](#use-minimalist-in-other-contexts-than-junit)
+where you want to generate data (or with other test-runners).
+
+Since it is only an addition to JUnit (a library, not an own test-runner as e.g. jqwik) you do not have to change any
+existing JUnit setup.
+
+Take a look at [Your first parameterized Test](#your-first-parameterized-test) to see how you can use it and then
+come back to the [Installation](#installation) section to see what dependency you need to set up.
 
 # Installation
 
@@ -85,7 +98,7 @@ Minimum requirements:
 
 - Kotlin: 1.9
 - JDK: 11
-- JUnit: 5.13.4
+- JUnit: 5.13.0
 
 # Examples
 
@@ -543,8 +556,10 @@ class CombineDependentTest : PredefinedArgsProviders {
 
 </code-combine-dependent-arb>
 
-`combineDependent` taking a factory which creates an `ArbArgsGenerator` also exists on `SemiOrderedArgsGenerator`
-and even on `OrderedArgsGenerator` where the resulting generator is then an `SemiOrderedArgsGenerator`.
+`combineDependent` takes a factory which creates an `ArbArgsGenerator` based on a value this `ArgsGenerator` creates
+and then uses `ArbArgsGenerator.generateOne` to combine the value with one value of this other generator.
+It also exists on `SemiOrderedArgsGenerator` and even on `OrderedArgsGenerator` where the resulting generator
+is an `SemiOrderedArgsGenerator`.
 Following an example:
 
 <code-combine-dependent-ordered>
@@ -561,7 +576,7 @@ ordered.fromEnum<Color>().combineDependent({ color ->
 
 </code-combine-dependent-ordered>
 
-Note three things, first `hexColor` doesn't exist (yet) in Minimalist and is only there for illustration purposes.
+Note three things, first `hexColor` does not exist (yet) in Minimalist and is only there for illustration purposes.
 Secondly, `combineDependent` also has two overloads (like `cross`/`zip`) where the one with a `transform` function
 allows to turn the values into something else than `Tuple2`. And last but not least, this is a way to define that
 we want to have x test runs at maximum where x is the number of elements in the `Color` enum but we are not
@@ -569,8 +584,8 @@ interested in `Color` as such but something arbitrary which depends on it.
 If we did not want to limit the number of runs, we could also have used [arb.mergeWeighted](#arb-mergeweighted) instead.
 
 `OrderedArgsGenerator` also provides a `combineDependentMaterialised` which expects a factory that creates another
-`OrderedArgsGenerator` based on a given value from the first `OrderedArgsGenerator`. Following example (definition of
-`Color` emitted, see previous example).
+`OrderedArgsGenerator` based on a given value from the first `OrderedArgsGenerator`. Following an example (definition of
+`Color` emitted, see previous example):
 
 <code-combine-dependent-ordered-ordered>
 
@@ -584,7 +599,7 @@ ordered.fromEnum<Color>().combineDependentMaterialised { color ->
 
 As the name implies, using it means that `this` `OrderedArgsGenerator` gets materialised and also that the resulting
 `OrderedArgsGenerator` gets materialised. You can think of it as `toList().flatMap { ... }.let(ordered:fromList)` but
-does a bit more behinds the scene.
+does a bit more behind the scene.
 Also `combineDependentMaterialised` provides an overload which lets you pass a `transform` function.
 
 You may be wondering why this method does not exist for `SemiOrderedArgsGenerator`, the next section will shed light
@@ -597,13 +612,14 @@ for all types of `ArgsGenerator`. For instance, since an `OrderedArgsGenerator` 
 generate before repeating them, methods like `filter` require that a full cycle gets materialised first.
 Such methods are signified with a `Materialised` suffix. A `SemiOrderedArgsGenerator` on the other hand does not
 even provide a `Materialised` version as materialising would mean you fix the arbitrary part of it and most likely that
-wouldn't be the intention. To be precise, `SemiOrderedArgsGenerator` actually provides the `Materialised` function but
+would not be the intention. To be precise, `SemiOrderedArgsGenerator` actually provides the `Materialised` function but
 with a deprecation level `Error`. We have it there to remind you that you most likely don't want to use it (better than
-let you search for it just to realise after a while that it doesn't exist for `SemiOrderedArgsGenerator`).
+let you search for it just to realise after a while that it does not exist for `SemiOrderedArgsGenerator`).
 
-Most transformation functionality is based on `transform`, `transformMaterialised` respectively where a function
-operates on the generated `Sequence` and must return another `Sequence` which still adheres to the corresponding
-`ArgsGenerator` contract. Following an example:
+Most transformation functionality is based on `transform`/`transformMaterialised` where a function operates on the
+generated `Sequence` and must return another `Sequence` which still adheres to the corresponding
+`ArgsGenerator` contract (e.g. the `Sequence` must still be infinite in case of `ArbArgsGenerator`).
+Following an example:
 
 <code-transform>
 
@@ -643,8 +659,7 @@ ordered.intFromTo('A'.code, 'Z'.code).map { it.toChar() }
 
 Filtering an `ArbArgsGenerator` can be done via `filter`/`filterNot`.
 Filtering an `OrderedArgsGenerator` via `filterMaterialised`/`filterNotMaterialised` (see [transform](#transform) for
-an explanation about `Materialised`). Note that `filterMaterialised`/`filterNotMaterialised` is not available for
-`SemiOrderedArgsGenerator`s as this would fix the arbitrary part of it.
+an explanation about `Materialised` and why it does not exist for `SemiOrderedArgsGenerator`).
 
 <code-filter>
 
@@ -686,15 +701,15 @@ arb.charFromTo('a', 't').zip(arb.intFromTo(1, 100)).chunked(3) { it.toMap() }
 
 </code-chunked>
 
-So far we did not come across a use case where `chunked` would be valuable for `OrderedArgsGenerator` and hence don't
-provide a shortcut. Let us know your use cases, we happily add the shortcut if it is of value (we try to not clutter
-the API with methods we have not used ourselves so far).
+So far we did not come across a use case where `chunked` would be valuable for `OrderedArgsGenerator` and hence do not
+provide a shortcut. [Let us know your use cases](https://github.com/tegonal/minimalist/discussions/new?category=ideas),
+we happily add the shortcut if it is of value (we try to not clutter the API with methods we have not
+used ourselves so far).
 
 ### ordered concatenation
 
 Concatenating `OrderedArgsGenerators` can be done via `+` or via `concatAll` where the resulting `size` will
-correspondingly be
-the size of `this.size` + `other.size`.
+correspondingly be the size of `this.size` + `other.size`.
 
 <code-concat>
 
@@ -710,7 +725,7 @@ ordered.of(1, 2) + ordered.intFromTo(100, 120)
 
 </code-concat>
 
-Concatenating an `ArbArgsGenerator` isn't possible as its size is infinite, i.e. we would never see the values
+Concatenating an `ArbArgsGenerator` is not possible as its size is infinite, i.e. we would never see the values
 of the second `ArbArgsGenerator`. But you can merge them, see next section.
 
 ### arb mergeWeighted
@@ -742,8 +757,8 @@ method.
 
 # Use Minimalist in other contexts than JUnit
 
-Minimalist is not bound to `@ParameterizedTest`s, not even to JUnit. It's a library which can be used whenever
-you have a data-driven situation (and you don't have time to consider all of it).
+Minimalist is not bound to `@ParameterizedTest`s, not even to JUnit. It is a library which can be used whenever
+you have a data-driven situation (and you do not have time to consider all of it).
 For instance, we have used it in load tests as source for (arbitrary) input.
 You can also use it in combination
 with [JUnit's Dynamic Tests](https://docs.junit.org/current/user-guide/#writing-tests-dynamic-tests)
@@ -777,10 +792,13 @@ class DynamicTest : PredefinedArgsProviders {
 
 </code-dynamic-test-1>
 
-Note however, that all the magic of `ArgsSource` isn't available (yet). Which means:
+Note however, that all the magic of `ArgsSource` is not available (yet). Which means:
 
 - you need to combine ArgsGenerators manually (see [arb.zip](#arb-zip) and [ordered.cartesian](#ordered-cartesian)) or
-  use [combineAll](#generic-combine) if you deal with generators in `Tuple`s -- the good side, you don't lose the types.
+  use [combineAll](#generic-combine) if you deal with generators in `Tuple`s -- the good side, you do not lose the types
+  as you would
+  with JUnit's `Arguments`.
+- A defined [SuffixArgsGenerator](#use-a-suffixargsgeneratordecider) is ignored (we would lose the types again)
 - definitions like `@ArgSourceOptions` are ignored, but as long as you use `generateAndTakeBasedOnDecider` the defined
   seed and co. (see [fixing the seed](#fixing-the-seed) are taken into account
 - and you can pass `AnnotationData` to `generateAndTakeBasedOnDecider` to get back the same options as with
@@ -835,6 +853,53 @@ Minimalist outputs the used seed once the config is fully loaded. Use it in `min
 seed to e.g. a previous run. You might want to restrict `maxArgs` in such a case as well and use `offsetToDecidedOffset`
 to skip some runs, i.e. jump to a particular run.
 
+## Change the ArgsRangeDecider
+
+An `ArgsRangeDecider` is responsible to decide from which offset and how many arguments shall be taken from an
+`ArgsGenerator`. The offset is only taken into account for `(Semi)OrderedArgsGenerator`s.
+
+The default implementation is solely based on the configured [profiles](#profiles-and-envs) - more implementations will
+follow in an upcoming version of Minimalist.
+
+If you want to provide an own implementation, then you need to make it available to be loaded via `ServiceLoader`.
+Create the file `src/resource/META-INF/services/com.tegonal.minimalist.providers.ArgsRangeDecider` and put the fully
+qualified name in it. Moreover, you need to set `activeArgRangeDecider` in the MinimalistConfig
+(typically via `minimalist.properties`) to the fully qualified name as well.
+
+## Use a SuffixArgsGeneratorDecider
+
+A `SuffixArgsGeneratorDecider` is responsible to decide if an `ArgsGenerator` shall be combined as suffix (i.e. as last)
+with the `ArgsGenerator`(s) defined by the method specified in `ArgsSource`.
+
+This can be handy if you for instance have a kind of test which always require something. This way you don't have to add
+it to every single `ArgsSource` but can define it in a single place.
+Imagine you have implemented a SuffixArgsGeneratorDecider which always returns `arb.fromEnum<Color>()`. In the test you
+could then write:
+
+<code-suffix-args-generator>
+
+```kotlin
+@ParameterizedTest
+@ArgsSource("arbIntPositive") // comes from PredefinedArgsProviders
+fun foo(i: Int, c: Color) {
+	// the argument i comes from arbIntPositive
+	// the argument c comes from the SuffixArgsGeneratorDecider
+}
+```
+
+</code-suffix-args-generator>
+
+If you want to provide an own implementation, then you need to make it available to be loaded via `ServiceLoader`.
+Create the file `src/resource/META-INF/services/com.tegonal.minimalist.providers.SuffixArgsGeneratorDeciderr` and
+put the fully qualified name in it. Moreover, you need to set `activeArgRangeDecider` in the MinimalistConfig
+(typically via `minimalist.properties`) to the fully qualified name as well.
+
+Note, that you can still define
+a [ParameterResolver](https://docs.junit.org/current/user-guide/#writing-tests-dependency-injection),
+instead (or in addition). Minimalist is only an addition to JUnit, you can use all other constructs as well.
+There is a difference though, if you define that your `SuffixArgsGeneratorDecider` returns an `OrderedArgsGenerator`
+then the cartesian product results as explained in [generic combine](#generic-combine).
+
 # Helpers
 
 Minimalist provides some helpers in addition to `ArgGenerators` and the `ArgsSource` machinery.
@@ -881,7 +946,7 @@ createMinimalistRandom().let { random ->
 
 ## Sequence helpers
 
-In case you want to repeat something forever as well, then `repeatForever` might come in handy for you as well.
+In case you want to repeat something forever, then `repeatForever` might come in handy for you as well:
 
 <code-repeat-forever>
 
@@ -908,10 +973,10 @@ repeatForever().flatMap { _ ->
 
 ## BigInt helpers
 
-We think `BigInteger` is too cumbersome to write and hence use `BigInt` instead. For instance, we use
-`ordered.bigIntFromUntil` instead of `ordered.bigIntegerFromUntil`. And since it would look odd if this function
-takes `BigInteger`, we also introduced a corresponding `typealias` and an extension method `toBigInt` for `Int` and
-`Long`.
+We think `BigInteger` is too cumbersome to write and hence use `BigInt` instead (also aligns better with Kotlin's choice
+to use `Int` instead of `Integer`. For instance, we use `ordered.bigIntFromUntil` instead of
+`ordered.bigIntegerFromUntil`. And since it would look odd if this function takes `BigInteger`, we introduced
+a corresponding `typealias` and an extension method `toBigInt` for `Int` and `Long`.
 
 Last but not least, we provide the extension method `Random.nextBigInt`.
 
@@ -919,12 +984,34 @@ Last but not least, we provide the extension method `Random.nextBigInt`.
 
 Code documentation can be found on github-pages: <https://tegonal.github.io/minimalist/latest#/kdoc>.
 
+# Contributors and contribute
+
+Our thanks go to [code contributors](https://github.com/tegonal/minimalist/graphs/contributors)
+as well as all other contributors (e.g. bug reporters, feature request creators etc.)
+
+You are more than welcome to contribute as well:
+
+- star this repository if you like/use it
+- [open a bug](https://github.com/tegonal/minimalist/issues/new?template=bug_report.md) if you find one
+- Open a [new discussion](https://github.com/tegonal/minimalist/discussions/new?category=ideas) if you
+  are missing a feature
+- [ask a question](https://github.com/tegonal/minimalist/discussions/new?category=q-a)
+  so that we better understand where we can improve.
+- have a look at
+  the [help wanted issues](https://github.com/tegonal/minimalist/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22).
+
+Please have a look at
+[CONTRIBUTING.md](https://github.com/tegonal/minimalist/tree/main/.github/CONTRIBUTING.md)
+for further suggestions and guidelines.
+
 # License
 
 Minimalist is licensed
-under [European Union Public Licence 1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12).  
-- Classes which are copied from [junit-jupiter-params/junit-platform-commons](https://github.com/junit-team/junit5) 
-are licensed under [EPL 2.0](https://www.eclipse.org/legal/epl-v20.html) (see src/main/lib/java/com/tegonal/minimalist/export/org/junit).
+under [European Union Public Licence 1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12).
+
+- Classes which are copied from [junit-jupiter-params/junit-platform-commons](https://github.com/junit-team/junit5)
+  are licensed under [EPL 2.0](https://www.eclipse.org/legal/epl-v20.html) (see
+  src/main/lib/java/com/tegonal/minimalist/export/org/junit).
 - Copied some classes and interfaces from [Atrium](https://atriumlib.org) licensed
   under [EUPL 1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12).
 
