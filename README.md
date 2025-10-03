@@ -17,14 +17,8 @@
 # Minimalist
 
 ![Minimalist](https://raw.githubusercontent.com/tegonal/minimalist/main/.idea/icon.png) M like Minimalist,
-a library which helps you in setting up parameterized tests and prioritise them in case you don't have enough time
-to execute all of them.
-
-Although it might resemble a property based testing library, its focus is on tests that take longer
-(integration, e2e and system integration tests) and is more data-driven oriented. A reason why you can also [use
-it in other contexts than JUnit](#use-minimalist-in-other-contexts-than-junit).
-
-Take a look at the [Examples](#examples) to see how you can use it.
+a Kotlin library which helps you in setting up data, particularly for JUnit's parameterized tests and prioritise them in
+case you don't have enough time to execute all of them.
 
 ---
 ❗ You are taking a *sneak peek* at the next version. It could be that some features you find on this page are not
@@ -36,6 +30,7 @@ version: [README of v2.0.0-RC-2](https://github.com/tegonal/minimalist/tree/v2.0
 
 **Table of Contents**
 
+- [Into](#intro)
 - [Installation](#installation)
 - [Examples](#examples)
 	- [Your first parameterized Test](#your-first-parameterized-test)
@@ -59,14 +54,30 @@ version: [README of v2.0.0-RC-2](https://github.com/tegonal/minimalist/tree/v2.0
 - [Configuration](#configuration)
 	- [Profiles and Envs](#profiles-and-envs)
 	- [Fixing the seed](#fixing-the-seed)
-    - [Change the ArgsRangeDecider](#change-the-argsrangedecider)
-    - [Use a SuffixArgsGeneratorDecider](#use-a-suffixargsgeneratordecider)
+	- [Change the ArgsRangeDecider](#change-the-argsrangedecider)
+	- [Use a SuffixArgsGeneratorDecider](#use-a-suffixargsgeneratordecider)
 - [Helpers](#helpers)
 	- [Random helpers](#random-helpers)
 	- [Sequence helpers](#sequence-helpers)
 	- [BigInt helpers](#bigint-helpers)
 - [Code Documentation](#code-documentation)
+- [Contributors and contribute](#contributors-and-contribute)
 - [License](#license)
+
+# Intro
+
+Minimalist might resemble a property based testing library but is more data-driven oriented.
+Its focus is on tests that take longer (integration, e2e and system integration tests) where shrinking is too costly but
+you can of course also use it for unit tests.  
+It comes with extra support for JUnit but can
+also [be used in other contexts](#use-minimalist-in-other-contexts-than-junit)
+where you want to generate data (or with other test-runners).
+
+Since it is only an addition to JUnit (a library, not an own test-runner as e.g. jqwik) you do not have to change any
+existing JUnit setup.
+
+Take a look at [Your first parameterized Test](#your-first-parameterized-test) to see how you can use it and then
+come back to the [Installation](#installation) section to see what dependency you need to set up.
 
 # Installation
 
@@ -87,7 +98,7 @@ Minimum requirements:
 
 - Kotlin: 1.9
 - JDK: 11
-- JUnit: 5.13.4
+- JUnit: 5.13.0
 
 # Examples
 
@@ -784,8 +795,10 @@ class DynamicTest : PredefinedArgsProviders {
 Note however, that all the magic of `ArgsSource` is not available (yet). Which means:
 
 - you need to combine ArgsGenerators manually (see [arb.zip](#arb-zip) and [ordered.cartesian](#ordered-cartesian)) or
-  use [combineAll](#generic-combine) if you deal with generators in `Tuple`s -- the good side, you do not lose the types as you would
+  use [combineAll](#generic-combine) if you deal with generators in `Tuple`s -- the good side, you do not lose the types
+  as you would
   with JUnit's `Arguments`.
+- A defined [SuffixArgsGenerator](#use-a-suffixargsgeneratordecider) is ignored (we would lose the types again)
 - definitions like `@ArgSourceOptions` are ignored, but as long as you use `generateAndTakeBasedOnDecider` the defined
   seed and co. (see [fixing the seed](#fixing-the-seed) are taken into account
 - and you can pass `AnnotationData` to `generateAndTakeBasedOnDecider` to get back the same options as with
@@ -842,15 +855,15 @@ to skip some runs, i.e. jump to a particular run.
 
 ## Change the ArgsRangeDecider
 
-An `ArgsRangeDecider` is responsible to decide from which offset and how many arguments shall be taken from an 
+An `ArgsRangeDecider` is responsible to decide from which offset and how many arguments shall be taken from an
 `ArgsGenerator`. The offset is only taken into account for `(Semi)OrderedArgsGenerator`s.
 
 The default implementation is solely based on the configured [profiles](#profiles-and-envs) - more implementations will
-follow in an upcoming version of Minimalist. 
+follow in an upcoming version of Minimalist.
 
-If you want to provide an own implementation, then you need to make it available to be loaded via `ServiceLoader`. 
+If you want to provide an own implementation, then you need to make it available to be loaded via `ServiceLoader`.
 Create the file `src/resource/META-INF/services/com.tegonal.minimalist.providers.ArgsRangeDecider` and put the fully
-qualified name in it. Moreover, you need to set `activeArgRangeDecider` in the MinimalistConfig 
+qualified name in it. Moreover, you need to set `activeArgRangeDecider` in the MinimalistConfig
 (typically via `minimalist.properties`) to the fully qualified name as well.
 
 ## Use a SuffixArgsGeneratorDecider
@@ -859,8 +872,8 @@ A `SuffixArgsGeneratorDecider` is responsible to decide if an `ArgsGenerator` sh
 with the `ArgsGenerator`(s) defined by the method specified in `ArgsSource`.
 
 This can be handy if you for instance have a kind of test which always require something. This way you don't have to add
-it to every single `ArgsSource` but can define it in a single place. 
-Imagine you have implemented a SuffixArgsGeneratorDecider which always returns `arb.fromEnum<Color>()`. In the test you 
+it to every single `ArgsSource` but can define it in a single place.
+Imagine you have implemented a SuffixArgsGeneratorDecider which always returns `arb.fromEnum<Color>()`. In the test you
 could then write:
 
 <code-suffix-args-generator>
@@ -877,9 +890,15 @@ fun foo(i: Int, c: Color) {
 </code-suffix-args-generator>
 
 If you want to provide an own implementation, then you need to make it available to be loaded via `ServiceLoader`.
-Create the file `src/resource/META-INF/services/com.tegonal.minimalist.providers.SuffixArgsGeneratorDeciderr` and 
+Create the file `src/resource/META-INF/services/com.tegonal.minimalist.providers.SuffixArgsGeneratorDeciderr` and
 put the fully qualified name in it. Moreover, you need to set `activeArgRangeDecider` in the MinimalistConfig
 (typically via `minimalist.properties`) to the fully qualified name as well.
+
+Note, that you can still define
+a [ParameterResolver](https://docs.junit.org/current/user-guide/#writing-tests-dependency-injection),
+instead (or in addition). Minimalist is only an addition to JUnit, you can use all other constructs as well.
+There is a difference though, if you define that your `SuffixArgsGeneratorDecider` returns an `OrderedArgsGenerator`
+then the cartesian product results as explained in [generic combine](#generic-combine).
 
 # Helpers
 
@@ -964,6 +983,26 @@ Last but not least, we provide the extension method `Random.nextBigInt`.
 # Code Documentation
 
 Code documentation can be found on github-pages: <https://tegonal.github.io/minimalist/latest#/kdoc>.
+
+# Contributors and contribute
+
+Our thanks go to [code contributors](https://github.com/tegonal/minimalist/graphs/contributors)
+as well as all other contributors (e.g. bug reporters, feature request creators etc.)
+
+You are more than welcome to contribute as well:
+
+- star this repository if you like/use it
+- [open a bug](https://github.com/tegonal/minimalist/issues/new?template=bug_report.md) if you find one
+- Open a [new discussion](https://github.com/tegonal/minimalist/discussions/new?category=ideas) if you
+  are missing a feature
+- [ask a question](https://github.com/tegonal/minimalist/discussions/new?category=q-a)
+  so that we better understand where we can improve.
+- have a look at
+  the [help wanted issues](https://github.com/tegonal/minimalist/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22).
+
+Please have a look at
+[CONTRIBUTING.md](https://github.com/tegonal/minimalist/tree/main/.github/CONTRIBUTING.md)
+for further suggestions and guidelines.
 
 # License
 
