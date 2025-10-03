@@ -1,6 +1,6 @@
 package com.tegonal.minimalist.providers
 
-import com.tegonal.minimalist.export.org.junit.platform.commons.util.AnnotationUtils
+import org.junit.platform.commons.support.AnnotationSupport
 import java.lang.reflect.AnnotatedElement
 import java.lang.reflect.Method
 import kotlin.jvm.optionals.getOrNull
@@ -29,7 +29,7 @@ abstract class BaseAnnotationDataDeducer<A : Annotation>(
 	}
 
 	private fun deduceData(element: AnnotatedElement, argsSourceMethodName: String): AnnotationData? =
-		AnnotationUtils.findAnnotation(element, annotationClass.java)
+		AnnotationSupport.findAnnotation(element, annotationClass.java)
 			.map { annotationToAnnotationData(argsSourceMethodName, it) }.getOrNull()
 
 	abstract fun annotationToAnnotationData(argsSourceMethodName: String, annotation: A): AnnotationData

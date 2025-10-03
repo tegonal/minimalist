@@ -5,6 +5,8 @@ module com.tegonal.minimalist {
 	requires org.junit.platform.commons;
 	requires ch.tutteli.kbox;
 	requires java.logging;
+	// from the export of junit classes
+	requires org.apiguardian.api;
 
 	exports com.tegonal.minimalist;
 	exports com.tegonal.minimalist.config;

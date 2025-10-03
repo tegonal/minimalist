@@ -922,12 +922,14 @@ Code documentation can be found on github-pages: <https://tegonal.github.io/mini
 # License
 
 Minimalist is licensed
-under [European Union Public Licence 1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12).
+under [European Union Public Licence 1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12).  
+- Classes which are copied from [junit-jupiter-params/junit-platform-commons](https://github.com/junit-team/junit5) 
+are licensed under [EPL 2.0](https://www.eclipse.org/legal/epl-v20.html) (see src/main/lib/java/com/tegonal/minimalist/export/org/junit).
+- Copied some classes and interfaces from [Atrium](https://atriumlib.org) licensed
+  under [EUPL 1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12).
 
 Minimalist is using
 
 - [junit-jupiter-params/junit-platform-commons](https://github.com/junit-team/junit5) licensed
   under [EPL 2.0](https://www.eclipse.org/legal/epl-v20.html)
 - [KBox](https://github.com/robstoll/kbox) licensed under [Apache 2.0](https://opensource.org/licenses/Apache2.0)
-- Copied some classes and interfaces from [Atrium](https://atriumlib.org) licensed
-  under [EUPL 1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12).
