@@ -32,6 +32,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import org.apiguardian.api.API;
+import org.junit.platform.commons.annotation.Contract;
 
 /**
  * Collection of utilities for working with exceptions.
@@ -76,6 +77,7 @@ final class ExceptionUtils {
 	 * returns anything; the return type is merely present to allow this
 	 * method to be supplied as the operand in a {@code throw} statement
 	 */
+	@Contract("_ -> fail")
 	public static RuntimeException throwAsUncheckedException(Throwable t) {
 		Preconditions.notNull(t, "Throwable must not be null");
 		// The following line will never actually return an exception but rather
@@ -83,7 +85,8 @@ final class ExceptionUtils {
 		return ExceptionUtils.throwAs(t);
 	}
 
-	@SuppressWarnings("unchecked")
+	@Contract("_ -> fail")
+	@SuppressWarnings({ "unchecked", "TypeParameterUnusedInFormals" })
 	private static <T extends Throwable> T throwAs(Throwable t) throws T {
 		throw (T) t;
 	}
@@ -101,11 +104,15 @@ final class ExceptionUtils {
 	}
 
 	/**
-	 * Prune the stack trace of the supplied {@link Throwable} by removing
-	 * {@linkplain StackTraceElement stack trace elements} from the {@code org.junit},
-	 * {@code jdk.internal.reflect}, and {@code sun.reflect} packages. If a
-	 * {@code StackTraceElement} matching one of the supplied {@code classNames}
-	 * is encountered, all subsequent elements in the stack trace will be retained.
+	 * Prune the stack trace of the supplied {@link Throwable}.
+	 *
+	 * <p>Prune all {@linkplain StackTraceElement stack trace elements} up one
+	 * of the supplied {@code classNames} are pruned. All subsequent elements
+	 * in the stack trace will be retained.
+	 *
+	 * <p>If the {@code classNames} do not match any of the stacktrace elements
+	 * then the {@code org.junit}, {@code jdk.internal.reflect}, and
+	 * {@code sun.reflect} packages are pruned.
 	 *
 	 * <p>Additionally, all elements prior to and including the first JUnit Platform
 	 * Launcher call will be removed.
@@ -132,6 +139,9 @@ final class ExceptionUtils {
 			String className = element.getClassName();
 
 			if (classNames.contains(className)) {
+				// We found the test
+				// everything before that is not informative.
+				prunedStackTrace.clear();
 				// Include all elements called by the test
 				prunedStackTrace.addAll(stackTrace.subList(i, stackTrace.size()));
 				break;
@@ -178,7 +188,7 @@ final class ExceptionUtils {
 			}
 		}
 
-		return Collections.unmodifiableList(new ArrayList<>(visited));
+		return List.copyOf(visited);
 	}
 
 }
