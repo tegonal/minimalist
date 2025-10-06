@@ -72,9 +72,9 @@ public class MethodArgumentsProvider {
 		Method factoryMethod = findFactoryMethodByFullyQualifiedName(testClass, testMethod, factoryMethodName);
 
 		// Ensure factory method has a valid return type and is not a test method.
-		Preconditions.condition(isFactoryMethod.test(factoryMethod), () -> format(
-			"Could not find valid factory method [%s] for test class [%s] but found the following invalid candidate: %s",
-			originalFactoryMethodName, testClass.getName(), factoryMethod));
+		Preconditions.condition(isFactoryMethod.test(factoryMethod),
+			() -> "Could not find valid factory method [%s] for test class [%s] but found the following invalid candidate: %s".formatted(
+				originalFactoryMethodName, testClass.getName(), factoryMethod));
 
 		return factoryMethod;
 	}
@@ -121,7 +121,7 @@ public class MethodArgumentsProvider {
 		// If we didn't find an exact match but an explicit parameter list was specified,
 		// that's a user configuration error.
 		Preconditions.condition(!explicitParameterListSpecified,
-			() -> format("Could not find factory method [%s(%s)] in class [%s]", methodName, methodParameters,
+			() -> "Could not find factory method [%s(%s)] in class [%s]".formatted(methodName, methodParameters,
 				className));
 
 		// Otherwise, fall back to the same lenient search semantics that are used
@@ -145,22 +145,21 @@ public class MethodArgumentsProvider {
 				&& !candidate.equals(testMethod.orElse(null));
 		List<Method> candidates = ReflectionSupport.findMethods(clazz, isCandidate, HierarchyTraversalMode.TOP_DOWN);
 
-		List<Method> factoryMethods = candidates.stream().filter(isFactoryMethod).collect(toList());
+		List<Method> factoryMethods = candidates.stream().filter(isFactoryMethod).toList();
 
 		Preconditions.notEmpty(factoryMethods, () -> {
 			if (candidates.isEmpty()) {
 				// Report that we didn't find anything.
-				return format("Could not find factory method [%s] in class [%s]", factoryMethodName, clazz.getName());
+				return "Could not find factory method [%s] in class [%s]".formatted(factoryMethodName, clazz.getName());
 			}
 			// If we didn't find the factory method using the isFactoryMethod Predicate, perhaps
 			// the specified factory method has an invalid return type or is a test method.
 			// In that case, we report the invalid candidates that were found.
-			return format(
-				"Could not find valid factory method [%s] in class [%s] but found the following invalid candidates: %s",
+			return "Could not find valid factory method [%s] in class [%s] but found the following invalid candidates: %s".formatted(
 				factoryMethodName, clazz.getName(), candidates);
 		});
 		Preconditions.condition(factoryMethods.size() == 1,
-			() -> format("%d factory methods named [%s] were found in class [%s]: %s", factoryMethods.size(),
+			() -> "%d factory methods named [%s] were found in class [%s]: %s".formatted(factoryMethods.size(),
 				factoryMethodName, clazz.getName(), factoryMethods));
 		return factoryMethods.get(0);
 	}
@@ -170,13 +169,13 @@ public class MethodArgumentsProvider {
 				|| isAnnotated(candidate, TestFactory.class);
 	}
 
-	public static Method validateFactoryMethod(Method factoryMethod, Object testInstance) {
+	public static Method validateFactoryMethod(Method factoryMethod, @Nullable Object testInstance) {
 		Preconditions.condition(
 			factoryMethod.getDeclaringClass().isInstance(testInstance) || Modifier.isStatic(factoryMethod.getModifiers()),
-			() -> format("Method '%s' must be static: local factory methods must be static "
-					+ "unless the PER_CLASS @TestInstance lifecycle mode is used; "
-					+ "external factory methods must always be static.",
-				factoryMethod.toGenericString()));
+			() -> """
+					Method '%s' must be static: local factory methods must be static \
+					unless the PER_CLASS @TestInstance lifecycle mode is used; \
+					external factory methods must always be static.""".formatted(factoryMethod.toGenericString()));
 		return factoryMethod;
 	}
 

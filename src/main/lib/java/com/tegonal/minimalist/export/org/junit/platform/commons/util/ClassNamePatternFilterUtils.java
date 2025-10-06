@@ -17,7 +17,6 @@
 // -----------------------------------------------------------------------------------------------------
 package com.tegonal.minimalist.export.org.junit.platform.commons.util;
 
-import static java.util.stream.Collectors.toList;
 import static org.apiguardian.api.API.Status.INTERNAL;
 
 import java.util.Arrays;
@@ -29,6 +28,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apiguardian.api.API;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Collection of utilities for creating filters based on class names.
@@ -59,7 +59,7 @@ public class ClassNamePatternFilterUtils {
 	 *
 	 * @param patterns a comma-separated list of patterns
 	 */
-	public static <T> Predicate<T> excludeMatchingClasses(String patterns) {
+	public static <T> Predicate<T> excludeMatchingClasses(@Nullable String patterns) {
 		return matchingClasses(patterns, object -> object.getClass().getName(), FilterType.EXCLUDE);
 	}
 
@@ -69,7 +69,7 @@ public class ClassNamePatternFilterUtils {
 	 *
 	 * @param patterns a comma-separated list of patterns
 	 */
-	public static Predicate<String> excludeMatchingClassNames(String patterns) {
+	public static Predicate<String> excludeMatchingClassNames(@Nullable String patterns) {
 		return matchingClasses(patterns, Function.identity(), FilterType.EXCLUDE);
 	}
 
@@ -80,7 +80,7 @@ public class ClassNamePatternFilterUtils {
 	 *
 	 * @param patterns a comma-separated list of patterns
 	 */
-	public static <T> Predicate<T> includeMatchingClasses(String patterns) {
+	public static <T> Predicate<T> includeMatchingClasses(@Nullable String patterns) {
 		return matchingClasses(patterns, object -> object.getClass().getName(), FilterType.INCLUDE);
 	}
 
@@ -90,7 +90,7 @@ public class ClassNamePatternFilterUtils {
 	 *
 	 * @param patterns a comma-separated list of patterns
 	 */
-	public static Predicate<String> includeMatchingClassNames(String patterns) {
+	public static Predicate<String> includeMatchingClassNames(@Nullable String patterns) {
 		return matchingClasses(patterns, Function.identity(), FilterType.INCLUDE);
 	}
 
@@ -98,12 +98,12 @@ public class ClassNamePatternFilterUtils {
 		INCLUDE, EXCLUDE
 	}
 
-	private static <T> Predicate<T> matchingClasses(String patterns, Function<T, String> classNameProvider,
+	private static <T> Predicate<T> matchingClasses(@Nullable String patterns, Function<T, String> classNameProvider,
 			FilterType type) {
 		// @formatter:off
 		return Optional.ofNullable(patterns)
 				.filter(StringUtils::isNotBlank)
-				.map(String::trim)
+				.map(String::strip)
 				.map(trimmedPatterns -> createPredicateFromPatterns(trimmedPatterns, classNameProvider, type))
 				.orElse(type == FilterType.EXCLUDE ? __ -> true : __ -> false);
 		// @formatter:on
@@ -127,10 +127,10 @@ public class ClassNamePatternFilterUtils {
 		// @formatter:off
 		return Arrays.stream(patterns.split(","))
 				.filter(StringUtils::isNotBlank)
-				.map(String::trim)
+				.map(String::strip)
 				.map(ClassNamePatternFilterUtils::replaceRegExElements)
 				.map(Pattern::compile)
-				.collect(toList());
+				.toList();
 		// @formatter:on
 	}
 

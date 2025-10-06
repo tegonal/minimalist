@@ -27,6 +27,8 @@ import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 import org.apiguardian.api.API;
+import org.jspecify.annotations.Nullable;
+import org.junit.platform.commons.annotation.Contract;
 
 /**
  * Collection of utilities for working with {@link String Strings},
@@ -72,10 +74,12 @@ public final class StringUtils {
 	 *
 	 * @param str the string to check; may be {@code null}
 	 * @return {@code true} if the string is blank
+	 * @see String#isBlank()
 	 * @see #isNotBlank(String)
 	 */
-	public static boolean isBlank(String str) {
-		return (str == null || str.trim().isEmpty());
+	@Contract("null -> true")
+	public static boolean isBlank(@Nullable String str) {
+		return (str == null || str.isBlank());
 	}
 
 	/**
@@ -86,7 +90,8 @@ public final class StringUtils {
 	 * @return {@code true} if the string is not blank
 	 * @see #isBlank(String)
 	 */
-	public static boolean isNotBlank(String str) {
+	@Contract("null -> false")
+	public static boolean isNotBlank(@Nullable String str) {
 		return !isBlank(str);
 	}
 
@@ -98,7 +103,8 @@ public final class StringUtils {
 	 * @see #containsIsoControlCharacter(String)
 	 * @see Character#isWhitespace(int)
 	 */
-	public static boolean containsWhitespace(String str) {
+	@Contract("null -> false")
+	public static boolean containsWhitespace(@Nullable String str) {
 		return str != null && str.codePoints().anyMatch(Character::isWhitespace);
 	}
 
@@ -112,7 +118,8 @@ public final class StringUtils {
 	 * @see #containsIsoControlCharacter(String)
 	 * @see Character#isWhitespace(int)
 	 */
-	public static boolean doesNotContainWhitespace(String str) {
+	@Contract("null -> true")
+	public static boolean doesNotContainWhitespace(@Nullable String str) {
 		return !containsWhitespace(str);
 	}
 
@@ -124,7 +131,8 @@ public final class StringUtils {
 	 * @see #containsWhitespace(String)
 	 * @see Character#isISOControl(int)
 	 */
-	public static boolean containsIsoControlCharacter(String str) {
+	@Contract("null -> false")
+	public static boolean containsIsoControlCharacter(@Nullable String str) {
 		return str != null && str.codePoints().anyMatch(Character::isISOControl);
 	}
 
@@ -138,7 +146,8 @@ public final class StringUtils {
 	 * @see #containsWhitespace(String)
 	 * @see Character#isISOControl(int)
 	 */
-	public static boolean doesNotContainIsoControlCharacter(String str) {
+	@Contract("null -> true")
+	public static boolean doesNotContainIsoControlCharacter(@Nullable String str) {
 		return !containsIsoControlCharacter(str);
 	}
 
@@ -164,7 +173,7 @@ public final class StringUtils {
 	 * @see Arrays#deepToString(Object[])
 	 * @see ClassUtils#nullSafeToString(Class...)
 	 */
-	public static String nullSafeToString(Object obj) {
+	public static String nullSafeToString(@Nullable Object obj) {
 		if (obj == null) {
 			return "null";
 		}
@@ -172,29 +181,29 @@ public final class StringUtils {
 		try {
 			if (obj.getClass().isArray()) {
 				if (obj.getClass().getComponentType().isPrimitive()) {
-					if (obj instanceof boolean[]) {
-						return Arrays.toString((boolean[]) obj);
+					if (obj instanceof boolean[] booleans) {
+						return Arrays.toString(booleans);
 					}
-					if (obj instanceof char[]) {
-						return Arrays.toString((char[]) obj);
+					if (obj instanceof char[] chars) {
+						return Arrays.toString(chars);
 					}
-					if (obj instanceof short[]) {
-						return Arrays.toString((short[]) obj);
+					if (obj instanceof short[] shorts) {
+						return Arrays.toString(shorts);
 					}
-					if (obj instanceof byte[]) {
-						return Arrays.toString((byte[]) obj);
+					if (obj instanceof byte[] bytes) {
+						return Arrays.toString(bytes);
 					}
-					if (obj instanceof int[]) {
-						return Arrays.toString((int[]) obj);
+					if (obj instanceof int[] ints) {
+						return Arrays.toString(ints);
 					}
-					if (obj instanceof long[]) {
-						return Arrays.toString((long[]) obj);
+					if (obj instanceof long[] longs) {
+						return Arrays.toString(longs);
 					}
-					if (obj instanceof float[]) {
-						return Arrays.toString((float[]) obj);
+					if (obj instanceof float[] floats) {
+						return Arrays.toString(floats);
 					}
-					if (obj instanceof double[]) {
-						return Arrays.toString((double[]) obj);
+					if (obj instanceof double[] doubles) {
+						return Arrays.toString(doubles);
 					}
 				}
 				return Arrays.deepToString((Object[]) obj);
@@ -228,7 +237,7 @@ public final class StringUtils {
 	 * @see #nullSafeToString(Object)
 	 * @see ClassUtils#nullSafeToString(Class...)
 	 */
-	public static String defaultToString(Object obj) {
+	public static String defaultToString(@Nullable Object obj) {
 		if (obj == null) {
 			return "null";
 		}
@@ -246,7 +255,8 @@ public final class StringUtils {
 	 * @since 1.4
 	 */
 	@API(status = INTERNAL, since = "1.4")
-	public static String replaceIsoControlCharacters(String str, String replacement) {
+	@Contract("null, _ -> null; !null, _ -> !null")
+	public static @Nullable String replaceIsoControlCharacters(@Nullable String str, String replacement) {
 		Preconditions.notNull(replacement, "replacement must not be null");
 		return str == null ? null : ISO_CONTROL_PATTERN.matcher(str).replaceAll(replacement);
 	}
@@ -261,7 +271,8 @@ public final class StringUtils {
 	 * @since 1.4
 	 */
 	@API(status = INTERNAL, since = "1.4")
-	public static String replaceWhitespaceCharacters(String str, String replacement) {
+	@Contract("null, _ -> null; !null, _ -> !null")
+	public static @Nullable String replaceWhitespaceCharacters(@Nullable String str, String replacement) {
 		Preconditions.notNull(replacement, "replacement must not be null");
 		return str == null ? null : WHITESPACE_PATTERN.matcher(str).replaceAll(replacement);
 	}
@@ -310,7 +321,7 @@ public final class StringUtils {
 	 * @see StringUtils#splitIntoTwo(String, String)
 	 */
 	@API(status = INTERNAL, since = "1.11")
-	public interface TwoPartSplitResult {
+	public sealed interface TwoPartSplitResult {
 
 		/**
 		 * Map the result of splitting a string into two parts or throw an exception.
@@ -337,13 +348,7 @@ public final class StringUtils {
 
 	}
 
-	private static final class OnePart implements TwoPartSplitResult {
-
-		private final String value;
-
-		OnePart(String value) {
-			this.value = value;
-		}
+	private record OnePart(String value) implements TwoPartSplitResult {
 
 		@Override
 		public <T> T map(Function<String, ? extends T> onePartMapper,
@@ -352,15 +357,7 @@ public final class StringUtils {
 		}
 	}
 
-	private static final class TwoParts implements TwoPartSplitResult {
-
-		private final String first;
-		private final String second;
-
-		TwoParts(String first, String second) {
-			this.first = first;
-			this.second = second;
-		}
+	private record TwoParts(String first, String second) implements TwoPartSplitResult {
 
 		@Override
 		public <T> T map(Function<String, ? extends T> onePartMapper,
