@@ -1,9 +1,9 @@
-@file:JvmName("SemiOrderedCrossKt")
+@file:JvmName("SemiOrderedCartesianKt")
 @file:JvmMultifileClass
 
 package com.tegonal.minimalist.generators
 
-import com.tegonal.minimalist.generators.impl.SemiOrderedArgsGeneratorCombiner
+import com.tegonal.minimalist.generators.impl.SemiOrderedCartesianProductArgsGenerator
 
 /**
  * Combines `this` [SemiOrderedArgsGenerator] with the given [other]&nbsp;[SemiOrderedArgsGenerator] resulting in their
@@ -24,4 +24,4 @@ import com.tegonal.minimalist.generators.impl.SemiOrderedArgsGeneratorCombiner
 fun <A1, A2, R> SemiOrderedArgsGenerator<A1>.cartesian(
 	other: SemiOrderedArgsGenerator<A2>,
 	transform: (A1, A2) -> R
-): SemiOrderedArgsGenerator<R> = SemiOrderedArgsGeneratorCombiner(this, other, transform)
+): SemiOrderedArgsGenerator<R> = SemiOrderedCartesianProductArgsGenerator(this, other, transform)

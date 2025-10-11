@@ -2,21 +2,20 @@ package com.tegonal.minimalist.generators
 
 import ch.tutteli.atrium.testfactories.TestFactory
 import ch.tutteli.kbox.Tuple
+import com.tegonal.minimalist.generators.impl.InternalDangerousApi
+import com.tegonal.minimalist.generators.impl.mapIndexedInternal
+import com.tegonal.minimalist.generators.impl.transformInternal
 
 class OrderedTransformationTest : AbstractOrderedArgsGeneratorTest<Int>() {
 
 	// see OrderedCombineTest for tests about combine
 
+	@OptIn(InternalDangerousApi::class)
 	override fun createGenerators() = listOf(1, 2, 3, 4).let { l ->
 		val mapFun: (Int) -> Int = { it + 1 }
 		val generator = modifiedOrdered.fromList(l)
 		sequenceOf(
 			Tuple("map", generator.map(mapFun), l.map(mapFun)),
-			Tuple(
-				"mapIndexed",
-				generator.mapIndexed { index, it -> (index % l.size) * 10 + mapFun(it) },
-				l.mapIndexed { index, it -> (index % l.size) * 10 + mapFun(it) },
-			),
 			Tuple(
 				"filterMaterialised", generator.filterMaterialised { it % 2 == 0 }, listOf(2, 4)
 			),
@@ -33,6 +32,18 @@ class OrderedTransformationTest : AbstractOrderedArgsGeneratorTest<Int>() {
 				generator.transformMaterialised { s -> s.zip(s.map { it + 1 }) { a1, a2 -> a1 + a2 } },
 				listOf(3, 5, 7, 9)
 			),
+
+			// internal functions --------------------------------------------------------------------------------
+			Tuple(
+				"mapIndexedInternal",
+				generator.mapIndexedInternal { index, it -> (index % l.size) * 10 + mapFun(it) },
+				l.mapIndexed { index, it -> (index % l.size) * 10 + mapFun(it) },
+			),
+			Tuple(
+				"transformInternal",
+				generator.transformInternal { it.zipWithNext { a1, a2 -> a1 + a2 + if (a1 == 4) 1 else 0 } },
+				listOf(3, 5, 7, 6),
+			),
 		)
 	}
 
@@ -40,6 +51,6 @@ class OrderedTransformationTest : AbstractOrderedArgsGeneratorTest<Int>() {
 	override fun offsetPlusXReturnsTheSameAsOffsetXMinus1JustShifted() =
 		offsetPlusXReturnsTheSameAsOffsetXMinus1JustShiftedTest {
 			// this "law" does not hold for mapIndexed
-			createGenerators().filter { it.first != "mapIndexed" }
+			createGenerators().filter { it.first != "mapIndexedInternal" }
 		}
 }

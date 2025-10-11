@@ -165,7 +165,7 @@ class ArgsGeneratorToArgumentsConverterTest {
 		val lastDayOfYear = now.with(TemporalAdjusters.lastDayOfYear())
 		val startDates = arb.localDateFromUntil(now, lastDayOfYear)
 
-		val startAndEndDates = startDates.combineDependent { startDate ->
+		val startAndEndDates = startDates.zipDependent { startDate ->
 			arb.localDateFromUntil(startDate, startDate.plusYears(1))
 		}.map { listOf(it) }
 

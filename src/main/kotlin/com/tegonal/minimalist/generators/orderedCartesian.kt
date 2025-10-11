@@ -2,7 +2,7 @@
 @file:JvmMultifileClass
 package com.tegonal.minimalist.generators
 
-import com.tegonal.minimalist.generators.impl.OrderedArgsGeneratorCombiner
+import com.tegonal.minimalist.generators.impl.OrderedCartesianProductArgsGenerator
 
 /**
  * Combines `this` [OrderedArgsGenerator] with the given [other]&nbsp;[OrderedArgsGenerator] resulting in their
@@ -23,4 +23,4 @@ import com.tegonal.minimalist.generators.impl.OrderedArgsGeneratorCombiner
 fun <A1, A2, R> OrderedArgsGenerator<A1>.cartesian(
 	other: OrderedArgsGenerator<A2>,
 	transform: (A1, A2) -> R
-): OrderedArgsGenerator<R> = OrderedArgsGeneratorCombiner(this, other, transform)
+): OrderedArgsGenerator<R> = OrderedCartesianProductArgsGenerator(this, other, transform)

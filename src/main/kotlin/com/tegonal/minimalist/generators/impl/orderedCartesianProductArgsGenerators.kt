@@ -10,7 +10,7 @@ import com.tegonal.minimalist.config._components
  *
  * @since 2.0.0
  */
-class OrderedArgsGeneratorCombiner<A1, A2, R>(
+class OrderedCartesianProductArgsGenerator<A1, A2, R>(
 	private val a1Generator: OrderedArgsGenerator<A1>,
 	private val a2Generator: OrderedArgsGenerator<A2>,
 	private val transform: (A1, A2) -> R
@@ -34,7 +34,7 @@ class OrderedArgsGeneratorCombiner<A1, A2, R>(
  *
  * @since 2.0.0
  */
-class SemiOrderedArgsGeneratorCombiner<A1, A2, R>(
+class SemiOrderedCartesianProductArgsGenerator<A1, A2, R>(
 	private val a1Generator: SemiOrderedArgsGenerator<A1>,
 	private val a2Generator: SemiOrderedArgsGenerator<A2>,
 	private val transform: (A1, A2) -> R
@@ -51,9 +51,9 @@ class SemiOrderedArgsGeneratorCombiner<A1, A2, R>(
 }
 
 /**
- * Combines two [SemiOrderedArgsGenerator] by letting the bigger (in terms of [SemiOrderedArgsGeneratorCombiner.size] = maxSize)
- * generate repeatedly values starting from the defined offset and by letting the smaller generate chunks of maxSize
- * whereas the offset progresses from the given [offset] until its [SemiOrderedArgsGeneratorCombiner.size].
+ * Combines two [SemiOrderedArgsGenerator] by letting the bigger
+ * (in terms of [SemiOrderedArgsGenerator.size] = maxSize) generate repeatedly values starting from the defined offset and by letting the smaller generate chunks of maxSize
+ * whereas the offset progresses from the given [offset] until its [SemiOrderedArgsGenerator.size].
  *
  * This approach allows to generate lazily combined values without the need to generate more data than needed.
  */

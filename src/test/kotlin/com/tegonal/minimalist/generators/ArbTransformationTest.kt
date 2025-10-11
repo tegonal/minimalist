@@ -1,10 +1,12 @@
 package com.tegonal.minimalist.generators
 
 import ch.tutteli.kbox.Tuple
+import com.tegonal.minimalist.generators.impl.flatMapIndexedInternal
+import com.tegonal.minimalist.generators.impl.mapIndexedInternal
 
 class ArbTransformationTest : AbstractArbArgsGeneratorTest<Any>() {
 
-	// see PseudoRandomArgsGeneratorTransformationTests for tests about combine
+	// see PseudoArbArgsGeneratorTransformationTests for tests about zip/zipDependent etc.
 
 	override fun createGenerators(modifiedArb: ArbExtensionPoint) =
 		listOf(1, 2, 3, 4).let { l ->
@@ -12,13 +14,6 @@ class ArbTransformationTest : AbstractArbArgsGeneratorTest<Any>() {
 			val generator = modifiedArb.fromList(l)
 			sequenceOf(
 				Tuple("map", generator.map(mapFun), l.map(mapFun)),
-				Tuple(
-					"mapIndexed",
-					generator.mapIndexed { index, it -> index to mapFun(it) },
-					(0..maxTakeInCanAlwaysTakeTheDesiredAmountTest).flatMap { index ->
-						l.map { index to mapFun(it) }
-					}
-				),
 				Tuple(
 					"filter", generator.filter { it % 2 == 0 },
 					listOf(2, 4)
@@ -52,6 +47,22 @@ class ArbTransformationTest : AbstractArbArgsGeneratorTest<Any>() {
 						/* 3+4 = */ 7,
 						/* 4+4 = */ 8
 					)
+				),
+
+				// internal functions --------------------------------------------------------------------------------
+				Tuple(
+					"mapIndexedInternal",
+					generator.mapIndexedInternal { index, it, _ -> index to mapFun(it) },
+					(0..maxTakeInCanAlwaysTakeTheDesiredAmountTest).flatMap { index ->
+						l.map { index to mapFun(it) }
+					}
+				),
+				Tuple(
+					"flatMapIndexedInternal",
+					generator.flatMapIndexedInternal { index, it, _ -> sequenceOf(index to mapFun(it)) },
+					(0..maxTakeInCanAlwaysTakeTheDesiredAmountTest).flatMap { index ->
+						l.map { index to mapFun(it) }
+					}
 				),
 			)
 		}

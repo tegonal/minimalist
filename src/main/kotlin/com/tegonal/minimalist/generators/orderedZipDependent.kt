@@ -18,9 +18,9 @@ import com.tegonal.minimalist.config.ordered
  *
  * @since 2.0.0
  */
-fun <A1, A2> OrderedArgsGenerator<A1>.combineDependentMaterialised(
+fun <A1, A2> OrderedArgsGenerator<A1>.flatZipDependentMaterialised(
 	otherFactory: OrderedExtensionPoint.(A1) -> OrderedArgsGenerator<A2>,
-): OrderedArgsGenerator<Tuple2<A1, A2>> = combineDependentMaterialised(otherFactory, ::Tuple2)
+): OrderedArgsGenerator<Tuple2<A1, A2>> = flatZipDependentMaterialised(otherFactory, ::Tuple2)
 
 
 /**
@@ -39,7 +39,7 @@ fun <A1, A2> OrderedArgsGenerator<A1>.combineDependentMaterialised(
  *
  * @since 2.0.0
  */
-fun <A1, A2, R> OrderedArgsGenerator<A1>.combineDependentMaterialised(
+fun <A1, A2, R> OrderedArgsGenerator<A1>.flatZipDependentMaterialised(
 	otherFactory: OrderedExtensionPoint.(A1) -> OrderedArgsGenerator<A2>,
 	transform: (A1, A2) -> R
 ): OrderedArgsGenerator<R> = transformMaterialised { seq ->

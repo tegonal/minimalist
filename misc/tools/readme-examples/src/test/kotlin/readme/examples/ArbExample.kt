@@ -21,7 +21,7 @@ class ArbExample : ReadmeTest {
 	fun `code-arb-1`() {
 		//snippet-ordered-1-insert
 
-		//snippet-ordered-2-insert
+		//snippet-enum-color-insert
 
 		arb.of(1, 2, 3)
 		arb.fromEnum<Color>()

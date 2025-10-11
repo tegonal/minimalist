@@ -41,15 +41,16 @@ version: [README of v2.0.0-RC-2](https://github.com/tegonal/minimalist/tree/v2.0
 	- [Combinators](#combinators)
 		- [Generic combine](#generic-combine)
 		- [ordered.cartesian](#ordered-cartesian)
-		- [arb.zip](#arb-zip)
-		- [combineDependent](#combinedependent)
+		- [zip](#zip)
+		- [zipDependent](#zipDependent)
+		- [flatZipDependent](#flatZipDependent)
 		- [transform](#transform)
 		- [map](#map)
 		- [filter/filterNot](#filter)
 		- [chunked](#chunked)
 		- [ordered.concatenation](#ordered-concatenation)
 		- [arb.mergeWeighted](#arb-mergeweighted)
-		- [ordered.toArbArgsGenerator](#ordered-toarbargsgenerator)
+		- [ordered.toArbArgsGenerator](#ordered-toArbArgsGenerator)
 - [Use Minimalist in other contexts than JUnit](#use-minimalist-in-other-contexts-than-junit)
 - [Configuration](#configuration)
 	- [Profiles and Envs](#profiles-and-envs)
@@ -363,7 +364,7 @@ Minimalist provides different combinators to produce new `ArgsGenerator`.
 
 ### Generic Combine
 
-The most frequently used combinator is probably a way to combine multiple `ArgsGenerator`s in some way. A reason why
+The most frequently used combinator is probably to combine multiple `ArgsGenerator`s in some way. A reason why
 we added a bit of magic to Minimalist. The idiomatic way to define that we want to combine multiple generators is
 to use `Tuple` (from ch.tutteli.kbox) which exists up to `Tuple9`:
 
@@ -495,25 +496,25 @@ The above example results in an `OrderedArgsGenerator<Int>` with the values 5 (1
 (the order of the values is implementation specific). As you can see, an `OrderedArgsGenerator` can also generate the
 same value multiple times.
 
-### arb zip
+### zip
 
 As mentioned in [generic combine](#generic-combine), combining multiple `ArbArgsGenerator`s by using a `Tuple` uses
 `zip` behind the scenes and results in a new `ArbArgsGenerator`:
 
-<code-zip-1>
+<code-zip-arb-1>
 
 ```kotlin
 arb.intFromUntil(1, 100).zip(arb.charFromTo('A', 'Z'))
 ```
 
-</code-zip-1>
+</code-zip-arb-1>
 
 For the above example, the possible combinations are 1/A, 2/A,... 99/A, 1/B, 2/B... 99/Z.
 As outlined in [ordered and arbitrary arguments generators](#ordered-and-arbitrary-arguments-generators), the order of
 the generated values of an `ArbArgsGenerator` is undefined and it could occur that you see a combination more than once.
 You can pass a `transform` function as last argument and map the values pairwise to another type:
 
-<code-zip-2>
+<code-zip-arb-2>
 
 ```kotlin
 arb.intFromUntil(1, 100).zip(arb.intFromUntil(1000, 2000)) { i1, i2 ->
@@ -521,86 +522,127 @@ arb.intFromUntil(1, 100).zip(arb.intFromUntil(1000, 2000)) { i1, i2 ->
 }
 ```
 
-</code-zip-2>
+</code-zip-arb-2>
 
 The above example results in an `ArbArgsGenerator<Int>` generating values from 1001 until 2098 where 1002 until 1099 are
 more likely to appear since they result twice (1+1001 and 2+1000 = 1002 etc.).
 
-### combineDependent
+You can also use `zip` to combine a `(Semi)OrderedArgsGenerator` with an `ArbArgsGenerator` resulting in a
+`SemiOrderedArgsGenerator` (the same happens if you define a Tuple with a `(Semi)OrderedArgsGenerator` as first element,
+and one of the other elements is an `ArbArgsGenerator` -- see [generic combine](#generic-combine)):
+
+<code-zip-semi>
+
+```kotlin
+ordered.intFromUntil(1, 20).zip(arb.intFromUntil(1000, 2000)) { i1, i2 ->
+	i1 + i2
+}
+```
+
+</code-zip-semi>
+
+The resulting `SemiOrderedArgsGenerator` has still the same size as the initial `(Semi)OrderedArgsGenerator`
+
+We do not provide a `zip` which combines two `SemiOrderedArgsGenerator` as we did not stumble over a use case so far.
+Take a look at [cartesian](#ordered-cartesian) which is most likely how you want to combine two
+`SemiOrderedArgsGenerator`. Or in case you do not want the cartesian product but just one random value of your second
+`SemiOrderedArgsGenerator`, then [turn it into an ArbArgsGenerator](#ordered-toarbargsgenerator) first.
+
+[Let us know your use case](https://github.com/tegonal/minimalist/discussions/new?category=ideas&subject=ordered.zip%20another%20ordered)
+if you still want to zip another `(Semi)OrderedArgsGenerator` and how the semantics should look like.
+
+### zipDependent
 
 In many cases you have dependencies between `ArgsGenerators`. Something like, you need two `Int` where the first
 is less than the second (defining two bounds). For this particular case we provide an optimised implementation which
 adheres uniform distribution at its core: `arb.intBounds` or `arb.intRange` depending on what you need. And you can use
 `arb.xyzBoundsBased` as building block to create other bounds based `ArbArgsGenerators`. For other relationships you
-can use `combineDependent` as follows:
+can use `zipDependent` as follows:
 
-<code-combine-dependent-arb>
+<code-zip-dependent-arb>
 
 ```kotlin
-class CombineDependentTest : PredefinedArgsProviders {
-
-	@ParameterizedTest
-	@ArgsSource("arbMoreThan10InSum")
-	fun foo(a: Int, b: Int) {
-		assertTrue(a + b > 10)
-	}
-
-	companion object {
-		@JvmStatic
-		fun arbMoreThan10InSum() = arb.intFromTo(1, 10).combineDependent { a ->
-			arb.intFromTo(11 - a, 10)
-		}
-	}
+arb.intFromTo(1, 10).zipDependent { a ->
+	arb.intFromTo(11 - a, 10)
 }
 ```
 
-</code-combine-dependent-arb>
+</code-zip-dependent-arb>
 
-`combineDependent` takes a factory which creates an `ArbArgsGenerator` based on a value this `ArgsGenerator` creates
+`zipDependent` takes a factory which creates an `ArbArgsGenerator` based on a value this `ArgsGenerator` creates
 and then uses `ArbArgsGenerator.generateOne` to combine the value with one value of this other generator.
 It also exists on `SemiOrderedArgsGenerator` and even on `OrderedArgsGenerator` where the resulting generator
 is an `SemiOrderedArgsGenerator`.
 Following an example:
 
-<code-combine-dependent-ordered>
+<code-zip-dependent-ordered-arb>
 
 ```kotlin
 enum class Color {
 	Red, Blue, Green
 }
 
-ordered.fromEnum<Color>().combineDependent({ color ->
+ordered.fromEnum<Color>().zipDependent({ color ->
 	arb.hexColor(dominant = color)
 }) { _, hex -> hex }
 ```
 
-</code-combine-dependent-ordered>
+</code-zip-dependent-ordered-arb>
 
 Note three things, first `hexColor` does not exist (yet) in Minimalist and is only there for illustration purposes.
-Secondly, `combineDependent` also has two overloads (like `cross`/`zip`) where the one with a `transform` function
+Secondly, `zipDependent` also has two overloads (like `cross`/`zip`) where the one with a `transform` function
 allows to turn the values into something else than `Tuple2`. And last but not least, this is a way to define that
 we want to have x test runs at maximum where x is the number of elements in the `Color` enum but we are not
 interested in `Color` as such but something arbitrary which depends on it.
 If we did not want to limit the number of runs, we could also have used [arb.mergeWeighted](#arb-mergeweighted) instead.
 
-`OrderedArgsGenerator` also provides a `combineDependentMaterialised` which expects a factory that creates another
-`OrderedArgsGenerator` based on a given value from the first `OrderedArgsGenerator`. Following an example (definition of
-`Color` emitted, see previous example):
+As with `zip` we do not provide a `SemiOrderedArgsGenerator.zipDependent` where the `otherFactory` creates another
+`SemiOrderedArgsGenerator`. Take a look at [flatZipDependent](#flatZipDependent) which might be what you are looking
+for.
 
-<code-combine-dependent-ordered-ordered>
+### flatZipDependent
+
+If you want to zip not only one value but multiple values from the `ArbArgsGenerator` which was created based on a 
+value of your `ArbArgsGenerator`/`SemiOrderedArbArgsGenerator`, then you can use flatZipDependent:
+
+<code-flat-zip-dependent-arb>
 
 ```kotlin
-ordered.fromEnum<Color>().combineDependentMaterialised { color ->
+arb.intFromTo(1, 10).flatZipDependent(amount = 2) { a ->
+	arb.intFromTo(11 - a, 10)
+}
+
+ordered.intFromTo(1, 10).flatZipDependent(amount = 3) { a ->
+	arb.intFromTo(11 - a, 10)
+}
+```
+
+</code-flat-zip-dependent-arb>
+
+`OrderedArgsGenerator` provides a `flatZipDependentMaterialised` which expects a factory that creates another
+`OrderedArgsGenerator` based on a given value from the first `OrderedArgsGenerator` and in contrast to 
+`flatZipDependent` does not take an `amount` but the individual lengths of the created `OrderedArgsGenerator`s. 
+Following an example:
+
+<code-flat-zip-dependent-ordered-ordered>
+
+```kotlin
+enum class Color {
+	Red, Blue, Green
+}
+
+ordered.fromEnum<Color>().flatZipDependentMaterialised { color ->
+	// the resulting OrderedArgsGenerator might differ in size
 	ordered.colorMoods(color)
 }
 ```
 
-</code-combine-dependent-ordered-ordered>
+</code-flat-zip-dependent-ordered-ordered>
 
 As the name implies, using it means that `this` `OrderedArgsGenerator` gets materialised and also that the resulting
 `OrderedArgsGenerator` gets materialised. You can think of it as `toList().flatMap { ... }.let(ordered:fromList)` but
-does a bit more behind the scene.
-Also `combineDependentMaterialised` provides an overload which lets you pass a `transform` function.
+does a bit more behind the scene. Also `flatZipDependentMaterialised` provides an overload which lets you pass a
+`transform` function in case you want to combine the values to something else than `Tuple2`.
 
 You may be wondering why this method does not exist for `SemiOrderedArgsGenerator`, the next section will shed light
 on it.

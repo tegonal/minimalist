@@ -22,7 +22,10 @@ interface SemiOrderedArgsGenerator<out T> : ArgsGenerator<T> {
 	 *
 	 * @since 2.0.0
 	 */
-	fun generateOne(offset: Int): T = generate(offset).first()
+	fun generateOne(offset: Int): T =
+	// we don't use first as it checks hasNext in addition and we know that it has to have one as the
+		// Sequence needs to be infinite according to the ArgsGenerator contract
+		generate(offset).iterator().next()
 
 	/**
 	 * Returns an infinite stream of values starting at [offset] and repeating after reaching [size] of values

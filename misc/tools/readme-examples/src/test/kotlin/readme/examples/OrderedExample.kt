@@ -13,7 +13,7 @@ class OrderedExample : ReadmeTest {
 	fun `code-ordered-1`() {
 		//snippet-ordered-1-insert
 
-		//snippet-ordered-2-insert
+		//snippet-enum-color-insert
 
 		ordered.of(1, 3, 2)
 		ordered.fromEnum<Color>()
@@ -29,8 +29,8 @@ class OrderedExample : ReadmeTest {
 	}
 }
 
-//snippet-ordered-2-start
+//snippet-enum-color-start
 enum class Color {
 	Red, Blue, Green
 }
-//snippet-ordered-2-end
+//snippet-enum-color-end

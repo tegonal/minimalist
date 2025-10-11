@@ -3,7 +3,7 @@
 
 package com.tegonal.minimalist.generators
 
-import com.tegonal.minimalist.generators.impl.SemiOrderedWithArbArgsGeneratorCombiner
+import com.tegonal.minimalist.generators.impl.SemiOrderedZipArbArgsGenerator
 
 /**
  * Combines `this` [SemiOrderedArgsGenerator] with the given [other]&nbsp;[ArbArgsGenerator] and [transform]s the generated
@@ -23,4 +23,4 @@ import com.tegonal.minimalist.generators.impl.SemiOrderedWithArbArgsGeneratorCom
 fun <A1, A2, R> SemiOrderedArgsGenerator<A1>.zip(
 	other: ArbArgsGenerator<A2>,
 	transform: (A1, A2) -> R
-): SemiOrderedArgsGenerator<R> = SemiOrderedWithArbArgsGeneratorCombiner(this, other, transform)
+): SemiOrderedArgsGenerator<R> = SemiOrderedZipArbArgsGenerator(this, other, transform)
