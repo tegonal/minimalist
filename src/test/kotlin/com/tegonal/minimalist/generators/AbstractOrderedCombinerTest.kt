@@ -65,7 +65,7 @@ abstract class AbstractOrderedCombinerTest : BaseTest() {
 
 		@JvmStatic
 		fun arbNumOfGeneratorsAndValues(): ArbArgsGenerator<List<Int>> =
-			arb.intFromUntil(3, 7).combineDependent({ numOfGenerators ->
+			arb.intFromUntil(3, 7).zipDependent({ numOfGenerators ->
 				arb.intFromUntil(1, 7 - (numOfGenerators / 2)).chunked(numOfGenerators)
 			}) { _, list -> list }
 	}

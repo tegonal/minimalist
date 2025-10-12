@@ -99,7 +99,7 @@ class ArbStringTest : AbstractArbArgsGeneratorTest<Any>() {
 
 	@TestFactory
 	fun checkGenerationForLength1To20Works() =
-		ordered.intFromTo(1, 20).combineDependent { length ->
+		ordered.intFromTo(1, 20).zipDependent { length ->
 			arb.string(
 				minLength = length,
 				maxLength = length,
@@ -116,7 +116,7 @@ class ArbStringTest : AbstractArbArgsGeneratorTest<Any>() {
 
 	@TestFactory
 	fun checkGenerationWorksIfOnlyNonBmp() =
-		ordered.fromProgression(2..20 step 2).combineDependent { length ->
+		ordered.fromProgression(2..20 step 2).zipDependent { length ->
 			arb.string(
 				minLength = length,
 				maxLength = length + 6,

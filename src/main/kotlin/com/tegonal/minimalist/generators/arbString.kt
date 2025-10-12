@@ -2,6 +2,7 @@ package com.tegonal.minimalist.generators
 
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.createMinimalistRandom
+import com.tegonal.minimalist.generators.impl.mapIndexedInternal
 import com.tegonal.minimalist.utils.impl.failIfNegative
 import kotlin.random.Random
 
@@ -34,7 +35,7 @@ fun ArbExtensionPoint.string(
 	val (nextCodePoint, nextBmpCodePoint) = createNextRandomCodePointFun(allowedRanges, minLength, maxLength)
 
 	val componentFactoryContainer = _components
-	return intFromTo(minLength, maxLength).mapIndexed { index, length, seedOffset ->
+	return intFromTo(minLength, maxLength).mapIndexedInternal { index, length, seedOffset ->
 		// +1 so we don't use the same seed as intFromTo otherwise for the first string it will always be:
 		// length of the resulting string = first code point
 		componentFactoryContainer.createMinimalistRandom(seedBaseOffset + seedOffset + index + 1).let { random ->

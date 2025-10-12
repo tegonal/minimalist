@@ -25,7 +25,10 @@ interface ArbArgsGenerator<out T> : ArgsGenerator<T> {
 	 *
 	 * @since 2.0.0
 	 */
-	fun generateOne(seedOffset: Int = 0): T = generate(seedOffset).first()
+	fun generateOne(seedOffset: Int = 0): T =
+		// we don't use first as it checks hasNext in addition and we know that it has to have one as the
+		// Sequence needs to be infinite according to the ArgsGenerator contract
+		generate(seedOffset).iterator().next()
 
 	/**
 	 * Generates an infinite stream of random values of type [T].

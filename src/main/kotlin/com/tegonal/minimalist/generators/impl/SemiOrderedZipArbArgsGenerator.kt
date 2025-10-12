@@ -10,7 +10,7 @@ import com.tegonal.minimalist.config._components
  *
  * @since 2.0.0
  */
-class SemiOrderedWithArbArgsGeneratorCombiner<A1, A2, R>(
+class SemiOrderedZipArbArgsGenerator<A1, A2, R>(
 	private val semiOrderedArgsGenerator: SemiOrderedArgsGenerator<A1>,
 	private val arbArgsGenerator: ArbArgsGenerator<A2>,
 	private val transform: (A1, A2) -> R

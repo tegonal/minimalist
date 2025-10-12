@@ -33,35 +33,57 @@ class CombinatorsExample : PredefinedArgsProviders {
 	}
 
 	@Test
-	fun `code-zip-1`() {
+	fun `code-zip-arb-1`() {
 		arb.intFromUntil(1, 100).zip(arb.charFromTo('A', 'Z'))
 	}
 
 	@Test
-	fun `code-zip-2`() {
+	fun `code-zip-arb-2`() {
 		arb.intFromUntil(1, 100).zip(arb.intFromUntil(1000, 2000)) { i1, i2 ->
 			i1 + i2
 		}
 	}
 
 	@Test
-	fun `code-combine-dependent-arb`() {
-		//snippet-combine-dependent-arb-insert
+	fun `code-zip-semi`() {
+		ordered.intFromUntil(1, 20).zip(arb.intFromUntil(1000, 2000)) { i1, i2 ->
+			i1 + i2
+		}
 	}
 
 	@Test
-	fun `code-combine-dependent-ordered`() {
-		//snippet-ordered-2-insert
+	fun `code-zip-dependent-arb`() {
+		arb.intFromTo(1, 10).zipDependent { a ->
+			arb.intFromTo(11 - a, 10)
+		}
+	}
 
-		ordered.fromEnum<Color>().combineDependent({ color ->
+	@Test
+	fun `code-zip-dependent-ordered-arb`() {
+		//snippet-enum-color-insert
+
+		ordered.fromEnum<Color>().zipDependent({ color ->
 			arb.hexColor(dominant = color)
 		}) { _, hex -> hex }
 	}
 
 	@Test
-	fun `code-combine-dependent-ordered-ordered`() {
+	fun `code-flat-zip-dependent-arb`() {
+		arb.intFromTo(1, 10).flatZipDependent(amount = 2) { a ->
+			arb.intFromTo(11 - a, 10)
+		}
 
-		ordered.fromEnum<Color>().combineDependentMaterialised { color ->
+		ordered.intFromTo(1, 10).flatZipDependent(amount = 3) { a ->
+			arb.intFromTo(11 - a, 10)
+		}
+	}
+
+	@Test
+	fun `code-flat-zip-dependent-ordered-ordered`() {
+		//snippet-enum-color-insert
+
+		ordered.fromEnum<Color>().flatZipDependentMaterialised { color ->
+			// the resulting OrderedArgsGenerator might differ in size
 			ordered.colorMoods(color)
 		}
 	}

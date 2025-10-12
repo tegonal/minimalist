@@ -1,15 +1,14 @@
 package com.tegonal.minimalist.generators
 
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.generators.impl.OrderedArgsGeneratorCombiner
 import com.tegonal.minimalist.providers.ArgsSource
 import org.junit.jupiter.params.ParameterizedTest
 
-class OrderedCombineTest : AbstractOrderedCombinerTest() {
+class OrderedCartesianTest : AbstractOrderedCombinerTest() {
 
 	@ParameterizedTest
 	@ArgsSource("arbNumOfIntAndChars")
-	fun combine2(numOfInts: Int, numOfChars: Int) {
+	fun cartesian2(numOfInts: Int, numOfChars: Int) {
 		val a1s = (1..numOfInts).toList()
 		val a2s = (1..numOfChars).map { 'A' - 1 + it }
 		val a1Generator = ordered.fromList(a1s)
@@ -33,7 +32,7 @@ class OrderedCombineTest : AbstractOrderedCombinerTest() {
 
 	@ParameterizedTest
 	@ArgsSource("arbNumOfIntCharsAndStrings")
-	fun combine3(numOfInts: Int, numOfChars: Int, numOfStrings: Int) {
+	fun cartesian3(numOfInts: Int, numOfChars: Int, numOfStrings: Int) {
 		val a1s = (1..numOfInts).toList()
 		val a2s = (1..numOfChars).map { 'A' - 1 + it }
 		val a3s = (1..numOfStrings).map { ('a' - 1 + it).toString() }
@@ -65,7 +64,7 @@ class OrderedCombineTest : AbstractOrderedCombinerTest() {
 
 	@ParameterizedTest
 	@ArgsSource("arbNumOfGeneratorsAndValues")
-	fun dynamic(numOfValuesPerGenerator: List<Int>) {
+	fun cartesianDynamic(numOfValuesPerGenerator: List<Int>) {
 		val values: List<List<Any>> = numOfValuesPerGenerator.mapIndexed { index, numOfValues ->
 			when (index % 3) {
 				0 -> (0 until numOfValues).toList()
@@ -77,7 +76,7 @@ class OrderedCombineTest : AbstractOrderedCombinerTest() {
 		val generators = values.map { ordered.fromList(it) }
 		val generator: OrderedArgsGenerator<List<Any>> =
 			generators.drop(1).fold(generators.first().map { mutableListOf(it) }) { generator, other ->
-				OrderedArgsGeneratorCombiner(generator, other) { l, a2 ->
+				generator.cartesian(other) { l, a2 ->
 					l.also { it.add(a2) }
 				}
 			}

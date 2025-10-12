@@ -1,26 +1,30 @@
 package com.tegonal.minimalist.generators
 
+import ch.tutteli.atrium.api.fluent.en_GB.toContainExactlyElementsOf
+import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
 import ch.tutteli.kbox.mapSecond
 import com.tegonal.minimalist.testutils.PseudoArbArgsGenerator
+import com.tegonal.minimalist.testutils.generateToList
 import org.junit.jupiter.api.TestFactory
+import kotlin.test.Test
 
-class SemiOrderedWithArbCombineTest : AbstractOrderedArgsGeneratorWithoutAnnotationsTest() {
+class SemiOrderedZipArbTest : AbstractOrderedArgsGeneratorWithoutAnnotationsTest() {
 	val a1s = listOf(1, 2)
 	val a2s = listOf('a', 'b', 'c')
 	val generator = modifiedOrdered.fromList(a1s)
-	val randomGenerator = PseudoArbArgsGenerator(a2s.asSequence())
+	val randomGenerator = PseudoArbArgsGenerator(a2s)
 
 	fun createGenerators(): OrderedArgsTestFactoryResult<Pair<Int, Any>> = sequenceOf(
 		Tuple(
-			"combine with 1 random",
+			"zip with 1 random",
 			generator.zip(randomGenerator),
 			// zip is only correct because for most tests we don't take more than generator.size
 			// see createGeneratorsAllPossibleCombinations where we need to use flatMap
 			a1s.zip(a2s)
 		),
 		Tuple(
-			"combine with 2 random",
+			"zip with 2 random",
 			generator.zip(randomGenerator)
 				.zip(randomGenerator) { pair, a3 ->
 					pair.mapSecond { it to a3 }
@@ -36,11 +40,11 @@ class SemiOrderedWithArbCombineTest : AbstractOrderedArgsGeneratorWithoutAnnotat
 			a1s.zip(a2s.map { Triple(it, it, it) })
 		),
 		Tuple(
-			"combineDependent",
-			generator.combineDependent { _ -> randomGenerator },
+			"zipDependent",
+			generator.zipDependent { _ -> randomGenerator },
 			// zip is only correct because for most tests we don't take more than generator.size
 			// see createGeneratorsAllPossibleCombinations where we need to use flatMap
-			// also note that we can zip since we know that combineDependent increases the seedOffset and only because
+			// also note that we can zip since we know that zipDependent increases the seedOffset and only because
 			// we use PseudoArbArgsGenerator this corresponds to a regular offset in the sequence.
 			a1s.zip(a2s)
 		),
@@ -49,12 +53,12 @@ class SemiOrderedWithArbCombineTest : AbstractOrderedArgsGeneratorWithoutAnnotat
 	fun createGeneratorsAllPossibleCombinations() =
 		sequenceOf(
 			Tuple(
-				"combine with 1 random",
+				"zip with 1 random",
 				generator.zip(randomGenerator),
 				a1s.flatMap { a1 -> a2s.map { a2 -> a1 to a2 } }
 			),
 			Tuple(
-				"combine with 2 random",
+				"zip with 2 random",
 				generator.zip(randomGenerator)
 					.zip(randomGenerator) { pair, a3 ->
 						pair.mapSecond { it to a3 }
@@ -62,7 +66,7 @@ class SemiOrderedWithArbCombineTest : AbstractOrderedArgsGeneratorWithoutAnnotat
 				a1s.flatMap { a1 -> a2s.map { a2 -> a1 to (a2 to a2) } }
 			),
 			Tuple(
-				"combine with 3 random",
+				"zip with 3 random",
 				generator.zip(randomGenerator).zip(randomGenerator)
 					.zip(randomGenerator) { (a1, a2, a3), a4 ->
 						a1 to Triple(a2, a3, a4)
@@ -70,8 +74,8 @@ class SemiOrderedWithArbCombineTest : AbstractOrderedArgsGeneratorWithoutAnnotat
 				a1s.flatMap { a1 -> a2s.map { a2 -> a1 to Triple(a2, a2, a2) } }
 			),
 			Tuple(
-				"combineDependent",
-				generator.combineDependent { _ -> randomGenerator },
+				"zipDependent",
+				generator.zipDependent { _ -> randomGenerator },
 				a1s.flatMap { a1 -> a2s.map { a2 -> a1 to a2 } }
 			),
 		)

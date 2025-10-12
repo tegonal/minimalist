@@ -14,11 +14,6 @@ class OrderedAsSemiOrderedTransformationTest : AbstractOrderedArgsGeneratorTest<
 
 			sequenceOf(
 				Tuple("map", generator.map(mapFun), l.map(mapFun)),
-				Tuple(
-					"mapIndexed",
-					generator.mapIndexed { index, it -> (index % l.size) * 10 + mapFun(it) },
-					l.mapIndexed { index, it -> (index % l.size) * 10 + mapFun(it) },
-				),
 			)
 		}
 

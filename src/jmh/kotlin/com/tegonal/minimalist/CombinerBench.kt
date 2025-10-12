@@ -3,7 +3,7 @@ package com.tegonal.minimalist
 import ch.tutteli.kbox.Tuple2
 import com.tegonal.minimalist.generators.OrderedArgsGenerator
 import com.tegonal.minimalist.generators.fromList
-import com.tegonal.minimalist.generators.impl.SemiOrderedArgsGeneratorCombiner
+import com.tegonal.minimalist.generators.impl.SemiOrderedCartesianProductArgsGenerator
 import com.tegonal.minimalist.generators.ordered
 import com.tegonal.minimalist.utils.repeatForever
 import org.openjdk.jmh.annotations.*
@@ -48,7 +48,7 @@ open class CombinerBench {
 
 	@Benchmark
 	fun iterator() =
-		SemiOrderedArgsGeneratorCombiner(intGenerator, charGenerator, ::Tuple2).generate(offset).take(take).count()
+		SemiOrderedCartesianProductArgsGenerator(intGenerator, charGenerator, ::Tuple2).generate(offset).take(take).count()
 
 
 	@Benchmark

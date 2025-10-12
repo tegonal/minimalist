@@ -127,36 +127,36 @@ class ArbBoundsTest : AbstractArbArgsGeneratorTest<Any>() {
 	companion object {
 		@JvmStatic
 		fun arbIntSafeMinMaxAndMinSize() =
-			arbIntSafeMinMax().combineDependent {
+			arbIntSafeMinMax().zipDependent {
 				arb.intFromTo(1, it.second - it.first + 1)
 			}
 
 		@JvmStatic
 		fun arbIntSafeMinMax() =
 			// we are not using arb.intRange here on purpose as we would use the function under test in the test-setup
-			arb.intFromUntil(Int.MIN_VALUE, Int.MAX_VALUE - possibleMaxSizeSafeInIntDomain).combineDependent {
+			arb.intFromUntil(Int.MIN_VALUE, Int.MAX_VALUE - possibleMaxSizeSafeInIntDomain).zipDependent {
 				arb.intFromUntil(it, it + possibleMaxSizeSafeInIntDomain)
 			}
 
 		@JvmStatic
 		fun arbLongSafeMinMaxAndMinSize() =
-			arbLongSafeMinMax().combineDependent {
+			arbLongSafeMinMax().zipDependent {
 				arb.longFromTo(1, it.second - it.first + 1)
 			}
 
 		@JvmStatic
 		fun arbLongSafeMinMax() =
 			// we are not using arb.longRange here on purpose as we would use the function under test in the test-setup
-			arb.longFromUntil(Long.MIN_VALUE, Long.MAX_VALUE - possibleMaxSizeSafeInLongDomain).combineDependent {
+			arb.longFromUntil(Long.MIN_VALUE, Long.MAX_VALUE - possibleMaxSizeSafeInLongDomain).zipDependent {
 				// + possibleMaxSizeSafeInIntDomain as we could otherwise land in the Int-Domain
 				arb.longFromUntil(it + possibleMaxSizeSafeInIntDomain, it + possibleMaxSizeSafeInLongDomain)
 			}
 
 		@JvmStatic
 		fun arbLongUnsafeMinMaxAndSize() =
-			arb.longFromUntil(Long.MIN_VALUE, Long.MAX_VALUE - possibleMaxSizeSafeInLongDomain - 10).combineDependent {
+			arb.longFromUntil(Long.MIN_VALUE, Long.MAX_VALUE - possibleMaxSizeSafeInLongDomain - 10).zipDependent {
 				arb.longFromUntil(it + possibleMaxSizeSafeInLongDomain, Long.MAX_VALUE)
-			}.combineDependent {
+			}.zipDependent {
 				arb.longFromTo(
 					1,
 					(it.second.toBigInt() - it.first.toBigInt() + BigInt.ONE).min(Long.MAX_VALUE.toBigInt()).toLong()

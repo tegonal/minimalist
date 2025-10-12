@@ -20,7 +20,7 @@ class ArbMergeWeightedTest {
 	@ArgsSource("arbWeightsInTotalAlways100")
 	fun `check weights are correct`(weights: List<Int>) {
 		val g1 = PseudoArbArgsGenerator(
-			(0..9).asSequence(),
+			(0..9).toList(),
 			seedBaseOffset = 0,
 			arb._components.withMockedRandom(ints = (1..100).toList())
 		)
@@ -119,16 +119,16 @@ class ArbMergeWeightedTest {
 
 		@JvmStatic
 		fun arbTwoWeightsInTotalIntMaxOrMore() =
-			arb.intFromUntil(1, Int.MAX_VALUE).combineDependent {
+			arb.intFromUntil(1, Int.MAX_VALUE).zipDependent {
 				arb.intFromTo(Int.MAX_VALUE - it, Int.MAX_VALUE)
 			}
 
 
 		@JvmStatic
 		fun arbThreeWeightsInTotalIntMaxOrMore() =
-			arb.intFromUntil(1, Int.MAX_VALUE).combineDependent {
+			arb.intFromUntil(1, Int.MAX_VALUE).zipDependent {
 				arb.intFromUntil(1, Int.MAX_VALUE)
-			}.combineDependent({ (a, b) ->
+			}.zipDependent({ (a, b) ->
 				val total = a.toLong() + b.toLong()
 				if (total > Int.MAX_VALUE) arb.intFromUntil(1, Int.MAX_VALUE)
 				else arb.intFromTo(Int.MAX_VALUE - total.toInt(), Int.MAX_VALUE)

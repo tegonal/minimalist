@@ -3,9 +3,9 @@ package com.tegonal.minimalist.generators.impl
 import com.tegonal.minimalist.config.ComponentFactoryContainer
 import com.tegonal.minimalist.config.ComponentFactoryContainerProvider
 import com.tegonal.minimalist.generators.OrderedArgsGenerator
-import com.tegonal.minimalist.utils.impl.checkIsPositive
 import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
 import com.tegonal.minimalist.utils.BigInt
+import com.tegonal.minimalist.utils.impl.checkIsPositive
 
 /**
  * !! No backward compatibility guarantees !!
@@ -57,7 +57,10 @@ abstract class BaseSemiOrderedArgsGenerator<T>(
 		}
 	}
 
-	open fun generateOneAfterChecks(offset: Int): T = generateAfterChecks(offset).first()
+	open fun generateOneAfterChecks(offset: Int): T =
+		// we don't use first as it checks hasNext in addition and we know that it has to have one as the
+		// Sequence needs to be infinite according to the ArgsGenerator contract
+		generateAfterChecks(offset).iterator().next()
 
 	abstract fun generateAfterChecks(offset: Int): Sequence<T>
 }

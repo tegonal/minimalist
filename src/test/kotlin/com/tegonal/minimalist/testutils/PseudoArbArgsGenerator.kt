@@ -6,14 +6,18 @@ import com.tegonal.minimalist.generators.impl.BaseArbArgsGenerator
 import com.tegonal.minimalist.generators.arb
 import com.tegonal.minimalist.utils.repeatForever
 
-/**
- * Assumes the given [sequence] can be consumed multiple times.
- */
 class PseudoArbArgsGenerator<T>(
-	private val sequence: Sequence<T>,
+	private val list: List<T>,
 	seedBaseOffset: Int = 0,
 	componentFactoryContainer: ComponentFactoryContainer = arb._components,
 ) : BaseArbArgsGenerator<T>(componentFactoryContainer, seedBaseOffset) {
 
-	override fun generate(seedOffset: Int): Sequence<T> = repeatForever().flatMap { sequence }.drop(seedOffset)
+	constructor(
+		finiteSequence: Sequence<T>,
+		seedBaseOffset: Int = 0,
+		componentFactoryContainer: ComponentFactoryContainer = com.tegonal.minimalist.generators.arb._components,
+	) : this(finiteSequence.toList(), seedBaseOffset, componentFactoryContainer)
+
+	override fun generate(seedOffset: Int): Sequence<T> =
+		repeatForever().flatMap { list }.drop(seedOffset % list.size)
 }

@@ -6,6 +6,7 @@ import ch.tutteli.kbox.Tuple
 import com.tegonal.minimalist.config._components
 import com.tegonal.minimalist.config.arb
 import com.tegonal.minimalist.config.config
+import com.tegonal.minimalist.generators.impl.mapIndexedInternal
 import com.tegonal.minimalist.providers.ArgsSource
 import com.tegonal.minimalist.testutils.createArbWithCustomConfig
 import com.tegonal.minimalist.testutils.withMockedRandom
@@ -22,7 +23,7 @@ class ArbSeedOffsetTest {
 			arb._components.config.copy { offsetToDecidedOffset = offset }
 		)._components.arb
 
-		val indices = modifiedArb.int().mapIndexed { index, _ -> index }.generate().take(10).toList()
+		val indices = modifiedArb.int().mapIndexedInternal { index, _, _ -> index }.generate().take(10).toList()
 
 		expect(indices).toEqual((0..9).map { it + offset })
 	}
@@ -56,13 +57,13 @@ class ArbSeedOffsetTest {
 	}
 
 	@Test
-	fun combineDependentUsingArbInsideIncrementsBaseSeedOffset() {
+	fun zipDependentUsingArbInsideIncrementsBaseSeedOffset() {
 		val arb1 =
 			createArbWithCustomConfig(arb._components.config.copy { seed = 0 })._components.withMockedRandom { seed ->
 				Tuple((0..9).map { it + seed * 10 }, emptyList(), emptyList())
 			}.arb
 
-		val listOfPairs = arb1.int().combineDependent { arb.int() }.generateAndTake(10).toList()
+		val listOfPairs = arb1.int().zipDependent { arb.int() }.generateAndTake(10).toList()
 		val a1s = listOfPairs.map { it.first }
 		val a2s = listOfPairs.map { it.second }
 		expect(a1s).toEqual((0..9).toList())
@@ -70,13 +71,13 @@ class ArbSeedOffsetTest {
 	}
 
 	@Test
-	fun combineDependentTakesGivenSeedOffsetIntoAccount() {
+	fun zipDependentTakesGivenSeedOffsetIntoAccount() {
 		val arb1 =
 			createArbWithCustomConfig(arb._components.config.copy { seed = 0 })._components.withMockedRandom { seed ->
 				Tuple((0..9).map { it + seed * 10 }, emptyList(), emptyList())
 			}.arb
 
-		val listOfPairs = arb1.int().combineDependent { arb.int() }.generate(seedOffset = 3).take(10).toList()
+		val listOfPairs = arb1.int().zipDependent { arb.int() }.generate(seedOffset = 3).take(10).toList()
 		val a1s = listOfPairs.map { it.first }
 		val a2s = listOfPairs.map { it.second }
 		expect(a1s).toEqual((30..39).toList())
