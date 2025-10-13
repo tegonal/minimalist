@@ -8,6 +8,7 @@ import com.tegonal.minimalist.providers.SuffixArgsGeneratorDecider
 import com.tegonal.minimalist.providers.impl.ProfileBasedArgsRangeDecider
 import com.tegonal.minimalist.providers.impl.SuffixArgsGeneratorNeverDecider
 import com.tegonal.minimalist.utils.impl.checkIsNotBlank
+import com.tegonal.minimalist.utils.impl.checkIsPositive
 import com.tegonal.minimalist.utils.impl.failIfNegative
 import com.tegonal.minimalist.utils.seedToOffset
 import kotlin.random.Random
@@ -31,21 +32,25 @@ class MinimalistConfig(
 	/**
 	 * Influences an [ArgsRangeDecider]'s choice of [ArgsRange.offset], i.e. allows to skip certain test cases.
 	 *
+	 * Must be greater than 0 if set.
+	 *
 	 * 🔍 Typically used with a fixed [seed] (i.e. during debugging). In such cases you might want to set [maxArgs]
 	 * as well to restrict [ArgsRange.take].
 	 *
-	 * Note, you are not allowed to fix a seed via minimalist.properties (which is usually committed), use
+	 * Note, you are not allowed to set [skip] via minimalist.properties (which is usually committed), use
 	 * minimalist.local.properties instead (which is usually on the git ignore list).
 	 */
-	val offsetToDecidedOffset: Int? = null,
+	val skip: Int? = null,
 
 	/**
 	 * Influences an [ArgsRangeDecider]'s choice of [ArgsRange.take], signaling that it should be at least
 	 * the specified amount, unless the [ArgsGenerator] repeats values beforehand.
 	 *
+	 * Must be greater than 0 if set.
+	 *
 	 * 🔍 Typically used during local development to force more arguments without the need to change profiles.
 	 *
-	 * Note, you are not allowed to fix a seed via minimalist.properties (which is usually committed), use
+	 * Note, you are not allowed to set [requestedMinArgs] via minimalist.properties (which is usually committed), use
 	 * minimalist.local.properties instead (which is usually on the git ignore list).
 	 */
 	val requestedMinArgs: Int? = null,
@@ -54,10 +59,12 @@ class MinimalistConfig(
 	 * Should influence an [ArgsRangeDecider]'s choice of [ArgsRange.take], signaling that it should not be greater
 	 * than the specified amount.
 	 *
-	 * 🔍 Typically used with a fixed [seed] and [offsetToDecidedOffset] (i.e. during debugging)
+	 * Must be greater than 0 if set.
+	 *
+	 * 🔍 Typically used with a fixed [seed] and [skip] (i.e. during debugging)
 	 * to restrict [ArgsRange.take].
 	 *
-	 * Note, you are not allowed to fix a seed via minimalist.properties (which is usually committed), use
+	 * Note, you are not allowed to set [maxArgs] via minimalist.properties (which is usually committed), use
 	 * minimalist.local.properties instead (which is usually on the git ignore list).
 	 */
 	val maxArgs: Int? = null,
@@ -153,7 +160,9 @@ class MinimalistConfig(
 	),
 ) {
 	init {
-		offsetToDecidedOffset?.also { failIfNegative(it, "offsetToDecidedOffset") }
+		skip?.also { checkIsPositive(it, "skip") }
+		requestedMinArgs?.also { checkIsPositive(it, "requestedMinArgs") }
+		maxArgs?.also { checkIsPositive(it, "maxArgs") }
 
 		checkIsNotBlank(activeArgsRangeDecider, "activeArgsRangeDecider")
 		checkIsNotBlank(defaultProfile, "defaultProfile")
@@ -165,7 +174,7 @@ class MinimalistConfig(
 			}"
 		}
 		testProfiles.find(defaultProfile, activeEnv) ?: error(
-			"Your specified activeEnv (${activeEnv}) is not defined in profile $defaultProfile (existing envs): ${
+			"Your specified activeEnv (${activeEnv}) is not defined in profile $defaultProfile, existing envs: ${
 				testProfiles.envs(defaultProfile).joinToString(", ")
 			})"
 		)
@@ -174,7 +183,7 @@ class MinimalistConfig(
 	fun copy(configure: MinimalistConfigBuilder.() -> Unit): MinimalistConfig =
 		MinimalistConfigBuilder(
 			seed = seed.value,
-			offsetToDecidedOffset = offsetToDecidedOffset,
+			skip = skip,
 			maxArgs = maxArgs,
 			requestedMinArgs = requestedMinArgs,
 			activeArgsRangeDecider = activeArgsRangeDecider,
@@ -190,7 +199,7 @@ class MinimalistConfig(
  */
 class MinimalistConfigBuilder(
 	var seed: Int,
-	var offsetToDecidedOffset: Int?,
+	var skip: Int?,
 	var maxArgs: Int?,
 	var requestedMinArgs: Int?,
 	var activeArgsRangeDecider: String,
@@ -201,7 +210,7 @@ class MinimalistConfigBuilder(
 ) {
 	fun build(): MinimalistConfig = MinimalistConfig(
 		seed = Seed(seed),
-		offsetToDecidedOffset = offsetToDecidedOffset,
+		skip = skip,
 		requestedMinArgs = requestedMinArgs,
 		maxArgs = maxArgs,
 		activeArgsRangeDecider = activeArgsRangeDecider,

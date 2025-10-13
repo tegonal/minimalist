@@ -892,7 +892,7 @@ See `MinimalistConfig.testProfiles` for what `maxArgs` are defined per default.
 ## Fixing the seed
 
 Minimalist outputs the used seed once the config is fully loaded. Use it in `minimalist.local.properties` to fix the
-seed to e.g. a previous run. You might want to restrict `maxArgs` in such a case as well and use `offsetToDecidedOffset`
+seed to e.g. a previous run. You might want to restrict `maxArgs` in such a case as well and use `skip`
 to skip some runs, i.e. jump to a particular run.
 
 ## Change the ArgsRangeDecider

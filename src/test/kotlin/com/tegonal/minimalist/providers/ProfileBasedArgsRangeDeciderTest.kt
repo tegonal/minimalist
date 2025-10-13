@@ -81,7 +81,7 @@ class ProfileBasedArgsRangeDeciderTest {
 	fun canCopeWithALargeOffsetToDecidedOffset() {
 		expect {
 			val ordered = createOrderedWithCustomConfig(
-				ordered._components.config.copy { offsetToDecidedOffset = Int.MAX_VALUE }
+				ordered._components.config.copy { skip = Int.MAX_VALUE }
 			).ordered
 			ordered.of(1, 2, 3, 4).generateAndTakeBasedOnDecider().count()
 		}.notToThrow()

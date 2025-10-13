@@ -56,7 +56,7 @@ abstract class BaseArgsRangeOptionsBasedArgsRangeDecider : ArgsRangeDecider {
 		argsGenerator: ArgsGenerator<*>
 	): ArgsRange =
 		run {
-			config.offsetToDecidedOffset
+			config.skip
 				?.let { this.copy(offset = seedToOffset(this.offset + it)) }
 				?: this
 		}.let { argsRange ->
