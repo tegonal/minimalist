@@ -58,8 +58,8 @@ public final class ReflectionUtils {/**
 	 */
 	@API(status = INTERNAL, since = "1.11")
 	public static Class<?> loadRequiredClass(String name, ClassLoader classLoader) throws JUnitException {
-		return ReflectionSupport.tryToLoadClass(name, classLoader).getOrThrow(
-			cause -> new JUnitException(format("Could not load class [%s]", name), cause));
+		return ReflectionSupport.tryToLoadClass(name, classLoader).getNonNullOrThrow(
+			cause -> new JUnitException("Could not load class [%s]".formatted(name), cause));
 	}
 
 	/**

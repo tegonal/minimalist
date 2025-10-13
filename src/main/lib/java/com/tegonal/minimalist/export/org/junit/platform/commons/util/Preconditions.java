@@ -24,7 +24,9 @@ import java.util.Collection;
 import java.util.function.Supplier;
 
 import org.apiguardian.api.API;
+import org.jspecify.annotations.Nullable;
 import org.junit.platform.commons.PreconditionViolationException;
+import org.junit.platform.commons.annotation.Contract;
 
 /**
  * Collection of utilities for asserting preconditions for method and
@@ -57,7 +59,8 @@ public final class Preconditions {
 	 * @throws PreconditionViolationException if the supplied object is {@code null}
 	 * @see #notNull(Object, Supplier)
 	 */
-	public static <T> T notNull(T object, String message) throws PreconditionViolationException {
+	@Contract("null, _ -> fail; !null, _ -> param1")
+	public static <T> T notNull(@Nullable T object, String message) throws PreconditionViolationException {
 		condition(object != null, message);
 		return object;
 	}
@@ -71,7 +74,10 @@ public final class Preconditions {
 	 * @throws PreconditionViolationException if the supplied object is {@code null}
 	 * @see #condition(boolean, Supplier)
 	 */
-	public static <T> T notNull(T object, Supplier<String> messageSupplier) throws PreconditionViolationException {
+	@Contract("null, _ -> fail; !null, _ -> param1")
+	public static <T> T notNull(@Nullable T object, Supplier<String> messageSupplier)
+			throws PreconditionViolationException {
+
 		condition(object != null, messageSupplier);
 		return object;
 	}
@@ -87,8 +93,9 @@ public final class Preconditions {
 	 * @since 1.9
 	 * @see #condition(boolean, String)
 	 */
+	@Contract("null, _ -> fail")
 	@API(status = INTERNAL, since = "1.11")
-	public static int[] notEmpty(int[] array, String message) throws PreconditionViolationException {
+	public static int[] notEmpty(int @Nullable [] array, String message) throws PreconditionViolationException {
 		condition(array != null && array.length > 0, message);
 		return array;
 	}
@@ -107,7 +114,8 @@ public final class Preconditions {
 	 * @see #containsNoNullElements(Object[], String)
 	 * @see #condition(boolean, String)
 	 */
-	public static <T> T[] notEmpty(T[] array, String message) throws PreconditionViolationException {
+	@Contract("null, _ -> fail")
+	public static <T> T[] notEmpty(T @Nullable [] array, String message) throws PreconditionViolationException {
 		condition(array != null && array.length > 0, message);
 		return array;
 	}
@@ -126,7 +134,10 @@ public final class Preconditions {
 	 * @see #containsNoNullElements(Object[], String)
 	 * @see #condition(boolean, String)
 	 */
-	public static <T> T[] notEmpty(T[] array, Supplier<String> messageSupplier) throws PreconditionViolationException {
+	@Contract("null, _ -> fail")
+	public static <T> T[] notEmpty(T @Nullable [] array, Supplier<String> messageSupplier)
+			throws PreconditionViolationException {
+
 		condition(array != null && array.length > 0, messageSupplier);
 		return array;
 	}
@@ -144,7 +155,8 @@ public final class Preconditions {
 	 * @see #containsNoNullElements(Collection, String)
 	 * @see #condition(boolean, String)
 	 */
-	public static <T extends Collection<?>> T notEmpty(T collection, String message)
+	@Contract("null, _ -> fail")
+	public static <T extends Collection<?>> T notEmpty(@Nullable T collection, String message)
 			throws PreconditionViolationException {
 
 		condition(collection != null && !collection.isEmpty(), message);
@@ -164,7 +176,8 @@ public final class Preconditions {
 	 * @see #containsNoNullElements(Collection, String)
 	 * @see #condition(boolean, String)
 	 */
-	public static <T extends Collection<?>> T notEmpty(T collection, Supplier<String> messageSupplier)
+	@Contract("null, _ -> fail")
+	public static <T extends Collection<?>> T notEmpty(@Nullable T collection, Supplier<String> messageSupplier)
 			throws PreconditionViolationException {
 
 		condition(collection != null && !collection.isEmpty(), messageSupplier);
@@ -184,7 +197,11 @@ public final class Preconditions {
 	 * any {@code null} elements
 	 * @see #notNull(Object, String)
 	 */
-	public static <T> T[] containsNoNullElements(T[] array, String message) throws PreconditionViolationException {
+
+	@Contract("null, _ -> null")
+	public static <T> T @Nullable [] containsNoNullElements(T @Nullable [] array, String message)
+			throws PreconditionViolationException {
+
 		if (array != null) {
 			Arrays.stream(array).forEach(object -> notNull(object, message));
 		}
@@ -204,7 +221,8 @@ public final class Preconditions {
 	 * any {@code null} elements
 	 * @see #notNull(Object, String)
 	 */
-	public static <T> T[] containsNoNullElements(T[] array, Supplier<String> messageSupplier)
+	@Contract("null, _ -> null")
+	public static <T> T @Nullable [] containsNoNullElements(T @Nullable [] array, Supplier<String> messageSupplier)
 			throws PreconditionViolationException {
 
 		if (array != null) {
@@ -226,7 +244,8 @@ public final class Preconditions {
 	 * any {@code null} elements
 	 * @see #notNull(Object, String)
 	 */
-	public static <T extends Collection<?>> T containsNoNullElements(T collection, String message)
+	@Contract("null, _ -> null")
+	public static <T extends Collection<?>> @Nullable T containsNoNullElements(@Nullable T collection, String message)
 			throws PreconditionViolationException {
 
 		if (collection != null) {
@@ -248,8 +267,9 @@ public final class Preconditions {
 	 * any {@code null} elements
 	 * @see #notNull(Object, String)
 	 */
-	public static <T extends Collection<?>> T containsNoNullElements(T collection, Supplier<String> messageSupplier)
-			throws PreconditionViolationException {
+	@Contract("null, _ -> null")
+	public static <T extends Collection<?>> @Nullable T containsNoNullElements(@Nullable T collection,
+			Supplier<String> messageSupplier) throws PreconditionViolationException {
 
 		if (collection != null) {
 			collection.forEach(object -> notNull(object, messageSupplier));
@@ -269,7 +289,8 @@ public final class Preconditions {
 	 * @throws PreconditionViolationException if the supplied string is blank
 	 * @see #notBlank(String, Supplier)
 	 */
-	public static String notBlank(String str, String message) throws PreconditionViolationException {
+	@Contract("null, _ -> fail")
+	public static String notBlank(@Nullable String str, String message) throws PreconditionViolationException {
 		condition(StringUtils.isNotBlank(str), message);
 		return str;
 	}
@@ -287,7 +308,10 @@ public final class Preconditions {
 	 * @see StringUtils#isNotBlank(String)
 	 * @see #condition(boolean, Supplier)
 	 */
-	public static String notBlank(String str, Supplier<String> messageSupplier) throws PreconditionViolationException {
+	@Contract("null, _ -> fail")
+	public static String notBlank(@Nullable String str, Supplier<String> messageSupplier)
+			throws PreconditionViolationException {
+
 		condition(StringUtils.isNotBlank(str), messageSupplier);
 		return str;
 	}
@@ -300,6 +324,7 @@ public final class Preconditions {
 	 * @throws PreconditionViolationException if the predicate is {@code false}
 	 * @see #condition(boolean, Supplier)
 	 */
+	@Contract("false, _ -> fail")
 	public static void condition(boolean predicate, String message) throws PreconditionViolationException {
 		if (!predicate) {
 			throw new PreconditionViolationException(message);
@@ -313,6 +338,7 @@ public final class Preconditions {
 	 * @param messageSupplier precondition violation message supplier
 	 * @throws PreconditionViolationException if the predicate is {@code false}
 	 */
+	@Contract("false, _ -> fail")
 	public static void condition(boolean predicate, Supplier<String> messageSupplier)
 			throws PreconditionViolationException {
 
