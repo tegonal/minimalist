@@ -29,7 +29,7 @@ class MinimalistPropertiesParser {
 
 			when {
 				isKey("seed") -> seed = value.toIntOrErrorNotValid(key)
-				isKey("offsetToDecidedOffset") -> offsetToDecidedOffset = value.toIntOrErrorNotValid(key)
+				isKey("skip") -> skip = value.toIntOrErrorNotValid(key)
 
 				isKey("maxArgs") -> maxArgs = value.toIntOrErrorNotValid(key)
 				isKey("requestedMinArgs") -> requestedMinArgs = value.toIntOrErrorNotValid(key)

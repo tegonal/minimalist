@@ -22,8 +22,8 @@ class MinimalistConfigViaPropertiesLoader {
 					check(it.seed == initialConfig.seed) {
 						errorMessageNotAllowedToModify("seed")
 					}
-					check(it.offsetToDecidedOffset == initialConfig.offsetToDecidedOffset) {
-						errorMessageNotAllowedToModify("offsetToDecidedOffset")
+					check(it.skip == initialConfig.skip) {
+						errorMessageNotAllowedToModify("skip")
 					}
 					check(it.requestedMinArgs == initialConfig.requestedMinArgs) {
 						errorMessageNotAllowedToModify("requestedMinArgs")

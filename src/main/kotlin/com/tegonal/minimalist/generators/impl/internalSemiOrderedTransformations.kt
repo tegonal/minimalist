@@ -14,8 +14,8 @@ import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
  * !! No backward compatibility guarantees !!
  * Reuse at your own risk
  *
- * In case [MinimalistConfig.offsetToDecidedOffset] is `null` or `0` the index starts at `0` otherwise at
- * [MinimalistConfig.offsetToDecidedOffset] and this regardless what `offset` is used in the end
+ * In case [MinimalistConfig.skip] is `null` then the index starts at `0` otherwise at [MinimalistConfig.skip]
+ * and this regardless what `offset` is used in the end for [SemiOrderedArgsGenerator.generate].
  *
  * @param transform The transformation function which takes a [T] and produces an [R].
  *
@@ -29,7 +29,7 @@ import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
 @InternalDangerousApi
 fun <T, R> SemiOrderedArgsGenerator<T>.mapIndexedInternal(transform: (index: Int, T) -> R): SemiOrderedArgsGenerator<R> =
 	transformInternal { seq ->
-		val offset = _components.config.offsetToDecidedOffset
+		val offset = _components.config.skip
 		if (offset == null) {
 			seq.mapIndexed(transform)
 		} else {
@@ -52,8 +52,8 @@ fun <T, R> SemiOrderedArgsGenerator<T>.mapIndexedInternal(transform: (index: Int
  * !! No backward compatibility guarantees !!
  * Reuse at your own risk
  *
- * In case [MinimalistConfig.offsetToDecidedOffset] is `null` or `0` the index starts at `0` otherwise at
- * [MinimalistConfig.offsetToDecidedOffset].
+ * In case [MinimalistConfig.skip] is `null` then the index starts at `0` otherwise at [MinimalistConfig.skip]
+ * and this regardless what `offset` is used in the end for [SemiOrderedArgsGenerator.generate].
  *
  * Use the overload which provides the `seedOffset` in case you use [ArbArgsGenerator.generate] inside the [transform]
  * function, this way you can pass on the `seedOffset` to [ArbArgsGenerator.generate].
@@ -71,14 +71,14 @@ fun <T, R> SemiOrderedArgsGenerator<T>.mapIndexedInternal(transform: (index: Int
 @InternalDangerousApi
 fun <T, R> SemiOrderedArgsGenerator<T>.flatMapIndexedInternal(transform: (index: Int, T) -> Sequence<R>): SemiOrderedArgsGenerator<R> =
 	transformInternal { seq ->
-		val offsetToDecidedOffset = _components.config.offsetToDecidedOffset
-		if (offsetToDecidedOffset == null) {
+		val skip = _components.config.skip
+		if (skip == null) {
 			seq.flatMapIndexed(transform)
 		} else {
 			seq.flatMapIndexed { index, it ->
 				transform(
 					// expected that this overflows in the worst case
-					index + offsetToDecidedOffset,
+					index + skip,
 					it,
 				)
 			}

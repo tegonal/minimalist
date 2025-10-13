@@ -13,8 +13,7 @@ import com.tegonal.minimalist.generators.transform
  * !! No backward compatibility guarantees !!
  * Reuse at your own risk
  *
- * In case [MinimalistConfig.offsetToDecidedOffset] is `null` or `0` the index starts at `0` otherwise at
- * [MinimalistConfig.offsetToDecidedOffset].
+ * In case [MinimalistConfig.skip] is `null` then the index starts at `0` otherwise at [MinimalistConfig.skip].
  *
  * @param transform The transformation function which takes a [T], an index and a seed offset and produces an [R].
  *   The `seedOffset` is passed along the call chain and should be taken into account when using
@@ -30,7 +29,7 @@ import com.tegonal.minimalist.generators.transform
 fun <T, R> ArbArgsGenerator<T>.mapIndexedInternal(
 	transform: (index: Int, T, seedOffset: Int) -> R
 ): ArbArgsGenerator<R> = transform { seq, seedOffset ->
-	val offset = _components.config.offsetToDecidedOffset
+	val offset = _components.config.skip
 	if (offset == null) {
 		seq.mapIndexed { index, it -> transform(index, it, seedOffset) }
 	} else {
@@ -53,8 +52,7 @@ fun <T, R> ArbArgsGenerator<T>.mapIndexedInternal(
  * !! No backward compatibility guarantees !!
  * Reuse at your own risk
  *
- * In case [MinimalistConfig.offsetToDecidedOffset] is `null` or `0` the index starts at `0` otherwise at
- * [MinimalistConfig.offsetToDecidedOffset].
+ * In case [MinimalistConfig.skip] is `null` then the index starts at `0` otherwise at [MinimalistConfig.skip].
  *
  * @param transform The transformation function which takes a [T], an index and a seed offset and produces a
  *   finite [Sequence] of elements of type [R].
@@ -71,7 +69,7 @@ fun <T, R> ArbArgsGenerator<T>.mapIndexedInternal(
 fun <T, R> ArbArgsGenerator<T>.flatMapIndexedInternal(
 	transform: (index: Int, T, seedOffset: Int) -> Sequence<R>
 ): ArbArgsGenerator<R> = transform { seq, seedOffset ->
-	val offset = _components.config.offsetToDecidedOffset
+	val offset = _components.config.skip
 	if (offset == null) {
 		seq.flatMapIndexed { index, it -> transform(index, it, seedOffset) }
 	} else {
