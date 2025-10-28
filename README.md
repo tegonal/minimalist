@@ -55,6 +55,7 @@ version: [README of v2.0.0-RC-2](https://github.com/tegonal/minimalist/tree/v2.0
 - [Configuration](#configuration)
 	- [Profiles and Envs](#profiles-and-envs)
 	- [Fixing the seed](#fixing-the-seed)
+		- [Error Deadlines](#errordeadlines)
 	- [Change the ArgsRangeDecider](#change-the-argsrangedecider)
 	- [Use a SuffixArgsGeneratorDecider](#use-a-suffixargsgeneratordecider)
 - [Helpers](#helpers)
@@ -602,7 +603,7 @@ for.
 
 ### flatZipDependent
 
-If you want to zip not only one value but multiple values from the `ArbArgsGenerator` which was created based on a 
+If you want to zip not only one value but multiple values from the `ArbArgsGenerator` which was created based on a
 value of your `ArbArgsGenerator`/`SemiOrderedArbArgsGenerator`, then you can use flatZipDependent:
 
 <code-flat-zip-dependent-arb>
@@ -620,8 +621,8 @@ ordered.intFromTo(1, 10).flatZipDependent(amount = 3) { a ->
 </code-flat-zip-dependent-arb>
 
 `OrderedArgsGenerator` provides a `flatZipDependentMaterialised` which expects a factory that creates another
-`OrderedArgsGenerator` based on a given value from the first `OrderedArgsGenerator` and in contrast to 
-`flatZipDependent` does not take an `amount` but the individual lengths of the created `OrderedArgsGenerator`s. 
+`OrderedArgsGenerator` based on a given value from the first `OrderedArgsGenerator` and in contrast to
+`flatZipDependent` does not take an `amount` but the individual lengths of the created `OrderedArgsGenerator`s.
 Following an example:
 
 <code-flat-zip-dependent-ordered-ordered>
@@ -836,10 +837,9 @@ class DynamicTest : PredefinedArgsProviders {
 
 Note however, that all the magic of `ArgsSource` is not available (yet). Which means:
 
-- you need to combine ArgsGenerators manually (see [arb.zip](#arb-zip) and [ordered.cartesian](#ordered-cartesian)) or
+- you need to combine ArgsGenerators manually (see [zip](#zip) and [ordered.cartesian](#ordered-cartesian)) or
   use [combineAll](#generic-combine) if you deal with generators in `Tuple`s -- the good side, you do not lose the types
-  as you would
-  with JUnit's `Arguments`.
+  as you would with JUnit's `Arguments`.
 - A defined [SuffixArgsGenerator](#use-a-suffixargsgeneratordecider) is ignored (we would lose the types again)
 - definitions like `@ArgSourceOptions` are ignored, but as long as you use `generateAndTakeBasedOnDecider` the defined
   seed and co. (see [fixing the seed](#fixing-the-seed) are taken into account
@@ -894,6 +894,29 @@ See `MinimalistConfig.testProfiles` for what `maxArgs` are defined per default.
 Minimalist outputs the used seed once the config is fully loaded. Use it in `minimalist.local.properties` to fix the
 seed to e.g. a previous run. You might want to restrict `maxArgs` in such a case as well and use `skip`
 to skip some runs, i.e. jump to a particular run.
+
+### ErrorDeadlines
+
+If you fix one of the following properties, then an error deadline is added to your `minimalist.local.properties`:
+
+- seed
+- skip
+- maxArgs
+- requestedMinArgs
+
+The deadline will remind you that you should remove (comment out) those values again, as they are intended for debugging
+or when you temporarily want to execute more tests than defined by your [activeEnv](#profiles-and-envs).
+
+You can adjust the default deadline (60 minutes) via `remindAboutFixedPropertiesAfterMinutes`.
+
+Minimalist assumes your `minimalist.local.properties` is located under `./src/test/resources` relative to the
+the directory from which you execute java -- if you run tests in IntelliJ this corresponds to the project dir.
+If you place it under a different directory, then use the property `minimalistPropertiesDir` to adjust it (e.g. in the
+`minimalist.properties`-file or directly in `minimalist.local.properties`). Following an example:
+
+```properties
+minimalistPropertiesDir=./src/jvmTest/resources
+```
 
 ## Change the ArgsRangeDecider
 
