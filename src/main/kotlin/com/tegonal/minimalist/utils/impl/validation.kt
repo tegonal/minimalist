@@ -21,7 +21,7 @@ fun String.toPositiveIntOrErrorNotValid(convertTo: String): Int =
  * @since 2.0.0
  */
 fun String.toIntOrErrorNotValid(convertTo: String): Int =
-	toIntOrNull() ?: error("$this is not a valid $convertTo")
+	toIntOrNull() ?: error("$this is not a valid Int, cannot use it for $convertTo")
 
 /**
  * !! No backward compatibility guarantees !!

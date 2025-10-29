@@ -9,7 +9,6 @@ import com.tegonal.minimalist.providers.impl.ProfileBasedArgsRangeDecider
 import com.tegonal.minimalist.providers.impl.SuffixArgsGeneratorNeverDecider
 import com.tegonal.minimalist.utils.impl.checkIsNotBlank
 import com.tegonal.minimalist.utils.impl.checkIsPositive
-import com.tegonal.minimalist.utils.impl.failIfNegative
 import com.tegonal.minimalist.utils.seedToOffset
 import kotlin.random.Random
 
@@ -159,6 +158,7 @@ class MinimalistConfig(
 			),
 	),
 ) {
+
 	init {
 		skip?.also { checkIsPositive(it, "skip") }
 		requestedMinArgs?.also { checkIsPositive(it, "requestedMinArgs") }
@@ -181,17 +181,19 @@ class MinimalistConfig(
 	}
 
 	fun copy(configure: MinimalistConfigBuilder.() -> Unit): MinimalistConfig =
-		MinimalistConfigBuilder(
-			seed = seed.value,
-			skip = skip,
-			maxArgs = maxArgs,
-			requestedMinArgs = requestedMinArgs,
-			activeArgsRangeDecider = activeArgsRangeDecider,
-			activeSuffixArgsGeneratorDecider = activeSuffixArgsGeneratorDecider,
-			activeEnv = activeEnv,
-			defaultProfile = defaultProfile,
-			testProfiles = testProfiles.toHashMap()
-		).apply(configure).build()
+		toBuilder().apply(configure).build()
+
+	fun toBuilder(): MinimalistConfigBuilder = MinimalistConfigBuilder(
+		seed = seed.value,
+		skip = skip,
+		maxArgs = maxArgs,
+		requestedMinArgs = requestedMinArgs,
+		activeArgsRangeDecider = activeArgsRangeDecider,
+		activeSuffixArgsGeneratorDecider = activeSuffixArgsGeneratorDecider,
+		activeEnv = activeEnv,
+		defaultProfile = defaultProfile,
+		testProfiles = testProfiles.toHashMap()
+	)
 }
 
 /**
@@ -206,8 +208,9 @@ class MinimalistConfigBuilder(
 	var activeSuffixArgsGeneratorDecider: String,
 	var activeEnv: String,
 	var defaultProfile: String,
-	var testProfiles: HashMap<String, HashMap<String, TestConfig>>
+	var testProfiles: HashMap<String, HashMap<String, TestConfig>>,
 ) {
+
 	fun build(): MinimalistConfig = MinimalistConfig(
 		seed = Seed(seed),
 		skip = skip,
@@ -217,7 +220,7 @@ class MinimalistConfigBuilder(
 		activeSuffixArgsGeneratorDecider = activeSuffixArgsGeneratorDecider,
 		activeEnv = activeEnv,
 		defaultProfile = defaultProfile,
-		testProfiles = TestProfiles.create(testProfiles)
+		testProfiles = TestProfiles.create(testProfiles),
 	)
 }
 
