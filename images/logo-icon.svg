@@ -8,7 +8,7 @@
    version="1.1"
    id="svg5"
    sodipodi:docname="logo-icon.svg"
-   inkscape:export-filename="/home/tegonal/projects/ght/minimalist-gh-pages/logo.png"
+   inkscape:export-filename="logo.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
    inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
@@ -60,12 +60,11 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="Layer 2"
-     style="display:inline"><text
-       xml:space="preserve"
+     style="display:inline"><g
+       aria-label="V
+"
        transform="matrix(0.44008107,0,0,0.44008107,-6.3106162,-9.3123263)"
        id="text245"
-       style="font-size:85.3333px;font-family:'Cotham Sans';-inkscape-font-specification:'Cotham Sans';white-space:pre;shape-inside:url(#rect247);fill:#80c080"><tspan
-         x="24.273438"
-         y="91.211557"
-         id="tspan312">V
-</tspan></text></g></svg>
+       style="font-size:85.3333px;font-family:'Cotham Sans';-inkscape-font-specification:'Cotham Sans';white-space:pre;shape-inside:url(#rect247);display:inline;fill:#80c080"><path
+         d="m 50.47076,91.211557 h 4.693331 l 23.466657,-63.14664 h -8.02133 L 52.774759,77.984896 35.025433,28.064917 h -8.02133 z"
+         id="path385" /></g></g></svg>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1280"
+   height="640"
+   viewBox="0 0 338.66666 169.33333"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="logo-social.svg"
+   inkscape:export-filename="logo-social.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="px"
+     showgrid="false"
+     units="px"
+     width="128px"
+     inkscape:zoom="0.51451751"
+     inkscape:cx="-410.09294"
+     inkscape:cy="889.18257"
+     inkscape:window-width="2558"
+     inkscape:window-height="1390"
+     inkscape:window-x="4480"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     inkscape:snap-global="true"
+     inkscape:snap-grids="true"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1">
+    <sodipodi:guide
+       position="32.996874,72.354712"
+       orientation="0,-1"
+       id="guide3950"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="32.996874,150.01809"
+       orientation="1,0"
+       id="guide3952"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="297.77667,138.75086"
+       orientation="1,0"
+       id="guide3954"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="195.40747,143.46382"
+       orientation="0,-1"
+       id="guide4047"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="89.608226,26.854733"
+       orientation="0,-1"
+       id="guide4049"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2">
+    <rect
+       x="122.47233"
+       y="102.14322"
+       width="1007.111"
+       height="301.98515"
+       id="rect180" />
+    <rect
+       x="218.8225"
+       y="425.24464"
+       width="967.78873"
+       height="145.11023"
+       id="rect1443" />
+  </defs>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Layer 2"
+     style="display:inline" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="Layer 3">
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,8.5102393,18.517944)"
+       id="text1441"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:53.3333px;line-height:1.25;font-family:'Cotham Sans';-inkscape-font-specification:'Cotham Sans';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect1443);display:inline;fill:#80c080;fill-opacity:1;stroke:none"><tspan
+         x="218.82227"
+         y="471.91078"
+         id="tspan356">because one sample is not enough</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Layer 4">
+    <text
+       xml:space="preserve"
+       transform="matrix(0.36135924,0,0,0.36135924,-14.065719,-16.66977)"
+       id="text178"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:266.667px;font-family:'Cotham Sans';-inkscape-font-specification:'Cotham Sans';white-space:pre;shape-inside:url(#rect180);display:inline;fill:#80c080"><tspan
+         x="122.47266"
+         y="335.4762"
+         id="tspan358">Variist</tspan></text>
+  </g>
+</svg>
