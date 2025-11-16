@@ -211,3 +211,20 @@ private inline fun <NumberT> checkRangeNumbers(
 		"RepeatingIterator only supports an offset greater than or equal to 0 (given $offset)"
 	}
 }
+
+/**
+ * !! No backward compatibility guarantees !!
+ * Reuse at your own risk
+ *
+ * @since 2.0.0
+ */
+fun checkRequestedMinArgsMaxArgs(
+	requestedMinArgs: Int?,
+	maxArgs: Int?
+) {
+	requestedMinArgs?.also { checkIsPositive(it, "requestedMinArgs") }
+	maxArgs?.also { checkIsPositive(it, "maxArgs") }
+	check(requestedMinArgs == null || maxArgs == null || requestedMinArgs <= maxArgs) {
+		"requestedMinArgs ($requestedMinArgs) must be less than or equal to maxArgs ($maxArgs)"
+	}
+}

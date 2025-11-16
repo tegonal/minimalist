@@ -6,7 +6,7 @@ import readme.examples.jupiter.ReadmeTest
 import org.junit.jupiter.api.Test
 
 @Order(2)
-class PredefinedExample : ReadmeTest {
+class PredefinedArgsProvidersExample : ReadmeTest {
 
 	@Test
 	fun `code-predefined-1`() {

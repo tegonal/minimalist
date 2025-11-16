@@ -64,13 +64,24 @@ abstract class BaseArgsRangeOptionsBasedArgsRangeDecider : ArgsRangeDecider {
 			val requestedMinArgs = config.requestedMinArgs ?: argsRangeOptions?.requestedMinArgs
 			val newTake = argsRange.take
 				.letIf(maxArgs != null) { take ->
+					// maxArgs defined in
 					minOf(maxArgs!!, take)
 				}.let { take ->
 					when (argsGenerator) {
 						is OrderedArgsGenerator -> {
-							// no need to take more as we would start to repeat values
-							// we can ignore requestedMinArgs for OrderedArgsGenerator
-							minOf(argsGenerator.size, take)
+							take.letIf(
+								// requestedMinArgs < maxArgs if defined at the same place but
+								// requestedMinArgs > maxArgs if requestedMinArgs was defined
+								// in config and maxArgs in argsRangeOptions. Config takes precedence
+								requestedMinArgs != null && config.maxArgs == null
+							) { newTake ->
+								maxOf(requestedMinArgs!!, newTake)
+							}.let { newTake ->
+								//
+								// no need to take more as we would start to repeat values
+								// we can ignore requestedMinArgs for OrderedArgsGenerator
+								minOf(argsGenerator.size, newTake)
+							}
 
 							// Note, we don't use offset=0 in case generatorSize is less than `take` (i.e. which means we can
 							// run all combinations), because, who knows, maybe the tests are dependent somehow
@@ -78,14 +89,20 @@ abstract class BaseArgsRangeOptionsBasedArgsRangeDecider : ArgsRangeDecider {
 						}
 
 						is SemiOrderedArgsGenerator ->
-							minOf(argsGenerator.size, take).letIf(requestedMinArgs != null) { newTake ->
-								// in case one specified requestedMinArgs, then we take it into account, i.e. we
-								// start to repeat the fixed part of a SemiOrderedArgsGenerator
-								maxOf(requestedMinArgs!!, newTake)
-							}
+							minOf(argsGenerator.size, take)
+								.letIf(
+									// requestedMinArgs < maxArgs if defined at the same place but
+									// requestedMinArgs > maxArgs if requestedMinArgs was defined
+									// in config and maxArgs in argsRangeOptions. Config takes precedence
+									requestedMinArgs != null && config.maxArgs == null
+								) { newTake ->
+									// in contract to OrderedArgsGenerator we start to repeat the fixed part of a
+									// SemiOrderedArgsGenerator if one requested more than SemiOrderedArgsGenerator.size
+									maxOf(requestedMinArgs!!, newTake)
+								}
 
 						is ArbArgsGenerator ->
-							take.letIf(requestedMinArgs != null) {
+							take.letIf(requestedMinArgs != null && config.maxArgs == null) {
 								// it could be that requestedMinArgs > maxArgs in case requestedMinArgs was defined in
 								// config and maxArgs in argsRangeOptions.
 								// This is because config has precedence over argsRangeOptions.

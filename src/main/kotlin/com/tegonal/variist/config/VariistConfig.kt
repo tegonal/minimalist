@@ -9,6 +9,7 @@ import com.tegonal.variist.providers.impl.ProfileBasedArgsRangeDecider
 import com.tegonal.variist.providers.impl.SuffixArgsGeneratorNeverDecider
 import com.tegonal.variist.utils.impl.checkIsNotBlank
 import com.tegonal.variist.utils.impl.checkIsPositive
+import com.tegonal.variist.utils.impl.checkRequestedMinArgsMaxArgs
 import com.tegonal.variist.utils.seedToOffset
 import kotlin.random.Random
 
@@ -161,8 +162,7 @@ class VariistConfig(
 
 	init {
 		skip?.also { checkIsPositive(it, "skip") }
-		requestedMinArgs?.also { checkIsPositive(it, "requestedMinArgs") }
-		maxArgs?.also { checkIsPositive(it, "maxArgs") }
+		checkRequestedMinArgsMaxArgs(requestedMinArgs, maxArgs)
 
 		checkIsNotBlank(activeArgsRangeDecider, "activeArgsRangeDecider")
 		checkIsNotBlank(defaultProfile, "defaultProfile")

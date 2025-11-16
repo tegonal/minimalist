@@ -76,7 +76,7 @@ class VariistPropertiesParser {
 	}
 
 	private fun VariistConfigBuilder.parseTestProfile(key: String, value: String) {
-		//TODO 2.1.0 warn about duplicates profile Names / envs, i.e. copy to own maps first and merge in the end
+		//TODO 2.1.0 warn about duplicates profile Names / envs ? i.e. copy to own maps first and merge in the end
 		// (we don't want to error in case we override an existing profile name / env)
 		val remainingAfterPrefix = key.substringAfter(PROFILES_PREFIX)
 		val profile = remainingAfterPrefix.substringBefore(".")
