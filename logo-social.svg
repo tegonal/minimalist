@@ -8,7 +8,7 @@
    version="1.1"
    id="svg5"
    sodipodi:docname="logo-social.svg"
-   inkscape:export-filename="/home/tegonal/projects/ght/minimalist-gh-pages/logo-social.png"
+   inkscape:export-filename="logo-social.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
    inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
@@ -29,7 +29,7 @@
      units="px"
      width="128px"
      inkscape:zoom="0.51451751"
-     inkscape:cx="-263.35353"
+     inkscape:cx="-410.09294"
      inkscape:cy="889.18257"
      inkscape:window-width="2558"
      inkscape:window-height="1390"
@@ -97,10 +97,10 @@
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,8.5102393,18.517944)"
        id="text1441"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:53.3333px;line-height:1.25;font-family:'Cotham Sans';-inkscape-font-specification:'Cotham Sans';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect1443);fill:#80c080;fill-opacity:1;stroke:none"><tspan
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:53.3333px;line-height:1.25;font-family:'Cotham Sans';-inkscape-font-specification:'Cotham Sans';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect1443);display:inline;fill:#80c080;fill-opacity:1;stroke:none"><tspan
          x="218.82227"
          y="471.91078"
-         id="tspan305">because one sample is not enough</tspan></text>
+         id="tspan356">because one sample is not enough</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
@@ -110,9 +110,9 @@
        xml:space="preserve"
        transform="matrix(0.36135924,0,0,0.36135924,-14.065719,-16.66977)"
        id="text178"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:266.667px;font-family:'Cotham Sans';-inkscape-font-specification:'Cotham Sans';white-space:pre;shape-inside:url(#rect180);fill:#80c080"><tspan
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:266.667px;font-family:'Cotham Sans';-inkscape-font-specification:'Cotham Sans';white-space:pre;shape-inside:url(#rect180);display:inline;fill:#80c080"><tspan
          x="122.47266"
          y="335.4762"
-         id="tspan307">Variist</tspan></text>
+         id="tspan358">Variist</tspan></text>
   </g>
 </svg>
