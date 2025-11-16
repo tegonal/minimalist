@@ -55,7 +55,7 @@ class Args2ArgumentsTest {
 			1,
 			2L,
 			representation1 = null ,
-			representation2 = null
+			representation2 = null 
 		)
 		expect(args.get().toList()).toContainExactly(
 			args.a1,

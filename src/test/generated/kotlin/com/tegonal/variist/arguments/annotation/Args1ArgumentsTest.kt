@@ -46,7 +46,7 @@ class Args1ArgumentsTest {
 	fun `using null as representation does not wrap it into Named`() {
 		val args = Args.of(
 			1,
-			representation1 = null
+			representation1 = null 
 		)
 		expect(args.get().toList()).toContainExactly(
 			args.a1
