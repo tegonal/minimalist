@@ -64,7 +64,7 @@ class Args3ArgumentsTest {
 			3F,
 			representation1 = null ,
 			representation2 = null ,
-			representation3 = null
+			representation3 = null 
 		)
 		expect(args.get().toList()).toContainExactly(
 			args.a1,

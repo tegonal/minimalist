@@ -127,7 +127,7 @@ class Args10ArgumentsTest {
 			representation7 = null ,
 			representation8 = null ,
 			representation9 = null ,
-			representation10 = null
+			representation10 = null 
 		)
 		expect(args.get().toList()).toContainExactly(
 			args.a1,
