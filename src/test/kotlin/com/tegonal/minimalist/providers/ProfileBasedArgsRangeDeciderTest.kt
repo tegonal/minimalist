@@ -1,15 +1,15 @@
-package com.tegonal.minimalist.providers
+package com.tegonal.variist.providers
 
 import ch.tutteli.atrium.api.fluent.en_GB.feature
 import ch.tutteli.atrium.api.fluent.en_GB.notToThrow
 import ch.tutteli.atrium.api.fluent.en_GB.toEqual
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.config.*
-import com.tegonal.minimalist.generators.*
-import com.tegonal.minimalist.generators.impl.DefaultArbExtensionPoint
-import com.tegonal.minimalist.providers.impl.ProfileBasedArgsRangeDecider
-import com.tegonal.minimalist.testutils.createOrderedWithCustomConfig
+import com.tegonal.variist.config.*
+import com.tegonal.variist.generators.*
+import com.tegonal.variist.generators.impl.DefaultArbExtensionPoint
+import com.tegonal.variist.providers.impl.ProfileBasedArgsRangeDecider
+import com.tegonal.variist.testutils.createOrderedWithCustomConfig
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
@@ -45,7 +45,7 @@ class ProfileBasedArgsRangeDeciderTest {
 		env: Env,
 		argsGeneratorSize: Int
 	) {
-		val customConfig = MinimalistConfig().copy {
+		val customConfig = VariistConfig().copy {
 			defaultProfile = testType.name
 			activeEnv = env.name
 			testProfiles = ownTestProfiles.toHashMap()

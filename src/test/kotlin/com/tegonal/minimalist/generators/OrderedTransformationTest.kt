@@ -1,10 +1,10 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.atrium.testfactories.TestFactory
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.generators.impl.InternalDangerousApi
-import com.tegonal.minimalist.generators.impl.mapIndexedInternal
-import com.tegonal.minimalist.generators.impl.transformInternal
+import com.tegonal.variist.generators.impl.InternalDangerousApi
+import com.tegonal.variist.generators.impl.mapIndexedInternal
+import com.tegonal.variist.generators.impl.transformInternal
 
 class OrderedTransformationTest : AbstractOrderedArgsGeneratorTest<Int>() {
 

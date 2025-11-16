@@ -10,12 +10,12 @@
 
 // -----------------------------------------------------------------------------------------------------
 // WARNING !!!!!!!!!!!!!!
-// Copied from JUnit and exported for internal use in Minimalist only
+// Copied from JUnit and exported for internal use in Variist only
 // No backward compatibility guarantees. As soon as JUnit breaks compatibility (which can happen
 // even in a patch version and that is totally fine) and we `gt update` this file to this new version
 // (maybe also in a patch version), we will break compatibility as well.
 // -----------------------------------------------------------------------------------------------------
-package com.tegonal.minimalist.export.org.junit.platform.commons.util;
+package com.tegonal.variist.export.org.junit.platform.commons.util;
 
 import org.apiguardian.api.API;
 import org.junit.platform.commons.support.ReflectionSupport;
@@ -39,7 +39,7 @@ import static org.apiguardian.api.API.Status.INTERNAL;
  * @since 1.0
  * @see org.junit.platform.commons.support.ReflectionSupport
  *
- * Modified for Minimalist, see pull-hook.sh
+ * Modified for Variist, see pull-hook.sh
  * We removed all function we don't use, which we can use via ReflectionSupport respectively
  */
 @API(status = INTERNAL, since = "1.0")

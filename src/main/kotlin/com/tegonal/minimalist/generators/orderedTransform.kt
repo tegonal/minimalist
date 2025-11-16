@@ -1,9 +1,9 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.config.ordered
-import com.tegonal.minimalist.generators.impl.InternalDangerousApi
-import com.tegonal.minimalist.generators.impl.transformInternal
+import com.tegonal.variist.config._components
+import com.tegonal.variist.config.ordered
+import com.tegonal.variist.generators.impl.InternalDangerousApi
+import com.tegonal.variist.generators.impl.transformInternal
 
 /**
  * Maps the values `this` [OrderedArgsGenerator] generates to type [R] with the help of the given [transform] function.

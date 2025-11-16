@@ -1,14 +1,14 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.atrium.api.fluent.en_GB.*
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.config.arb
-import com.tegonal.minimalist.providers.ArgsSource
-import com.tegonal.minimalist.testutils.withMockedRandom
-import com.tegonal.minimalist.utils.BigInt
-import com.tegonal.minimalist.utils.toBigInt
+import com.tegonal.variist.config._components
+import com.tegonal.variist.config.arb
+import com.tegonal.variist.providers.ArgsSource
+import com.tegonal.variist.testutils.withMockedRandom
+import com.tegonal.variist.utils.BigInt
+import com.tegonal.variist.utils.toBigInt
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 

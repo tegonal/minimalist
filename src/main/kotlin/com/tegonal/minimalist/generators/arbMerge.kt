@@ -1,7 +1,7 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.generators.impl.ArbArgsGeneratorMerger
-import com.tegonal.minimalist.generators.impl.MultiArbArgsGeneratorIndexOfMerger
+import com.tegonal.variist.generators.impl.ArbArgsGeneratorMerger
+import com.tegonal.variist.generators.impl.MultiArbArgsGeneratorIndexOfMerger
 
 /**
  * Merges [first] with the given [second] and optionally [others] [ArbArgsGenerator] resulting

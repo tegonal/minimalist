@@ -1,15 +1,15 @@
-package com.tegonal.minimalist
+package com.tegonal.variist
 
 import ch.tutteli.kbox.identity
-import com.tegonal.minimalist.config.ComponentFactoryContainer
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.generators.OrderedArgsGenerator
-import com.tegonal.minimalist.generators.generateAndTake
-import com.tegonal.minimalist.generators.impl.BaseSemiOrderedArgsGenerator
-import com.tegonal.minimalist.generators.ordered
-import com.tegonal.minimalist.providers.ArgsRange
-import com.tegonal.minimalist.utils.impl.BaseIntFromUntilRepeatingIterator
-import com.tegonal.minimalist.utils.impl.checkRangeNumbers
+import com.tegonal.variist.config.ComponentFactoryContainer
+import com.tegonal.variist.config._components
+import com.tegonal.variist.generators.OrderedArgsGenerator
+import com.tegonal.variist.generators.generateAndTake
+import com.tegonal.variist.generators.impl.BaseSemiOrderedArgsGenerator
+import com.tegonal.variist.generators.ordered
+import com.tegonal.variist.providers.ArgsRange
+import com.tegonal.variist.utils.impl.BaseIntFromUntilRepeatingIterator
+import com.tegonal.variist.utils.impl.checkRangeNumbers
 import org.openjdk.jmh.annotations.*
 import java.util.concurrent.TimeUnit
 

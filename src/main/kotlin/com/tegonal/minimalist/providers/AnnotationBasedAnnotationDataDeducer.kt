@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.providers
+package com.tegonal.variist.providers
 
 import org.junit.platform.commons.support.AnnotationSupport
 import java.lang.reflect.AnnotatedElement

@@ -1,10 +1,10 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.config.build
-import com.tegonal.minimalist.providers.AnnotationData
-import com.tegonal.minimalist.providers.ArgsRange
-import com.tegonal.minimalist.providers.ArgsRangeDecider
+import com.tegonal.variist.config._components
+import com.tegonal.variist.config.build
+import com.tegonal.variist.providers.AnnotationData
+import com.tegonal.variist.providers.ArgsRange
+import com.tegonal.variist.providers.ArgsRangeDecider
 
 /**
  * Returns a finite sequence of values based on the [ArgsRange] that the configured [ArgsRangeDecider] will chose.

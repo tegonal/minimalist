@@ -1,8 +1,8 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.generators.impl.InternalDangerousApi
-import com.tegonal.minimalist.generators.impl.throwMaterialisingSemiOrderedArgsGeneratorNotSupported
-import com.tegonal.minimalist.generators.impl.transformInternal
+import com.tegonal.variist.generators.impl.InternalDangerousApi
+import com.tegonal.variist.generators.impl.throwMaterialisingSemiOrderedArgsGeneratorNotSupported
+import com.tegonal.variist.generators.impl.transformInternal
 
 /**
  * Maps the values `this` [SemiOrderedArgsGenerator] generates to type [R] with the help of the given [transform] function.

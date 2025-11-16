@@ -1,6 +1,6 @@
-package com.tegonal.minimalist.providers
+package com.tegonal.variist.providers
 
-import com.tegonal.minimalist.generators.ArgsGenerator
+import com.tegonal.variist.generators.ArgsGenerator
 
 /**
  * Allows to define that a certain [ArgsGenerator] shall be combined as last.

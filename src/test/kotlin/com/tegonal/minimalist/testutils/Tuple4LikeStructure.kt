@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.testutils
+package com.tegonal.variist.testutils
 
 import ch.tutteli.kbox.Tuple4Like
 

@@ -1,8 +1,8 @@
-package com.tegonal.minimalist.providers.impl
+package com.tegonal.variist.providers.impl
 
-import com.tegonal.minimalist.generators.ArgsGenerator
-import com.tegonal.minimalist.providers.AnnotationData
-import com.tegonal.minimalist.providers.SuffixArgsGeneratorDecider
+import com.tegonal.variist.generators.ArgsGenerator
+import com.tegonal.variist.providers.AnnotationData
+import com.tegonal.variist.providers.SuffixArgsGeneratorDecider
 
 /**
  * !! No backward compatibility guarantees !!

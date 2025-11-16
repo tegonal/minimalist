@@ -1,8 +1,8 @@
-package com.tegonal.minimalist
+package com.tegonal.variist
 
-import com.tegonal.minimalist.generators.arb
-import com.tegonal.minimalist.generators.impl.createBoundsArbGenerator
-import com.tegonal.minimalist.generators.intRange
+import com.tegonal.variist.generators.arb
+import com.tegonal.variist.generators.impl.createBoundsArbGenerator
+import com.tegonal.variist.generators.intRange
 import org.openjdk.jmh.annotations.*
 import java.util.concurrent.TimeUnit
 

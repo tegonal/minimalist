@@ -1,11 +1,11 @@
-package com.tegonal.minimalist.generators.impl
+package com.tegonal.variist.generators.impl
 
-import com.tegonal.minimalist.config.ComponentFactoryContainer
-import com.tegonal.minimalist.config.ComponentFactoryContainerProvider
-import com.tegonal.minimalist.generators.OrderedArgsGenerator
-import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
-import com.tegonal.minimalist.utils.BigInt
-import com.tegonal.minimalist.utils.impl.checkIsPositive
+import com.tegonal.variist.config.ComponentFactoryContainer
+import com.tegonal.variist.config.ComponentFactoryContainerProvider
+import com.tegonal.variist.generators.OrderedArgsGenerator
+import com.tegonal.variist.generators.SemiOrderedArgsGenerator
+import com.tegonal.variist.utils.BigInt
+import com.tegonal.variist.utils.impl.checkIsPositive
 
 /**
  * !! No backward compatibility guarantees !!

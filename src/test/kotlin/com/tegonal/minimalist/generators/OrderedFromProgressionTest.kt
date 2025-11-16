@@ -1,11 +1,11 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.atrium.api.fluent.en_GB.toEqual
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.providers.ArgsRange
-import com.tegonal.minimalist.providers.ArgsSource
-import com.tegonal.minimalist.utils.repeatForever
+import com.tegonal.variist.providers.ArgsRange
+import com.tegonal.variist.providers.ArgsSource
+import com.tegonal.variist.utils.repeatForever
 import org.junit.jupiter.params.ParameterizedTest
 
 class OrderedFromProgressionTest : AbstractOrderedArgsGeneratorTest<Any>() {

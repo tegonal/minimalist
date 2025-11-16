@@ -1,7 +1,7 @@
-package com.tegonal.minimalist.generators.impl
+package com.tegonal.variist.generators.impl
 
-import com.tegonal.minimalist.generators.ArbArgsGenerator
-import com.tegonal.minimalist.generators._core
+import com.tegonal.variist.generators.ArbArgsGenerator
+import com.tegonal.variist.generators._core
 
 /**
  * !! No backward compatibility guarantees !!

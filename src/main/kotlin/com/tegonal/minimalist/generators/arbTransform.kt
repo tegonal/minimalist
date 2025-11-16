@@ -1,6 +1,6 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.generators.impl.ArbArgsGeneratorTransformer
+import com.tegonal.variist.generators.impl.ArbArgsGeneratorTransformer
 
 /**
  * Maps the values `this` [ArbArgsGenerator] generates to type [R] with the help of the given [transform] function.

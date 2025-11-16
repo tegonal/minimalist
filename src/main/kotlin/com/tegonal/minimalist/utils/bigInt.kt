@@ -1,7 +1,7 @@
-package com.tegonal.minimalist.utils
+package com.tegonal.variist.utils
 
-import com.tegonal.minimalist.utils.impl.checkIsPositive
-import com.tegonal.minimalist.utils.impl.requireFromLessThanToExclusive
+import com.tegonal.variist.utils.impl.checkIsPositive
+import com.tegonal.variist.utils.impl.requireFromLessThanToExclusive
 import java.math.BigInteger
 import kotlin.random.Random
 import kotlin.random.asJavaRandom

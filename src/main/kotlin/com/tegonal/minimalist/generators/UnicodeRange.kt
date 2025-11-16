@@ -1,18 +1,18 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.generators.UnicodeRange.Companion.AFTER_SURROGATES_END
-import com.tegonal.minimalist.generators.UnicodeRange.Companion.BEFORE_SURROGATES_START
-import com.tegonal.minimalist.generators.UnicodeRange.Companion.ASCII_END
-import com.tegonal.minimalist.generators.UnicodeRange.Companion.ASCII_PRINTABLE_END
-import com.tegonal.minimalist.generators.UnicodeRange.Companion.ASCII_PRINTABLE_START
-import com.tegonal.minimalist.generators.UnicodeRange.Companion.MAX_CODE_POINT
-import com.tegonal.minimalist.generators.UnicodeRange.Companion.ISO_8859_1_END
-import com.tegonal.minimalist.generators.UnicodeRange.Companion.ISO_8859_1_PRINTABLE_START
-import com.tegonal.minimalist.generators.UnicodeRange.Companion.BMP_END
-import com.tegonal.minimalist.generators.UnicodeRange.Companion.NON_BMP_START
-import com.tegonal.minimalist.generators.UnicodeRange.Companion.SURROGATES_END
-import com.tegonal.minimalist.generators.UnicodeRange.Companion.SURROGATES_START
-import com.tegonal.minimalist.utils.impl.failIfNegative
+import com.tegonal.variist.generators.UnicodeRange.Companion.AFTER_SURROGATES_END
+import com.tegonal.variist.generators.UnicodeRange.Companion.BEFORE_SURROGATES_START
+import com.tegonal.variist.generators.UnicodeRange.Companion.ASCII_END
+import com.tegonal.variist.generators.UnicodeRange.Companion.ASCII_PRINTABLE_END
+import com.tegonal.variist.generators.UnicodeRange.Companion.ASCII_PRINTABLE_START
+import com.tegonal.variist.generators.UnicodeRange.Companion.MAX_CODE_POINT
+import com.tegonal.variist.generators.UnicodeRange.Companion.ISO_8859_1_END
+import com.tegonal.variist.generators.UnicodeRange.Companion.ISO_8859_1_PRINTABLE_START
+import com.tegonal.variist.generators.UnicodeRange.Companion.BMP_END
+import com.tegonal.variist.generators.UnicodeRange.Companion.NON_BMP_START
+import com.tegonal.variist.generators.UnicodeRange.Companion.SURROGATES_END
+import com.tegonal.variist.generators.UnicodeRange.Companion.SURROGATES_START
+import com.tegonal.variist.utils.impl.failIfNegative
 import kotlin.collections.binarySearch
 
 /**

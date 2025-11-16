@@ -1,7 +1,7 @@
-package com.tegonal.minimalist.generators.impl
+package com.tegonal.variist.generators.impl
 
-import com.tegonal.minimalist.config.ComponentFactoryContainer
-import com.tegonal.minimalist.utils.impl.requireFromLessThanOrEqualToExclusive
+import com.tegonal.variist.config.ComponentFactoryContainer
+import com.tegonal.variist.utils.impl.requireFromLessThanOrEqualToExclusive
 import kotlin.random.Random
 
 /**

@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.atrium.api.fluent.en_GB.feature
 import ch.tutteli.atrium.api.fluent.en_GB.notToThrow
@@ -7,10 +7,10 @@ import ch.tutteli.atrium.api.fluent.en_GB.toEqual
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.atrium.api.verbs.expectGrouped
 import ch.tutteli.kbox.ifWithinBound
-import com.tegonal.minimalist.testutils.atrium.endInclusive
-import com.tegonal.minimalist.testutils.atrium.start
-import com.tegonal.minimalist.testutils.atrium.toBeIn
-import com.tegonal.minimalist.testutils.atrium.toBeInIf
+import com.tegonal.variist.testutils.atrium.endInclusive
+import com.tegonal.variist.testutils.atrium.start
+import com.tegonal.variist.testutils.atrium.toBeIn
+import com.tegonal.variist.testutils.atrium.toBeInIf
 import org.junit.jupiter.api.Test
 
 class UnicodeRangeTest {

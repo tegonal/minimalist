@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.config
+package com.tegonal.variist.config
 
 import ch.tutteli.atrium.api.fluent.en_GB.message
 import ch.tutteli.atrium.api.fluent.en_GB.messageToContain

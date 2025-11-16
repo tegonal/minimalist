@@ -1,10 +1,10 @@
-package com.tegonal.minimalist.providers
+package com.tegonal.variist.providers
 
 import ch.tutteli.kbox.Tuple2
-import com.tegonal.minimalist.generators.ArbArgsGenerator
-import com.tegonal.minimalist.generators.arb
-import com.tegonal.minimalist.generators.intBounds
-import com.tegonal.minimalist.generators.longBounds
+import com.tegonal.variist.generators.ArbArgsGenerator
+import com.tegonal.variist.generators.arb
+import com.tegonal.variist.generators.intBounds
+import com.tegonal.variist.generators.longBounds
 
 /**
  * @since 2.0.0

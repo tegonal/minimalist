@@ -1,4 +1,4 @@
-package com.tegonal.minimalist
+package com.tegonal.variist
 
 /**
  * Helper construct so that we can distinguish overloads in [Args.of].

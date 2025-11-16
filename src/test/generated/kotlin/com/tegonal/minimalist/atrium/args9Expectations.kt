@@ -4,11 +4,11 @@
 // --------------------------------------------------------------------------------------------------------------------
 @file:Suppress("UnusedImport")
 
-package com.tegonal.minimalist.testutils.atrium
+package com.tegonal.variist.testutils.atrium
 
 import ch.tutteli.atrium.creating.Expect
 import ch.tutteli.atrium.api.fluent.en_GB.*
-import com.tegonal.minimalist.*
+import com.tegonal.variist.*
 
 val <A1, A2, A3, A4, A5, A6, A7, A8, A9> Expect<Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>>.a1 : Expect<A1>
 		get() = feature(Args9<A1, A2, A3, A4, A5, A6, A7, A8, A9>::a1)

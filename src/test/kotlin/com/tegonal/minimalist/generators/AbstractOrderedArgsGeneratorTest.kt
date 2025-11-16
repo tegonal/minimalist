@@ -1,14 +1,14 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.atrium.api.fluent.en_GB.*
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.atrium.api.verbs.expectGrouped
 import ch.tutteli.atrium.creating.Expect
 import ch.tutteli.atrium.testfactories.TestFactory
-import com.tegonal.minimalist.config.config
-import com.tegonal.minimalist.config.toOffset
-import com.tegonal.minimalist.generators.impl.DefaultOrderedExtensionPoint
-import com.tegonal.minimalist.utils.createMinimalistRandom
+import com.tegonal.variist.config.config
+import com.tegonal.variist.config.toOffset
+import com.tegonal.variist.generators.impl.DefaultOrderedExtensionPoint
+import com.tegonal.variist.utils.createVariistRandom
 
 typealias OrderedArgsTestFactoryResult<T> = ArgsTestFactoryResult<T, SemiOrderedArgsGenerator<T>>
 
@@ -35,10 +35,10 @@ abstract class AbstractOrderedArgsGeneratorWithoutAnnotationsTest : AbstractArgs
 		}
 
 	protected fun <T> minusOffsetThrowsTest(factory: () -> OrderedArgsTestFactoryResult<T>) =
-		createMinimalistRandom().let { minimalistRandom ->
+		createVariistRandom().let { variistRandom ->
 			testFactory(factory) { generator, _, _ ->
 				expect {
-					generator.generate(minimalistRandom.nextInt(Int.MIN_VALUE, -1))
+					generator.generate(variistRandom.nextInt(Int.MIN_VALUE, -1))
 				}.toThrow<IllegalStateException>()
 			}
 		}

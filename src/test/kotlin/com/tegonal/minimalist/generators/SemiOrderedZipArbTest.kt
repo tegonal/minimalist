@@ -1,11 +1,11 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.atrium.api.fluent.en_GB.toContainExactlyElementsOf
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
 import ch.tutteli.kbox.mapSecond
-import com.tegonal.minimalist.testutils.PseudoArbArgsGenerator
-import com.tegonal.minimalist.testutils.generateToList
+import com.tegonal.variist.testutils.PseudoArbArgsGenerator
+import com.tegonal.variist.testutils.generateToList
 import org.junit.jupiter.api.TestFactory
 import kotlin.test.Test
 

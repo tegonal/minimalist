@@ -1,11 +1,11 @@
-package com.tegonal.minimalist
+package com.tegonal.variist
 
 import ch.tutteli.kbox.Tuple2
-import com.tegonal.minimalist.generators.OrderedArgsGenerator
-import com.tegonal.minimalist.generators.fromList
-import com.tegonal.minimalist.generators.impl.SemiOrderedCartesianProductArgsGenerator
-import com.tegonal.minimalist.generators.ordered
-import com.tegonal.minimalist.utils.repeatForever
+import com.tegonal.variist.generators.OrderedArgsGenerator
+import com.tegonal.variist.generators.fromList
+import com.tegonal.variist.generators.impl.SemiOrderedCartesianProductArgsGenerator
+import com.tegonal.variist.generators.ordered
+import com.tegonal.variist.utils.repeatForever
 import org.openjdk.jmh.annotations.*
 import java.util.concurrent.TimeUnit
 

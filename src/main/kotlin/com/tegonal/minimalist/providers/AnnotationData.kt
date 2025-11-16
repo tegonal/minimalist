@@ -1,7 +1,7 @@
-package com.tegonal.minimalist.providers
+package com.tegonal.variist.providers
 
-import com.tegonal.minimalist.config.ArgsRangeOptions
-import com.tegonal.minimalist.config.merge
+import com.tegonal.variist.config.ArgsRangeOptions
+import com.tegonal.variist.config.merge
 
 /**
  * @since 2.0.0
@@ -10,7 +10,7 @@ class AnnotationData(
 	val argsSourceMethodName: String,
 	val argsRangeOptions: ArgsRangeOptions,
 	/**
-	 * Generic map for extensions of Minimalist (or your own custom code), intended to be filled by an
+	 * Generic map for extensions of Variist (or your own custom code), intended to be filled by an
 	 * [AnnotationDataDeducer] and later be consumed by e.g. [ArgsRangeDecider], [SuffixArgsGeneratorDecider].
 	 */
 	val extensionData: Map<String, Any> = emptyMap()

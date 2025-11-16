@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.atrium.api.fluent.en_GB.inAnyOrder
 import ch.tutteli.atrium.api.fluent.en_GB.only
@@ -6,8 +6,8 @@ import ch.tutteli.atrium.api.fluent.en_GB.toContain
 import ch.tutteli.atrium.api.fluent.en_GB.values
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.testutils.PseudoArbArgsGenerator
+import com.tegonal.variist.config._components
+import com.tegonal.variist.testutils.PseudoArbArgsGenerator
 import org.junit.jupiter.api.TestFactory
 import kotlin.test.Test
 

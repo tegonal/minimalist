@@ -1,7 +1,7 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.generators.impl.IntFromUntilArbArgsGenerator
+import com.tegonal.variist.config._components
+import com.tegonal.variist.generators.impl.IntFromUntilArbArgsGenerator
 
 /**
  * Turns `this` [SemiOrderedArgsGenerator] into an [ArbArgsGenerator].

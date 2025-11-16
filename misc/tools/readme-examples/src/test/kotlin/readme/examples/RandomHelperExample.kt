@@ -1,13 +1,13 @@
 package readme.examples
 
-import com.tegonal.minimalist.generators.of
-import com.tegonal.minimalist.generators.ordered
-import com.tegonal.minimalist.generators.toArbArgsGenerator
+import com.tegonal.variist.generators.of
+import com.tegonal.variist.generators.ordered
+import com.tegonal.variist.generators.toArbArgsGenerator
 
 //snippet-random-helper-import-start
-import com.tegonal.minimalist.utils.createMinimalistRandom
-import com.tegonal.minimalist.utils.pickOneRandomly
-import com.tegonal.minimalist.utils.takeRandomly
+import com.tegonal.variist.utils.createVariistRandom
+import com.tegonal.variist.utils.pickOneRandomly
+import com.tegonal.variist.utils.takeRandomly
 //snippet-random-helper-import-end
 
 import org.junit.jupiter.api.Test
@@ -40,7 +40,7 @@ class RandomHelperExample : ReadmeTest {
 			.toSet()
 
 		// creates a Random based on the configured seed, i.e. if you fix the seed, then you get a deterministic result
-		createMinimalistRandom().let { random ->
+		createVariistRandom().let { random ->
 			val i = random.nextInt()
 			//...
 		}

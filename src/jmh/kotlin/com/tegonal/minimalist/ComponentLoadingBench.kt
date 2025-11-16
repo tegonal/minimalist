@@ -1,12 +1,12 @@
-package com.tegonal.minimalist
+package com.tegonal.variist
 
-import com.tegonal.minimalist.config.ComponentFactoryContainer
-import com.tegonal.minimalist.config.build
-import com.tegonal.minimalist.config.create
-import com.tegonal.minimalist.config.impl.createSingletonVia
-import com.tegonal.minimalist.providers.ArgsRangeDecider
-import com.tegonal.minimalist.providers.impl.ProfileBasedArgsRangeDecider
-import com.tegonal.minimalist.utils.impl.loadService
+import com.tegonal.variist.config.ComponentFactoryContainer
+import com.tegonal.variist.config.build
+import com.tegonal.variist.config.create
+import com.tegonal.variist.config.impl.createSingletonVia
+import com.tegonal.variist.providers.ArgsRangeDecider
+import com.tegonal.variist.providers.impl.ProfileBasedArgsRangeDecider
+import com.tegonal.variist.utils.impl.loadService
 import org.openjdk.jmh.annotations.*
 import java.util.concurrent.TimeUnit
 

@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 /**
  * Represents an [ArgsGenerator] which provides the method [generate] where some part of [T] is always in the

@@ -1,9 +1,9 @@
 @file:JvmName("SemiOrderedCartesianKt")
 @file:JvmMultifileClass
 
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.generators.impl.SemiOrderedCartesianProductArgsGenerator
+import com.tegonal.variist.generators.impl.SemiOrderedCartesianProductArgsGenerator
 
 /**
  * Combines `this` [SemiOrderedArgsGenerator] with the given [other]&nbsp;[SemiOrderedArgsGenerator] resulting in their

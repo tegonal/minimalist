@@ -1,12 +1,12 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.generators.impl.BigIntFromToArbArgsGenerator
-import com.tegonal.minimalist.generators.impl.IntFromToArbArgsGenerator
-import com.tegonal.minimalist.generators.impl.LongFromToArbArgsGenerator
-import com.tegonal.minimalist.utils.BigInt
-import com.tegonal.minimalist.utils.toBigInt
+import com.tegonal.variist.config._components
+import com.tegonal.variist.generators.impl.BigIntFromToArbArgsGenerator
+import com.tegonal.variist.generators.impl.IntFromToArbArgsGenerator
+import com.tegonal.variist.generators.impl.LongFromToArbArgsGenerator
+import com.tegonal.variist.utils.BigInt
+import com.tegonal.variist.utils.toBigInt
 import kotlin.math.abs
 
 /**

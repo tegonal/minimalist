@@ -1,6 +1,6 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.generators.impl.throwUnsupportedArgsGenerator
+import com.tegonal.variist.generators.impl.throwUnsupportedArgsGenerator
 
 /**
  * Combines `this` [SemiOrderedArgsGenerator] with the given [other]&nbsp;[ArgsGenerator] and [transform]s the generated

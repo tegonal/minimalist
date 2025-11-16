@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.config
+package com.tegonal.variist.config
 
 /**
  * @since 2.0.0
@@ -23,7 +23,7 @@ enum class TestType {
 	;
 
 	/**
-	 * Helper constants so that you can use them in [com.tegonal.minimalist.providers.ArgsSourceOptions].
+	 * Helper constants so that you can use them in [com.tegonal.variist.providers.ArgsSourceOptions].
 	 */
 	@Suppress("ConstPropertyName")
 	object ForAnnotation {

@@ -1,10 +1,10 @@
-package com.tegonal.minimalist.providers.impl
+package com.tegonal.variist.providers.impl
 
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.config.config
-import com.tegonal.minimalist.config.toOffset
-import com.tegonal.minimalist.generators.ArgsGenerator
-import com.tegonal.minimalist.providers.ArgsRange
+import com.tegonal.variist.config._components
+import com.tegonal.variist.config.config
+import com.tegonal.variist.config.toOffset
+import com.tegonal.variist.generators.ArgsGenerator
+import com.tegonal.variist.providers.ArgsRange
 
 /**
  * !! No backward compatibility guarantees !!

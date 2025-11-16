@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 /**
  * Generates [size][OrderedArgsGenerator.size] values and puts them into a [List].

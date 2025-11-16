@@ -2,9 +2,9 @@
 // automatically generated, don't modify here but in:
 // gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts => generate
 // --------------------------------------------------------------------------------------------------------------------
-package com.tegonal.minimalist.impl
+package com.tegonal.variist.impl
 
-import com.tegonal.minimalist.*
+import com.tegonal.variist.*
 
 import org.junit.jupiter.api.Named
 

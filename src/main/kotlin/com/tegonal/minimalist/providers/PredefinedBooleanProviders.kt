@@ -1,6 +1,6 @@
-package com.tegonal.minimalist.providers
+package com.tegonal.variist.providers
 
-import com.tegonal.minimalist.generators.*
+import com.tegonal.variist.generators.*
 
 /**
  * @since 2.0.0

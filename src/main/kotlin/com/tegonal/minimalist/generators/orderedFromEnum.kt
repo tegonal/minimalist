@@ -1,7 +1,7 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.generators.impl.ArrayOrderedArgsGenerator
+import com.tegonal.variist.config._components
+import com.tegonal.variist.generators.impl.ArrayOrderedArgsGenerator
 
 /**
  * Returns an [OrderedArgsGenerator] for the given Enum of type [E].

@@ -2,10 +2,10 @@
 // automatically generated, don't modify here but in:
 // gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts => generate
 // --------------------------------------------------------------------------------------------------------------------
-package com.tegonal.minimalist
+package com.tegonal.variist
 
 import org.junit.jupiter.params.provider.Arguments
-import com.tegonal.minimalist.impl.*
+import com.tegonal.variist.impl.*
 
 /**
  * Represents the top-interface of arguments-representations such as [Args1], [Args2] and so on.

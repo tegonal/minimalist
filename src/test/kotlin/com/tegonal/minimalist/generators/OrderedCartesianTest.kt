@@ -1,7 +1,7 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.providers.ArgsSource
+import com.tegonal.variist.providers.ArgsSource
 import org.junit.jupiter.params.ParameterizedTest
 
 class OrderedCartesianTest : AbstractOrderedCombinerTest() {

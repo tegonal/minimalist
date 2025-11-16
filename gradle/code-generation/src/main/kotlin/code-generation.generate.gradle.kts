@@ -8,7 +8,7 @@ val generationFolder: ConfigurableFileCollection = project.files("src/main/gener
 val generationTestFolder: ConfigurableFileCollection = project.files("src/test/generated/kotlin")
 val generationTestFolderJava: ConfigurableFileCollection = project.files("src/test/generated/java")
 
-val mainPackageName = "com.tegonal.minimalist"
+val mainPackageName = "com.tegonal.variist"
 val mainPackageNameAsPath = mainPackageName.replace('.', '/')
 
 
@@ -44,7 +44,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 			.append(
 				"""
 				 |import org.junit.jupiter.params.provider.Arguments
-				 |import com.tegonal.minimalist.impl.*
+				 |import com.tegonal.variist.impl.*
  				 |
 				 |/**
 				 | * Represents the top-interface of arguments-representations such as [Args1], [Args2] and so on.
@@ -182,7 +182,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 			}
 
 			val defaultArgs = createStringBuilder("$mainPackageName.impl")
-				.append("import com.tegonal.minimalist.*\n\n")
+				.append("import com.tegonal.variist.*\n\n")
 				.append("import org.junit.jupiter.api.Named\n\n")
 
 			defaultArgs.append(
@@ -738,8 +738,8 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 			|import org.junit.jupiter.api.Named
 			|import org.junit.jupiter.params.ParameterizedTest
 			|import org.junit.jupiter.params.provider.MethodSource
-			|import com.tegonal.minimalist.*
-			|import com.tegonal.minimalist.testutils.atrium.*
+			|import com.tegonal.variist.*
+			|import com.tegonal.variist.testutils.atrium.*
 			|import java.math.BigInteger
 			|import java.time.LocalDate
 			|
@@ -766,7 +766,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 					"""
 					import ch.tutteli.atrium.creating.Expect
 					import ch.tutteli.atrium.api.fluent.en_GB.*
-					import com.tegonal.minimalist.*
+					import com.tegonal.variist.*
 
 				""".trimIndent()
 				)
@@ -1186,9 +1186,9 @@ val generateTestJava: TaskProvider<Task> = tasks.register("generateTestJava") {
 			"""
 			|import ch.tutteli.atrium.api.fluent.en_GB.*;
 			|import ch.tutteli.atrium.creating.Expect;
-			|import com.tegonal.minimalist.*;
-			|import com.tegonal.minimalist.testutils.atrium.*;
-			|import com.tegonal.minimalist.java.*;
+			|import com.tegonal.variist.*;
+			|import com.tegonal.variist.testutils.atrium.*;
+			|import com.tegonal.variist.java.*;
 			|import kotlin.Pair;
 			|import kotlin.Unit;
 			|import kotlin.jvm.functions.Function1;
@@ -1205,16 +1205,16 @@ val generateTestJava: TaskProvider<Task> = tasks.register("generateTestJava") {
 			|import static ch.tutteli.atrium.api.fluent.en_GB.ArraySubjectChangersKt.*;
 			|import static ch.tutteli.atrium.api.fluent.en_GB.IterableExpectationsKt.*;
 			|import static ch.tutteli.atrium.api.verbs.ExpectKt.expect;
-			|import static com.tegonal.minimalist.testutils.atrium.Args1ExpectationsKt.*;
-			|import static com.tegonal.minimalist.testutils.atrium.Args2ExpectationsKt.*;
-			|import static com.tegonal.minimalist.testutils.atrium.Args3ExpectationsKt.*;
-			|import static com.tegonal.minimalist.testutils.atrium.Args4ExpectationsKt.*;
-			|import static com.tegonal.minimalist.testutils.atrium.Args5ExpectationsKt.*;
-			|import static com.tegonal.minimalist.testutils.atrium.Args6ExpectationsKt.*;
-			|import static com.tegonal.minimalist.testutils.atrium.Args7ExpectationsKt.*;
-			|import static com.tegonal.minimalist.testutils.atrium.Args8ExpectationsKt.*;
-			|import static com.tegonal.minimalist.testutils.atrium.Args9ExpectationsKt.*;
-			|import static com.tegonal.minimalist.testutils.atrium.Args10ExpectationsKt.*;
+			|import static com.tegonal.variist.testutils.atrium.Args1ExpectationsKt.*;
+			|import static com.tegonal.variist.testutils.atrium.Args2ExpectationsKt.*;
+			|import static com.tegonal.variist.testutils.atrium.Args3ExpectationsKt.*;
+			|import static com.tegonal.variist.testutils.atrium.Args4ExpectationsKt.*;
+			|import static com.tegonal.variist.testutils.atrium.Args5ExpectationsKt.*;
+			|import static com.tegonal.variist.testutils.atrium.Args6ExpectationsKt.*;
+			|import static com.tegonal.variist.testutils.atrium.Args7ExpectationsKt.*;
+			|import static com.tegonal.variist.testutils.atrium.Args8ExpectationsKt.*;
+			|import static com.tegonal.variist.testutils.atrium.Args9ExpectationsKt.*;
+			|import static com.tegonal.variist.testutils.atrium.Args10ExpectationsKt.*;
 			|
 			|public class $testName {
 			|

@@ -1,6 +1,6 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.generators.impl.SemiOrderedArgsGeneratorConcatenator
+import com.tegonal.variist.generators.impl.SemiOrderedArgsGeneratorConcatenator
 
 /**
  * Concatenates all given [SemiOrderedArgsGenerator] resulting in an [SemiOrderedArgsGenerator] which yields the values of

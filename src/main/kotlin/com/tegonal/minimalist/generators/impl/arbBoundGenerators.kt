@@ -1,10 +1,10 @@
-package com.tegonal.minimalist.generators.impl
+package com.tegonal.variist.generators.impl
 
 import ch.tutteli.kbox.takeIf
-import com.tegonal.minimalist.generators.*
-import com.tegonal.minimalist.utils.BigInt
-import com.tegonal.minimalist.utils.impl.checkIsPositive
-import com.tegonal.minimalist.utils.toBigInt
+import com.tegonal.variist.generators.*
+import com.tegonal.variist.utils.BigInt
+import com.tegonal.variist.utils.impl.checkIsPositive
+import com.tegonal.variist.utils.toBigInt
 import java.math.BigInteger
 
 /**

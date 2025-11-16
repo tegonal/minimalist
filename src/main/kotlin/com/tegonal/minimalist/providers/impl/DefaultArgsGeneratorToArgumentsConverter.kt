@@ -1,15 +1,15 @@
-package com.tegonal.minimalist.providers.impl
+package com.tegonal.variist.providers.impl
 
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.config.build
-import com.tegonal.minimalist.generators.ArgsGenerator
-import com.tegonal.minimalist.generators.ArbArgsGenerator
-import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
-import com.tegonal.minimalist.generators.impl.throwUnsupportedArgsGenerator
-import com.tegonal.minimalist.providers.AnnotationData
-import com.tegonal.minimalist.providers.ArgsGeneratorToArgumentsConverter
-import com.tegonal.minimalist.providers.ArgsRange
-import com.tegonal.minimalist.providers.ArgsRangeDecider
+import com.tegonal.variist.config._components
+import com.tegonal.variist.config.build
+import com.tegonal.variist.generators.ArgsGenerator
+import com.tegonal.variist.generators.ArbArgsGenerator
+import com.tegonal.variist.generators.SemiOrderedArgsGenerator
+import com.tegonal.variist.generators.impl.throwUnsupportedArgsGenerator
+import com.tegonal.variist.providers.AnnotationData
+import com.tegonal.variist.providers.ArgsGeneratorToArgumentsConverter
+import com.tegonal.variist.providers.ArgsRange
+import com.tegonal.variist.providers.ArgsRangeDecider
 import org.junit.jupiter.params.provider.Arguments
 
 /**

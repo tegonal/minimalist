@@ -1,30 +1,30 @@
-package com.tegonal.minimalist.config
+package com.tegonal.variist.config
 
-import com.tegonal.minimalist.generators.ArgsGenerator
-import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
-import com.tegonal.minimalist.providers.ArgsRange
-import com.tegonal.minimalist.providers.ArgsRangeDecider
-import com.tegonal.minimalist.providers.SuffixArgsGeneratorDecider
-import com.tegonal.minimalist.providers.impl.ProfileBasedArgsRangeDecider
-import com.tegonal.minimalist.providers.impl.SuffixArgsGeneratorNeverDecider
-import com.tegonal.minimalist.utils.impl.checkIsNotBlank
-import com.tegonal.minimalist.utils.impl.checkIsPositive
-import com.tegonal.minimalist.utils.seedToOffset
+import com.tegonal.variist.generators.ArgsGenerator
+import com.tegonal.variist.generators.SemiOrderedArgsGenerator
+import com.tegonal.variist.providers.ArgsRange
+import com.tegonal.variist.providers.ArgsRangeDecider
+import com.tegonal.variist.providers.SuffixArgsGeneratorDecider
+import com.tegonal.variist.providers.impl.ProfileBasedArgsRangeDecider
+import com.tegonal.variist.providers.impl.SuffixArgsGeneratorNeverDecider
+import com.tegonal.variist.utils.impl.checkIsNotBlank
+import com.tegonal.variist.utils.impl.checkIsPositive
+import com.tegonal.variist.utils.seedToOffset
 import kotlin.random.Random
 
 /**
  * @since 2.0.0
  */
-class MinimalistConfig(
+class VariistConfig(
 	/**
-	 * The seed which Minimalist uses internally for [Random].
+	 * The seed which Variist uses internally for [Random].
 	 *
-	 * Minimalist outputs the used seed when the [MinimalistConfig] is loaded.
+	 * Variist outputs the used seed when the [VariistConfig] is loaded.
 	 *
 	 * 🔍 Fix it to a previously used seed if you want to re-run the same arguments.
 	 *
-	 * Note, you are not allowed to fix a seed via minimalist.properties (which is usually committed), use
-	 * minimalist.local.properties instead (which is usually on the git ignore list).
+	 * Note, you are not allowed to fix a seed via variist.properties (which is usually committed), use
+	 * variist.local.properties instead (which is usually on the git ignore list).
 	 */
 	val seed: Seed = Seed(Random.nextInt()),
 
@@ -36,8 +36,8 @@ class MinimalistConfig(
 	 * 🔍 Typically used with a fixed [seed] (i.e. during debugging). In such cases you might want to set [maxArgs]
 	 * as well to restrict [ArgsRange.take].
 	 *
-	 * Note, you are not allowed to set [skip] via minimalist.properties (which is usually committed), use
-	 * minimalist.local.properties instead (which is usually on the git ignore list).
+	 * Note, you are not allowed to set [skip] via variist.properties (which is usually committed), use
+	 * variist.local.properties instead (which is usually on the git ignore list).
 	 */
 	val skip: Int? = null,
 
@@ -49,8 +49,8 @@ class MinimalistConfig(
 	 *
 	 * 🔍 Typically used during local development to force more arguments without the need to change profiles.
 	 *
-	 * Note, you are not allowed to set [requestedMinArgs] via minimalist.properties (which is usually committed), use
-	 * minimalist.local.properties instead (which is usually on the git ignore list).
+	 * Note, you are not allowed to set [requestedMinArgs] via variist.properties (which is usually committed), use
+	 * variist.local.properties instead (which is usually on the git ignore list).
 	 */
 	val requestedMinArgs: Int? = null,
 
@@ -63,8 +63,8 @@ class MinimalistConfig(
 	 * 🔍 Typically used with a fixed [seed] and [skip] (i.e. during debugging)
 	 * to restrict [ArgsRange.take].
 	 *
-	 * Note, you are not allowed to set [maxArgs] via minimalist.properties (which is usually committed), use
-	 * minimalist.local.properties instead (which is usually on the git ignore list).
+	 * Note, you are not allowed to set [maxArgs] via variist.properties (which is usually committed), use
+	 * variist.local.properties instead (which is usually on the git ignore list).
 	 */
 	val maxArgs: Int? = null,
 
@@ -180,10 +180,10 @@ class MinimalistConfig(
 		)
 	}
 
-	fun copy(configure: MinimalistConfigBuilder.() -> Unit): MinimalistConfig =
+	fun copy(configure: VariistConfigBuilder.() -> Unit): VariistConfig =
 		toBuilder().apply(configure).build()
 
-	fun toBuilder(): MinimalistConfigBuilder = MinimalistConfigBuilder(
+	fun toBuilder(): VariistConfigBuilder = VariistConfigBuilder(
 		seed = seed.value,
 		skip = skip,
 		maxArgs = maxArgs,
@@ -199,7 +199,7 @@ class MinimalistConfig(
 /**
  * @since 2.0.0
  */
-class MinimalistConfigBuilder(
+class VariistConfigBuilder(
 	var seed: Int,
 	var skip: Int?,
 	var maxArgs: Int?,
@@ -211,7 +211,7 @@ class MinimalistConfigBuilder(
 	var testProfiles: HashMap<String, HashMap<String, TestConfig>>,
 ) {
 
-	fun build(): MinimalistConfig = MinimalistConfig(
+	fun build(): VariistConfig = VariistConfig(
 		seed = Seed(seed),
 		skip = skip,
 		requestedMinArgs = requestedMinArgs,
@@ -225,7 +225,7 @@ class MinimalistConfigBuilder(
 }
 
 /**
- * Represents the Minimalist seed, typically used for [Random] and as offset in [SemiOrderedArgsGenerator.generate].
+ * Represents the Variist seed, typically used for [Random] and as offset in [SemiOrderedArgsGenerator.generate].
  *
  * Use [value] to retrieve the seed as such (e.g. for [Random]) and [toOffset] in case it shall be used as random offset
  * @since 2.0.0

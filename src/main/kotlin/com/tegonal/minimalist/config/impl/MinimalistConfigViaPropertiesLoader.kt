@@ -1,12 +1,12 @@
-package com.tegonal.minimalist.config.impl
+package com.tegonal.variist.config.impl
 
 import ch.tutteli.kbox.blankToNull
 import ch.tutteli.kbox.takeIf
-import com.tegonal.minimalist.config.Env
-import com.tegonal.minimalist.config.MinimalistConfig
-import com.tegonal.minimalist.config.MinimalistConfigBuilder
-import com.tegonal.minimalist.config.impl.MinimalistPropertiesParser.Companion.ERROR_DEADLINES_PREFIX
-import com.tegonal.minimalist.utils.impl.checkIsPositive
+import com.tegonal.variist.config.Env
+import com.tegonal.variist.config.VariistConfig
+import com.tegonal.variist.config.VariistConfigBuilder
+import com.tegonal.variist.config.impl.VariistPropertiesParser.Companion.ERROR_DEADLINES_PREFIX
+import com.tegonal.variist.utils.impl.checkIsPositive
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.LocalDateTime
@@ -22,14 +22,14 @@ import kotlin.io.path.writeText
  *
  * @since 2.0.0
  */
-class MinimalistConfigViaPropertiesLoader {
-	val config: MinimalistConfig by lazy {
-		val parser = MinimalistPropertiesParser()
-		val initialConfig = MinimalistConfig()
+class VariistConfigViaPropertiesLoader {
+	val config: VariistConfig by lazy {
+		val parser = VariistPropertiesParser()
+		val initialConfig = VariistConfig()
 		val configFileSpecifics = ConfigFileSpecifics()
 		initialConfig.toBuilder()
 			.apply {
-				setByPropertiesInResource("/minimalist.properties", configFileSpecifics, parser)
+				setByPropertiesInResource("/variist.properties", configFileSpecifics, parser)
 				check(seed == initialConfig.seed.value) {
 					errorMessageNotAllowedToModify("seed")
 				}
@@ -44,11 +44,11 @@ class MinimalistConfigViaPropertiesLoader {
 				}
 			}
 			.apply { setByEnv() }
-			.apply { setByPropertiesInResource("/minimalist.local.properties", configFileSpecifics, parser) }
+			.apply { setByPropertiesInResource("/variist.local.properties", configFileSpecifics, parser) }
 			.apply {
 				val fixedSeed = seed != initialConfig.seed.value
 
-				println("Minimalist${if (fixedSeed) " fixed" else ""} seed $seed ${if (skip != null) "skipping $skip " else ""} in env $activeEnv ")
+				println("Variist${if (fixedSeed) " fixed" else ""} seed $seed ${if (skip != null) "skipping $skip " else ""} in env $activeEnv ")
 
 				with(configFileSpecifics) {
 					checkIsPositive(
@@ -57,7 +57,7 @@ class MinimalistConfigViaPropertiesLoader {
 					)
 					val projectRootDir = Paths.get("").toAbsolutePath().normalize()
 					val localPropertiesPath =
-						configFileSpecifics.minimalistPropertiesDir.resolve("minimalist.local.properties")
+						configFileSpecifics.variistPropertiesDir.resolve("variist.local.properties")
 							.toAbsolutePath()
 							.normalize()
 					check(localPropertiesPath.startsWith(projectRootDir)) {
@@ -73,7 +73,7 @@ class MinimalistConfigViaPropertiesLoader {
 	}
 
 	private fun errorMessageNotAllowedToModify(what: String) =
-		"You are not allowed to modify $what via minimalist.properties use minimalist.local.properties to fix a seed"
+		"You are not allowed to modify $what via variist.properties use variist.local.properties to fix a seed"
 
 
 	private fun ConfigFileSpecifics.checkDeadline(
@@ -94,7 +94,7 @@ class MinimalistConfigViaPropertiesLoader {
 					LocalDateTime.now().plusMinutes(remindAboutFixedPropertiesAfterMinutes.toLong())
 				)
 			} else if (definedDeadline.isBefore(LocalDateTime.now())) {
-				throw MinimalistDeadlineException(
+				throw VariistDeadlineException(
 					"""
                         |$propertyName is still set (is $propertyValue) and $deadlinePropertyName (which is $definedDeadline) passed.
                         |Either:
@@ -136,10 +136,10 @@ class MinimalistConfigViaPropertiesLoader {
 	}
 
 
-	private fun MinimalistConfigBuilder.setByPropertiesInResource(
+	private fun VariistConfigBuilder.setByPropertiesInResource(
 		propertiesFile: String,
 		configFileSpecifics: ConfigFileSpecifics,
-		parser: MinimalistPropertiesParser
+		parser: VariistPropertiesParser
 	) {
 		this::class.java.getResourceAsStream(propertiesFile)?.also {
 			it.use { input ->
@@ -151,12 +151,12 @@ class MinimalistConfigViaPropertiesLoader {
 	}
 
 
-	private fun MinimalistConfigBuilder.setByEnv() {
+	private fun VariistConfigBuilder.setByEnv() {
 		determineEnv()?.also { activeEnv = it }
 	}
 
-	private fun MinimalistConfigBuilder.determineEnv(): String? =
-		System.getenv("MINIMALIST_ENV") ?: run {
+	private fun VariistConfigBuilder.determineEnv(): String? =
+		System.getenv("VARIIST_ENV") ?: run {
 			val envs = testProfiles[defaultProfile] ?: error("profile $defaultProfile does not exist")
 			// only determine envs if at least one standard env is defined (as others we don't know how to map)
 			takeIf(Env.entries.any { it.name in envs }) {
@@ -211,7 +211,7 @@ class MinimalistConfigViaPropertiesLoader {
 }
 
 /**
- * Contains properties which are not exposed via [MinimalistConfig] and are used during parsing a [MinimalistConfig]
+ * Contains properties which are not exposed via [VariistConfig] and are used during parsing a [VariistConfig]
  * file.
  *
  * !! No backward compatibility guarantees !!
@@ -222,10 +222,10 @@ class MinimalistConfigViaPropertiesLoader {
 class ConfigFileSpecifics(
 	/**
 	 * Defines in about how many minutes the reminder triggers when fixing a property (such as
-	 * [MinimalistConfigBuilder.seed], [MinimalistConfigBuilder.skip],
-	 * [MinimalistConfigBuilder.requestedMinArgs], [MinimalistConfigBuilder.maxArgs]).
+	 * [VariistConfigBuilder.seed], [VariistConfigBuilder.skip],
+	 * [VariistConfigBuilder.requestedMinArgs], [VariistConfigBuilder.maxArgs]).
 	 */
 	var remindAboutFixedPropertiesAfterMinutes: Int = 60,
-	var minimalistPropertiesDir: Path = Paths.get("./src/test/resources"),
+	var variistPropertiesDir: Path = Paths.get("./src/test/resources"),
 	var errorDeadlines: HashMap<String, LocalDateTime> = HashMap(),
 )

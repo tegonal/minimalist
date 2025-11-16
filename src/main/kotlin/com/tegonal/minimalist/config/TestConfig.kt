@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.config
+package com.tegonal.variist.config
 
 /**
  * @since 2.0.0

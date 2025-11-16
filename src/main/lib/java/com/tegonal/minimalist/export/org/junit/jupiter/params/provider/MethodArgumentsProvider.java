@@ -10,17 +10,17 @@
 
 // -----------------------------------------------------------------------------------------------------
 // WARNING !!!!!!!!!!!!!!
-// Copied from JUnit and exported for internal use in Minimalist only
+// Copied from JUnit and exported for internal use in Variist only
 // No backward compatibility guarantees. As soon as JUnit breaks compatibility (which can happen
 // even in a patch version and that is totally fine) and we `gt update` this file to this new version
 // (maybe also in a patch version), we will break compatibility as well.
 // -----------------------------------------------------------------------------------------------------
-package com.tegonal.minimalist.export.org.junit.jupiter.params.provider;
+package com.tegonal.variist.export.org.junit.jupiter.params.provider;
 
-import com.tegonal.minimalist.export.org.junit.platform.commons.util.ClassLoaderUtils;
-import com.tegonal.minimalist.export.org.junit.platform.commons.util.Preconditions;
-import com.tegonal.minimalist.export.org.junit.platform.commons.util.ReflectionUtils;
-import com.tegonal.minimalist.export.org.junit.platform.commons.util.StringUtils;
+import com.tegonal.variist.export.org.junit.platform.commons.util.ClassLoaderUtils;
+import com.tegonal.variist.export.org.junit.platform.commons.util.Preconditions;
+import com.tegonal.variist.export.org.junit.platform.commons.util.ReflectionUtils;
+import com.tegonal.variist.export.org.junit.platform.commons.util.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.TestTemplate;
@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import static com.tegonal.minimalist.export.org.junit.platform.commons.util.CollectionUtils.isConvertibleToStream;
+import static com.tegonal.variist.export.org.junit.platform.commons.util.CollectionUtils.isConvertibleToStream;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static org.junit.platform.commons.support.AnnotationSupport.isAnnotated;
@@ -41,9 +41,9 @@ import static org.junit.platform.commons.support.AnnotationSupport.isAnnotated;
 /**
  * @since 5.0
  *
- * Modified for Minimalist, see pull-hook.sh
+ * Modified for Variist, see pull-hook.sh
  * MethodArgumentsProvider usually extends AnnotationBasedArgumentsProvider
- * (in org.junit.jupiter.params.provider). Minimalist is only interested in its static functions.
+ * (in org.junit.jupiter.params.provider). Variist is only interested in its static functions.
  * and has removed provideArguments
  */
 public class MethodArgumentsProvider {

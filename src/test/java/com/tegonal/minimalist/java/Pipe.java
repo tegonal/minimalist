@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.java;
+package com.tegonal.variist.java;
 
 import kotlin.jvm.functions.Function1;
 import org.jetbrains.annotations.NotNull;

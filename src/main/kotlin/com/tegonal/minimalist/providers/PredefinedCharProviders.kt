@@ -1,8 +1,8 @@
-package com.tegonal.minimalist.providers
+package com.tegonal.variist.providers
 
-import com.tegonal.minimalist.generators.ArbExtensionPoint
-import com.tegonal.minimalist.generators.arb
-import com.tegonal.minimalist.generators.char
+import com.tegonal.variist.generators.ArbExtensionPoint
+import com.tegonal.variist.generators.arb
+import com.tegonal.variist.generators.char
 
 /**
  * @since 2.0.0

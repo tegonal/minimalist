@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.providers
+package com.tegonal.variist.providers
 
 import java.lang.reflect.Method
 

@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 /**
  * Returns an [OrderedArgsGenerator] generating [Char]s based on the given [args].

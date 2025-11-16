@@ -1,22 +1,22 @@
 <!-- for main -->
 
-[![Download](https://img.shields.io/badge/Download-v2.0.0--RC--2-%23007ec6)](https://central.sonatype.com/artifact/com.tegonal.minimalist/minimalist/2.0.0-RC-2)
+[![Download](https://img.shields.io/badge/Download-v2.0.0--RC--2-%23007ec6)](https://central.sonatype.com/artifact/com.tegonal.variist/variist/2.0.0-RC-2)
 [![EUPL 1.2](https://img.shields.io/badge/%E2%9A%96-EUPL%201.2-%230b45a6)](https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12 "License")
-[![Quality Assurance](https://github.com/tegonal/minimalist/actions/workflows/quality-assurance.yml/badge.svg?event=push&branch=main)](https://github.com/tegonal/minimalist/actions/workflows/quality-assurance.yml?query=branch%3Amain)
-[![Newcomers Welcome](https://img.shields.io/badge/%F0%9F%91%8B-Newcomers%20Welcome-blueviolet)](https://github.com/tegonal/minimalist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22 "Ask in discussions for help")
+[![Quality Assurance](https://github.com/tegonal/variist/actions/workflows/quality-assurance.yml/badge.svg?event=push&branch=main)](https://github.com/tegonal/variist/actions/workflows/quality-assurance.yml?query=branch%3Amain)
+[![Newcomers Welcome](https://img.shields.io/badge/%F0%9F%91%8B-Newcomers%20Welcome-blueviolet)](https://github.com/tegonal/variist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22 "Ask in discussions for help")
 
 <!-- for main end -->
 <!-- for release -->
 <!--
-[![Download](https://img.shields.io/badge/Download-v2.0.0--RC--2-%23007ec6)](https://central.sonatype.com/artifact/com.tegonal.minimalist/minimalist/2.0.0-RC-2)
+[![Download](https://img.shields.io/badge/Download-v2.0.0--RC--2-%23007ec6)](https://central.sonatype.com/artifact/com.tegonal.variist/variist/2.0.0-RC-2)
 [![EUPL](https://img.shields.io/badge/%E2%9A%96-EUPL%201.2-%230b45a6)](https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12 "License")
-[![Newcomers Welcome](https://img.shields.io/badge/%F0%9F%91%8B-Newcomers%20Welcome-blueviolet)](https://github.com/tegonal/minimalist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22 "Ask in discussions for help")
+[![Newcomers Welcome](https://img.shields.io/badge/%F0%9F%91%8B-Newcomers%20Welcome-blueviolet)](https://github.com/tegonal/variist/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22 "Ask in discussions for help")
 -->
 <!-- for release end -->
 
-# Minimalist
+# Variist
 
-![Minimalist](https://raw.githubusercontent.com/tegonal/minimalist/main/.idea/icon.png) M like Minimalist,
+![Variist](https://raw.githubusercontent.com/tegonal/variist/main/.idea/icon.png) V like Variist,
 a Kotlin library which helps you in setting up data, particularly for JUnit's parameterized tests and prioritise them in
 case you don't have enough time to execute all of them.
 
@@ -24,7 +24,7 @@ case you don't have enough time to execute all of them.
 ❗ You are taking a *sneak peek* at the next version. It could be that some features you find on this page are not
 released yet.  
 Please have a look at the README of the corresponding release/git tag. Latest
-version: [README of v2.0.0-RC-2](https://github.com/tegonal/minimalist/tree/v2.0.0-RC-2/README.md).
+version: [README of v2.0.0-RC-2](https://github.com/tegonal/variist/tree/v2.0.0-RC-2/README.md).
 
 ---
 
@@ -51,7 +51,7 @@ version: [README of v2.0.0-RC-2](https://github.com/tegonal/minimalist/tree/v2.0
 		- [ordered.concatenation](#ordered-concatenation)
 		- [arb.mergeWeighted](#arb-mergeweighted)
 		- [ordered.toArbArgsGenerator](#ordered-toArbArgsGenerator)
-- [Use Minimalist in other contexts than JUnit](#use-minimalist-in-other-contexts-than-junit)
+- [Use Variist in other contexts than JUnit](#use-variist-in-other-contexts-than-junit)
 - [Configuration](#configuration)
 	- [Profiles and Envs](#profiles-and-envs)
 	- [Fixing the seed](#fixing-the-seed)
@@ -68,11 +68,11 @@ version: [README of v2.0.0-RC-2](https://github.com/tegonal/minimalist/tree/v2.0
 
 # Intro
 
-Minimalist might resemble a property based testing library but is more data-driven oriented.
+Variist might resemble a property based testing library but is more data-driven oriented.
 Its focus is on tests that take longer (integration, e2e and system integration tests) where shrinking is too costly but
 you can of course also use it for unit tests.  
 It comes with extra support for JUnit but can
-also [be used in other contexts](#use-minimalist-in-other-contexts-than-junit)
+also [be used in other contexts](#use-variist-in-other-contexts-than-junit)
 where you want to generate data (or with other test-runners).
 
 Since it is only an addition to JUnit (a library, not an own test-runner as e.g. jqwik) you do not have to change any
@@ -83,7 +83,7 @@ come back to the [Installation](#installation) section to see what dependency yo
 
 # Installation
 
-Minimalist is published to maven central.
+Variist is published to maven central.
 
 *build.gradle.kts*:
 
@@ -92,7 +92,7 @@ repositories {
 	mavenCentral()
 }
 dependencies {
-	testImplementation("com.tegonal.minimalist:minimalist:2.0.0-RC-2")
+	testImplementation("com.tegonal.variist:variist:2.0.0-RC-2")
 }
 ```
 
@@ -106,7 +106,7 @@ Minimum requirements:
 
 ## Your first parameterized Test
 
-Likewise JUnit Jupiter params provides `@MethodSource`, Minimalist provides `@ArgsSource`.
+Likewise JUnit Jupiter params provides `@MethodSource`, Variist provides `@ArgsSource`.
 
 <!--suppress HtmlUnknownTag -->
 <code-first-1>
@@ -114,7 +114,7 @@ Likewise JUnit Jupiter params provides `@MethodSource`, Minimalist provides `@Ar
 ```kotlin
 package readme.examples
 
-import com.tegonal.minimalist.providers.*
+import com.tegonal.variist.providers.*
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.params.ParameterizedTest
 
@@ -139,7 +139,7 @@ At a first glance, `ArgsSource` in the above example behaves the same way as
 [ `MethodSource`](https://docs.junit.org/current/user-guide/#writing-tests-parameterized-tests-sources-MethodSource)
 but the runtime behaviour is different. If you run the above code, then per default only a window of 5 values is taken
 from the range `1..20` based on a randomly chosen seed resulting in 5 runs.
-The base assumption of Minimalist is that your tests are expensive to execute and that you don't have the time to run
+The base assumption of Variist is that your tests are expensive to execute and that you don't have the time to run
 all values of interested in one go. But, eventually, over multiple runs, it would still be nice to cover all values.
 The [configuration](#configuration) section explains how we can adjust the default profiles and more.
 For now, we continue without going too much into configuration details.
@@ -151,8 +151,8 @@ For now, we continue without going too much into configuration details.
 > ```kotlin
 > package com.example
 > 
-> import com.tegonal.minimalist.providers.ArgsArgumentProvider
-> import com.tegonal.minimalist.providers.ArgsSourceLike
+> import com.tegonal.variist.providers.ArgsArgumentProvider
+> import com.tegonal.variist.providers.ArgsSourceLike
 > import org.intellij.lang.annotations.Language
 > import org.junit.jupiter.params.provider.ArgumentsSource
 > 
@@ -162,18 +162,18 @@ For now, we continue without going too much into configuration details.
 > @ArgumentsSource(ArgsArgumentProvider::class)
 > @ArgsSourceLike
 > annotation class ArgsSource(
->     @Suppress("unused") // it is used via reflection by Minimalist
+>     @Suppress("unused") // it is used via reflection by Variist
 >     @Language("jvm-method-name") val methodName: String,
 > )
 > ```
 
-Although Minimalist allows that one can provide "raw" values as in `1..20` (could also have been `listOf(1, 2, 3, ...)`)
+Although Variist allows that one can provide "raw" values as in `1..20` (could also have been `listOf(1, 2, 3, ...)`)
 it provides `ArgsGenerator`s which are way more efficient.
 Raw values are turned into a `List` and then passed to `ordered.fromList`. The next section outlines what `ordered` is.
 
 ## Ordered and arbitrary arguments generators
 
-Minimalist provides two entry points to create an `ArgsGenenerator`: `ordered` and `arb`.
+Variist provides two entry points to create an `ArgsGenenerator`: `ordered` and `arb`.
 
 `ordered` can be used to define an ordered (not to be confused with sorted) list of finite
 values where the corresponding `OrderedArgsGenerator` generates a sequence which repeats them indefinitely.
@@ -246,7 +246,7 @@ Following a few examples what predefined factories exist on `ordered` (take a lo
 <code-ordered-1>
 
 ```kotlin
-import com.tegonal.minimalist.generators.*
+import com.tegonal.variist.generators.*
 
 enum class Color {
 	Red, Blue, Green
@@ -275,7 +275,7 @@ Following a few examples what predefined factories exist on `arb` (take a look a
 <code-arb-1>
 
 ```kotlin
-import com.tegonal.minimalist.generators.*
+import com.tegonal.variist.generators.*
 
 enum class Color {
 	Red, Blue, Green
@@ -329,14 +329,14 @@ arb.string(minLength = 0, maxLength = 20, allowedRanges = UnicodeRanges.ASCII_PR
 ### Predefined args providers
 
 For some `arb` and a few `ordered` definitions we provide predefined args providers which you can use in `ArgsSource`.
-You only need to extend (directly or indirectly) Minimalist's `PredefinedArgsProviders`. Following an example:
+You only need to extend (directly or indirectly) Variist's `PredefinedArgsProviders`. Following an example:
 
 <code-predefined-1>
 
 ```kotlin
 package readme.examples
 
-import com.tegonal.minimalist.providers.*
+import com.tegonal.variist.providers.*
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.params.ParameterizedTest
 
@@ -356,25 +356,25 @@ class PredefinedArgsProvidersTest : PredefinedArgsProviders {
 
 Typically, you will reuse your custom providers in several tests. We recommend you create your own interfaces which
 contain predefined `ArgsSource` providers and one `ArgsProviders` which extends all of them
-(see `com.tegonal.minimalist.providers.PredefinedArgsProviders` for an example) and you might want to extend
-from Minimalist's `PredefinedArgsProviders` as well.
+(see `com.tegonal.variist.providers.PredefinedArgsProviders` for an example) and you might want to extend
+from Variist's `PredefinedArgsProviders` as well.
 
 ## Combinators
 
-Minimalist provides different combinators to produce new `ArgsGenerator`.
+Variist provides different combinators to produce new `ArgsGenerator`.
 
 ### Generic Combine
 
 The most frequently used combinator is probably to combine multiple `ArgsGenerator`s in some way. A reason why
-we added a bit of magic to Minimalist. The idiomatic way to define that we want to combine multiple generators is
+we added a bit of magic to Variist. The idiomatic way to define that we want to combine multiple generators is
 to use `Tuple` (from ch.tutteli.kbox) which exists up to `Tuple9`:
 
 <code-combine-tuple>
 
 ```kotlin
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.generators.*
-import com.tegonal.minimalist.providers.*
+import com.tegonal.variist.generators.*
+import com.tegonal.variist.providers.*
 import org.junit.jupiter.params.ParameterizedTest
 
 class CombineTupleTest : PredefinedArgsProviders {
@@ -399,7 +399,7 @@ class CombineTupleTest : PredefinedArgsProviders {
 
 Combining two `OrderedArgsGenerator`s A and B (or `SemiOrderedArgsGenerator`s) results in an `OrderedArgsGenerator`
 representing their cartesian product and the size correspondingly `A.size * B.size`. I.e. such combinations can
-grow quickly, but Minimalist has you covered in therms that this is just a definition (nothing generated yet) and
+grow quickly, but Variist has you covered in therms that this is just a definition (nothing generated yet) and
 you still execute only a window of those values in a fast and efficient way.
 On the other hand, combining two `ArbArgsGenerator` means zipping them and results in another `ArbArgsGenerator`.
 
@@ -549,7 +549,7 @@ Take a look at [cartesian](#ordered-cartesian) which is most likely how you want
 `SemiOrderedArgsGenerator`. Or in case you do not want the cartesian product but just one random value of your second
 `SemiOrderedArgsGenerator`, then [turn it into an ArbArgsGenerator](#ordered-toarbargsgenerator) first.
 
-[Let us know your use case](https://github.com/tegonal/minimalist/discussions/new?category=ideas&subject=ordered.zip%20another%20ordered)
+[Let us know your use case](https://github.com/tegonal/variist/discussions/new?category=ideas&subject=ordered.zip%20another%20ordered)
 if you still want to zip another `(Semi)OrderedArgsGenerator` and how the semantics should look like.
 
 ### zipDependent
@@ -590,7 +590,7 @@ ordered.fromEnum<Color>().zipDependent({ color ->
 
 </code-zip-dependent-ordered-arb>
 
-Note three things, first `hexColor` does not exist (yet) in Minimalist and is only there for illustration purposes.
+Note three things, first `hexColor` does not exist (yet) in Variist and is only there for illustration purposes.
 Secondly, `zipDependent` also has two overloads (like `cross`/`zip`) where the one with a `transform` function
 allows to turn the values into something else than `Tuple2`. And last but not least, this is a way to define that
 we want to have x test runs at maximum where x is the number of elements in the `Color` enum but we are not
@@ -650,7 +650,7 @@ on it.
 
 ### transform
 
-Minimalist provides different means to transform `ArgsGenerator`s. But not all extension methods are defined
+Variist provides different means to transform `ArgsGenerator`s. But not all extension methods are defined
 for all types of `ArgsGenerator`. For instance, since an `OrderedArgsGenerator` needs to know how many values it can
 generate before repeating them, methods like `filter` require that a full cycle gets materialised first.
 Such methods are signified with a `Materialised` suffix. A `SemiOrderedArgsGenerator` on the other hand does not
@@ -680,7 +680,7 @@ ordered.intFromTo(1, 10).transformMaterialised { sequence ->
 </code-transform>
 
 Which means you can use `transform` as building block for custom transformations based on `Sequence`.
-Some functions are so common, that Minimalist provides them as extension of `ArgsGenerator` as well,
+Some functions are so common, that Variist provides them as extension of `ArgsGenerator` as well,
 the following section outlines some.
 
 ### map
@@ -745,7 +745,7 @@ arb.charFromTo('a', 't').zip(arb.intFromTo(1, 100)).chunked(3) { it.toMap() }
 </code-chunked>
 
 So far we did not come across a use case where `chunked` would be valuable for `OrderedArgsGenerator` and hence do not
-provide a shortcut. [Let us know your use cases](https://github.com/tegonal/minimalist/discussions/new?category=ideas),
+provide a shortcut. [Let us know your use cases](https://github.com/tegonal/variist/discussions/new?category=ideas),
 we happily add the shortcut if it is of value (we try to not clutter the API with methods we have not
 used ourselves so far).
 
@@ -798,9 +798,9 @@ it might be skewed; for example, 85 values could fall between 100 and 200, etc.
 You can turn a `(Semi)OrderedArgsGenerator` into an `ArbArgsGenerator` by using the `toArbArgsGenerator()` extension
 method.
 
-# Use Minimalist in other contexts than JUnit
+# Use Variist in other contexts than JUnit
 
-Minimalist is not bound to `@ParameterizedTest`s, not even to JUnit. It is a library which can be used whenever
+Variist is not bound to `@ParameterizedTest`s, not even to JUnit. It is a library which can be used whenever
 you have a data-driven situation (and you do not have time to consider all of it).
 For instance, we have used it in load tests as source for (arbitrary) input.
 You can also use it in combination
@@ -810,11 +810,11 @@ Following an example:
 <code-dynamic-test-1>
 
 ```kotlin
-import com.tegonal.minimalist.generators.arb
-import com.tegonal.minimalist.generators.generateAndTakeBasedOnDecider
-import com.tegonal.minimalist.generators.string
-import com.tegonal.minimalist.generators.zip
-import com.tegonal.minimalist.providers.PredefinedNumberProviders.Companion.arbIntPositive
+import com.tegonal.variist.generators.arb
+import com.tegonal.variist.generators.generateAndTakeBasedOnDecider
+import com.tegonal.variist.generators.string
+import com.tegonal.variist.generators.zip
+import com.tegonal.variist.providers.PredefinedNumberProviders.Companion.arbIntPositive
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DynamicTest.dynamicTest
 import org.junit.jupiter.api.TestFactory
@@ -868,36 +868,36 @@ fun orderedExample() =
 
 # Configuration
 
-Minimalist provides a configuration via `MinimalistConfig` which per default can be customised via
-`minimalist.properties`.
+Variist provides a configuration via `VariistConfig` which per default can be customised via
+`variist.properties`.
 This file needs to be available on your classpath. Typically, you put it in src/test/resources.
-Next to `minimalist.properties` which is intended to make project based adjustments
+Next to `variist.properties` which is intended to make project based adjustments
 (e.g. change `Miniamlist.defaultProfile` to `E2E`, see [Profiles and Envs](#profiles-and-envs)), you can create a
-`minimalist.local.properties` which you should add on your git ignore list.
-This file overwrites settings in `minimalist.properties` and is intended for personal adjustments and debugging.
+`variist.local.properties` which you should add on your git ignore list.
+This file overwrites settings in `variist.properties` and is intended for personal adjustments and debugging.
 
-More documentation about the configuration will follow, in the meantime, take a look at the KDoc of MinimalistConfig.
+More documentation about the configuration will follow, in the meantime, take a look at the KDoc of VariistConfig.
 
 ## Profiles and Envs
 
-Minimalist steers how many runs will result at maximum (if not limited by other factors such as
-`OrderedArgsGenerator.size`) by the profile definition in use (`MinimalistConfig.defaultProfile` is `Integration`)
-and the environment the test runs in (defined via `MinimalistConfig.activeEnv`).
+Variist steers how many runs will result at maximum (if not limited by other factors such as
+`OrderedArgsGenerator.size`) by the profile definition in use (`VariistConfig.defaultProfile` is `Integration`)
+and the environment the test runs in (defined via `VariistConfig.activeEnv`).
 The active environment is determined from environment variables (GitHub and GitLab env vars),
 defaulting to `Local` if it cannot be deduced.
 
-Minimalist comes with two predefined enums, `TestType`s which are used as profile names and predefined `Env`s.
-See `MinimalistConfig.testProfiles` for what `maxArgs` are defined per default.
+Variist comes with two predefined enums, `TestType`s which are used as profile names and predefined `Env`s.
+See `VariistConfig.testProfiles` for what `maxArgs` are defined per default.
 
 ## Fixing the seed
 
-Minimalist outputs the used seed once the config is fully loaded. Use it in `minimalist.local.properties` to fix the
+Variist outputs the used seed once the config is fully loaded. Use it in `variist.local.properties` to fix the
 seed to e.g. a previous run. You might want to restrict `maxArgs` in such a case as well and use `skip`
 to skip some runs, i.e. jump to a particular run.
 
 ### ErrorDeadlines
 
-If you fix one of the following properties, then an error deadline is added to your `minimalist.local.properties`:
+If you fix one of the following properties, then an error deadline is added to your `variist.local.properties`:
 
 - seed
 - skip
@@ -909,13 +909,13 @@ or when you temporarily want to execute more tests than defined by your [activeE
 
 You can adjust the default deadline (60 minutes) via `remindAboutFixedPropertiesAfterMinutes`.
 
-Minimalist assumes your `minimalist.local.properties` is located under `./src/test/resources` relative to the
+Variist assumes your `variist.local.properties` is located under `./src/test/resources` relative to the
 the directory from which you execute java -- if you run tests in IntelliJ this corresponds to the project dir.
-If you place it under a different directory, then use the property `minimalistPropertiesDir` to adjust it (e.g. in the
-`minimalist.properties`-file or directly in `minimalist.local.properties`). Following an example:
+If you place it under a different directory, then use the property `variistPropertiesDir` to adjust it (e.g. in the
+`variist.properties`-file or directly in `variist.local.properties`). Following an example:
 
 ```properties
-minimalistPropertiesDir=./src/jvmTest/resources
+variistPropertiesDir=./src/jvmTest/resources
 ```
 
 ## Change the ArgsRangeDecider
@@ -924,12 +924,12 @@ An `ArgsRangeDecider` is responsible to decide from which offset and how many ar
 `ArgsGenerator`. The offset is only taken into account for `(Semi)OrderedArgsGenerator`s.
 
 The default implementation is solely based on the configured [profiles](#profiles-and-envs) - more implementations will
-follow in an upcoming version of Minimalist.
+follow in an upcoming version of Variist.
 
 If you want to provide an own implementation, then you need to make it available to be loaded via `ServiceLoader`.
-Create the file `src/resource/META-INF/services/com.tegonal.minimalist.providers.ArgsRangeDecider` and put the fully
-qualified name in it. Moreover, you need to set `activeArgRangeDecider` in the MinimalistConfig
-(typically via `minimalist.properties`) to the fully qualified name as well.
+Create the file `src/resource/META-INF/services/com.tegonal.variist.providers.ArgsRangeDecider` and put the fully
+qualified name in it. Moreover, you need to set `activeArgRangeDecider` in the VariistConfig
+(typically via `variist.properties`) to the fully qualified name as well.
 
 ## Use a SuffixArgsGeneratorDecider
 
@@ -955,31 +955,31 @@ fun foo(i: Int, c: Color) {
 </code-suffix-args-generator>
 
 If you want to provide an own implementation, then you need to make it available to be loaded via `ServiceLoader`.
-Create the file `src/resource/META-INF/services/com.tegonal.minimalist.providers.SuffixArgsGeneratorDeciderr` and
-put the fully qualified name in it. Moreover, you need to set `activeArgRangeDecider` in the MinimalistConfig
-(typically via `minimalist.properties`) to the fully qualified name as well.
+Create the file `src/resource/META-INF/services/com.tegonal.variist.providers.SuffixArgsGeneratorDeciderr` and
+put the fully qualified name in it. Moreover, you need to set `activeArgRangeDecider` in the VariistConfig
+(typically via `variist.properties`) to the fully qualified name as well.
 
 Note, that you can still define
 a [ParameterResolver](https://docs.junit.org/current/user-guide/#writing-tests-dependency-injection),
-instead (or in addition). Minimalist is only an addition to JUnit, you can use all other constructs as well.
+instead (or in addition). Variist is only an addition to JUnit, you can use all other constructs as well.
 There is a difference though, if you define that your `SuffixArgsGeneratorDecider` returns an `OrderedArgsGenerator`
 then the cartesian product results as explained in [generic combine](#generic-combine).
 
 # Helpers
 
-Minimalist provides some helpers in addition to `ArgGenerators` and the `ArgsSource` machinery.
+Variist provides some helpers in addition to `ArgGenerators` and the `ArgsSource` machinery.
 
 ## Random helpers
 
-Minimalist provides some helper methods and functionality in case you want to add randomness but still benefit
+Variist provides some helper methods and functionality in case you want to add randomness but still benefit
 from the possibility to re-run it in a deterministic way (by [fixing the seed](#fixing-the-seed)).
 
 <code-random-helper>
 
 ```kotlin
-import com.tegonal.minimalist.utils.createMinimalistRandom
-import com.tegonal.minimalist.utils.pickOneRandomly
-import com.tegonal.minimalist.utils.takeRandomly
+import com.tegonal.variist.utils.createVariistRandom
+import com.tegonal.variist.utils.pickOneRandomly
+import com.tegonal.variist.utils.takeRandomly
 
 // Imagine the list is more complicated than that, because if not, then better define it via arb or ordered
 // since then it is most likely more efficient (would not allocate the memory for 1001 Ints)
@@ -1001,7 +1001,7 @@ val l3: Set<Int> = complicatedSetup.toArbArgsGenerator().generate()
 	.toSet()
 
 // creates a Random based on the configured seed, i.e. if you fix the seed, then you get a deterministic result
-createMinimalistRandom().let { random ->
+createVariistRandom().let { random ->
 	val i = random.nextInt()
 	//...
 }
@@ -1016,7 +1016,7 @@ In case you want to repeat something forever, then `repeatForever` might come in
 <code-repeat-forever>
 
 ```kotlin
-import com.tegonal.minimalist.utils.repeatForever
+import com.tegonal.variist.utils.repeatForever
 
 // creates a Sequence which yields the given constant forever
 repeatForever(constant = 1)
@@ -1047,40 +1047,40 @@ Last but not least, we provide the extension method `Random.nextBigInt`.
 
 # Code Documentation
 
-Code documentation can be found on github-pages: <https://tegonal.github.io/minimalist/latest#/kdoc>.
+Code documentation can be found on github-pages: <https://tegonal.github.io/variist/latest#/kdoc>.
 
 # Contributors and contribute
 
-Our thanks go to [code contributors](https://github.com/tegonal/minimalist/graphs/contributors)
+Our thanks go to [code contributors](https://github.com/tegonal/variist/graphs/contributors)
 as well as all other contributors (e.g. bug reporters, feature request creators etc.)
 
 You are more than welcome to contribute as well:
 
 - star this repository if you like/use it
-- [open a bug](https://github.com/tegonal/minimalist/issues/new?template=bug_report.md) if you find one
-- Open a [new discussion](https://github.com/tegonal/minimalist/discussions/new?category=ideas) if you
+- [open a bug](https://github.com/tegonal/variist/issues/new?template=bug_report.md) if you find one
+- Open a [new discussion](https://github.com/tegonal/variist/discussions/new?category=ideas) if you
   are missing a feature
-- [ask a question](https://github.com/tegonal/minimalist/discussions/new?category=q-a)
+- [ask a question](https://github.com/tegonal/variist/discussions/new?category=q-a)
   so that we better understand where we can improve.
 - have a look at
-  the [help wanted issues](https://github.com/tegonal/minimalist/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22).
+  the [help wanted issues](https://github.com/tegonal/variist/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22).
 
 Please have a look at
-[CONTRIBUTING.md](https://github.com/tegonal/minimalist/tree/main/.github/CONTRIBUTING.md)
+[CONTRIBUTING.md](https://github.com/tegonal/variist/tree/main/.github/CONTRIBUTING.md)
 for further suggestions and guidelines.
 
 # License
 
-Minimalist is licensed
+Variist is licensed
 under [European Union Public Licence 1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12).
 
 - Classes which are copied from [junit-jupiter-params/junit-platform-commons](https://github.com/junit-team/junit5)
   are licensed under [EPL 2.0](https://www.eclipse.org/legal/epl-v20.html) (see
-  src/main/lib/java/com/tegonal/minimalist/export/org/junit).
+  src/main/lib/java/com/tegonal/variist/export/org/junit).
 - Copied some classes and interfaces from [Atrium](https://atriumlib.org) licensed
   under [EUPL 1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12).
 
-Minimalist is using
+Variist is using
 
 - [junit-jupiter-params/junit-platform-commons](https://github.com/junit-team/junit5) licensed
   under [EPL 2.0](https://www.eclipse.org/legal/epl-v20.html)

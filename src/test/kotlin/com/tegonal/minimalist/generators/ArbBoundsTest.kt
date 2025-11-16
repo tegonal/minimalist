@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.atrium.api.fluent.en_GB.first
 import ch.tutteli.atrium.api.fluent.en_GB.second
@@ -6,13 +6,13 @@ import ch.tutteli.atrium.api.fluent.en_GB.toBeGreaterThanOrEqualTo
 import ch.tutteli.atrium.api.fluent.en_GB.toBeLessThanOrEqualTo
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.generators.impl.createBoundsArbGenerator
-import com.tegonal.minimalist.generators.impl.createIntDomainBasedBoundsArbGenerator
-import com.tegonal.minimalist.generators.impl.possibleMaxSizeSafeInIntDomain
-import com.tegonal.minimalist.generators.impl.possibleMaxSizeSafeInLongDomain
-import com.tegonal.minimalist.providers.ArgsSource
-import com.tegonal.minimalist.utils.BigInt
-import com.tegonal.minimalist.utils.toBigInt
+import com.tegonal.variist.generators.impl.createBoundsArbGenerator
+import com.tegonal.variist.generators.impl.createIntDomainBasedBoundsArbGenerator
+import com.tegonal.variist.generators.impl.possibleMaxSizeSafeInIntDomain
+import com.tegonal.variist.generators.impl.possibleMaxSizeSafeInLongDomain
+import com.tegonal.variist.providers.ArgsSource
+import com.tegonal.variist.utils.BigInt
+import com.tegonal.variist.utils.toBigInt
 import org.junit.jupiter.params.ParameterizedTest
 
 class ArbBoundsTest : AbstractArbArgsGeneratorTest<Any>() {

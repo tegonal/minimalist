@@ -8,7 +8,7 @@ plugins {
 }
 
 version = "2.0.0-RC-2"
-group = "com.tegonal.minimalist"
+group = "com.tegonal.variist"
 description = "Library which helps to setup and prioritise parameterized tests"
 
 
@@ -110,7 +110,7 @@ git push
 The tag is required for dokka in order that the externalLinkDocumentation works
 
 3. update github pages:
-Assumes you have a minimalist-gh-pages folder on the same level as minimalist where the gh-pages branch is checked out
+Assumes you have a variist-gh-pages folder on the same level as variist where the gh-pages branch is checked out
 
 Either use the following commands or the manual steps below (assuming MNLMST_PREVIOUS_VERSION and MNLMST_VERSION
 is already set from commands above)
@@ -124,7 +124,7 @@ export MNLMST_GH_PAGES_VERSIONS_JS_VERSION_NEXT="1.4.0"
 
 gr dokkaHtml
 
-cd ../minimalist-gh-pages
+cd ../variist-gh-pages
 git add . && git commit -m "dokka generation for v$MNLMST_VERSION"
 
 perl -0777 -i \
@@ -140,13 +140,13 @@ perl -0777 -i \
 
 find "./$MNLMST_VERSION" -name "*.html" | xargs perl -0777 -i \
     -pe "s@<script.*src=\"https://unpkg\.com.*</script>@@;" \
-    -pe "s@(<div class=\"library-name\">[\S\s]+?)Minimalist@\$1<span>Minimalist</span>@;" \
+    -pe "s@(<div class=\"library-name\">[\S\s]+?)Variist@\$1<span>Variist</span>@;" \
     -pe "s@\"((?:\.\./+)*)styles/logo-styles.css\" rel=\"Stylesheet\">@\"../../\${1}styles/logo-styles.css?v=$MNLMST_GH_PAGES_LOGO_CSS_VERSION\" rel=\"Stylesheet\">\n<link href=\"../../\${1}styles/alert.css?v=$MNLMST_GH_PAGES_ALERT_CSS_VERSION\" rel=\"Stylesheet\">\n<script id=\"versions-script\" type=\"text/javascript\" src=\"\../../\${1}scripts/versions.js?v=$MNLMST_GH_PAGES_VERSIONS_JS_VERSION\" data-version=\"$MNLMST_VERSION\" async=\"async\"></script>@g;" \
     -pe "s@((?:\.\./+)*)images/logo-icon.svg\"([^>]+)>@../../\${1}images/logo-icon.svg\"\$2>\n<meta name=\"og:image\" content=\"../../\${1}images/logo_social.png\"/>@g;" \
-    -pe "s@(<a class=\"library-name--link\" href=\"(?:\.\./+)*)index.html\">@\$1../../index.html\" title=\"Back to Overview Code Documentation of Minimalist\">@g;" \
+    -pe "s@(<a class=\"library-name--link\" href=\"(?:\.\./+)*)index.html\">@\$1../../index.html\" title=\"Back to Overview Code Documentation of Variist\">@g;" \
     -pe "s@<html@<html lang=\"en\"@g;" \
     -pe "s@<head>@<head>\n<meta name=\"keywords\" content=\"Kotlin, junit, junit-jupiter, test, Testing, parameterized tests, minimal test set\">\n<meta name=\"author\" content=\"Tegonal Genossenschaft\">\n<meta name=\"copyright\" content=\"Tegonal Genossenschaft\">@g;" \
-    -pe "s@<title>([^<]+)</title>@<title>\$1 - Minimalist $MNLMST_VERSION</title>\n<meta name=\"description\" content=\"Code documentation of Minimalist $MNLMST_VERSION: \$1\">@g;" \
+    -pe "s@<title>([^<]+)</title>@<title>\$1 - Variist $MNLMST_VERSION</title>\n<meta name=\"description\" content=\"Code documentation of Variist $MNLMST_VERSION: \$1\">@g;" \
     -pe "s@(<code class=\"runnablesample[^>]+>)[\S\s]+?//sampleStart[\n\s]*([\S\s]+?)\s+//sampleEnd[\n\s]*\}@\${1}\${2}@g;"
 
 find "./" -name "*.html" | xargs perl -0777 -i \
@@ -162,13 +162,13 @@ git add . && git commit -m "v$MNLMST_VERSION"
 check changes
 git push
 
-cd ../minimalist
+cd ../variist
 
 3. deploy to sonatype central portal:
 (assumes you have an alias named gr pointing to ./gradlew)
     a) java -version 2>&1 | grep "version \"11" && PUB=true CI=true gr clean pubToMaLo &&
-       tmpDir=$(mktemp -d -t "minimalist-release-$MNLMST_VERSION-XXXXXXXXXX") &&
-       find "$HOME/.m2/repository/com/tegonal/minimalist" -type d -name "*$MNLMST_VERSION" -print0 |
+       tmpDir=$(mktemp -d -t "variist-release-$MNLMST_VERSION-XXXXXXXXXX") &&
+       find "$HOME/.m2/repository/com/tegonal/variist" -type d -name "*$MNLMST_VERSION" -print0 |
          while read -r -d $'\0' versionDir; do
            find "$versionDir" -type f -print0 | while read -r -d $'\0' file; do
               relPath="${file#"$HOME/.m2/repository/"}"
@@ -182,7 +182,7 @@ cd ../minimalist
            md5sum "$file" | awk '{ print $1 }' > "${file}.md5"
            sha1sum "$file" | awk '{ print $1 }' > "$file.sha1"
        done &&
-       (cd "$tmpDir" && zip -r "minimalist-$MNLMST_VERSION.zip" .) &&
+       (cd "$tmpDir" && zip -r "variist-$MNLMST_VERSION.zip" .) &&
        find "$tmpDir" -name "*.jar" | head -n 1 | xargs -I {} gpg --verify "{}.asc" "{}" &&
        echo "verify the correct gpg key was used (see above) and you might want to check the release in $tmpDir"
     b) Log into https://central.sonatype.com/publishing/deployments

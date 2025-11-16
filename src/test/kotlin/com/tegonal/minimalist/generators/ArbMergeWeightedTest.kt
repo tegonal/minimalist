@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.atrium.api.fluent.en_GB.messageToContain
 import ch.tutteli.atrium.api.fluent.en_GB.toContainExactlyElementsOf
@@ -6,12 +6,12 @@ import ch.tutteli.atrium.api.fluent.en_GB.toThrow
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.append
 import ch.tutteli.kbox.toVararg
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.providers.ArgsSource
-import com.tegonal.minimalist.testutils.PseudoArbArgsGenerator
-import com.tegonal.minimalist.testutils.withMockedRandom
-import com.tegonal.minimalist.utils.createMinimalistRandom
-import com.tegonal.minimalist.utils.repeatForever
+import com.tegonal.variist.config._components
+import com.tegonal.variist.providers.ArgsSource
+import com.tegonal.variist.testutils.PseudoArbArgsGenerator
+import com.tegonal.variist.testutils.withMockedRandom
+import com.tegonal.variist.utils.createVariistRandom
+import com.tegonal.variist.utils.repeatForever
 import org.junit.jupiter.params.ParameterizedTest
 
 class ArbMergeWeightedTest {
@@ -98,12 +98,12 @@ class ArbMergeWeightedTest {
 
 	companion object {
 		@JvmStatic
-		fun arbWeightsInTotalAlways100() = createMinimalistRandom().let { minimalistRandom ->
+		fun arbWeightsInTotalAlways100() = createVariistRandom().let { variistRandom ->
 			arb.intFromUntil(1, 10).map { numOfGenerators ->
 				mutableListOf<Int>().also { weights ->
 					val cumulativeWeight = (0 until numOfGenerators).fold(0) { cumulativeWeight, index ->
 						val remainingWeight = 99 - numOfGenerators + index - cumulativeWeight
-						val weight = if (remainingWeight <= 1) 1 else minimalistRandom.nextInt(1, remainingWeight)
+						val weight = if (remainingWeight <= 1) 1 else variistRandom.nextInt(1, remainingWeight)
 						weights.add(weight)
 						cumulativeWeight + weight
 					}

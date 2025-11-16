@@ -1,8 +1,8 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.testutils.anyToList
-import com.tegonal.minimalist.testutils.getTestValue
+import com.tegonal.variist.testutils.anyToList
+import com.tegonal.variist.testutils.getTestValue
 
 @Suppress("UNCHECKED_CAST")
 class OrderedConcatenateTest : AbstractOrderedConcatenateTest() {

@@ -1,8 +1,8 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.kbox.Tuple2
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.config.ordered
+import com.tegonal.variist.config._components
+import com.tegonal.variist.config.ordered
 
 /**
  * Generates [size][OrderedArgsGenerator.size] values, creates another [OrderedArgsGenerator] per value

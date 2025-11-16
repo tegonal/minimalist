@@ -1,15 +1,15 @@
-package com.tegonal.minimalist.generators.impl
+package com.tegonal.variist.generators.impl
 
-import com.tegonal.minimalist.config.ComponentFactoryContainer
-import com.tegonal.minimalist.generators.OrderedArgsGenerator
-import com.tegonal.minimalist.generators.map
-import com.tegonal.minimalist.utils.BigInt
-import com.tegonal.minimalist.utils.impl.BigIntFromUntilRepeatingIterator
-import com.tegonal.minimalist.utils.impl.IntFromUntilRepeatingIterator
-import com.tegonal.minimalist.utils.impl.LongFromUntilRepeatingIterator
-import com.tegonal.minimalist.utils.impl.checkRangeNumbers
-import com.tegonal.minimalist.utils.impl.determineStartingIndex
-import com.tegonal.minimalist.utils.toBigInt
+import com.tegonal.variist.config.ComponentFactoryContainer
+import com.tegonal.variist.generators.OrderedArgsGenerator
+import com.tegonal.variist.generators.map
+import com.tegonal.variist.utils.BigInt
+import com.tegonal.variist.utils.impl.BigIntFromUntilRepeatingIterator
+import com.tegonal.variist.utils.impl.IntFromUntilRepeatingIterator
+import com.tegonal.variist.utils.impl.LongFromUntilRepeatingIterator
+import com.tegonal.variist.utils.impl.checkRangeNumbers
+import com.tegonal.variist.utils.impl.determineStartingIndex
+import com.tegonal.variist.utils.toBigInt
 
 /**
  * !! No backward compatibility guarantees !!

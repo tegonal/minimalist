@@ -1,10 +1,10 @@
-package com.tegonal.minimalist.testutils.atrium
+package com.tegonal.variist.testutils.atrium
 
 import ch.tutteli.atrium.api.fluent.en_GB.feature
 import ch.tutteli.atrium.api.fluent.en_GB.toEqual
 import ch.tutteli.atrium.creating.Expect
-import com.tegonal.minimalist.generators.UnicodeRange
-import com.tegonal.minimalist.generators.UnicodeRanges
+import com.tegonal.variist.generators.UnicodeRange
+import com.tegonal.variist.generators.UnicodeRanges
 
 
 fun Expect<Int>.toBeIn(unicodeRanges: UnicodeRanges) {

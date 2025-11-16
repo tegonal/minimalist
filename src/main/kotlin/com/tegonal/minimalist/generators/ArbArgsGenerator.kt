@@ -1,9 +1,9 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.config.ComponentFactoryContainerProvider
-import com.tegonal.minimalist.config.MinimalistConfig
-import com.tegonal.minimalist.generators.impl.DefaultArbExtensionPoint
-import com.tegonal.minimalist.utils.createMinimalistRandom
+import com.tegonal.variist.config.ComponentFactoryContainerProvider
+import com.tegonal.variist.config.VariistConfig
+import com.tegonal.variist.generators.impl.DefaultArbExtensionPoint
+import com.tegonal.variist.utils.createVariistRandom
 
 /**
  * Represents an [ArgsGenerator] which provides [generate] which generates [T]s an infinite number of times in a random
@@ -33,8 +33,8 @@ interface ArbArgsGenerator<out T> : ArgsGenerator<T> {
 	/**
 	 * Generates an infinite stream of random values of type [T].
 	 *
-	 * @param seedOffset an offset to [MinimalistConfig.seed] which shall be applied in
-	 *   case this [ArbArgsGenerator] relies on [createMinimalistRandom].
+	 * @param seedOffset an offset to [VariistConfig.seed] which shall be applied in
+	 *   case this [ArbArgsGenerator] relies on [createVariistRandom].
 	 * @since 2.0.0
 	 */
 	fun generate(seedOffset: Int = 0): Sequence<T>

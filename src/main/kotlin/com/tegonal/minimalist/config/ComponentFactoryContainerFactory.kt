@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.config
+package com.tegonal.variist.config
 
 /**
  * Responsible to create a ComponentFactoryContainer

@@ -1,14 +1,14 @@
-package com.tegonal.minimalist.config
+package com.tegonal.variist.config
 
-import com.tegonal.minimalist.config.impl.*
-import com.tegonal.minimalist.generators.ArbExtensionPoint
-import com.tegonal.minimalist.generators.OrderedExtensionPoint
-import com.tegonal.minimalist.generators.impl.DefaultArbExtensionPoint
-import com.tegonal.minimalist.generators.impl.DefaultOrderedExtensionPoint
-import com.tegonal.minimalist.providers.*
-import com.tegonal.minimalist.providers.impl.DefaultArgsGeneratorToArgumentsConverter
-import com.tegonal.minimalist.providers.impl.DefaultGenericArgsGeneratorCombiner
-import com.tegonal.minimalist.utils.impl.loadService
+import com.tegonal.variist.config.impl.*
+import com.tegonal.variist.generators.ArbExtensionPoint
+import com.tegonal.variist.generators.OrderedExtensionPoint
+import com.tegonal.variist.generators.impl.DefaultArbExtensionPoint
+import com.tegonal.variist.generators.impl.DefaultOrderedExtensionPoint
+import com.tegonal.variist.providers.*
+import com.tegonal.variist.providers.impl.DefaultArgsGeneratorToArgumentsConverter
+import com.tegonal.variist.providers.impl.DefaultGenericArgsGeneratorCombiner
+import com.tegonal.variist.utils.impl.loadService
 import kotlin.random.Random
 import kotlin.reflect.KClass
 
@@ -16,10 +16,10 @@ import kotlin.reflect.KClass
  *
  * @since 2.0.0
  */
-fun ComponentFactoryContainer.Companion.createBasedOnConfig(config: MinimalistConfig): ComponentFactoryContainer =
+fun ComponentFactoryContainer.Companion.createBasedOnConfig(config: VariistConfig): ComponentFactoryContainer =
 	ComponentFactoryContainer.create(
 		mapOf(
-			MinimalistConfig::class createSingletonVia { config },
+			VariistConfig::class createSingletonVia { config },
 			SuffixArgsGeneratorDecider::class createVia {
 				loadService(config.activeSuffixArgsGeneratorDecider)
 			},
@@ -56,13 +56,13 @@ fun ComponentFactoryContainer.Companion.create(
  *
  * @since 2.0.0
  */
-val ComponentFactoryContainer.config: MinimalistConfig get() = build<MinimalistConfig>()
+val ComponentFactoryContainer.config: VariistConfig get() = build<VariistConfig>()
 
 /**
  *
  * @since 2.0.0
  */
-fun ComponentFactoryContainer.createMinimalistRandom(seedOffset: Int): Random =
+fun ComponentFactoryContainer.createVariistRandom(seedOffset: Int): Random =
 	build<RandomFactory>().create(config.seed.value + seedOffset).also { random ->
 		config.skip?.also { repeat(it) { random.nextInt() } }
 	}

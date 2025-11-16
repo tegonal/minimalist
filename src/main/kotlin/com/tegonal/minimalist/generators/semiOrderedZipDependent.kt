@@ -1,15 +1,15 @@
 @file:JvmName("SemiOrderedZipDependentKt")
 @file:JvmMultifileClass
 
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.kbox.Tuple2
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.config.arb
-import com.tegonal.minimalist.generators.impl.InternalDangerousApi
-import com.tegonal.minimalist.generators.impl.SemiOrderedFlatZipArbArgsGenerator
-import com.tegonal.minimalist.generators.impl.mapIndexedInternal
-import com.tegonal.minimalist.generators.impl.throwMaterialisingSemiOrderedArgsGeneratorNotSupported
+import com.tegonal.variist.config._components
+import com.tegonal.variist.config.arb
+import com.tegonal.variist.generators.impl.InternalDangerousApi
+import com.tegonal.variist.generators.impl.SemiOrderedFlatZipArbArgsGenerator
+import com.tegonal.variist.generators.impl.mapIndexedInternal
+import com.tegonal.variist.generators.impl.throwMaterialisingSemiOrderedArgsGeneratorNotSupported
 
 /**
  * Creates for each generated value of type [A1] by `this` [SemiOrderedArgsGenerator] an [ArbArgsGenerator]

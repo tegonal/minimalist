@@ -1,9 +1,9 @@
-package com.tegonal.minimalist.providers
+package com.tegonal.variist.providers
 
-import com.tegonal.minimalist.Args1
-import com.tegonal.minimalist.Args2
-import com.tegonal.minimalist.Args4
-import com.tegonal.minimalist.generators.ArgsGenerator
+import com.tegonal.variist.Args1
+import com.tegonal.variist.Args2
+import com.tegonal.variist.Args4
+import com.tegonal.variist.generators.ArgsGenerator
 import org.junit.jupiter.params.provider.Arguments
 import ch.tutteli.kbox.Tuple4
 

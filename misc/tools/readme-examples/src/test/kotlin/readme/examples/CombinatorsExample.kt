@@ -1,6 +1,6 @@
 package readme.examples
 
-import com.tegonal.minimalist.generators.*
+import com.tegonal.variist.generators.*
 import org.junit.jupiter.api.Order
 import java.time.LocalDate
 import kotlin.test.Test

@@ -1,8 +1,8 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.generators.impl.IntFromToOrderedArgsGenerator
-import com.tegonal.minimalist.generators.impl.LongFromToOrderedArgsGenerator
+import com.tegonal.variist.config._components
+import com.tegonal.variist.generators.impl.IntFromToOrderedArgsGenerator
+import com.tegonal.variist.generators.impl.LongFromToOrderedArgsGenerator
 
 /**
  * Returns an [OrderedArgsGenerator] generating [Char]s based on the given [progression].

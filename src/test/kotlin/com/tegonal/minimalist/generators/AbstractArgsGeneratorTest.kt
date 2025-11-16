@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.atrium.api.fluent.en_GB.toBeTheInstance
 import ch.tutteli.atrium.api.fluent.en_GB.toContain
@@ -6,11 +6,11 @@ import ch.tutteli.atrium.api.fluent.en_GB.toEqual
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.atrium.testfactories.TestFactoryBuilder
 import ch.tutteli.kbox.toVararg
-import com.tegonal.minimalist.config.ComponentFactoryContainer
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.config.config
-import com.tegonal.minimalist.config.createBasedOnConfig
-import com.tegonal.minimalist.testutils.BaseTest
+import com.tegonal.variist.config.ComponentFactoryContainer
+import com.tegonal.variist.config._components
+import com.tegonal.variist.config.config
+import com.tegonal.variist.config.createBasedOnConfig
+import com.tegonal.variist.testutils.BaseTest
 import org.junit.jupiter.api.DynamicNode
 
 typealias ArgsTestFactoryResult<T, ArgsGeneratorT> = Sequence<Triple<String, ArgsGeneratorT, List<T>>>

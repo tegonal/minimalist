@@ -1,12 +1,12 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.atrium.api.fluent.en_GB.messageToContain
 import ch.tutteli.atrium.api.fluent.en_GB.toContainExactly
 import ch.tutteli.atrium.api.fluent.en_GB.toThrow
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.testutils.anyToList
-import com.tegonal.minimalist.testutils.getTestValue
+import com.tegonal.variist.testutils.anyToList
+import com.tegonal.variist.testutils.getTestValue
 import kotlin.test.Test
 
 @Suppress("UNCHECKED_CAST")

@@ -1,6 +1,6 @@
-package com.tegonal.minimalist
+package com.tegonal.variist
 
-import com.tegonal.minimalist.generators.impl.possibleMaxSizeSafeInIntDomainWithoutDivideTrick
+import com.tegonal.variist.generators.impl.possibleMaxSizeSafeInIntDomainWithoutDivideTrick
 import org.openjdk.jmh.annotations.*
 import java.util.concurrent.TimeUnit
 

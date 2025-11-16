@@ -1,14 +1,14 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.generators.impl.LocalDateFromToArbArgsGenerator
-import com.tegonal.minimalist.generators.impl.LocalDateFromUntilArbArgsGenerator
-import com.tegonal.minimalist.generators.impl.LocalDateTimeFromToArbArgsGenerator
-import com.tegonal.minimalist.generators.impl.LocalDateTimeFromUntilArbArgsGenerator
-import com.tegonal.minimalist.generators.impl.OffsetDateTimeFromToArbArgsGenerator
-import com.tegonal.minimalist.generators.impl.OffsetDateTimeFromUntilArbArgsGenerator
-import com.tegonal.minimalist.generators.impl.ZonedDateTimeFromToArbArgsGenerator
-import com.tegonal.minimalist.generators.impl.ZonedDateTimeFromUntilArbArgsGenerator
+import com.tegonal.variist.config._components
+import com.tegonal.variist.generators.impl.LocalDateFromToArbArgsGenerator
+import com.tegonal.variist.generators.impl.LocalDateFromUntilArbArgsGenerator
+import com.tegonal.variist.generators.impl.LocalDateTimeFromToArbArgsGenerator
+import com.tegonal.variist.generators.impl.LocalDateTimeFromUntilArbArgsGenerator
+import com.tegonal.variist.generators.impl.OffsetDateTimeFromToArbArgsGenerator
+import com.tegonal.variist.generators.impl.OffsetDateTimeFromUntilArbArgsGenerator
+import com.tegonal.variist.generators.impl.ZonedDateTimeFromToArbArgsGenerator
+import com.tegonal.variist.generators.impl.ZonedDateTimeFromUntilArbArgsGenerator
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.OffsetDateTime

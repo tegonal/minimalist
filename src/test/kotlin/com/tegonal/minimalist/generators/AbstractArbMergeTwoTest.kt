@@ -1,8 +1,8 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.testutils.AbcdEnum
-import com.tegonal.minimalist.testutils.XyzEnum
-import com.tegonal.minimalist.testutils.getTestValue
+import com.tegonal.variist.testutils.AbcdEnum
+import com.tegonal.variist.testutils.XyzEnum
+import com.tegonal.variist.testutils.getTestValue
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit

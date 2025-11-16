@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 /**
  * Returns an [ArbArgsGenerator] based on the given [args].

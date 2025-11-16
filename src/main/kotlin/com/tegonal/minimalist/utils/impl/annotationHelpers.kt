@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.utils.impl
+package com.tegonal.variist.utils.impl
 
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty1

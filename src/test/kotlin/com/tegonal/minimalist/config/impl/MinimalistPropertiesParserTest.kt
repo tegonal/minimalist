@@ -1,5 +1,5 @@
-package com.tegonal.minimalist.config.impl
+package com.tegonal.variist.config.impl
 
-class MinimalistPropertiesParserTest {
+class VariistPropertiesParserTest {
 	//TODO 2.0.0 check overriding works as expected
 }

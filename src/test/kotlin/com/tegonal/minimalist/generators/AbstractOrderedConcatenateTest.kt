@@ -1,9 +1,9 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.testutils.AbcdEnum
-import com.tegonal.minimalist.testutils.XyzEnum
-import com.tegonal.minimalist.testutils.getTestValue
-import com.tegonal.minimalist.utils.BigInt
+import com.tegonal.variist.testutils.AbcdEnum
+import com.tegonal.variist.testutils.XyzEnum
+import com.tegonal.variist.testutils.getTestValue
+import com.tegonal.variist.utils.BigInt
 
 abstract class AbstractOrderedConcatenateTest : AbstractOrderedArgsGeneratorTest<Any>() {
 

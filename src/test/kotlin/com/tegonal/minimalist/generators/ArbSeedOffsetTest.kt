@@ -1,15 +1,15 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.atrium.api.fluent.en_GB.toEqual
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.config.arb
-import com.tegonal.minimalist.config.config
-import com.tegonal.minimalist.generators.impl.mapIndexedInternal
-import com.tegonal.minimalist.providers.ArgsSource
-import com.tegonal.minimalist.testutils.createArbWithCustomConfig
-import com.tegonal.minimalist.testutils.withMockedRandom
+import com.tegonal.variist.config._components
+import com.tegonal.variist.config.arb
+import com.tegonal.variist.config.config
+import com.tegonal.variist.generators.impl.mapIndexedInternal
+import com.tegonal.variist.providers.ArgsSource
+import com.tegonal.variist.testutils.createArbWithCustomConfig
+import com.tegonal.variist.testutils.withMockedRandom
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import kotlin.collections.map

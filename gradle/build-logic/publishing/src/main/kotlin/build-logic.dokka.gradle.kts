@@ -14,13 +14,13 @@ tutteliDokka {
 }
 
 tasks.configureEach<AbstractDokkaLeafTask> {
-	moduleName.set("Minimalist")
+	moduleName.set("Variist")
     dokkaSourceSets.configureEach {
 		reportUndocumented.set(true)
         jdkVersion.set(buildParameters.defaultJdkVersion)
         includes.from(kdocDir.resolve("packages.md"))
 		perPackageOption {
-			matchingRegex.set("com\\.tegonal\\.minimalist\\.export\\..*")
+			matchingRegex.set("com\\.tegonal\\.variist\\.export\\..*")
 			suppress.set(true)
 		}
     }

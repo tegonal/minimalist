@@ -1,7 +1,7 @@
-package com.tegonal.minimalist.testutils
+package com.tegonal.variist.testutils
 
 import ch.tutteli.kbox.Tuple3
-import com.tegonal.minimalist.config.RandomFactory
+import com.tegonal.variist.config.RandomFactory
 import kotlin.random.Random
 
 class MockedRandom(

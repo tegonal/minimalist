@@ -1,6 +1,6 @@
-package com.tegonal.minimalist.testutils
+package com.tegonal.variist.testutils
 
-import com.tegonal.minimalist.utils.toBigInt
+import com.tegonal.variist.utils.toBigInt
 import java.time.LocalDate
 import java.time.LocalDateTime
 

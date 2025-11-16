@@ -1,8 +1,8 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.generators.impl.flatMapIndexedInternal
-import com.tegonal.minimalist.generators.impl.mapIndexedInternal
+import com.tegonal.variist.generators.impl.flatMapIndexedInternal
+import com.tegonal.variist.generators.impl.mapIndexedInternal
 
 class ArbTransformationTest : AbstractArbArgsGeneratorTest<Any>() {
 

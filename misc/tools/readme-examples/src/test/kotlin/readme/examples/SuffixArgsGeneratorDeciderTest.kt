@@ -1,7 +1,7 @@
 package readme.examples
 
-import com.tegonal.minimalist.generators.*
-import com.tegonal.minimalist.providers.ArgsSource
+import com.tegonal.variist.generators.*
+import com.tegonal.variist.providers.ArgsSource
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.params.ParameterizedTest
 

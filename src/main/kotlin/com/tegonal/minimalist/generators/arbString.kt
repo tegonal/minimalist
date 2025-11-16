@@ -1,9 +1,9 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.config.createMinimalistRandom
-import com.tegonal.minimalist.generators.impl.mapIndexedInternal
-import com.tegonal.minimalist.utils.impl.failIfNegative
+import com.tegonal.variist.config._components
+import com.tegonal.variist.config.createVariistRandom
+import com.tegonal.variist.generators.impl.mapIndexedInternal
+import com.tegonal.variist.utils.impl.failIfNegative
 import kotlin.random.Random
 
 /**
@@ -38,7 +38,7 @@ fun ArbExtensionPoint.string(
 	return intFromTo(minLength, maxLength).mapIndexedInternal { index, length, seedOffset ->
 		// +1 so we don't use the same seed as intFromTo otherwise for the first string it will always be:
 		// length of the resulting string = first code point
-		componentFactoryContainer.createMinimalistRandom(seedBaseOffset + seedOffset + index + 1).let { random ->
+		componentFactoryContainer.createVariistRandom(seedBaseOffset + seedOffset + index + 1).let { random ->
 			val sb = StringBuilder(length)
 			var count = 0
 
@@ -153,10 +153,10 @@ private fun checkCanGenerateRequiredLength(
 	hasAtLeastOneBmpRange: Boolean
 ) {
 	require(hasAtLeastOneBmpRange || minLength % 2 == 0) {
-		"minLength (${minLength}) is odd but none of the allowedRanges is in the BPM domain, which means Minimalist will not be able to generate such a string"
+		"minLength (${minLength}) is odd but none of the allowedRanges is in the BPM domain, which means Variist will not be able to generate such a string"
 	}
 	require(hasAtLeastOneBmpRange || maxLength % 2 == 0) {
-		"maxLength (${maxLength}) is odd but none of the allowedRanges is in the BPM domain, which means Minimalist will not be able to generate such a string"
+		"maxLength (${maxLength}) is odd but none of the allowedRanges is in the BPM domain, which means Variist will not be able to generate such a string"
 	}
 }
 

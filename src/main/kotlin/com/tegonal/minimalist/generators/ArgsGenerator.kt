@@ -1,6 +1,6 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.config.IsComponentFactoryContainerProvider
+import com.tegonal.variist.config.IsComponentFactoryContainerProvider
 
 /**
  * Represents a generator which generates [T]s.

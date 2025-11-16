@@ -1,6 +1,6 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.generators.impl.OrderedArgsGeneratorConcatenator
+import com.tegonal.variist.generators.impl.OrderedArgsGeneratorConcatenator
 
 /**
  * Concatenates all given [OrderedArgsGenerator] resulting in an [OrderedArgsGenerator] which yields the values of

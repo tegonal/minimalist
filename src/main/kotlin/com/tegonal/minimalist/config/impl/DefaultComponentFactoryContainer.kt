@@ -1,8 +1,8 @@
-package com.tegonal.minimalist.config.impl
+package com.tegonal.variist.config.impl
 
-import com.tegonal.minimalist.config.ComponentFactory
-import com.tegonal.minimalist.config.ComponentFactoryContainer
-import com.tegonal.minimalist.utils.impl.loadServices
+import com.tegonal.variist.config.ComponentFactory
+import com.tegonal.variist.config.ComponentFactoryContainer
+import com.tegonal.variist.utils.impl.loadServices
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.KClass
 import kotlin.reflect.cast

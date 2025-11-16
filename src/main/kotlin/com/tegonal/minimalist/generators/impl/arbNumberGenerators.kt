@@ -1,11 +1,11 @@
-package com.tegonal.minimalist.generators.impl
+package com.tegonal.variist.generators.impl
 
-import com.tegonal.minimalist.config.ComponentFactoryContainer
-import com.tegonal.minimalist.generators.ArbArgsGenerator
-import com.tegonal.minimalist.generators.map
-import com.tegonal.minimalist.utils.BigInt
-import com.tegonal.minimalist.utils.nextBigInt
-import com.tegonal.minimalist.utils.toBigInt
+import com.tegonal.variist.config.ComponentFactoryContainer
+import com.tegonal.variist.generators.ArbArgsGenerator
+import com.tegonal.variist.generators.map
+import com.tegonal.variist.utils.BigInt
+import com.tegonal.variist.utils.nextBigInt
+import com.tegonal.variist.utils.toBigInt
 import kotlin.random.Random
 
 /**

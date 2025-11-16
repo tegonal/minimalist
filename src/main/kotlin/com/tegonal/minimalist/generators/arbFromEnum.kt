@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 /**
  * Returns an [OrderedArgsGenerator] for the given Enum of type [E].

@@ -1,8 +1,8 @@
-package com.tegonal.minimalist.generators.impl
+package com.tegonal.variist.generators.impl
 
-import com.tegonal.minimalist.generators.ArgsGenerator
-import com.tegonal.minimalist.utils.impl.FEATURE_REQUEST_URL
-import com.tegonal.minimalist.utils.repeatForever
+import com.tegonal.variist.generators.ArgsGenerator
+import com.tegonal.variist.utils.impl.FEATURE_REQUEST_URL
+import com.tegonal.variist.utils.repeatForever
 
 /**
  * !! No backward compatibility guarantees !!

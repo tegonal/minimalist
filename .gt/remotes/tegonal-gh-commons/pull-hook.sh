@@ -11,7 +11,7 @@
 set -euo pipefail
 shopt -s inherit_errexit
 unset CDPATH
-MINIMALIST_LATEST_VERSION="main"
+VARIIST_LATEST_VERSION="main"
 
 if ! [[ -v dir_of_tegonal_scripts ]]; then
 	dir_of_tegonal_scripts="$(cd -- "$(dirname -- "${BASH_SOURCE[0]:-$0}")" >/dev/null && pwd 2>/dev/null)/../../src"
@@ -32,7 +32,7 @@ function gt_pullHook_tegonal_gh_commons_before() {
 	local -ra params=(_tag source _target)
 	parseFnArgs params "$@"
 
-	replaceTegonalGhCommonsPlaceholders_Tegonal "$source" "Minimalist" "$MINIMALIST_LATEST_VERSION" "minimalist"
+	replaceTegonalGhCommonsPlaceholders_Tegonal "$source" "Variist" "$VARIIST_LATEST_VERSION" "variist"
 }
 
 function gt_pullHook_tegonal_gh_commons_after() {

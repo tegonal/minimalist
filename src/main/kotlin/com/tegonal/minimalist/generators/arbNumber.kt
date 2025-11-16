@@ -1,8 +1,8 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.generators.impl.*
-import com.tegonal.minimalist.utils.BigInt
+import com.tegonal.variist.config._components
+import com.tegonal.variist.generators.impl.*
+import com.tegonal.variist.utils.BigInt
 
 /**
  * Returns an [ArbArgsGenerator] which generates [Int]s ranging from

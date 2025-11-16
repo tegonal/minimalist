@@ -1,9 +1,9 @@
-package com.tegonal.minimalist.providers.impl
+package com.tegonal.variist.providers.impl
 
-import com.tegonal.minimalist.providers.AnnotationData
-import com.tegonal.minimalist.providers.ArgsSourceOptions
-import com.tegonal.minimalist.providers.BaseAnnotationDataDeducer
-import com.tegonal.minimalist.providers.fromOptions
+import com.tegonal.variist.providers.AnnotationData
+import com.tegonal.variist.providers.ArgsSourceOptions
+import com.tegonal.variist.providers.BaseAnnotationDataDeducer
+import com.tegonal.variist.providers.fromOptions
 
 /**
  * !! No backward compatibility guarantees !!

@@ -3,5 +3,5 @@ plugins {
 }
 
 allprojects {
-    group = "com.tegonal.minimalist.build-logic"
+    group = "com.tegonal.variist.build-logic"
 }

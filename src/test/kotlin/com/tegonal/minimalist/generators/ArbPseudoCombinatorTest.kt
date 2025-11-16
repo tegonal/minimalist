@@ -1,13 +1,13 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.atrium.api.fluent.en_GB.toContainExactlyElementsOf
 import ch.tutteli.atrium.api.fluent.en_GB.toEqual
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.Args
-import com.tegonal.minimalist.Args2
-import com.tegonal.minimalist.testutils.PseudoArbArgsGenerator
-import com.tegonal.minimalist.utils.repeatForever
+import com.tegonal.variist.Args
+import com.tegonal.variist.Args2
+import com.tegonal.variist.testutils.PseudoArbArgsGenerator
+import com.tegonal.variist.utils.repeatForever
 import kotlin.test.Test
 
 class ArbPseudoCombinatorTest {

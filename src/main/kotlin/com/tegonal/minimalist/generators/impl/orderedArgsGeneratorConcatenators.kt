@@ -1,8 +1,8 @@
-package com.tegonal.minimalist.generators.impl
+package com.tegonal.variist.generators.impl
 
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.generators.OrderedArgsGenerator
-import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
+import com.tegonal.variist.config._components
+import com.tegonal.variist.generators.OrderedArgsGenerator
+import com.tegonal.variist.generators.SemiOrderedArgsGenerator
 
 /**
  * !! No backward compatibility guarantees !!
@@ -20,7 +20,7 @@ class OrderedArgsGeneratorConcatenator<T>(
 	a1Generator._components,
 	a1Generator.size.toLong() + a2Generator.size.toLong()
 ), OrderedArgsGenerator<T> {
-	
+
 	override fun generateOneAfterChecks(offset: Int): T {
 		val offsetInRange = offset % size
 		val a1Size = a1Generator.size

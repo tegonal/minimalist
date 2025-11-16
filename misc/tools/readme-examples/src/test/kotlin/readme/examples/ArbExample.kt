@@ -1,7 +1,7 @@
 package readme.examples
 
-import com.tegonal.minimalist.generators.*
-import com.tegonal.minimalist.utils.BigInt
+import com.tegonal.variist.generators.*
+import com.tegonal.variist.utils.BigInt
 import readme.examples.jupiter.ReadmeTest
 import java.time.LocalDate
 import java.time.LocalDateTime

@@ -1,14 +1,14 @@
-package com.tegonal.minimalist.providers.impl
+package com.tegonal.variist.providers.impl
 
-import com.tegonal.minimalist.generators.ArgsGenerator
-import com.tegonal.minimalist.generators.ArbArgsGenerator
-import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
-import com.tegonal.minimalist.generators.combine
-import com.tegonal.minimalist.generators.zip
-import com.tegonal.minimalist.generators.impl.throwDontKnowHowToConvertToArgsGenerator
-import com.tegonal.minimalist.generators.impl.throwUnsupportedArgsGenerator
-import com.tegonal.minimalist.generators.map
-import com.tegonal.minimalist.providers.GenericArgsGeneratorCombiner
+import com.tegonal.variist.generators.ArgsGenerator
+import com.tegonal.variist.generators.ArbArgsGenerator
+import com.tegonal.variist.generators.SemiOrderedArgsGenerator
+import com.tegonal.variist.generators.combine
+import com.tegonal.variist.generators.zip
+import com.tegonal.variist.generators.impl.throwDontKnowHowToConvertToArgsGenerator
+import com.tegonal.variist.generators.impl.throwUnsupportedArgsGenerator
+import com.tegonal.variist.generators.map
+import com.tegonal.variist.providers.GenericArgsGeneratorCombiner
 
 /**
  * !! No backward compatibility guarantees !!

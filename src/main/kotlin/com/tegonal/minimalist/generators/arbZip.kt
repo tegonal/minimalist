@@ -1,7 +1,7 @@
 @file:JvmName("ArbZipKt")
 @file:JvmMultifileClass
 
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 /**
  * Zips `this` [ArbArgsGenerator] with the given [other]&nbsp;[ArbArgsGenerator], [transform]ing

@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.providers
+package com.tegonal.variist.providers
 
 import ch.tutteli.atrium.api.fluent.en_GB.toBeGreaterThanOrEqualTo
 import ch.tutteli.atrium.api.fluent.en_GB.toBeLessThan
@@ -7,21 +7,21 @@ import ch.tutteli.atrium.api.fluent.en_GB.toEqual
 import ch.tutteli.atrium.api.fluent.en_GB.toHaveSize
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.Args
-import com.tegonal.minimalist.component1
-import com.tegonal.minimalist.component2
-import com.tegonal.minimalist.config.ComponentFactoryContainer
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.config.arb
-import com.tegonal.minimalist.config.create
-import com.tegonal.minimalist.config.impl.createVia
-import com.tegonal.minimalist.config.ordered
-import com.tegonal.minimalist.generators.ArgsGenerator
-import com.tegonal.minimalist.generators.arb
-import com.tegonal.minimalist.generators.fromList
-import com.tegonal.minimalist.generators.of
-import com.tegonal.minimalist.generators.ordered
-import com.tegonal.minimalist.testutils.Tuple4LikeStructure
+import com.tegonal.variist.Args
+import com.tegonal.variist.component1
+import com.tegonal.variist.component2
+import com.tegonal.variist.config.ComponentFactoryContainer
+import com.tegonal.variist.config._components
+import com.tegonal.variist.config.arb
+import com.tegonal.variist.config.create
+import com.tegonal.variist.config.impl.createVia
+import com.tegonal.variist.config.ordered
+import com.tegonal.variist.generators.ArgsGenerator
+import com.tegonal.variist.generators.arb
+import com.tegonal.variist.generators.fromList
+import com.tegonal.variist.generators.of
+import com.tegonal.variist.generators.ordered
+import com.tegonal.variist.testutils.Tuple4LikeStructure
 import org.junit.jupiter.params.ParameterizedTest
 
 class ArgsProviderTest {

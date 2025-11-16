@@ -1,8 +1,8 @@
-package com.tegonal.minimalist.generators.impl
+package com.tegonal.variist.generators.impl
 
-import com.tegonal.minimalist.utils.impl.checkIsPositive
-import com.tegonal.minimalist.generators.ArbArgsGenerator
-import com.tegonal.minimalist.generators._core
+import com.tegonal.variist.utils.impl.checkIsPositive
+import com.tegonal.variist.generators.ArbArgsGenerator
+import com.tegonal.variist.generators._core
 
 /**
  * !! No backward compatibility guarantees !!
@@ -30,13 +30,13 @@ class ArbArgsGeneratorMerger<T>(
 		checkIsPositive(a2GeneratorWithWeight.first, "(2.) weight")
 	}
 
-	override fun generateOne(seedOffset: Int): T = createMinimalistRandom(seedOffset).let { minimalistRandom ->
-		val r = minimalistRandom.nextInt(1, totalWeightPlus1)
+	override fun generateOne(seedOffset: Int): T = createVariistRandom(seedOffset).let { variistRandom ->
+		val r = variistRandom.nextInt(1, totalWeightPlus1)
 		return if (r <= a1Weight) a1Generator.generateOne(seedOffset)
 		else a2Generator.generateOne(seedOffset)
 	}
 
-	override fun generate(seedOffset: Int): Sequence<T> = createMinimalistRandom(seedOffset).let { minimalistRandom ->
+	override fun generate(seedOffset: Int): Sequence<T> = createVariistRandom(seedOffset).let { variistRandom ->
 		Sequence {
 			object : Iterator<T> {
 				private val a1Iterator = a1Generator.generate(seedOffset).iterator()
@@ -44,7 +44,7 @@ class ArbArgsGeneratorMerger<T>(
 
 				override fun hasNext(): Boolean = true
 				override fun next(): T {
-					val r = minimalistRandom.nextInt(1, totalWeightPlus1)
+					val r = variistRandom.nextInt(1, totalWeightPlus1)
 					return if (r <= a1Weight) a1Iterator.next()
 					else a2Iterator.next()
 				}
@@ -106,20 +106,20 @@ class MultiArbArgsGeneratorIndexOfMerger<T>(
 		totalWeightPlus1 = Math.addExact(acc, 1)
 	}
 
-	override fun generateOne(seedOffset: Int): T = createMinimalistRandom(seedOffset).let { minimalistRandom ->
-		val r = minimalistRandom.nextInt(1, totalWeightPlus1)
+	override fun generateOne(seedOffset: Int): T = createVariistRandom(seedOffset).let { variistRandom ->
+		val r = variistRandom.nextInt(1, totalWeightPlus1)
 		val index = cumulativeWeights.indexOfFirst { it >= r }
 		generators[index].generateOne(seedOffset)
 	}
 
-	override fun generate(seedOffset: Int): Sequence<T> = createMinimalistRandom(seedOffset).let { minimalistRandom ->
+	override fun generate(seedOffset: Int): Sequence<T> = createVariistRandom(seedOffset).let { variistRandom ->
 		Sequence {
 			object : Iterator<T> {
 				private val iterators = Array(generators.size) { generators[it].generate(seedOffset).iterator() }
 
 				override fun hasNext(): Boolean = true
 				override fun next(): T {
-					val r = minimalistRandom.nextInt(1, totalWeightPlus1)
+					val r = variistRandom.nextInt(1, totalWeightPlus1)
 					val index = cumulativeWeights.indexOfFirst { it >= r }
 					return iterators[index].next()
 				}

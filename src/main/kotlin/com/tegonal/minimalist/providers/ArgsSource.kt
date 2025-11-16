@@ -1,12 +1,12 @@
-package com.tegonal.minimalist.providers
+package com.tegonal.variist.providers
 
-import com.tegonal.minimalist.Args
-import com.tegonal.minimalist.generators.ArgsGenerator
+import com.tegonal.variist.Args
+import com.tegonal.variist.generators.ArgsGenerator
 import org.intellij.lang.annotations.Language
 import org.junit.jupiter.params.provider.ArgumentsSource
 import java.lang.annotation.Inherited
-import com.tegonal.minimalist.config.MinimalistConfig
-import com.tegonal.minimalist.config.TestType
+import com.tegonal.variist.config.VariistConfig
+import com.tegonal.variist.config.TestType
 
 /**
  *
@@ -41,7 +41,7 @@ annotation class ArgsSourceLike
 @Inherited
 annotation class ArgsSourceOptions(
 	/**
-	 * Taken into account if non-empty and will take precedence over [MinimalistConfig.defaultProfile].
+	 * Taken into account if non-empty and will take precedence over [VariistConfig.defaultProfile].
 	 *
 	 * If you use the predefined [TestType]s as profile names, then use [TestType.ForAnnotation]
 	 */

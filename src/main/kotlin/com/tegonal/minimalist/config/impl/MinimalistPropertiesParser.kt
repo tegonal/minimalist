@@ -1,10 +1,10 @@
-package com.tegonal.minimalist.config.impl
+package com.tegonal.variist.config.impl
 
-import com.tegonal.minimalist.config.MinimalistConfigBuilder
-import com.tegonal.minimalist.config.TestConfig
-import com.tegonal.minimalist.utils.impl.FEATURE_REQUEST_URL
-import com.tegonal.minimalist.utils.impl.toIntOrErrorNotValid
-import com.tegonal.minimalist.utils.impl.toPositiveIntOrErrorNotValid
+import com.tegonal.variist.config.VariistConfigBuilder
+import com.tegonal.variist.config.TestConfig
+import com.tegonal.variist.utils.impl.FEATURE_REQUEST_URL
+import com.tegonal.variist.utils.impl.toIntOrErrorNotValid
+import com.tegonal.variist.utils.impl.toPositiveIntOrErrorNotValid
 import java.nio.file.Paths
 import java.time.LocalDateTime
 import java.util.*
@@ -15,10 +15,10 @@ import java.util.*
  *
  * @since 2.0.0
  */
-class MinimalistPropertiesParser {
+class VariistPropertiesParser {
 
 	fun mergeWithProperties(
-		config: MinimalistConfigBuilder,
+		config: VariistConfigBuilder,
 		configFileSpecifics: ConfigFileSpecifics,
 		props: Properties
 	) {
@@ -28,16 +28,16 @@ class MinimalistPropertiesParser {
 				val value = valueAny as String
 
 				config.parseProperty(configFileSpecifics, key, value)
-			} catch (m: MinimalistParseException) {
+			} catch (m: VariistParseException) {
 				throw m
 			} catch (e: Exception) {
-				throw MinimalistParseException("could not parse $keyAny=$valueAny", e)
+				throw VariistParseException("could not parse $keyAny=$valueAny", e)
 			}
 		}
 	}
 
 
-	private fun MinimalistConfigBuilder.parseProperty(
+	private fun VariistConfigBuilder.parseProperty(
 		configFileSpecifics: ConfigFileSpecifics,
 		key: String,
 		value: String
@@ -67,7 +67,7 @@ class MinimalistPropertiesParser {
 
 			key.startsWith(PROFILES_PREFIX) -> parseTestProfile(key, value)
 
-			isKey("minimalistPropertiesDir") -> configFileSpecifics.minimalistPropertiesDir = Paths.get(value)
+			isKey("variistPropertiesDir") -> configFileSpecifics.variistPropertiesDir = Paths.get(value)
 
 			key.startsWith(ERROR_DEADLINES_PREFIX) -> configFileSpecifics.parseErrorDeadlines(key, value)
 
@@ -75,7 +75,7 @@ class MinimalistPropertiesParser {
 		}
 	}
 
-	private fun MinimalistConfigBuilder.parseTestProfile(key: String, value: String) {
+	private fun VariistConfigBuilder.parseTestProfile(key: String, value: String) {
 		//TODO 2.1.0 warn about duplicates profile Names / envs, i.e. copy to own maps first and merge in the end
 		// (we don't want to error in case we override an existing profile name / env)
 		val remainingAfterPrefix = key.substringAfter(PROFILES_PREFIX)
@@ -116,14 +116,14 @@ class MinimalistPropertiesParser {
 		supportedKeys: List<String>,
 		within: String? = null
 	): Nothing {
-		throw MinimalistParseException(
-			"Unknown minimalist config property $key with value $value -- if you want to introduce custom config properties, then please open a feature request: $FEATURE_REQUEST_URL&title=custom%20config%20properties\nSupported Keys${within?.let { " within $it" } ?: ""}: ${
+		throw VariistParseException(
+			"Unknown variist config property $key with value $value -- if you want to introduce custom config properties, then please open a feature request: $FEATURE_REQUEST_URL&title=custom%20config%20properties\nSupported Keys${within?.let { " within $it" } ?: ""}: ${
 				supportedKeys.sorted().joinToString(", ")
 			}"
 		)
 	}
 
-	private fun parseError(message: String): Nothing = throw MinimalistParseException(message)
+	private fun parseError(message: String): Nothing = throw VariistParseException(message)
 
 	companion object {
 		const val PROFILES = "profiles"

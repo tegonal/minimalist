@@ -1,11 +1,11 @@
-package com.tegonal.minimalist.config
+package com.tegonal.variist.config
 
 import ch.tutteli.kbox.failIf
-import com.tegonal.minimalist.utils.impl.checkIsNotBlank
-import com.tegonal.minimalist.utils.impl.checkIsPositive
-import com.tegonal.minimalist.providers.ArgsRangeDecider
-import com.tegonal.minimalist.providers.ArgsRange
-import com.tegonal.minimalist.generators.ArgsGenerator
+import com.tegonal.variist.utils.impl.checkIsNotBlank
+import com.tegonal.variist.utils.impl.checkIsPositive
+import com.tegonal.variist.providers.ArgsRangeDecider
+import com.tegonal.variist.providers.ArgsRange
+import com.tegonal.variist.generators.ArgsGenerator
 import kotlin.String
 
 /**
@@ -14,7 +14,7 @@ import kotlin.String
  */
 class ArgsRangeOptions(
 	/**
-	 * Will take precedence over [MinimalistConfig.defaultProfile].
+	 * Will take precedence over [VariistConfig.defaultProfile].
 	 */
 	val profile: String? = null,
 

@@ -1,24 +1,24 @@
-package com.tegonal.minimalist.providers.impl
+package com.tegonal.variist.providers.impl
 
 import ch.tutteli.kbox.letIf
-import com.tegonal.minimalist.config.ArgsRangeOptions
-import com.tegonal.minimalist.config.MinimalistConfig
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.config.config
-import com.tegonal.minimalist.generators.ArbArgsGenerator
-import com.tegonal.minimalist.generators.ArgsGenerator
-import com.tegonal.minimalist.generators.OrderedArgsGenerator
-import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
-import com.tegonal.minimalist.generators.impl.throwUnsupportedArgsGenerator
-import com.tegonal.minimalist.providers.AnnotationData
-import com.tegonal.minimalist.providers.ArgsRange
-import com.tegonal.minimalist.providers.ArgsRangeDecider
-import com.tegonal.minimalist.utils.seedToOffset
+import com.tegonal.variist.config.ArgsRangeOptions
+import com.tegonal.variist.config.VariistConfig
+import com.tegonal.variist.config._components
+import com.tegonal.variist.config.config
+import com.tegonal.variist.generators.ArbArgsGenerator
+import com.tegonal.variist.generators.ArgsGenerator
+import com.tegonal.variist.generators.OrderedArgsGenerator
+import com.tegonal.variist.generators.SemiOrderedArgsGenerator
+import com.tegonal.variist.generators.impl.throwUnsupportedArgsGenerator
+import com.tegonal.variist.providers.AnnotationData
+import com.tegonal.variist.providers.ArgsRange
+import com.tegonal.variist.providers.ArgsRangeDecider
+import com.tegonal.variist.utils.seedToOffset
 
 /**
  * Not really a good name, but hard to come up with a good one.
  *
- * This class is responsible to get an [com.tegonal.minimalist.providers.ArgsRange] from a subclass based on a given profile, env and ArgsGenerator
+ * This class is responsible to get an [com.tegonal.variist.providers.ArgsRange] from a subclass based on a given profile, env and ArgsGenerator
  * and then restrict it based on [ArgsRangeOptions] and [ArgsGenerator].
  *
  *
@@ -41,7 +41,7 @@ abstract class BaseArgsRangeOptionsBasedArgsRangeDecider : ArgsRangeDecider {
 	/**
 	 * Returns the [ArgsRange] solely based on the given [profileName], [env] and [argsGenerator].
 	 *
-	 * Restricting the choice based on given [ArgsRangeOptions] and [MinimalistConfig] is the
+	 * Restricting the choice based on given [ArgsRangeOptions] and [VariistConfig] is the
 	 * responsibility of [BaseArgsRangeOptionsBasedArgsRangeDecider].
 	 */
 	protected abstract fun decideArgsRange(
@@ -51,7 +51,7 @@ abstract class BaseArgsRangeOptionsBasedArgsRangeDecider : ArgsRangeDecider {
 	): ArgsRange
 
 	private fun ArgsRange.restrictBasedOnConfigAndArgsRangeOptions(
-		config: MinimalistConfig,
+		config: VariistConfig,
 		argsRangeOptions: ArgsRangeOptions?,
 		argsGenerator: ArgsGenerator<*>
 	): ArgsRange =

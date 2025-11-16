@@ -1,6 +1,6 @@
-package com.tegonal.minimalist.generators.impl
+package com.tegonal.variist.generators.impl
 
-import com.tegonal.minimalist.config.ComponentFactoryContainer
+import com.tegonal.variist.config.ComponentFactoryContainer
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.OffsetDateTime

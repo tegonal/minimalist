@@ -1,12 +1,12 @@
 @file:JvmName("ArbZipDependentKt")
 @file:JvmMultifileClass
 
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.kbox.Tuple2
-import com.tegonal.minimalist.generators.impl.flatMapIndexedInternal
-import com.tegonal.minimalist.generators.impl.mapIndexedInternal
-import com.tegonal.minimalist.utils.impl.checkIsPositive
+import com.tegonal.variist.generators.impl.flatMapIndexedInternal
+import com.tegonal.variist.generators.impl.mapIndexedInternal
+import com.tegonal.variist.utils.impl.checkIsPositive
 
 /**
  * Creates for each generated value of type [A1] by `this` [ArbArgsGenerator] another [ArbArgsGenerator] with the

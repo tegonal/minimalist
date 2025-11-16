@@ -4,7 +4,7 @@
 // automatically generated, don't modify here but in:
 // gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts => generate
 // --------------------------------------------------------------------------------------------------------------------
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.kbox.append
 import ch.tutteli.kbox.Tuple2

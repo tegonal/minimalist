@@ -1,10 +1,10 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.kbox.Tuple
 import ch.tutteli.kbox.Tuple4
 import ch.tutteli.kbox.toList
-import com.tegonal.minimalist.providers.ArgsSource
-import com.tegonal.minimalist.testutils.Tuple4LikeStructure
+import com.tegonal.variist.providers.ArgsSource
+import com.tegonal.variist.testutils.Tuple4LikeStructure
 import org.junit.jupiter.params.ParameterizedTest
 
 class SemiOrderedTupleLikeCombineTest : AbstractOrderedCombinerTest() {

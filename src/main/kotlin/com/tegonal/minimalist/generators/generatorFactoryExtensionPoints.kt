@@ -1,7 +1,7 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.config.*
-import com.tegonal.minimalist.config.impl.MinimalistConfigViaPropertiesLoader
+import com.tegonal.variist.config.*
+import com.tegonal.variist.config.impl.VariistConfigViaPropertiesLoader
 
 /**
  *
@@ -35,7 +35,7 @@ interface ArbExtensionPoint : GeneratorExtensionPoint {
  * @since 2.0.0
  */
 private val propertiesBasedComponentFactoryContainer: ComponentFactoryContainer = run {
-	val config = MinimalistConfigViaPropertiesLoader().config
+	val config = VariistConfigViaPropertiesLoader().config
 	ComponentFactoryContainer.createBasedOnConfig(config)
 }
 

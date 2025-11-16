@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.providers
+package com.tegonal.variist.providers
 
 /**
  * @since 2.0.0

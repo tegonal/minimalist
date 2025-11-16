@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.utils
+package com.tegonal.variist.utils
 
 import ch.tutteli.atrium.api.fluent.en_GB.toBeLessThan
 import ch.tutteli.atrium.api.verbs.expect

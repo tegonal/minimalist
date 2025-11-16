@@ -2,8 +2,8 @@ package readme.examples
 
 //snippet-combine-tuple-import-start
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.generators.*
-import com.tegonal.minimalist.providers.*
+import com.tegonal.variist.generators.*
+import com.tegonal.variist.providers.*
 import org.junit.jupiter.params.ParameterizedTest
 //snippet-combine-tuple-import-end
 import org.junit.jupiter.api.Order

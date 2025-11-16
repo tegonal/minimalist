@@ -1,4 +1,4 @@
-package com.tegonal.minimalist
+package com.tegonal.variist
 
 /**
  * Only here as helper, if you re-compile your sources then [Args.of] should be chosen automatically but you might have some dangling imports

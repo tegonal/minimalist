@@ -1,6 +1,6 @@
-package com.tegonal.minimalist
+package com.tegonal.variist
 
-import com.tegonal.minimalist.utils.repeatForever
+import com.tegonal.variist.utils.repeatForever
 import org.junit.jupiter.api.Test
 import org.openjdk.jmh.annotations.*
 import java.util.BitSet

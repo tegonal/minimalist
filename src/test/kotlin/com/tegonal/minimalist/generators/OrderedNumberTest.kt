@@ -1,8 +1,8 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.utils.BigInt
-import com.tegonal.minimalist.utils.toBigInt
+import com.tegonal.variist.utils.BigInt
+import com.tegonal.variist.utils.toBigInt
 
 class OrderedNumberTest : AbstractOrderedArgsGeneratorTest<Any>() {
 

@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.testutils
+package com.tegonal.variist.testutils
 
 enum class AbcdEnum {
 	A, B, C, D

@@ -1,6 +1,6 @@
-package com.tegonal.minimalist.generators.impl
+package com.tegonal.variist.generators.impl
 
-import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
+import com.tegonal.variist.generators.SemiOrderedArgsGenerator
 
 /**
  * !! No backward compatibility guarantees !!

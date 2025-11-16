@@ -1,10 +1,10 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.kbox.Tuple2
-import com.tegonal.minimalist.generators.impl.createBoundsArbGenerator
-import com.tegonal.minimalist.generators.impl.createIntDomainBasedBoundsArbGenerator
-import com.tegonal.minimalist.generators.impl.possibleMaxSizeSafeInIntDomain
-import com.tegonal.minimalist.utils.toBigInt
+import com.tegonal.variist.generators.impl.createBoundsArbGenerator
+import com.tegonal.variist.generators.impl.createIntDomainBasedBoundsArbGenerator
+import com.tegonal.variist.generators.impl.possibleMaxSizeSafeInIntDomain
+import com.tegonal.variist.utils.toBigInt
 
 /**
  * Returns an [ArbArgsGenerator] which generates [Tuple2] representing a lower and upper bound where the bounds

@@ -1,6 +1,6 @@
-package com.tegonal.minimalist.config.impl
+package com.tegonal.variist.config.impl
 
-import com.tegonal.minimalist.config.RandomFactory
+import com.tegonal.variist.config.RandomFactory
 import kotlin.random.Random
 
 /**

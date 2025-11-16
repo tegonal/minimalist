@@ -1,10 +1,10 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.atrium.api.fluent.en_GB.*
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.testutils.BaseTest
-import com.tegonal.minimalist.testutils.atrium.size
+import com.tegonal.variist.testutils.BaseTest
+import com.tegonal.variist.testutils.atrium.size
 
 abstract class AbstractOrderedCombinerTest : BaseTest() {
 

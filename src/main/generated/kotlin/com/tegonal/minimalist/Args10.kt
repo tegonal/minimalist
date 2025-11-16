@@ -2,7 +2,7 @@
 // automatically generated, don't modify here but in:
 // gradle/code-generation/src/main/kotlin/code-generation.generate.gradle.kts => generate
 // --------------------------------------------------------------------------------------------------------------------
-package com.tegonal.minimalist
+package com.tegonal.variist
 
 /**
  * Represents an [Args] with 10 arguments.

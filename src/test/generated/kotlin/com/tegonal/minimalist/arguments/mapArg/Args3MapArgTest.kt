@@ -4,7 +4,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 @file:Suppress("UnusedImport")
 
-package com.tegonal.minimalist.arguments.mapArg
+package com.tegonal.variist.arguments.mapArg
 
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.atrium.api.fluent.en_GB.*
@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Named
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
-import com.tegonal.minimalist.*
-import com.tegonal.minimalist.testutils.atrium.*
+import com.tegonal.variist.*
+import com.tegonal.variist.testutils.atrium.*
 import java.math.BigInteger
 import java.time.LocalDate
 

@@ -1,7 +1,7 @@
-package com.tegonal.minimalist.generators.impl
+package com.tegonal.variist.generators.impl
 
-import com.tegonal.minimalist.config.ComponentFactoryContainer
-import com.tegonal.minimalist.utils.repeatForever
+import com.tegonal.variist.config.ComponentFactoryContainer
+import com.tegonal.variist.utils.repeatForever
 import kotlin.random.Random
 
 /**
@@ -17,9 +17,9 @@ abstract class RandomBasedArbArgsGenerator<T>(
 
 	override fun generateOne(seedOffset: Int): T =
 		// Random is not thread safe, add synchronisation in case we run into issues
-		createMinimalistRandom(seedOffset).nextElement()
+		createVariistRandom(seedOffset).nextElement()
 
-	override fun generate(seedOffset: Int): Sequence<T> = createMinimalistRandom(seedOffset).let { random ->
+	override fun generate(seedOffset: Int): Sequence<T> = createVariistRandom(seedOffset).let { random ->
 		repeatForever().map {
 			// Random is not thread safe, add synchronisation in case we run into issues
 			random.nextElement()

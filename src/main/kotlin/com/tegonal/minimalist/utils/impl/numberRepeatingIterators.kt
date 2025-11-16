@@ -1,6 +1,6 @@
-package com.tegonal.minimalist.utils.impl
+package com.tegonal.variist.utils.impl
 
-import com.tegonal.minimalist.utils.BigInt
+import com.tegonal.variist.utils.BigInt
 
 /**
  * !! No backward compatibility guarantees !!

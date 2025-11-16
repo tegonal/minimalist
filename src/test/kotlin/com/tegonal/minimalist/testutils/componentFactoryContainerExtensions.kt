@@ -1,14 +1,14 @@
-package com.tegonal.minimalist.testutils
+package com.tegonal.variist.testutils
 
 import ch.tutteli.kbox.Tuple3
-import com.tegonal.minimalist.config.ComponentFactoryContainer
-import com.tegonal.minimalist.config.RandomFactory
-import com.tegonal.minimalist.config.create
-import com.tegonal.minimalist.config.impl.createSingletonVia
-import com.tegonal.minimalist.generators.ArgsGenerator
-import com.tegonal.minimalist.providers.AnnotationData
-import com.tegonal.minimalist.providers.ArgsRange
-import com.tegonal.minimalist.providers.ArgsRangeDecider
+import com.tegonal.variist.config.ComponentFactoryContainer
+import com.tegonal.variist.config.RandomFactory
+import com.tegonal.variist.config.create
+import com.tegonal.variist.config.impl.createSingletonVia
+import com.tegonal.variist.generators.ArgsGenerator
+import com.tegonal.variist.providers.AnnotationData
+import com.tegonal.variist.providers.ArgsRange
+import com.tegonal.variist.providers.ArgsRangeDecider
 
 fun ComponentFactoryContainer.withMockedRandom(
 	ints: List<Int> = emptyList(),

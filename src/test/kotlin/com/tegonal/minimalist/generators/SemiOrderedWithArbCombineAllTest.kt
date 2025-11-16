@@ -1,8 +1,8 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.kbox.Tuple
 import ch.tutteli.kbox.mapSecond
-import com.tegonal.minimalist.testutils.PseudoArbArgsGenerator
+import com.tegonal.variist.testutils.PseudoArbArgsGenerator
 import org.junit.jupiter.api.TestFactory
 import kotlin.collections.map
 

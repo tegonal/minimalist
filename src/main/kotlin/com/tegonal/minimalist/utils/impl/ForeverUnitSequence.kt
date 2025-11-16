@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.utils.impl
+package com.tegonal.variist.utils.impl
 
 /**
  * !! No backward compatibility guarantees !!

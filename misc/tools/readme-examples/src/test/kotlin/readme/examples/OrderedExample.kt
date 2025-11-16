@@ -1,7 +1,7 @@
 package readme.examples
 
 //snippet-ordered-1-start
-import com.tegonal.minimalist.generators.*
+import com.tegonal.variist.generators.*
 //snippet-ordered-1-end
 
 import readme.examples.jupiter.ReadmeTest

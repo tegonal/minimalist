@@ -1,9 +1,9 @@
-package com.tegonal.minimalist.utils
+package com.tegonal.variist.utils
 
-import com.tegonal.minimalist.utils.impl.ForeverUnitSequence
-import com.tegonal.minimalist.utils.impl.RepeatingArraySequence
-import com.tegonal.minimalist.utils.impl.RepeatingConstantSequence
-import com.tegonal.minimalist.utils.impl.RepeatingListSequence
+import com.tegonal.variist.utils.impl.ForeverUnitSequence
+import com.tegonal.variist.utils.impl.RepeatingArraySequence
+import com.tegonal.variist.utils.impl.RepeatingConstantSequence
+import com.tegonal.variist.utils.impl.RepeatingListSequence
 
 /**
  * Returns an infinite [Sequence] of [Unit].

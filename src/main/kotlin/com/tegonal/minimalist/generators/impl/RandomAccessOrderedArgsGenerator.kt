@@ -1,9 +1,9 @@
-package com.tegonal.minimalist.generators.impl
+package com.tegonal.variist.generators.impl
 
-import com.tegonal.minimalist.config.ComponentFactoryContainer
-import com.tegonal.minimalist.generators.OrderedArgsGenerator
-import com.tegonal.minimalist.utils.impl.RepeatingRandomAccessSequence
-import com.tegonal.minimalist.utils.impl.determineStartingIndex
+import com.tegonal.variist.config.ComponentFactoryContainer
+import com.tegonal.variist.generators.OrderedArgsGenerator
+import com.tegonal.variist.utils.impl.RepeatingRandomAccessSequence
+import com.tegonal.variist.utils.impl.determineStartingIndex
 
 /**
  * Represents a class for [OrderedArgsGenerator] which provide fast random access.

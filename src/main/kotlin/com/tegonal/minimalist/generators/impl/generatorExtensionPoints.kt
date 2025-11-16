@@ -1,11 +1,11 @@
-package com.tegonal.minimalist.generators.impl
+package com.tegonal.variist.generators.impl
 
-import com.tegonal.minimalist.config.ComponentFactoryContainer
-import com.tegonal.minimalist.config.ComponentFactoryContainerProvider
-import com.tegonal.minimalist.config.arb
-import com.tegonal.minimalist.config.ordered
-import com.tegonal.minimalist.generators.ArbExtensionPoint
-import com.tegonal.minimalist.generators.OrderedExtensionPoint
+import com.tegonal.variist.config.ComponentFactoryContainer
+import com.tegonal.variist.config.ComponentFactoryContainerProvider
+import com.tegonal.variist.config.arb
+import com.tegonal.variist.config.ordered
+import com.tegonal.variist.generators.ArbExtensionPoint
+import com.tegonal.variist.generators.OrderedExtensionPoint
 
 /**
  * !! No backward compatibility guarantees !!
@@ -29,7 +29,7 @@ class DefaultOrderedExtensionPoint(
 class DefaultArbExtensionPoint(
 	override val componentFactoryContainer: ComponentFactoryContainer,
 	/**
-	 * Will be added to [com.tegonal.minimalist.config.MinimalistConfig.seed].
+	 * Will be added to [com.tegonal.variist.config.VariistConfig.seed].
 	 *
 	 * Is allowed to be negative.
 	 */

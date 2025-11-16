@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.providers.impl
+package com.tegonal.variist.providers.impl
 
 import ch.tutteli.kbox.Tuple2Like
 import ch.tutteli.kbox.Tuple3Like

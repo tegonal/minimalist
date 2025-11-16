@@ -1,4 +1,4 @@
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
 import ch.tutteli.atrium.api.fluent.en_GB.notToThrow
 import ch.tutteli.atrium.api.fluent.en_GB.toEqual
@@ -6,8 +6,8 @@ import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.atrium.testfactories.TestFactory
 import ch.tutteli.kbox.a2
 import ch.tutteli.kbox.mapA3
-import com.tegonal.minimalist.config.arb
-import com.tegonal.minimalist.generators.impl.DefaultArbExtensionPoint
+import com.tegonal.variist.config.arb
+import com.tegonal.variist.generators.impl.DefaultArbExtensionPoint
 
 typealias ArbArgsTestFactoryResult<T> = ArgsTestFactoryResult<T, ArbArgsGenerator<T>>
 

@@ -1,20 +1,20 @@
-package com.tegonal.minimalist.providers
+package com.tegonal.variist.providers
 
 import ch.tutteli.atrium.api.fluent.en_GB.*
 import ch.tutteli.atrium.api.verbs.expect
 import ch.tutteli.atrium.logic.utils.expectLambda
 import ch.tutteli.kbox.toVararg
-import com.tegonal.minimalist.Args
-import com.tegonal.minimalist.config.ArgsRangeOptions
-import com.tegonal.minimalist.config.ComponentFactoryContainer
-import com.tegonal.minimalist.config.MinimalistConfig
-import com.tegonal.minimalist.config.createBasedOnConfig
-import com.tegonal.minimalist.config.ordered
-import com.tegonal.minimalist.generators.*
-import com.tegonal.minimalist.providers.impl.DefaultArgsGeneratorToArgumentsConverter
-import com.tegonal.minimalist.testutils.Tuple4LikeStructure
-import com.tegonal.minimalist.testutils.orderedWithSeed0
-import com.tegonal.minimalist.testutils.withMockedArgsRange
+import com.tegonal.variist.Args
+import com.tegonal.variist.config.ArgsRangeOptions
+import com.tegonal.variist.config.ComponentFactoryContainer
+import com.tegonal.variist.config.VariistConfig
+import com.tegonal.variist.config.createBasedOnConfig
+import com.tegonal.variist.config.ordered
+import com.tegonal.variist.generators.*
+import com.tegonal.variist.providers.impl.DefaultArgsGeneratorToArgumentsConverter
+import com.tegonal.variist.testutils.Tuple4LikeStructure
+import com.tegonal.variist.testutils.orderedWithSeed0
+import com.tegonal.variist.testutils.withMockedArgsRange
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import java.time.LocalDate
@@ -35,7 +35,7 @@ class ArgsGeneratorToArgumentsConverterTest {
 
 		val orderedWithRange0To100 = ComponentFactoryContainer.createBasedOnConfig(
 			// neither the config setting...
-			MinimalistConfig().copy { maxArgs = 500 }
+			VariistConfig().copy { maxArgs = 500 }
 		).withMockedArgsRange(0, 1000).ordered
 
 		// ... nor the AnnotationData

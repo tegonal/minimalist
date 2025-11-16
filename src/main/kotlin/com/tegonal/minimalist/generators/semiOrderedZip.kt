@@ -1,9 +1,9 @@
 @file:JvmName("SemiOrderedZipKt")
 @file:JvmMultifileClass
 
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.generators.impl.SemiOrderedZipArbArgsGenerator
+import com.tegonal.variist.generators.impl.SemiOrderedZipArbArgsGenerator
 
 /**
  * Combines `this` [SemiOrderedArgsGenerator] with the given [other]&nbsp;[ArbArgsGenerator] and [transform]s the generated

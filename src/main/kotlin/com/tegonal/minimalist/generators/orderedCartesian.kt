@@ -1,8 +1,8 @@
 @file:JvmName("OrderedArgsCartesianKt")
 @file:JvmMultifileClass
-package com.tegonal.minimalist.generators
+package com.tegonal.variist.generators
 
-import com.tegonal.minimalist.generators.impl.OrderedCartesianProductArgsGenerator
+import com.tegonal.variist.generators.impl.OrderedCartesianProductArgsGenerator
 
 /**
  * Combines `this` [OrderedArgsGenerator] with the given [other]&nbsp;[OrderedArgsGenerator] resulting in their

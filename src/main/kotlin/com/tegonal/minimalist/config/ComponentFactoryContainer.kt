@@ -1,11 +1,11 @@
-package com.tegonal.minimalist.config
+package com.tegonal.variist.config
 
 import kotlin.reflect.KClass
 
 
 /**
- * Manages the factories to create the different components of Minimalist.
- * It takes basically the responsibility of a dependency injection facility, tailored for Minimalist - initially copied
+ * Manages the factories to create the different components of Variist.
+ * It takes basically the responsibility of a dependency injection facility, tailored for Variist - initially copied
  * from [Atrium](https://atriumlib.org).
  *
  * @since 2.0.0

@@ -1,10 +1,10 @@
-package com.tegonal.minimalist.generators.impl
+package com.tegonal.variist.generators.impl
 
-import com.tegonal.minimalist.config.MinimalistConfig
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.config.config
-import com.tegonal.minimalist.generators.ArbArgsGenerator
-import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
+import com.tegonal.variist.config.VariistConfig
+import com.tegonal.variist.config._components
+import com.tegonal.variist.config.config
+import com.tegonal.variist.generators.ArbArgsGenerator
+import com.tegonal.variist.generators.SemiOrderedArgsGenerator
 
 
 /**
@@ -14,7 +14,7 @@ import com.tegonal.minimalist.generators.SemiOrderedArgsGenerator
  * !! No backward compatibility guarantees !!
  * Reuse at your own risk
  *
- * In case [MinimalistConfig.skip] is `null` then the index starts at `0` otherwise at [MinimalistConfig.skip]
+ * In case [VariistConfig.skip] is `null` then the index starts at `0` otherwise at [VariistConfig.skip]
  * and this regardless what `offset` is used in the end for [SemiOrderedArgsGenerator.generate].
  *
  * @param transform The transformation function which takes a [T] and produces an [R].
@@ -52,7 +52,7 @@ fun <T, R> SemiOrderedArgsGenerator<T>.mapIndexedInternal(transform: (index: Int
  * !! No backward compatibility guarantees !!
  * Reuse at your own risk
  *
- * In case [MinimalistConfig.skip] is `null` then the index starts at `0` otherwise at [MinimalistConfig.skip]
+ * In case [VariistConfig.skip] is `null` then the index starts at `0` otherwise at [VariistConfig.skip]
  * and this regardless what `offset` is used in the end for [SemiOrderedArgsGenerator.generate].
  *
  * Use the overload which provides the `seedOffset` in case you use [ArbArgsGenerator.generate] inside the [transform]

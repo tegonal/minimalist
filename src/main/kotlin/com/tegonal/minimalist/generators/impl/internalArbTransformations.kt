@@ -1,10 +1,10 @@
-package com.tegonal.minimalist.generators.impl
+package com.tegonal.variist.generators.impl
 
-import com.tegonal.minimalist.config.MinimalistConfig
-import com.tegonal.minimalist.config._components
-import com.tegonal.minimalist.config.config
-import com.tegonal.minimalist.generators.ArbArgsGenerator
-import com.tegonal.minimalist.generators.transform
+import com.tegonal.variist.config.VariistConfig
+import com.tegonal.variist.config._components
+import com.tegonal.variist.config.config
+import com.tegonal.variist.generators.ArbArgsGenerator
+import com.tegonal.variist.generators.transform
 
 /**
  * Maps the values `this` [ArbArgsGenerator] generates together with an index and a seed offset to type [R]
@@ -13,7 +13,7 @@ import com.tegonal.minimalist.generators.transform
  * !! No backward compatibility guarantees !!
  * Reuse at your own risk
  *
- * In case [MinimalistConfig.skip] is `null` then the index starts at `0` otherwise at [MinimalistConfig.skip].
+ * In case [VariistConfig.skip] is `null` then the index starts at `0` otherwise at [VariistConfig.skip].
  *
  * @param transform The transformation function which takes a [T], an index and a seed offset and produces an [R].
  *   The `seedOffset` is passed along the call chain and should be taken into account when using
@@ -52,7 +52,7 @@ fun <T, R> ArbArgsGenerator<T>.mapIndexedInternal(
  * !! No backward compatibility guarantees !!
  * Reuse at your own risk
  *
- * In case [MinimalistConfig.skip] is `null` then the index starts at `0` otherwise at [MinimalistConfig.skip].
+ * In case [VariistConfig.skip] is `null` then the index starts at `0` otherwise at [VariistConfig.skip].
  *
  * @param transform The transformation function which takes a [T], an index and a seed offset and produces a
  *   finite [Sequence] of elements of type [R].
