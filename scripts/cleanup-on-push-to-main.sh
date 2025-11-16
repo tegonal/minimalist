@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 #    __                          __
-#   / /____ ___ ____  ___  ___ _/ /       This script is provided to you by https://github.com/tegonal/minimalist
+#   / /____ ___ ____  ___  ___ _/ /       This script is provided to you by https://github.com/tegonal/variist
 #  / __/ -_) _ `/ _ \/ _ \/ _ `/ /        Copyright 2023 Tegonal Genossenschaft <info@tegonal.com>
 #  \__/\__/\_, /\___/_//_/\_,_/_/         It is licensed under European Union Public License 1.2
 #         /___/														Please report bugs and contribute back your improvements

@@ -1,7 +1,7 @@
 package readme.examples
 
 //snippet-repeat-forever-import-start
-import com.tegonal.minimalist.utils.repeatForever
+import com.tegonal.variist.utils.repeatForever
 //snippet-repeat-forever-import-end
 import org.junit.jupiter.api.Test
 import readme.examples.jupiter.ReadmeTest

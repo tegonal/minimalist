@@ -1,4 +1,4 @@
-module com.tegonal.minimalist {
+module com.tegonal.variist {
 	requires transitive kotlin.stdlib;
 	requires transitive kotlin.reflect;
 	requires org.junit.jupiter.params;
@@ -8,9 +8,9 @@ module com.tegonal.minimalist {
 	// from the export of junit classes
 	requires org.apiguardian.api;
 
-	exports com.tegonal.minimalist;
-	exports com.tegonal.minimalist.config;
-	exports com.tegonal.minimalist.generators;
-	exports com.tegonal.minimalist.providers;
-	exports com.tegonal.minimalist.utils;
+	exports com.tegonal.variist;
+	exports com.tegonal.variist.config;
+	exports com.tegonal.variist.generators;
+	exports com.tegonal.variist.providers;
+	exports com.tegonal.variist.utils;
 }

@@ -15,7 +15,7 @@ dependencyResolutionManagement {
 	}
 }
 
-rootProject.name = "minimalist"
+rootProject.name = "variist"
 
 include("misc/tools", "readme-examples")
 

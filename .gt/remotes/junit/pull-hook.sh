@@ -28,7 +28,7 @@ function gt_pullHook_junit_after() {
 
 				\$2
 				 *
-				 * Modified for Minimalist, see pull-hook.sh
+				 * Modified for Variist, see pull-hook.sh
 				 * We removed all function we don't use, which we can use via ReflectionSupport respectively
 				 */
 				\$3
@@ -47,10 +47,10 @@ function gt_pullHook_junit_after() {
 		local importUntilClassReplacement=$(
 			cat <<-EOM
 				\$1
-				import com.tegonal.minimalist.export.org.junit.platform.commons.util.ClassLoaderUtils;
-				import com.tegonal.minimalist.export.org.junit.platform.commons.util.Preconditions;
-				import com.tegonal.minimalist.export.org.junit.platform.commons.util.ReflectionUtils;
-				import com.tegonal.minimalist.export.org.junit.platform.commons.util.StringUtils;
+				import com.tegonal.variist.export.org.junit.platform.commons.util.ClassLoaderUtils;
+				import com.tegonal.variist.export.org.junit.platform.commons.util.Preconditions;
+				import com.tegonal.variist.export.org.junit.platform.commons.util.ReflectionUtils;
+				import com.tegonal.variist.export.org.junit.platform.commons.util.StringUtils;
 				import org.junit.jupiter.api.Test;
 				import org.junit.jupiter.api.TestFactory;
 				import org.junit.jupiter.api.TestTemplate;
@@ -63,16 +63,16 @@ function gt_pullHook_junit_after() {
 				import java.util.Optional;
 				import java.util.function.Predicate;
 
-				import static com.tegonal.minimalist.export.org.junit.platform.commons.util.CollectionUtils.isConvertibleToStream;
+				import static com.tegonal.variist.export.org.junit.platform.commons.util.CollectionUtils.isConvertibleToStream;
 				import static java.lang.String.format;
 				import static java.util.stream.Collectors.toList;
 				import static org.junit.platform.commons.support.AnnotationSupport.isAnnotated;
 
 				\$2
 				 *
-				 * Modified for Minimalist, see pull-hook.sh
+				 * Modified for Variist, see pull-hook.sh
 				 * MethodArgumentsProvider usually extends AnnotationBasedArgumentsProvider
-				 * (in org.junit.jupiter.params.provider). Minimalist is only interested in its static functions.
+				 * (in org.junit.jupiter.params.provider). Variist is only interested in its static functions.
 				 * and has removed provideArguments
 				 */
 				public class MethodArgumentsProvider {
@@ -95,7 +95,7 @@ function gt_pullHook_junit_after() {
 	local warning=$(cat <<-EOM
 		// -----------------------------------------------------------------------------------------------------
 		// WARNING !!!!!!!!!!!!!!
-		// Copied from JUnit and exported for internal use in Minimalist only
+		// Copied from JUnit and exported for internal use in Variist only
 		// No backward compatibility guarantees. As soon as JUnit breaks compatibility (which can happen
 		// even in a patch version and that is totally fine) and we \`gt update\` this file to this new version
 		// (maybe also in a patch version), we will break compatibility as well.
@@ -104,8 +104,8 @@ function gt_pullHook_junit_after() {
 	)
 
 	perl -0777 -i \
-		-pe "s@package org.junit@${warning}\npackage com.tegonal.minimalist.export.org.junit@g;" \
-		-pe 's/(import (?:static )?)(org.junit.platform.commons.(util|logging))/$1com.tegonal.minimalist.export.$2/g;' \
+		-pe "s@package org.junit@${warning}\npackage com.tegonal.variist.export.org.junit@g;" \
+		-pe 's/(import (?:static )?)(org.junit.platform.commons.(util|logging))/$1com.tegonal.variist.export.$2/g;' \
 		-pe 's/\npublic ((?:final)? class (?:ClassNamePatternFilterUtils|ExceptionUtils|UnrecoverableExceptions))/\n$1/g;' \
 		"$target" || return $?
 }

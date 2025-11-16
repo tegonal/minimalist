@@ -5,7 +5,7 @@ import org.junit.jupiter.api.ClassOrderer
 import org.junit.jupiter.api.ClassOrdererContext
 
 /**
- * tailored for Minimalist - initially copied from [Atrium](https://atriumlib.org).
+ * tailored for Variist - initially copied from [Atrium](https://atriumlib.org).
  * Will have diffs once we pull a new version from Atrium, consider how to push them back once it occurs
  */
 class ReadmeTestClassOrderer : ClassOrderer.OrderAnnotation() {

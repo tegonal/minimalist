@@ -5,7 +5,7 @@ plugins {
 }
 
 allprojects {
-    group = "com.tegonal.minimalist.build-logic.convention"
+    group = "com.tegonal.variist.build-logic.convention"
 }
 
 dependencies {

@@ -1,8 +1,8 @@
 package readme.examples
 
-import com.tegonal.minimalist.generators.arb
-import com.tegonal.minimalist.generators.intFromTo
-import com.tegonal.minimalist.providers.*
+import com.tegonal.variist.generators.arb
+import com.tegonal.variist.generators.intFromTo
+import com.tegonal.variist.providers.*
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.params.ParameterizedTest
 

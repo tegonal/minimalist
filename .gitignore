@@ -10,6 +10,6 @@ build
 !/.idea/icon.png
 *.iml
 
-minimalist.local.properties
+variist.local.properties
 
 src/test/resources/UnicodeData.txt

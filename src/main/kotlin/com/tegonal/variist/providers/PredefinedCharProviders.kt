@@ -1,0 +1,18 @@
+package com.tegonal.variist.providers
+
+import com.tegonal.variist.generators.ArbExtensionPoint
+import com.tegonal.variist.generators.arb
+import com.tegonal.variist.generators.char
+
+/**
+ * @since 2.0.0
+ */
+interface PredefinedCharProviders {
+	companion object {
+		/**
+		 * See [arb.char()][ArbExtensionPoint.char]
+		 */
+		@JvmStatic
+		fun arbChar() = arb.char()
+	}
+}

@@ -3,7 +3,7 @@ plugins {
 }
 
 allprojects {
-	group = "com.tegonal.minimalist.code-generation"
+	group = "com.tegonal.variist.code-generation"
 }
 
 dependencies {

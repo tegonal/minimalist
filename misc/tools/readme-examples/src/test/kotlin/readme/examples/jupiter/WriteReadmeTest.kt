@@ -10,7 +10,7 @@ import kotlin.io.path.writeText
 import kotlin.test.fail
 
 /**
- * tailored for Minimalist - initially copied from [Atrium](https://atriumlib.org).
+ * tailored for Variist - initially copied from [Atrium](https://atriumlib.org).
  * Will have diffs once we pull a new version from Atrium, consider how to push them back once it occurs
  */
 class WriteReadmeTest {

@@ -1,9 +1,9 @@
 package readme.examples
 
 import ch.tutteli.kbox.Tuple
-import com.tegonal.minimalist.generators.*
-import com.tegonal.minimalist.providers.*
-import com.tegonal.minimalist.utils.BigInt
+import com.tegonal.variist.generators.*
+import com.tegonal.variist.providers.*
+import com.tegonal.variist.utils.BigInt
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.api.Order
 

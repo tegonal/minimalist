@@ -1,11 +1,11 @@
 package readme.examples
 
 //snippet-dynamic-test-import-start
-import com.tegonal.minimalist.generators.arb
-import com.tegonal.minimalist.generators.generateAndTakeBasedOnDecider
-import com.tegonal.minimalist.generators.string
-import com.tegonal.minimalist.generators.zip
-import com.tegonal.minimalist.providers.PredefinedNumberProviders.Companion.arbIntPositive
+import com.tegonal.variist.generators.arb
+import com.tegonal.variist.generators.generateAndTakeBasedOnDecider
+import com.tegonal.variist.generators.string
+import com.tegonal.variist.generators.zip
+import com.tegonal.variist.providers.PredefinedNumberProviders.Companion.arbIntPositive
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DynamicTest.dynamicTest
 import org.junit.jupiter.api.TestFactory

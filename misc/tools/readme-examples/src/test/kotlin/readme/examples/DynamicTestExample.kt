@@ -1,11 +1,11 @@
 package readme.examples
 
-import com.tegonal.minimalist.config.ArgsRangeOptions
-import com.tegonal.minimalist.generators.generateAndTakeBasedOnDecider
-import com.tegonal.minimalist.generators.intFromUntil
-import com.tegonal.minimalist.generators.ordered
-import com.tegonal.minimalist.providers.AnnotationData
-import com.tegonal.minimalist.providers.outsideParameterizedTest
+import com.tegonal.variist.config.ArgsRangeOptions
+import com.tegonal.variist.generators.generateAndTakeBasedOnDecider
+import com.tegonal.variist.generators.intFromUntil
+import com.tegonal.variist.generators.ordered
+import com.tegonal.variist.providers.AnnotationData
+import com.tegonal.variist.providers.outsideParameterizedTest
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DynamicTest.dynamicTest
 import org.junit.jupiter.api.Order
