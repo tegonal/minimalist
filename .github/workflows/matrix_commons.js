@@ -32,7 +32,7 @@ const javaDistributionAxis = {
 	]
 };
 
-const javaVersionAxis = javaVersionAxisBuilder(['11', '17', '21']);
+const javaVersionAxis = javaVersionAxisBuilder(['25']);
 
 function javaVersionAxisBuilder(values){
 	return {
@@ -47,8 +47,8 @@ const osAxis = {
 	title: x => x.replace('-latest', ''),
 	values: [
 		'ubuntu-latest',
-		'windows-latest',
-		'macos-latest'
+//		'windows-latest',
+//		'macos-latest'
 	]
 }
 
@@ -60,10 +60,10 @@ function generateJavaMinMaxRows(matrix) {
 
 function generateUbuntuWindowsRows(matrix) {
 	matrix.generateRow({os: 'ubuntu-latest'});
-	matrix.generateRow({os: 'windows-latest'});
+//	matrix.generateRow({os: 'windows-latest'});
 }
 
-function configureJavaDefaults(matrix, distributionAxis = javaDistributionAxis, versionAxis = javaVersionAxis, operatingSystemAxis = osAxis ) {
+function configureJavaDefaults(matrix, distributionAxis = javaDistributionAxis, versionAxis = javaVersionAxis, operatingSystemAxis = osAxis) {
 	matrix.addAxis(distributionAxis);
 	matrix.addAxis(versionAxis);
 	matrix.addAxis(operatingSystemAxis);
@@ -83,19 +83,16 @@ function configureJavaDefaults(matrix, distributionAxis = javaDistributionAxis, 
 	generateUbuntuWindowsRows(matrix);
 }
 
-function configureKotlinDefaults(matrix) {
+function configureKotlinDefaults(matrix, distributionAxis = javaDistributionAxis, versionAxis = javaVersionAxis, operatingSystemAxis = osAxis) {
 	const kotlinJavaDistributionAxis = {
-		...javaDistributionAxis,
-		values: javaDistributionAxis.values.filter ( x =>
-			// seems to have problems with kotlin https://youtrack.jetbrains.com/issue/KT-61836
-			x != 'semeru'
-		)
+		...distributionAxis,
+		values: distributionAxis.values
 	};
-	configureJavaDefaults(matrix, kotlinJavaDistributionAxis);
+	configureJavaDefaults(matrix, kotlinJavaDistributionAxis, versionAxis, operatingSystemAxis);
 }
 
-function configureScalaDefaults(matrix) {
-	configureJavaDefaults(matrix);
+function configureScalaDefaults(matrix, distributionAxis = javaDistributionAxis, versionAxis = javaVersionAxis, operatingSystemAxis = osAxis) {
+	configureJavaDefaults(matrix, distributionAxis, versionAxis, operatingSystemAxis);
 }
 
 // see https://github.com/actions/toolkit/issues/1218
