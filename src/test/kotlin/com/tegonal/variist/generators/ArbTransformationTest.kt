@@ -6,7 +6,7 @@ import com.tegonal.variist.generators.impl.mapIndexedInternal
 
 class ArbTransformationTest : AbstractArbArgsGeneratorTest<Any>() {
 
-	// see PseudoArbArgsGeneratorTransformationTests for tests about zip/zipDependent etc.
+	// see ArbPseudoCombinatorTest for tests about zip/zipDependent etc.
 
 	override fun createGenerators(modifiedArb: ArbExtensionPoint) =
 		listOf(1, 2, 3, 4).let { l ->

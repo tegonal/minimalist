@@ -48,7 +48,7 @@ class VariistConfigViaPropertiesLoader {
 			.apply {
 				val fixedSeed = seed != initialConfig.seed.value
 
-				println("Variist${if (fixedSeed) " fixed" else ""} seed $seed ${if (skip != null) "skipping $skip " else ""} in env $activeEnv ")
+				println("Variist${if (fixedSeed) " fixed" else ""} seed $seed ${if (skip != null) "skipping $skip " else ""}in env $activeEnv")
 
 				with(configFileSpecifics) {
 					checkIsPositive(
@@ -102,7 +102,7 @@ class VariistConfigViaPropertiesLoader {
 						|b) remove $deadlinePropertyName (in which case a new deadline is set)
 						|c) set $deadlinePropertyName manually to a later date/time
 						|The adjustments need to be made in the following file:
-                        |${localPropertiesPath}
+                        |${localPropertiesPath.toUri()}
                         |
                         """.trimMargin()
 				)

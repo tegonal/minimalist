@@ -138,12 +138,15 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 
 		(1..numOfArgs).forEach { upperNumber ->
 			val numbers = (1..upperNumber).toList()
-			val typeArgs = numbers.joinToString(", ") { "A$it" }
+			val typeArgs = numbers.joinToString {
+				//TODO 2.0.0 should be out for Args1 and co. requires that we define append and co. as extension methods
+				"A$it" }
 			val constructorProperties = numbers.joinToString(",\n\t") { "override val a$it: A$it" }
 			val representationConstructorProperties =
 				numbers.joinToString(",\n\t") { "override val representation$it: String? = null" }
 
 			val argsInterfaces = createStringBuilder(mainPackageName)
+			// TODO 2.0.0 should be <out $typeArgs>
 			argsInterfaces.append(
 				"""
 				|/**
@@ -215,7 +218,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 			defaultArgs.appendLine()
 
 			numbers.forEach { index ->
-				val typArgsNew = numbers.joinToString(", ") { if (it == index) "A${it}New" else "A$it" }
+				val typArgsNew = numbers.joinToString { if (it == index) "A${it}New" else "A$it" }
 
 				if (upperNumber > 1) {
 
@@ -347,8 +350,8 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 				val upperNumber3 = upperNumber + upperNumber2
 				val numbers2 = (1..upperNumber2)
 				val numbers3 = (1..upperNumber3)
-				val typeArgs2 = numbers2.joinToString(", ") { "A${it + upperNumber}" }
-				val typeArgs3 = numbers3.joinToString(", ") { "A$it" }
+				val typeArgs2 = numbers2.joinToString { "A${it + upperNumber}" }
+				val typeArgs3 = numbers3.joinToString { "A$it" }
 
 				argsInterfaces.appendLine()
 				defaultArgs.appendLine()
@@ -398,7 +401,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 					numbers4.remove(index)
 
 					val numbers4WithIndex = numbers4.mapIndexed { i, it -> i + 1 to it }
-					val typeArgs4 = numbers4.joinToString(", ") { "A${it}" }
+					val typeArgs4 = numbers4.joinToString { "A${it}" }
 
 					argsInterfaces.append(
 						"""
@@ -546,7 +549,7 @@ val generate: TaskProvider<Task> = tasks.register("generate") {
 
 			val upperNumberPlus1 = upperNumber + 1
 			if (upperNumberPlus1 <= 9) {
-				val typeArgsPlus1 = (1..upperNumberPlus1).joinToString(", ") { "A$it" }
+				val typeArgsPlus1 = (1..upperNumberPlus1).joinToString { "A$it" }
 				val tupleX = tupleTypeWithTypeArgs(upperNumber, typeArgs)
 				val tupleXPlus1 = tupleTypeWithTypeArgs(upperNumberPlus1, typeArgsPlus1)
 
@@ -759,7 +762,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 
 		(1..numOfArgs).forEach { upperNumber ->
 			val numbers = (1..upperNumber)
-			val typeArgs = numbers.joinToString(", ") { "A$it" }
+			val typeArgs = numbers.joinToString { "A$it" }
 
 			val argsExpectations = createStringBuilder("$mainPackageName.testutils.atrium")
 				.append(
@@ -819,7 +822,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 							}
 						}
 						|		)
-						|		val argsResult: Args${upperNumber - 1}<${typeParameters.joinToString(", ")}> = args.dropArg$number()
+						|		val argsResult: Args${upperNumber - 1}<${typeParameters.joinToString()}> = args.dropArg$number()
 						|		expect(argsResult) {
 						|			${
 							newNumbers.withIndex().joinToString("\n\t\t\t") { (index, it) ->
@@ -1074,7 +1077,7 @@ val generateTest: TaskProvider<Task> = tasks.register("generateTest") {
 				|
 				|	companion object {
 				|		@JvmStatic
-				|		fun args() = listOf(Args.of(${argValues.take(upperNumber).joinToString(", ")}))
+				|		fun args() = listOf(Args.of(${argValues.take(upperNumber).joinToString()}))
 				|	}
 				""".trimMargin()
 			).appendLine()
@@ -1262,7 +1265,7 @@ val generateTestJava: TaskProvider<Task> = tasks.register("generateTestJava") {
 							}
 						}
 						|		);
-						|		Args${upperNumber - 1}<${typeParameters.joinToString(", ")}> argsResult = args.dropArg$number();
+						|		Args${upperNumber - 1}<${typeParameters.joinToString()}> argsResult = args.dropArg$number();
 						|		expect(argsResult, e -> {
 						|			${
 							newNumbers.withIndex().joinToString("\n\t\t\t") { (index, it) ->
@@ -1558,7 +1561,7 @@ val generateTestJava: TaskProvider<Task> = tasks.register("generateTestJava") {
 				|	}
 				|
 				|	static List<Args> args() {
-				|		return List.of(Args.of(${argValuesJava.take(upperNumber).joinToString(", ")}));
+				|		return List.of(Args.of(${argValuesJava.take(upperNumber).joinToString()}));
 				|	}
 				""".trimMargin()
 			).appendLine()

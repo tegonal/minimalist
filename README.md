@@ -49,15 +49,19 @@ version: [README of v2.0.0-RC-2](https://github.com/tegonal/variist/tree/v2.0.0-
 		- [filter/filterNot](#filter)
 		- [chunked](#chunked)
 		- [ordered.concatenation](#ordered-concatenation)
-		- [arb.mergeWeighted](#arb-mergeweighted)
+		- [arb.mergeWeighted](#arb-mergeWeighted)
 		- [ordered.toArbArgsGenerator](#ordered-toArbArgsGenerator)
 - [Use Variist in other contexts than JUnit](#use-variist-in-other-contexts-than-junit)
 - [Configuration](#configuration)
 	- [Profiles and Envs](#profiles-and-envs)
+	- [Adjust the number of runs](#adjust-the-number-of-args)
+		- [maxArgs](#maxArgs)
+		- [requestedMinArgs](#requestedMinArgs)
 	- [Fixing the seed](#fixing-the-seed)
 		- [Error Deadlines](#errordeadlines)
-	- [Change the ArgsRangeDecider](#change-the-argsrangedecider)
-	- [Use a SuffixArgsGeneratorDecider](#use-a-suffixargsgeneratordecider)
+	- [Change the ArgsRangeDecider](#change-the-ArgsRangeDecider)
+	- [Use an own AnnotationDataDeducer](#use-an-own-AnnotationDataDeducer)
+	- [Use a SuffixArgsGeneratorDecider](#use-a-SuffixArgsGeneratorDecider)
 - [Helpers](#helpers)
 	- [Random helpers](#random-helpers)
 	- [Sequence helpers](#sequence-helpers)
@@ -69,8 +73,8 @@ version: [README of v2.0.0-RC-2](https://github.com/tegonal/variist/tree/v2.0.0-
 # Intro
 
 Variist might resemble a property based testing library but is more data-driven oriented.
-Its focus is on tests that take longer (integration, e2e and system integration tests) where shrinking is too costly but
-you can of course also use it for unit tests.  
+Its focus is on tests that take longer (integration, e2e and system integration tests) where shrinking is too costly.
+But of course, you can also use it for data-driven unit tests.  
 It comes with extra support for JUnit but can
 also [be used in other contexts](#use-variist-in-other-contexts-than-junit)
 where you want to generate data (or with other test-runners).
@@ -188,9 +192,9 @@ an infinite sequence of values where it is basically not known if they follow so
 The default implementations are almost all based on `Random`.
 The number of runs of such a provider is in theory infinite as well (`ArbArgsGenerator.size` doesn't exist) but gets
 limited by the [profile](#profiles-and-envs) the test falls into, the [environment](#profiles-and-envs) where the test
-runs and what configuration
-was set up for this combination. Also `OrderedArgsGenerator` are limited by profile/env but introduce an own limit in
-addition. Following an example of how to use an `ArgsGenerator` as args provider.
+runs and what configuration was set up for this combination.
+Also `OrderedArgsGenerator` are limited by profile/env but introduce an own limit in
+addition by its `size` property. Following an example of how to use an `ArgsGenerator` as an `ArgsSource` provider.
 
 <code-arb-provider>
 
@@ -218,7 +222,7 @@ covers integers from `1..50000` and not only `1..20` (and in [predefined args pr
 will see how we
 define that it shall work for all positive integers). But why did we use `arb` and not `ordered`? The short answer: too
 many values -- say your test takes ~2s and you cannot parallelise, running all would already take ~24h -- and most
-likely this is not your single test. In this case we don't expect that we cover all cases in a reasonable amount of
+likely this is not your single test. In this case we do not expect that we cover all cases in a reasonable amount of
 time, hence we use `arb`. An `ArbArgsGenerator` has a different runtime behaviour regarding:
 
 1. how [multiple ArgsGenerators are combined implicitly](#generic-combine) (which we discuss there)
@@ -227,7 +231,8 @@ time, hence we use `arb`. An `ArbArgsGenerator` has a different runtime behaviou
 Let's take a look at a simple example to see the difference in how many runs are generated.
 Where `OrderedArgsGenerator`s generate a window of all possible values (i.e. still ordered),
 an `ArbArgsGenerator` generates arbitrary/random values (possibly the same value multiple times).
-Following an example where `maxArgs=5` (more on `maxArgs` in the [Configuration](#configuration) section):
+Following an example where `maxArgs=5` (more on `maxArgs` in the [adjust the number of args](#adjust-the-number-of-args)
+section):
 
 ```kotlin
 ordered.of(1, 2, 3) // results in 3 runs: 1, 2, 3 or 2, 3, 1 or 3, 1, 2
@@ -547,7 +552,7 @@ The resulting `SemiOrderedArgsGenerator` has still the same size as the initial 
 We do not provide a `zip` which combines two `SemiOrderedArgsGenerator` as we did not stumble over a use case so far.
 Take a look at [cartesian](#ordered-cartesian) which is most likely how you want to combine two
 `SemiOrderedArgsGenerator`. Or in case you do not want the cartesian product but just one random value of your second
-`SemiOrderedArgsGenerator`, then [turn it into an ArbArgsGenerator](#ordered-toarbargsgenerator) first.
+`SemiOrderedArgsGenerator`, then [turn it into an ArbArgsGenerator](#ordered-toArbArgsGenerator) first.
 
 [Let us know your use case](https://github.com/tegonal/variist/discussions/new?category=ideas&subject=ordered.zip%20another%20ordered)
 if you still want to zip another `(Semi)OrderedArgsGenerator` and how the semantics should look like.
@@ -840,10 +845,10 @@ Note however, that all the magic of `ArgsSource` is not available (yet). Which m
 - you need to combine ArgsGenerators manually (see [zip](#zip) and [ordered.cartesian](#ordered-cartesian)) or
   use [combineAll](#generic-combine) if you deal with generators in `Tuple`s -- the good side, you do not lose the types
   as you would with JUnit's `Arguments`.
-- A defined [SuffixArgsGenerator](#use-a-suffixargsgeneratordecider) is ignored (we would lose the types again)
+- A defined [SuffixArgsGenerator](#use-a-suffixArgsGeneratorDecider) is ignored (we would lose the types again)
 - definitions like `@ArgSourceOptions` are ignored, but as long as you use `generateAndTakeBasedOnDecider` the defined
   seed and co. (see [fixing the seed](#fixing-the-seed) are taken into account
-- and you can pass `AnnotationData` to `generateAndTakeBasedOnDecider` to get back the same options as with
+- and you can pass `AnnotationData` to `generateAndTakeBasedOnDecider` to get more or less back the same options as with
   `ArgSourceOptions`
 
 <code-dynamic-test-2>
@@ -880,11 +885,85 @@ More documentation about the configuration will follow, in the meantime, take a 
 
 ## Profiles and Envs
 
-Variist steers how many runs will result at maximum (if not limited by other factors such as
-`OrderedArgsGenerator.size`) by the profile definition in use (`VariistConfig.defaultProfile` is `Integration`)
-and the environment the test runs in (defined via `VariistConfig.activeEnv`).
-The active environment is determined from environment variables (GitHub and GitLab env vars),
-defaulting to `Local` if it cannot be deduced.
+Variist steers how many sets of args, which usually is the same as how many runs, will result at maximum
+per `ParameterizedTest` by the profile definition in use for the particular test and the environment the test runs in.
+There are other limiting factors which are outlined in [adjust the number of args](#adjust-the-number-of-args).
+
+Variist comes with two predefined enums: `TestType`s which are used as profile names (and which provides constants
+via `.ForAnnotation` so that it can be used in an annotation) and predefined `Env`s.
+Take a look at `VariistConfig.testProfiles` to see what `maxArgs` are defined per default per profile and env.
+
+The active environment is determined based on (first match wins):
+
+1. the definition of `activeEnv` in `variist.local.properties`
+2. from environment variables (GitHub and GitLab env vars),
+3. the definition of `activeEnv` in `variist.properties`
+4. defaulting to `Local` if not defined.
+
+The profile of a test is determined based on (first match wins):
+
+1. a defined `ArgsSourceOptions` on the test method itself specifying `profile`
+2. a defined `ArgsSourceOptions` on the test class specifying `profile`
+3. a defined `ArgsSourceOptions` on a super type specifying `profile`
+4. the definition of `defaultProfile` in `variist.local.properties`
+5. the definition of `defaultProfile` in `variist.properties`
+6. defaulting to `Integration` if not defined
+
+Following an example:
+
+<code-args-source-options-profile>
+
+```kotlin
+import com.tegonal.variist.config.TestType
+import com.tegonal.variist.providers.ArgsSource
+import com.tegonal.variist.providers.ArgsSourceOptions
+import org.junit.jupiter.params.ParameterizedTest
+
+@ArgsSourceOptions(profile = TestType.ForAnnotation.SystemIntegration)
+abstract class BaseSystemIntegrationTest : PredefinedArgsProviders {
+	// some common setup or whatever
+
+	@ParameterizedTest
+	@ArgsSource("arbIntBoundsMinSize2")
+	fun commonFoo(lowerBound: Int, upperBound: Int) {
+		//...
+	}
+}
+
+@ArgsSourceOptions(profile = TestType.ForAnnotation.E2E)
+class ArgsSourceOptionsProfileTest : BaseSystemIntegrationTest() {
+
+	@ParameterizedTest
+	@ArgsSource("arbBoolean")
+	fun foo(isDefined: Boolean) {
+		//...
+	}
+
+	@ParameterizedTest
+	@ArgsSource("arbInt")
+	@ArgsSourceOptions(profile = TestType.ForAnnotation.Unit)
+	fun bar(i: Int) {
+		//...
+	}
+}
+```
+
+</code-args-source-options-profile>
+
+Say we run all tests of `ArgsSourceOptionsProfileTest`, assuming no `defaultProfile` was defined
+in `variist(.local).properties` the default fallback comes into play which
+is `Integration`. For the above tests it doesn't matter as `BaseSystemIntegrationTest` (the
+super class of the active test class) has defined:
+
+```
+@ArgsSourceOptions(profile = TestType.ForAnnotation.SystemIntegration)
+```
+
+which means all tests are run with profile `SystemIntegrationn` if not specified otherwise.
+This is the case for `commonFoo` which is defined in `BaseSystemIntegrationTest` (although executed in the end as
+part of `ArgsSourceOptionsProfileTest`).
+
+`ArgsSourceOptionsProfileTest` itself defines:
 
 Variist comes with two predefined enums, `TestType`s which are used as profile names and predefined `Env`s.
 See `VariistConfig.testProfiles` for what `maxArgs` are defined per default.
@@ -925,11 +1004,102 @@ An `ArgsRangeDecider` is responsible to decide from which offset and how many ar
 
 The default implementation is solely based on the configured [profiles](#profiles-and-envs) - more implementations will
 follow in an upcoming version of Variist.
+```
+@ArgsSourceOptions(profile = TestType.ForAnnotation.E2E)
+```
+
+which means all tests defined in it are run with profile `E2E` if not specified otherwise.
+For `foo` this is actually the case and the configuration for `E2E` applies.
+Yet, for `bar` we defined an own profile on the test method itself:
+
+```
+@ArgsSourceOptions(profile = TestType.ForAnnotation.Unit)
+```
+
+and correspondingly the configuration for `Unit` applies for `bar`.
+
+## Adjust the number of Args
+
+The configured [ArgsRangeDecider](#change-the-ArgsRangeDecider) decides what range of args an `ArgsGenerator` generates,
+and consequently how many runs result. Per contract, an `ArgsRangeDecider` should take defined [`maxArgs`](#maxArgs),
+[`(Semi)OrderedArgsGenerator.size`](#ordered-and-arbitrary-arguments-generators) as well as [
+`requestedMinArgs`](#requestedMinArgs) into account during its decision (next to
+other data which an [own AnnotationDataDeducer](#use-an-own-AnnotationDataDeducer) might deduce).
+
+### maxArgs
+
+As outlined in [profile and envs](#profiles-and-envs), the number of runs is primarily determined based on the active
+profile and env, its defined `TestConfig` respectively, where the property `maxArgs` restricts the maximum
+number of runs. If you use an `(Semi)OrderedArgsGenerator` as `ArgsSource`, then its `size` limits the maximum number of runs
+as well -- this is at least the default behaviour, you could
+also [use your own ArgsRangeDecider](#change-the-ArgsRangeDecider) which takes other limiting factors into account.
+
+Yet, you might have a test where you want to restrict it even more, regardless what was
+configured for the active profile/env combination (e.g. because it is too expensive, or because it causes errors if it
+is executed more than the defined number etc.). This can be done via `ArgsSourceOptions.maxArgs`. Following an example:
+
+<code-args-source-options-max-args>
+
+```kotlin
+@ParameterizedTest
+@ArgsSource("arbBoolean")
+@ArgsSourceOptions(maxArgs = 1)
+fun loginFailure(isLocked: Boolean) {
+	//...
+}
+```
+
+</code-args-source-options-max-args>
+
+The test `loginFailure` is guaranteed to be run only once. As with setting the [profile](#profiles-and-envs), `maxArgs`
+can be defined not only on the test method but also on the test-class and a super-type of the test-class.
+And you can also set it in `variist.local.properties` which takes precedence over `ArgsSourceOptions`,
+which comes in handy if you have [fixed the seed](#fixing-the-seed) and you don't want to re-run all tests.
+
+Note, that you cannot increase the number of runs via `maxArgs`, it has only a limiting factor. If you want to increase
+the number of runs, then use `requestedMinArgs`, see next section.
+
+### requestedMinArgs
+
+In the same vain as `maxArgs` you can define a `requestedMinArgs`. In contrast to `maxArgs` it is not a hard
+requirement, it is only requested. For instance, if you use an `OrderedArgsGenerator` as `ArgsSource` and define
+`requestedMinArgs=50` but `OrderedArgsGenerator.size=10` then only 10 runs will result, which can still be more than
+what the active [profile/env combination](#profiles-and-envs) defines via `maxArgs`. I.e. the `requestedMinArgs` defined
+in an annotation can overrule what was defined in `VariistConfig.testProfiles`. `SemiOrderedArgsGenerators.size` does
+not limit a `requestedMinArgs` as it has an arbitrary part which does not repeat. In other words,
+if `requestedMinArgs=50` but `SemiOrderedArgsGenerators.size=10` then nevertheless, 50 runs will be the result.
+
+`requestedMinArgs` is especially useful if you write a new test and want to execute a greater number of test runs 
+than what you would usually want in the `Local` env.
+
+As with `maxArgs`, you can define `requestedMinArgs` in `ArgsSourceOptions` and `variist.local.properties` where
+`variist.local.properties` takes precedence again.
+We omit an example here, we guess the usage of `ArgsSourceOptions` should be clear by now, otherwise take a look
+at [maxArgs](#maxargs) and [profile](#profiles-and-envs).
+The default implementation is solely based on the configured [profiles and envs](#profiles-and-envs), [
+`OrderedArgsGenerator.size`](#ordered-and-arbitrary-arguments-generators) and additional defined [`maxArgs`](#maxArgs) [
+`requestedMinArgs`](#requestedMinArgs).
+More implementations will follow in an upcoming version of Variist.
 
 If you want to provide an own implementation, then you need to make it available to be loaded via `ServiceLoader`.
 Create the file `src/resource/META-INF/services/com.tegonal.variist.providers.ArgsRangeDecider` and put the fully
 qualified name in it. Moreover, you need to set `activeArgRangeDecider` in the VariistConfig
 (typically via `variist.properties`) to the fully qualified name as well.
+
+Take a look at the next section in case your `ArgsRangeDecider` should take into account other static data defined via
+an annotation.
+
+## Use an own AnnotationDataDeducer
+
+You can define an own `AnnotationDataDeducer` which deduces more data next to [`profile`](#profiles-and-envs),  [
+`maxArgs`](#maxArgs) and [`requestedMinArgs`](#requestedMinArgs) which one can define in the annotation
+`ArgsSourceOptions`.
+
+You need to make it available to be loaded via `ServiceLoader`.
+Create the file `src/resource/META-INF/services/com.tegonal.variist.providers.AnnotationDataDeducer` and put the
+fully qualified name in it.
+
+If your deducer is based on a single annotation, then you might want to base it on `BaseAnnotationDataDeducer`.
 
 ## Use a SuffixArgsGeneratorDecider
 
