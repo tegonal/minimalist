@@ -41,7 +41,7 @@ interface RequestedMinAndMaxArgsTest {
 					0 -> arb.of(Tuple(null, null, NO_ERROR))
 					1 -> arb.intPositive().map { Tuple(it, null, NO_ERROR) }
 					2 -> arb.intPositive().map { Tuple(null, it, NO_ERROR) }
-					3 -> arb.intBounds(minInclusive = 1).map { it.append(NO_ERROR) }
+					3 -> arb.intBounds(minInclusive = 1, minSize = 1).map { it.append(NO_ERROR) }
 					4 -> arb.intPositive().map { Tuple(it, it, NO_ERROR) }
 					5 -> arb.intFromUntil(10, Int.MAX_VALUE).zipDependent({ arb.intFromTo(1, it - 1) }) { min, max ->
 						Tuple(min, max, "requestedMinArgs ($min) must be less than or equal to maxArgs ($max)")

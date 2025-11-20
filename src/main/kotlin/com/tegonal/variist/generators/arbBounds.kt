@@ -11,10 +11,7 @@ import com.tegonal.variist.utils.toBigInt
  * range from [minInclusive] to [maxInclusive] respecting the given [minSize] as well as
  * [maxSize] if defined.
  *
- * If [minSize] = 0 (which is the default), then it generates cases where `lower > upper`.
- * Set [minSize] to 1 or greater if you do not want to include them.
- *
- * @param minSize must be greater than or equal to 0
+ * @param minSize must be greater than or equal to 1
  * @param maxSize must be greater than or equal to [minSize] and less than the possible max size given
  *   by [minInclusive], [maxInclusive]
  *
@@ -23,19 +20,20 @@ import com.tegonal.variist.utils.toBigInt
 fun ArbExtensionPoint.charBounds(
 	minInclusive: Char = Char.MIN_VALUE,
 	maxInclusive: Char = Char.MAX_VALUE,
-	minSize: Int = 0,
+	minSize: Int = 1,
 	maxSize: Int? = null,
-): ArbArgsGenerator<Tuple2<Char, Char>> = charBoundsBased(minInclusive, maxInclusive, minSize, maxSize, ::Tuple2)
+): ArbArgsGenerator<Tuple2<Char, Char>> =
+	charBoundsBasedInternal(minInclusive, maxInclusive, minSize, maxSize, ::Tuple2)
 
 /**
  * Returns an [ArbArgsGenerator] which generates a [T] based on generated lower and upper bounds and the given [factory]
  * where the bounds range from [minInclusive] to [maxInclusive] respecting the given [minSize] as well as
  * [maxSize] if defined.
  *
- * If [minSize] = 0 (which is the default), then it generates cases where `lower > upper`.
+ * If [minSize] = 0, then it generates cases where `lower > upper`.
  * Set [minSize] to 1 or greater if you do not want to include them.
  *
- * @param minSize must be greater than or equal to 1
+ * @param minSize must be greater than or equal to 0
  * @param maxSize must be greater than or equal to [minSize] and less than the possible max size given
  *   by [minInclusive], [maxInclusive]
  *
@@ -44,7 +42,7 @@ fun ArbExtensionPoint.charBounds(
 fun <T> ArbExtensionPoint.charBoundsBased(
 	minInclusive: Char = Char.MIN_VALUE,
 	maxInclusive: Char = Char.MAX_VALUE,
-	minSize: Int = 0,
+	minSize: Int,
 	maxSize: Int? = null,
 	factory: (lowerBound: Char, upperBound: Char) -> T
 ): ArbArgsGenerator<T> = boundsGeneratorTakingMinSize0IntoAccount(
@@ -54,8 +52,8 @@ fun <T> ArbExtensionPoint.charBoundsBased(
 private fun <T> ArbExtensionPoint.charBoundsBasedInternal(
 	minInclusive: Char = Char.MIN_VALUE,
 	maxInclusive: Char = Char.MAX_VALUE,
-	minSize: Int = 0,
-	maxSize: Int? = null,
+	minSize: Int,
+	maxSize: Int?,
 	factory: (lowerBound: Char, upperBound: Char) -> T
 ) = if (minInclusive != Char.MIN_VALUE || maxInclusive != Char.MAX_VALUE) {
 	// less than 65'535 elements, we can use the Int domain based implementation
@@ -83,9 +81,6 @@ private fun <T> ArbExtensionPoint.charBoundsBasedInternal(
  * range from [minInclusive] to [maxInclusive] respecting the given [minSize] as well as
  * [maxSize] if defined.
  *
- * If [minSize] = 0 (which is the default), then it generates cases where `lower > upper`.
- * Set [minSize] to 1 or greater if you do not want to include them.
- *
  * @param minSize must be greater than or equal to 1
  * @param maxSize must be greater than or equal to [minSize] and less than the possible max size given
  *   by [minInclusive], [maxInclusive]
@@ -95,19 +90,19 @@ private fun <T> ArbExtensionPoint.charBoundsBasedInternal(
 fun ArbExtensionPoint.intBounds(
 	minInclusive: Int = Int.MIN_VALUE,
 	maxInclusive: Int = Int.MAX_VALUE,
-	minSize: Int = 0,
+	minSize: Int = 1,
 	maxSize: Int? = null,
-): ArbArgsGenerator<Tuple2<Int, Int>> = intBoundsBased(minInclusive, maxInclusive, minSize, maxSize, ::Tuple2)
+): ArbArgsGenerator<Tuple2<Int, Int>> = intBoundsBasedInternal(minInclusive, maxInclusive, minSize, maxSize, ::Tuple2)
 
 /**
  * Returns an [ArbArgsGenerator] which generates a [T] based on generated lower and upper bounds and the given [factory]
  * where the bounds range from [minInclusive] to [maxInclusive] respecting the given [minSize] as well as
  * [maxSize] if defined.
  *
- * If [minSize] = 0 (which is the default), then it generates cases where `lower > upper`.
+ * If [minSize] = 0, then it generates cases where `lower > upper`.
  * Set [minSize] to 1 or greater if you do not want to include them.
  *
- * @param minSize must be greater than or equal to 1
+ * @param minSize must be greater than or equal to 0
  * @param maxSize must be greater than or equal to [minSize] and less than the possible max size given
  *   by [minInclusive], [maxInclusive]
  *
@@ -116,7 +111,7 @@ fun ArbExtensionPoint.intBounds(
 fun <T> ArbExtensionPoint.intBoundsBased(
 	minInclusive: Int = Int.MIN_VALUE,
 	maxInclusive: Int = Int.MAX_VALUE,
-	minSize: Int = 0,
+	minSize: Int,
 	maxSize: Int? = null,
 	factory: (lowerBound: Int, upperBound: Int) -> T
 ): ArbArgsGenerator<T> = boundsGeneratorTakingMinSize0IntoAccount(
@@ -126,8 +121,8 @@ fun <T> ArbExtensionPoint.intBoundsBased(
 private fun <T> ArbExtensionPoint.intBoundsBasedInternal(
 	minInclusive: Int = Int.MIN_VALUE,
 	maxInclusive: Int = Int.MAX_VALUE,
-	minSize: Int = 1,
-	maxSize: Int? = null,
+	minSize: Int,
+	maxSize: Int?,
 	factory: (lowerBound: Int, upperBound: Int) -> T
 ): ArbArgsGenerator<T> {
 	val possibleMaxSize = maxInclusive.toLong() - minInclusive + 1
@@ -158,9 +153,6 @@ private fun <T> ArbExtensionPoint.intBoundsBasedInternal(
  * range from [minInclusive] to [maxInclusive] respecting the given [minSize] as well as
  * [maxSize] if defined.
  *
- * If [minSize] = 0 (which is the default), then it generates cases where `lower > upper`.
- * Set [minSize] to 1 or greater if you do not want to include them.
- *
  * @param minSize must be greater than or equal to 1
  * @param maxSize must be greater than or equal to [minSize] and less than the possible max size given
  *   by [minInclusive], [maxInclusive]
@@ -170,16 +162,16 @@ private fun <T> ArbExtensionPoint.intBoundsBasedInternal(
 fun ArbExtensionPoint.longBounds(
 	minInclusive: Long = Long.MIN_VALUE,
 	maxInclusive: Long = Long.MAX_VALUE,
-	minSize: Long = 0,
+	minSize: Long = 1,
 	maxSize: Long? = null,
-) = longBoundsBased(minInclusive, maxInclusive, minSize, maxSize, ::Tuple2)
+): ArbArgsGenerator<Tuple2<Long, Long>> = longBoundsBasedInternal(minInclusive, maxInclusive, minSize, maxSize, ::Tuple2)
 
 /**
  * Returns an [ArbArgsGenerator] which generates a [T] based on generated lower and upper bounds and the given [factory]
  * where the bounds range from [minInclusive] to [maxInclusive] respecting the given [minSize] as well as
  * [maxSize] if defined.
  *
- * If [minSize] = 0 (which is the default), then it generates cases where `lower > upper`.
+ * If [minSize] = 0, then it generates cases where `lower > upper`.
  * Set [minSize] to 1 or greater if you do not want to include them.
  *
  * @param minSize must be greater than or equal to 1
@@ -191,7 +183,7 @@ fun ArbExtensionPoint.longBounds(
 fun <T> ArbExtensionPoint.longBoundsBased(
 	minInclusive: Long = Long.MIN_VALUE,
 	maxInclusive: Long = Long.MAX_VALUE,
-	minSize: Long = 0,
+	minSize: Long,
 	maxSize: Long? = null,
 	factory: (lowerBound: Long, upperBound: Long) -> T
 ): ArbArgsGenerator<T> = boundsGeneratorTakingMinSize0IntoAccount(
@@ -201,8 +193,8 @@ fun <T> ArbExtensionPoint.longBoundsBased(
 private fun <T> ArbExtensionPoint.longBoundsBasedInternal(
 	minInclusive: Long = Long.MIN_VALUE,
 	maxInclusive: Long = Long.MAX_VALUE,
-	minSize: Long = 1,
-	maxSize: Long? = null,
+	minSize: Long,
+	maxSize: Long?,
 	factory: (lowerBound: Long, upperBound: Long) -> T
 ): ArbArgsGenerator<T> = createBoundsArbGenerator(
 	minInclusive = minInclusive,

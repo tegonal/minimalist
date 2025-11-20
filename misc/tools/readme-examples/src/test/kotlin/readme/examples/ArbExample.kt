@@ -58,7 +58,7 @@ class ArbExample : ReadmeTest {
 		arb.charRange(minInclusive = 'A', maxInclusive = 'Z', minSize = 1)
 		arb.intBounds(minInclusive = 1, maxInclusive = 1000, minSize = 3, maxSize = 10)
 
-		arb.longBoundsBased(minInclusive = -10, maxInclusive = 10, maxSize = 4) { lower, upper ->
+		arb.longBoundsBased(minInclusive = -10, maxInclusive = 10, minSize = 0, maxSize = 4) { lower, upper ->
 			//..
 		}
 		//...
