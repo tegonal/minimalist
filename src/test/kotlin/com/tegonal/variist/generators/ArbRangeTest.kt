@@ -42,5 +42,6 @@ class ArbRangeTest : AbstractArbArgsGeneratorTest<Any>() {
 		)
 	}
 
-	//TODO 2.0.0 tests for zero
+
+	//TODO 2.0.0 error in case of wrong min/max etc.
 }

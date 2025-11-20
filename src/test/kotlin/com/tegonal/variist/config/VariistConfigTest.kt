@@ -4,7 +4,7 @@ import com.tegonal.variist.generators.ordered
 import com.tegonal.variist.testutils.RequestedMinAndMaxArgsTest
 import com.tegonal.variist.testutils.createOrderedWithCustomConfig
 
-class VarriistConfigTest : RequestedMinAndMaxArgsTest {
+class VariistConfigTest : RequestedMinAndMaxArgsTest {
 
 	override fun setupRequestedMinArgsMaxArgs(requestedMinArgs: Int?, maxArgs: Int?) {
 		createOrderedWithCustomConfig(
