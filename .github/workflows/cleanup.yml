@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     #gt-placeholder-runs-on-end
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       #gt-placeholder-install-dependencies-start
       #gt-placeholder-install-dependencies-end
