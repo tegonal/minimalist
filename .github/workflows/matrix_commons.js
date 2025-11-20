@@ -47,8 +47,8 @@ const osAxis = {
 	title: x => x.replace('-latest', ''),
 	values: [
 //		'ubuntu-latest',
-		'windows-latest',
-//		'macos-latest'
+//		'windows-latest',
+		'macos-latest'
 	]
 }
 
@@ -60,7 +60,7 @@ function generateJavaMinMaxRows(matrix) {
 
 function generateUbuntuWindowsRows(matrix) {
 //	matrix.generateRow({os: 'ubuntu-latest'});
-	matrix.generateRow({os: 'windows-latest'});
+	matrix.generateRow({os: 'macos-latest'});
 }
 
 function configureJavaDefaults(matrix, distributionAxis = javaDistributionAxis, versionAxis = javaVersionAxis, operatingSystemAxis = osAxis) {
