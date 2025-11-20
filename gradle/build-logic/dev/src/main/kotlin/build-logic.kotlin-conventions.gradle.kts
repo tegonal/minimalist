@@ -27,3 +27,10 @@ tasks.configureEach<KotlinCompilationTask<*>> {
 		apiVersion.set(kotlinVersion)
 	}
 }
+plugins.withId("jacoco") {
+	configure<JacocoPluginExtension> {
+		if (rootProject.name != "gradle-kotlin-dsl-accessors") {
+			toolVersion = "0.8.14"
+		}
+	}
+}
